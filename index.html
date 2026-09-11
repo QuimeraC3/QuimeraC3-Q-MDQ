@@ -187,6 +187,10 @@
             font-size: 300%;
             transition: color 0.3s ease;
         }
+
+        #word-quimera.ready-to-click {
+            cursor: pointer;
+        }
         
         #word-quimera.finale-active {
             cursor: default;
@@ -577,6 +581,7 @@
         
         let isTyping = false;
         let isCardBusy = true; // Bloquea los clics en el recuadro mientras haya animaciones
+        let isFinaleReady = false; // Bandera para detonar el final al interactuar con QUIMERA
 
         // Función de escritura para el recuadro central (aparición)
         const typeCardTitle = async (text, speed = 25) => {
@@ -670,7 +675,9 @@
                     centralCard.classList.add('tv-off-card');
                     setTimeout(() => {
                         centralCard.style.display = 'none';
-                        triggerGrandFinale();
+                        // Habilitamos el estado final, esperando la selección de "QUIMERA"
+                        isFinaleReady = true;
+                        document.getElementById('word-quimera').classList.add('ready-to-click');
                     }, 500); 
                 }
             }, 600);
@@ -685,7 +692,7 @@
             if (e.target === mainModal && !isTyping) triggerTVClose();
         });
 
-        // Gran Final: Automático (Efecto QUIMERA -> Desenfoque -> Blanco -> Redirección)
+        // Gran Final: Detonado únicamente por el clic en QUIMERA
         const triggerGrandFinale = () => {
             const wordQuimera = document.getElementById('word-quimera');
             wordQuimera.classList.add('finale-active');
@@ -702,6 +709,16 @@
                 }, 800);
             }, 1500); // Dar 1.5s de animación al título antes del barrido final
         };
+
+        // Event listener para el clic en "QUIMERA"
+        const wordQuimeraBtn = document.getElementById('word-quimera');
+        wordQuimeraBtn.addEventListener('click', () => {
+            if (isFinaleReady) {
+                isFinaleReady = false; // Bloquea clics múltiples
+                wordQuimeraBtn.classList.remove('ready-to-click');
+                triggerGrandFinale();
+            }
+        });
 
         // Control de Sub-Modales (Imágenes del Paso 12)
         const subModal = document.getElementById('sub-modal');
