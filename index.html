@@ -359,17 +359,24 @@
         }
         .submodal-close:hover { transform: scale(1.2); }
 
-        /* Pie de página */
+        /* Pie de página integrando los estilos de index01 */
         footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             text-align: center;
-            padding: 1.5rem 2rem;
-            background-color: rgba(11, 19, 41, 0.85);
+            padding: 0.4rem 2rem;
+            background-color: rgba(11, 19, 41, 0.2);
             backdrop-filter: blur(8px);
             color: #ffffff;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 100;
-            width: 100%;
+        }
+
+        footer p {
+            color: #ffffff;
         }
     </style>
 </head>
@@ -640,7 +647,7 @@
             }
         });
 
-        // Animación de entrada inicial de página
+        // Animación de entrada inicial de página incluyendo el footer typewriter
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('intro-overlay');
             setTimeout(() => { overlay.style.backgroundColor = '#000000'; }, 500);
@@ -660,10 +667,29 @@
             }, 4600);
             // El central-card ya está activo, pero su opacidad es controlada arriba
             setTimeout(() => { document.querySelector('footer').style.opacity = '1'; }, 5800);
+            
+            // Función tipo de máquina de escribir para el footer con actualización automática del año
             setTimeout(() => {
-                const footerP = document.querySelector('footer p');
-                let text = footerP.dataset.text.replace('2026', new Date().getFullYear());
-                typeHTML(footerP, text, 15);
+                const footerPs = document.querySelectorAll('footer p');
+                let pIndex = 0;
+                function typeFooterP() {
+                    if (pIndex >= footerPs.length) return;
+                    let p = footerPs[pIndex];
+                    let text = p.dataset.text.replace('2026', new Date().getFullYear());
+                    let i = 0;
+                    function typeChar() {
+                        if (i <= text.length) {
+                            p.innerHTML = text.substring(0, i);
+                            i++;
+                            setTimeout(typeChar, 18);
+                        } else {
+                            pIndex++;
+                            setTimeout(typeFooterP, 100);
+                        }
+                    }
+                    typeChar();
+                }
+                typeFooterP();
             }, 6200);
         });
     </script>
