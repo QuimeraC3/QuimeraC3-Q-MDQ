@@ -30,6 +30,19 @@
             background-color: #000000;
         }
 
+        /* Transición de desenfoque general de la pantalla al abrir modal */
+        #bg-layer, header, main, .top-bar, footer {
+            transition: filter 0.5s ease, opacity 500ms ease;
+        }
+
+        body.modal-blur-active #bg-layer,
+        body.modal-blur-active header,
+        body.modal-blur-active main,
+        body.modal-blur-active .top-bar,
+        body.modal-blur-active footer {
+            filter: blur(8px);
+        }
+
         /* Capa de fondo */
         #bg-layer {
             position: fixed;
@@ -43,7 +56,7 @@
             background-position: center center;
             background-attachment: fixed;
             opacity: 0;
-            transition: opacity 1000ms ease;
+            transition: opacity 1000ms ease, filter 0.5s ease;
         }
 
         /* Capa para transiciones globales */
@@ -73,7 +86,7 @@
         /* Navegación y Header */
         .top-bar, header, footer {
             opacity: 0;
-            transition: opacity 500ms ease;
+            transition: opacity 500ms ease, filter 0.5s ease;
         }
 
         .top-bar {
@@ -204,6 +217,7 @@
             padding: 2rem;
             z-index: 10;
             position: relative;
+            transition: filter 0.5s ease;
         }
 
         .seq-card {
@@ -293,6 +307,7 @@
             border-bottom: 1px solid rgba(200,139,50,0.3);
             padding-bottom: 0.5rem;
             min-height: 2.5rem;
+            text-align: center; /* Encabezados de los modales centrados */
         }
 
         .modal-body {
@@ -395,6 +410,7 @@
             font-size: 0.8rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 100;
+            transition: filter 0.5s ease;
         }
 
         footer p {
@@ -530,17 +546,19 @@
         const modalCursor = document.getElementById('modal-cursor');
         let isTyping = false;
 
-        // Máquina de escribir respetuosa de HTML
-        const typeHTML = async (element, htmlStr, speed = 15) => {
-            element.innerHTML = '';
+        // Función de escritura progresiva manteniendo el cursor activo en la sección actual
+        const typeSection = async (element, text, speed) => {
             let i = 0;
             let isTag = false;
             let currentStr = '';
-            while (i < htmlStr.length) {
-                if (!isTyping) break; // Abortar si se cerró abruptamente
-                let char = htmlStr.charAt(i);
+            while (i < text.length) {
+                if (!isTyping) break;
+                let char = text.charAt(i);
                 currentStr += char;
                 element.innerHTML = currentStr;
+                element.appendChild(modalCursor);
+                modalCursor.style.opacity = '1';
+
                 if (char === '<') isTag = true;
                 if (char === '>') isTag = false;
                 if (!isTag) await new Promise(r => setTimeout(r, speed));
@@ -548,39 +566,49 @@
             }
         };
 
-        // Abrir Modal
+        // Abrir Modal con transición de desenfoque y desvanecimiento
         centralCard.addEventListener('click', async () => {
-            mainModal.classList.add('show');
-            modalWindow.classList.remove('tv-off');
-            modalTitle.innerHTML = '';
-            modalBody.innerHTML = '';
-            modalCloseBtn.innerHTML = '';
-            modalCursor.style.opacity = '0'; // Ocultar cursor durante escritura
-            isTyping = true;
+            // 1. Activar desenfoque general de la pantalla
+            document.body.classList.add('modal-blur-active');
 
-            const data = storyData[currentStep];
-            
-            await typeHTML(modalTitle, data.title, 20);
-            await typeHTML(modalBody, data.text, 10); // Más rápido para el cuerpo
-            await typeHTML(modalCloseBtn, "Cerrar.", 30);
-            
-            if(isTyping) {
-                modalCursor.style.opacity = '1'; // Mostrar cursor parpadeante al final
-                isTyping = false;
-            }
+            // 2. Transición de desvanecimiento del modal después del blur
+            setTimeout(async () => {
+                mainModal.classList.add('show');
+                modalWindow.classList.remove('tv-off');
+                modalTitle.innerHTML = '';
+                modalBody.innerHTML = '';
+                modalCloseBtn.innerHTML = '';
+                modalCursor.style.opacity = '0';
+                isTyping = true;
+
+                const data = storyData[currentStep];
+                
+                await typeSection(modalTitle, data.title, 20);
+                if (!isTyping) return;
+                await typeSection(modalBody, data.text, 10);
+                if (!isTyping) return;
+                await typeSection(modalCloseBtn, "Cerrar.", 30);
+                
+                if(isTyping) {
+                    modalCursor.style.opacity = '1';
+                    isTyping = false;
+                }
+            }, 300);
         });
 
-        // Cerrar Modal con Efecto TV
+        // Cerrar Modal con Efecto TV y restablecer la pantalla general sin desenfoque
         const triggerTVClose = () => {
             if (modalWindow.classList.contains('tv-off')) return;
-            isTyping = false; // Detener animación si estaba en curso
+            isTyping = false; 
             modalCursor.style.opacity = '0';
             modalWindow.classList.add('tv-off');
 
             setTimeout(() => {
                 mainModal.classList.remove('show');
+                // Retirar el efecto de desenfoque al regresar a la pantalla general
+                document.body.classList.remove('modal-blur-active');
                 advanceStep();
-            }, 600); // Esperar que acabe la animación TV
+            }, 600);
         };
 
         modalCloseBtn.addEventListener('click', (e) => {
@@ -606,7 +634,7 @@
                     centralCard.style.display = 'none';
                     triggerGrandFinale();
                 }
-            }, 500); // Tiempo de desvanecimiento entre tarjetas
+            }, 500);
         };
 
         // Gran Final
@@ -616,7 +644,6 @@
             
             wordQuimera.addEventListener('click', () => {
                 document.body.classList.add('exit-blur');
-                // Acción final tras el desenfoque
                 setTimeout(() => {
                     window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/';
                 }, 2000);
@@ -710,9 +737,9 @@
             }, 3000);
 
             setTimeout(() => { document.querySelector('header').style.opacity = '1'; }, 4000);
-            setTimeout(() => {
+            setTimeout(async () => {
                 const subP = document.querySelector('header p');
-                typeHTML(subP, subP.dataset.text, 15);
+                await typeSection(subP, subP.dataset.text, 15);
             }, 4600);
             
             setTimeout(() => { document.querySelector('footer').style.opacity = '1'; }, 5800);
