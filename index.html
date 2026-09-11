@@ -254,23 +254,24 @@
 
         .seq-card:hover { transform: translateY(50%) scale(1.05); }
 
-        /* Estilos del Modal Principal */
+        /* Estilos del Modal Principal con transición de desvanecimiento fluida */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.85);
             backdrop-filter: blur(5px);
-            display: none;
+            display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2000;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
         }
 
         .modal-overlay.show {
-            display: flex;
             opacity: 1;
+            pointer-events: auto;
         }
 
         .modal-window {
@@ -307,7 +308,7 @@
             border-bottom: 1px solid rgba(200,139,50,0.3);
             padding-bottom: 0.5rem;
             min-height: 2.5rem;
-            text-align: center; /* Encabezados de los modales centrados */
+            text-align: center;
         }
 
         .modal-body {
@@ -361,17 +362,23 @@
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Sub-modal (Imágenes) */
+        /* Sub-modal (Imágenes) con desvanecimiento fluido */
         .submodal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.9);
-            display: none;
+            display: flex;
             align-items: center;
             justify-content: center;
             z-index: 3000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
-        .submodal-overlay.show { display: flex; }
+        .submodal-overlay.show { 
+            opacity: 1;
+            pointer-events: auto;
+        }
         
         .submodal-content {
             position: relative;
@@ -479,7 +486,7 @@
         const storyData = [
             {
                 title: "01. EL MITO QUE DIO NOMBRE AL INSTITUTO.",
-                text: "Mucho antes de convertirse en el nombre de un instituto dedicado al conocimiento, Quimera pertenecía al mundo de la mitología griega.\nSu historia es la de un ser extraordinario y monstruoso que, según las fuentes antiguas, habitaba en Licia. Quimera era descrita como una criatura híbrida, asociada con diferentes formas animales: tenía elementos de león, cabra y serpiente, y se distinguía por su capacidad de arrojar fuego.\nSu propia naturaleza era una combinación de partes que, aparentemente, no deberían coexistir.\nPrecisamente ahí reside una de las características más interesantes de su mito: Quimera es una representación de lo compuesto, lo complejo y lo que no puede comprenderse desde una sola perspectiva.\nNo era simplemente un animal poderoso. Era una criatura cuya naturaleza exigía reconocer simultáneamente diferentes elementos."
+                text: "Mucho antes de convertirse en el nombre de un instituto dedicado al conocimiento, Quimera pertenecía al mundo de la mitología griega.\nSu historia es la de un ser extraordinario y monstruoso que, según las fuentes antiguas, habitaba en Licia. Quimera era descrita como una criatura híbrida, asociada con diferentes formas animales: tenía elementos de león, cabra y serpiente, y se distinguía por su capacidad de arrojar fuego.\nSu propia naturaleza era una combinación de partes que, aparentemente, no deberían coexistir.\nPrecisamente ahí reside una de las características más interesantes de sus mito: Quimera es una representación de lo compuesto, lo complejo y lo que no puede comprenderse desde una sola perspectiva.\nNo era simplemente un animal poderoso. Era una criatura cuya naturaleza exigía reconocer simultáneamente diferentes elementos."
             },
             {
                 title: "02. BELEROFONTE.",
