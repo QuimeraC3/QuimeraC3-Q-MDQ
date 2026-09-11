@@ -75,12 +75,23 @@
             transition: opacity 1000ms ease, background-color 1000ms ease, backdrop-filter 1000ms ease;
         }
 
-        body.exit-blur #intro-overlay {
+        /* Transición de salida: Paso 1 (Desenfoque) y Paso 2 (Desvanecimiento en blanco) */
+        body.exit-phase-1 #bg-layer,
+        body.exit-phase-1 header,
+        body.exit-phase-1 main,
+        body.exit-phase-1 .top-bar,
+        body.exit-phase-1 footer {
+            filter: blur(15px);
+            transition: filter 800ms ease;
+        }
+
+        body.exit-phase-2 #intro-overlay {
             opacity: 1;
             background-color: #ffffff;
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            transition: opacity 2s ease, background-color 2s ease, backdrop-filter 2s ease;
+            pointer-events: auto;
+            transition: opacity 1000ms ease, background-color 1000ms ease, backdrop-filter 1000ms ease;
         }
 
         /* Navegación y Header */
@@ -172,15 +183,13 @@
             line-height: 4;
         }
 
-        /* Animación Final y Tamaño 200% de la Palabra QUIMERA */
+        /* Animación Final de la Palabra QUIMERA (Sin zoom) */
         #word-quimera {
             display: inline-block;
-            font-size: 200%;
-            transition: transform 1s ease;
+            transition: color 0.3s ease;
         }
         
         #word-quimera.finale-active {
-            transform: scale(2);
             cursor: pointer;
         }
 
@@ -644,17 +653,27 @@
             }, 500);
         };
 
-        // Gran Final
+        // Gran Final: Secuencia de salida (Primero desenfoque, después desvanecimiento en blanco)
         const triggerGrandFinale = () => {
             const wordQuimera = document.getElementById('word-quimera');
             wordQuimera.classList.add('finale-active');
             
             wordQuimera.addEventListener('click', () => {
-                document.body.classList.add('exit-blur');
+                if (document.body.classList.contains('exit-phase-1')) return;
+
+                // 1. Transición de salida: Primero desenfoque
+                document.body.classList.add('exit-phase-1');
+
+                // 2. Transición de salida: Después desvanecimiento en blanco
                 setTimeout(() => {
-                    window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/';
-                }, 2000);
-            });
+                    document.body.classList.add('exit-phase-2');
+                    
+                    // 3. Redirección final
+                    setTimeout(() => {
+                        window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/';
+                    }, 1000);
+                }, 800);
+            }, { once: true });
         };
 
         // Control de Sub-Modales (Imágenes del Paso 12)
