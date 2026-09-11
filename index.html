@@ -193,7 +193,7 @@
         }
         
         #word-quimera.finale-active {
-            cursor: default;
+            cursor: pointer; /* Modificado para mantener cursor de clic durante la animación */
         }
 
         #word-quimera.finale-active span {
@@ -675,9 +675,12 @@
                     centralCard.classList.add('tv-off-card');
                     setTimeout(() => {
                         centralCard.style.display = 'none';
-                        // Habilitamos el estado final, esperando la selección de "QUIMERA"
-                        isFinaleReady = true;
-                        document.getElementById('word-quimera').classList.add('ready-to-click');
+                        
+                        // Inicia automáticamente la animación de QUIMERA y la habilita para clic
+                        const wordQuimera = document.getElementById('word-quimera');
+                        wordQuimera.classList.add('finale-active');
+                        wordQuimera.classList.add('ready-to-click');
+                        isFinaleReady = true; 
                     }, 500); 
                 }
             }, 600);
@@ -694,20 +697,16 @@
 
         // Gran Final: Detonado únicamente por el clic en QUIMERA
         const triggerGrandFinale = () => {
-            const wordQuimera = document.getElementById('word-quimera');
-            wordQuimera.classList.add('finale-active');
+            // Comenzamos directamente con la secuencia de salida en pantalla completa
+            document.body.classList.add('exit-phase-1');
             
             setTimeout(() => {
-                document.body.classList.add('exit-phase-1');
+                document.body.classList.add('exit-phase-2');
                 
                 setTimeout(() => {
-                    document.body.classList.add('exit-phase-2');
-                    
-                    setTimeout(() => {
-                        window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/';
-                    }, 1000);
-                }, 800);
-            }, 1500); // Dar 1.5s de animación al título antes del barrido final
+                    window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/';
+                }, 1000);
+            }, 800);
         };
 
         // Event listener para el clic en "QUIMERA"
@@ -716,6 +715,8 @@
             if (isFinaleReady) {
                 isFinaleReady = false; // Bloquea clics múltiples
                 wordQuimeraBtn.classList.remove('ready-to-click');
+                // Se quita el cursor estilo pointer si el desarrollador así lo prefiere
+                wordQuimeraBtn.style.cursor = 'default'; 
                 triggerGrandFinale();
             }
         });
