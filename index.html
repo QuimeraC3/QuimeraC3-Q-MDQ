@@ -77,19 +77,17 @@
         }
 
         .top-bar {
-            background-color: rgba(11, 19, 41, 0.4);
-            backdrop-filter: blur(8px);
+            background-color: rgba(11, 19, 41, 0.0);
             padding: 0.85rem 2rem;
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .top-bar-container {
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -111,27 +109,17 @@
             text-decoration: underline;
         }
 
-        .vol-badge {
-            background-color: var(--accent);
-            color: #ffffff;
-            font-size: 0.85rem;
-            font-weight: 700;
-            padding: 0.2rem 0.7rem;
-            border-radius: 9999px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-links { 
-            display: flex; 
-            gap: 1.25rem; 
-            list-style: none; 
+        .nav-links {
+            display: flex;
+            gap: 1.25rem;
+            list-style: none;
             align-items: center;
         }
-        
-        .nav-links a { 
-            color: #ffffff; 
-            text-decoration: none; 
-            font-size: 0.85rem; 
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.85rem;
             font-weight: 500;
             transition: color 0.2s ease;
         }
@@ -146,7 +134,7 @@
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
             cursor: pointer;
-            transition: background 0.2s ease, color 0.2s ease, opacity 500ms ease;
+            transition: opacity 500ms ease;
         }
 
         #audio-toggle:hover, #fullscreen-toggle:hover {
@@ -312,6 +300,7 @@
             min-height: 100px;
         }
 
+        /* Enlaces dentro del modal (Paso 12) */
         .modal-body a {
             color: var(--accent);
             font-weight: bold;
@@ -418,7 +407,6 @@
     <nav class="top-bar">
         <div class="top-bar-container">
             <a href="https://quimerac3.github.io/" class="brand-logo" data-text="QUIMERA - Inicio General"></a>
-            <span class="vol-badge">Mitología</span>
             <ul class="nav-links">
                 <li><a href="#" id="audio-toggle"><span style="color: #ffffff;">🎵</span> Música: OFF</a></li>
                 <li><a href="#" id="fullscreen-toggle">⛶ Pantalla Completa</a></li>
@@ -542,7 +530,7 @@
             let isTag = false;
             let currentStr = '';
             while (i < htmlStr.length) {
-                if (!isTyping) break; 
+                if (!isTyping) break; // Abortar si se cerró abruptamente
                 let char = htmlStr.charAt(i);
                 currentStr += char;
                 element.innerHTML = currentStr;
@@ -560,17 +548,17 @@
             modalTitle.innerHTML = '';
             modalBody.innerHTML = '';
             modalCloseBtn.innerHTML = '';
-            modalCursor.style.opacity = '0';
+            modalCursor.style.opacity = '0'; // Ocultar cursor durante escritura
             isTyping = true;
 
             const data = storyData[currentStep];
             
             await typeHTML(modalTitle, data.title, 20);
-            await typeHTML(modalBody, data.text, 10);
+            await typeHTML(modalBody, data.text, 10); // Más rápido para el cuerpo
             await typeHTML(modalCloseBtn, "Cerrar.", 30);
             
             if(isTyping) {
-                modalCursor.style.opacity = '1';
+                modalCursor.style.opacity = '1'; // Mostrar cursor parpadeante al final
                 isTyping = false;
             }
         });
@@ -578,14 +566,14 @@
         // Cerrar Modal con Efecto TV
         const triggerTVClose = () => {
             if (modalWindow.classList.contains('tv-off')) return;
-            isTyping = false;
+            isTyping = false; // Detener animación si estaba en curso
             modalCursor.style.opacity = '0';
             modalWindow.classList.add('tv-off');
 
             setTimeout(() => {
                 mainModal.classList.remove('show');
                 advanceStep();
-            }, 600);
+            }, 600); // Esperar que acabe la animación TV
         };
 
         modalCloseBtn.addEventListener('click', (e) => {
@@ -607,10 +595,11 @@
                     cardTitle.innerHTML = storyData[currentStep].title;
                     centralCard.classList.add('active');
                 } else {
+                    // Gran Final
                     centralCard.style.display = 'none';
                     triggerGrandFinale();
                 }
-            }, 500);
+            }, 500); // Tiempo de desvanecimiento entre tarjetas
         };
 
         // Gran Final
@@ -620,18 +609,19 @@
             
             wordQuimera.addEventListener('click', () => {
                 document.body.classList.add('exit-blur');
+                // Acción final tras el desenfoque
                 setTimeout(() => {
                     window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/';
                 }, 2000);
             });
         };
 
-        // Control de Sub-Modales (Imágenes)
+        // Control de Sub-Modales (Imágenes del Paso 12)
         const subModal = document.getElementById('sub-modal');
         const subImg = document.getElementById('submodal-img');
         
         window.openSubModal = (imgSrc) => {
-            subImg.src = imgSrc;
+            subImg.src = imgSrc; 
             subModal.classList.add('show');
         };
 
@@ -643,7 +633,7 @@
             if(e.target === subModal) closeSubModal();
         });
 
-        /* Controles Base del Header y Reproducción (Música y Pantalla Completa) */
+        /* Controles de Música y Pantalla Completa */
         const music = document.getElementById('bg-music');
         const audioToggle = document.getElementById('audio-toggle');
         let isMusicPlaying = false;
@@ -658,7 +648,9 @@
                 music.play().then(() => {
                     audioToggle.innerHTML = '<span style="color: #ffffff;">🎶</span> Música: ON';
                     isMusicPlaying = true;
-                }).catch(error => console.log("Error al reproducir audio:", error));
+                }).catch(error => {
+                    console.log("Error al reproducir audio:", error);
+                });
             }
         });
 
@@ -668,7 +660,9 @@
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().then(() => {
                     fullscreenToggle.textContent = '❌ Salir Pantalla Completa';
-                }).catch(err => console.log("Error al entrar en pantalla completa:", err));
+                }).catch(err => {
+                    console.log("Error al intentar entrar en pantalla completa:", err);
+                });
             } else {
                 document.exitFullscreen().then(() => {
                     fullscreenToggle.textContent = '⛶ Pantalla Completa';
@@ -684,7 +678,7 @@
             }
         });
 
-        // Animación de entrada inicial de página y tipado del logotipo y footer
+        // Animación de entrada inicial de página incluyendo mecanografiado del logotipo y footer
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('intro-overlay');
             setTimeout(() => { overlay.style.backgroundColor = '#000000'; }, 500);
@@ -696,7 +690,16 @@
             
             setTimeout(() => {
                 const brandLogo = document.querySelector('.brand-logo');
-                typeHTML(brandLogo, brandLogo.dataset.text, 25);
+                const text = brandLogo.dataset.text;
+                let i = 0;
+                function typeBrandLogo() {
+                    if (i <= text.length) {
+                        brandLogo.innerHTML = text.substring(0, i);
+                        i++;
+                        setTimeout(typeBrandLogo, 25);
+                    }
+                }
+                typeBrandLogo();
             }, 3000);
 
             setTimeout(() => { document.querySelector('header').style.opacity = '1'; }, 4000);
@@ -704,7 +707,7 @@
                 const subP = document.querySelector('header p');
                 typeHTML(subP, subP.dataset.text, 15);
             }, 4600);
-
+            
             setTimeout(() => { document.querySelector('footer').style.opacity = '1'; }, 5800);
             
             setTimeout(() => {
