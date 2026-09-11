@@ -189,7 +189,7 @@
         }
         
         #word-quimera.finale-active {
-            cursor: pointer;
+            cursor: default;
         }
 
         #word-quimera.finale-active span {
@@ -237,20 +237,9 @@
             text-align: center;
             transition: transform 0.3s ease, opacity 0.5s ease;
             display: none;
-            opacity: 0;
             max-width: 600px;
             width: 100%;
-            transform: translateY(50%); /* Descenso del 50% de su propia altura */
-        }
-
-        .seq-card.active {
-            display: block;
-            animation: fadeInCard 0.8s forwards;
-        }
-
-        @keyframes fadeInCard {
-            from { opacity: 0; transform: translateY(calc(20px + 50%)); }
-            to { opacity: 1; transform: translateY(50%); }
+            transform: translateY(50%); /* Descenso del 50% de su propia altura base */
         }
 
         .seq-card h2 {
@@ -258,11 +247,35 @@
             font-size: 1.5rem;
             color: var(--accent);
             text-transform: uppercase;
+            min-height: 2.2rem;
         }
 
         .seq-card:hover { transform: translateY(50%) scale(1.05); }
 
-        /* Estilos del Modal Principal con transición de desvanecimiento fluida */
+        /* Efectos de encendido y apagado para el recuadro principal (respetando translateY) */
+        .tv-on-card {
+            animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes tvTurnOnCard {
+            0% { transform: translateY(50%) scale(0, 0); opacity: 0; filter: brightness(10); }
+            40% { transform: translateY(50%) scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
+            70% { transform: translateY(50%) scale(1, 0.005); opacity: 1; filter: brightness(2); }
+            100% { transform: translateY(50%) scale(1, 1); opacity: 1; filter: brightness(1); }
+        }
+
+        .tv-off-card {
+            animation: tvTurnOffCard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes tvTurnOffCard {
+            0% { transform: translateY(50%) scale(1, 1); opacity: 1; filter: brightness(1); }
+            40% { transform: translateY(50%) scale(1, 0.005); opacity: 1; filter: brightness(2); }
+            70% { transform: translateY(50%) scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
+            100% { transform: translateY(50%) scale(0, 0); opacity: 0; filter: brightness(10); }
+        }
+
+        /* Estilos del Modal Principal */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -295,7 +308,7 @@
             border: 2px solid var(--accent);
         }
 
-        /* Efecto TV Antigua */
+        /* Efecto TV Antigua para el Modal */
         .tv-off {
             animation: tvTurnOff 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
         }
@@ -460,9 +473,9 @@
     </header>
 
     <main>
-        <!-- El recuadro dinámico central -->
-        <div id="central-card" class="seq-card active">
-            <h2 id="card-title">01. EL MITO QUE DIO NOMBRE AL INSTITUTO.</h2>
+        <!-- El recuadro dinámico central persistente -->
+        <div id="central-card" class="seq-card">
+            <h2><span id="card-title-text"></span><span class="cursor" id="card-cursor"></span></h2>
         </div>
     </main>
 
@@ -502,7 +515,7 @@
             },
             {
                 title: "03. QUIMERA FRENTE A BELEROFONTE.",
-                text: "El mito puede leerse, más allá de su dimensión narrativa, como el encuentro entre dos fuerzas.\nPor un lado:\nQuimera.\nLa complejidad.\nLa multiplicidad.\nLo desconocido.\nLo aparentemente contradictorio.\nEl problema que no puede reducirse fácilmente a una sola explicación.\nPor otro:\nBelerofonte.\nLa observación.\nLa estrategia.\nLa adaptación.\nLa utilización inteligente de recursos.\nLa capacidad de transformar un problema aparentemente imposible en un problema susceptible de ser resuelto.\nY entre ambos:\nPegaso.\nLa herramienta que permite ampliar las capacidades del ser humano.\nDesde esta perspectiva, el mito puede resumirse simbólicamente como:\nLa complejidad no siempre se vence mediante mayor fuerza, sino mediante una mejor comprensión del problema y una estrategia adecuada para abordarlo."
+                text: "El mito puede leerse, más allá de su dimensión narrativa, como el encuentro entre dos fuerzas.\nPor un lado:\nQuimera.\nLa complejidad.\nLa multiplicidad.\nLo desconocido.\nLo aparentemente contradictorio.\nEl problema que no puede reducirse fácilmente a una sola explicación.\nPor otro:\nBelerofonte.\nLa observación.\nLa estrategia.\nLa adaptación.\nLa utilización inteligente de recursos.\nLa capacidad de transform un problema aparentemente imposible en un problema susceptible de ser resuelto.\nY entre ambos:\nPegaso.\nLa herramienta que permite ampliar las capacidades del ser humano.\nDesde esta perspectiva, el mito puede resumirse simbólicamente como:\nLa complejidad no siempre se vence mediante mayor fuerza, sino mediante una mejor comprensión del problema y una estrategia adecuada para abordarlo."
             },
             {
                 title: "04. ¿POR QUÉ QUIMERA?",
@@ -552,16 +565,41 @@
 
         let currentStep = 0;
         const centralCard = document.getElementById('central-card');
-        const cardTitle = document.getElementById('card-title');
+        const cardTitleText = document.getElementById('card-title-text');
+        const cardCursor = document.getElementById('card-cursor');
+        
         const mainModal = document.getElementById('main-modal');
         const modalWindow = document.getElementById('modal-window');
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
         const modalCloseBtn = document.getElementById('modal-close-btn');
         const modalCursor = document.getElementById('modal-cursor');
+        
         let isTyping = false;
+        let isCardBusy = true; // Bloquea los clics en el recuadro mientras haya animaciones
 
-        // Función de escritura progresiva manteniendo el cursor activo en la sección actual
+        // Función de escritura para el recuadro central (aparición)
+        const typeCardTitle = async (text, speed = 25) => {
+            cardCursor.style.opacity = '1';
+            let currentStr = '';
+            for (let i = 0; i < text.length; i++) {
+                currentStr += text.charAt(i);
+                cardTitleText.innerHTML = currentStr;
+                await new Promise(r => setTimeout(r, speed));
+            }
+        };
+
+        // Función de borrado inverso para el recuadro central
+        const eraseCardTitle = async (speed = 15) => {
+            cardCursor.style.opacity = '1';
+            let currentStr = cardTitleText.innerHTML;
+            for (let i = currentStr.length; i >= 0; i--) {
+                cardTitleText.innerHTML = currentStr.substring(0, i);
+                await new Promise(r => setTimeout(r, speed));
+            }
+        };
+
+        // Función de escritura progresiva para el Modal
         const typeSection = async (element, text, speed) => {
             let i = 0;
             let isTag = false;
@@ -581,12 +619,11 @@
             }
         };
 
-        // Abrir Modal con transición de desenfoque y desvanecimiento
+        // Abrir Modal
         centralCard.addEventListener('click', async () => {
-            // 1. Activar desenfoque general de la pantalla
+            if (isCardBusy) return;
             document.body.classList.add('modal-blur-active');
 
-            // 2. Transición de desvanecimiento del modal después del blur
             setTimeout(async () => {
                 mainModal.classList.add('show');
                 modalWindow.classList.remove('tv-off');
@@ -611,18 +648,31 @@
             }, 300);
         });
 
-        // Cerrar Modal con Efecto TV y restablecer la pantalla general sin desenfoque
+        // Cerrar Modal e iniciar transición de escritura inversa / avance
         const triggerTVClose = () => {
             if (modalWindow.classList.contains('tv-off')) return;
             isTyping = false; 
             modalCursor.style.opacity = '0';
             modalWindow.classList.add('tv-off');
 
-            setTimeout(() => {
+            setTimeout(async () => {
                 mainModal.classList.remove('show');
-                // Retirar el efecto de desenfoque al regresar a la pantalla general
                 document.body.classList.remove('modal-blur-active');
-                advanceStep();
+                
+                isCardBusy = true;
+                await eraseCardTitle(20);
+                
+                if (currentStep < storyData.length - 1) {
+                    currentStep++;
+                    await typeCardTitle(storyData[currentStep].title, 30);
+                    isCardBusy = false; 
+                } else {
+                    centralCard.classList.add('tv-off-card');
+                    setTimeout(() => {
+                        centralCard.style.display = 'none';
+                        triggerGrandFinale();
+                    }, 500); 
+                }
             }, 600);
         };
 
@@ -635,44 +685,22 @@
             if (e.target === mainModal && !isTyping) triggerTVClose();
         });
 
-        // Avanzar al siguiente recuadro
-        const advanceStep = () => {
-            centralCard.classList.remove('active');
-            
-            setTimeout(() => {
-                currentStep++;
-                if (currentStep < storyData.length) {
-                    cardTitle.innerHTML = storyData[currentStep].title;
-                    centralCard.classList.add('active');
-                } else {
-                    // Gran Final
-                    centralCard.style.display = 'none';
-                    triggerGrandFinale();
-                }
-            }, 500);
-        };
-
-        // Gran Final: Secuencia de salida (Primero desenfoque, después desvanecimiento en blanco)
+        // Gran Final: Automático (Efecto QUIMERA -> Desenfoque -> Blanco -> Redirección)
         const triggerGrandFinale = () => {
             const wordQuimera = document.getElementById('word-quimera');
             wordQuimera.classList.add('finale-active');
             
-            wordQuimera.addEventListener('click', () => {
-                if (document.body.classList.contains('exit-phase-1')) return;
-
-                // 1. Transición de salida: Primero desenfoque
+            setTimeout(() => {
                 document.body.classList.add('exit-phase-1');
-
-                // 2. Transición de salida: Después desvanecimiento en blanco
+                
                 setTimeout(() => {
                     document.body.classList.add('exit-phase-2');
                     
-                    // 3. Redirección final
                     setTimeout(() => {
                         window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/';
                     }, 1000);
                 }, 800);
-            }, { once: true });
+            }, 1500); // Dar 1.5s de animación al título antes del barrido final
         };
 
         // Control de Sub-Modales (Imágenes del Paso 12)
@@ -737,11 +765,10 @@
             }
         });
 
-        // Animación de entrada inicial de página desde negro absoluto (sin blanco) y elementos secuenciales
+        // Secuencia global de inicio
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('intro-overlay');
             
-            // Revelar el fondo y desvanecer la capa negra inicial
             setTimeout(() => {
                 document.getElementById('bg-layer').style.opacity = '1';
                 overlay.style.opacity = '0';
@@ -793,6 +820,18 @@
                 }
                 typeFooterP();
             }, 5100);
+
+            // Aparición dinámica del recuadro central y tipeado inicial
+            setTimeout(() => {
+                centralCard.style.display = 'block';
+                centralCard.classList.add('tv-on-card');
+                
+                setTimeout(async () => {
+                    centralCard.classList.remove('tv-on-card');
+                    await typeCardTitle(storyData[0].title, 30);
+                    isCardBusy = false;
+                }, 600);
+            }, 5000); 
         });
     </script>
 </body>
