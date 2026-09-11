@@ -59,20 +59,18 @@
             transition: opacity 1000ms ease, filter 0.5s ease;
         }
 
-        /* Capa para transiciones globales */
+        /* Capa para transiciones globales de entrada en negro (sin blanco) */
         #intro-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #ffffff;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: #000000;
             z-index: 9999;
             pointer-events: none;
             opacity: 1;
-            transition: opacity 1000ms ease, background-color 1000ms ease, backdrop-filter 1000ms ease;
+            transition: opacity 1000ms ease;
         }
 
         /* Transición de salida: Paso 1 (Desenfoque) y Paso 2 (Desvanecimiento en blanco) */
@@ -175,17 +173,18 @@
 
         header h1 {
             font-family: Georgia, serif;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 700;
             text-transform: uppercase;
             color: #ffffff;
-            margin-bottom: -7rem;
-            line-height: 4;
+            margin-bottom: -5rem;
+            line-height: 2.8;
         }
 
-        /* Animación Final de la Palabra QUIMERA (Sin zoom) */
+        /* Palabra QUIMERA al 200% con respecto al texto superior y animación de color */
         #word-quimera {
             display: inline-block;
+            font-size: 200%;
             transition: color 0.3s ease;
         }
         
@@ -214,7 +213,7 @@
         header p {
             font-size: 1.2rem;
             color: #e2e8f0;
-            margin-top: 1rem;
+            margin-top: 2.5rem;
         }
 
         /* Contenedor Central para el Recuadro Activo */
@@ -738,15 +737,17 @@
             }
         });
 
-        // Animación de entrada inicial de página incluyendo mecanografiado del logotipo y footer
+        // Animación de entrada inicial de página desde negro absoluto (sin blanco) y elementos secuenciales
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('intro-overlay');
-            setTimeout(() => { overlay.style.backgroundColor = '#000000'; }, 500);
+            
+            // Revelar el fondo y desvanecer la capa negra inicial
             setTimeout(() => {
                 document.getElementById('bg-layer').style.opacity = '1';
                 overlay.style.opacity = '0';
-            }, 1500);
-            setTimeout(() => { document.querySelector('.top-bar').style.opacity = '1'; }, 2500);
+            }, 600);
+
+            setTimeout(() => { document.querySelector('.top-bar').style.opacity = '1'; }, 1600);
             
             setTimeout(() => {
                 const brandLogo = document.querySelector('.brand-logo');
@@ -760,15 +761,15 @@
                     }
                 }
                 typeBrandLogo();
-            }, 3000);
+            }, 2100);
 
-            setTimeout(() => { document.querySelector('header').style.opacity = '1'; }, 4000);
+            setTimeout(() => { document.querySelector('header').style.opacity = '1'; }, 2900);
             setTimeout(async () => {
                 const subP = document.querySelector('header p');
                 await typeSection(subP, subP.dataset.text, 15);
-            }, 4600);
+            }, 3500);
             
-            setTimeout(() => { document.querySelector('footer').style.opacity = '1'; }, 5800);
+            setTimeout(() => { document.querySelector('footer').style.opacity = '1'; }, 4700);
             
             setTimeout(() => {
                 const footerPs = document.querySelectorAll('footer p');
@@ -791,7 +792,7 @@
                     typeChar();
                 }
                 typeFooterP();
-            }, 6200);
+            }, 5100);
         });
     </script>
 </body>
