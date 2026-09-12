@@ -921,11 +921,16 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
             setTimeout(() => {
                 subModalTextWindow.style.display = 'none';
                 subModalTextWindow.classList.remove('tv-off');
-                // Al terminar, aparece la cuarta imagen detrás del submodal
+                
+                // Al terminar, la cuarta imagen aparece con transición de entrada desde el negro
+                subImg.style.opacity = '0';
                 subImg.src = 'MHDC04.png';
                 subImg.style.display = 'block';
                 subModalXBtn.style.display = 'block';
-                subImg.style.opacity = '1';
+                
+                setTimeout(() => {
+                    subImg.style.opacity = '1';
+                }, 50);
             }, 500);
         };
 
@@ -943,8 +948,14 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
         };
 
         subModal.addEventListener('click', (e) => {
-            if (e.target === subModal && !isSubTyping) {
-                closeSubModal();
+            if (e.target === subModal) {
+                if (subModalTextWindow.style.display === 'block') {
+                    if (!isSubTyping) {
+                        triggerHelicoidalTextClose();
+                    }
+                } else {
+                    closeSubModal();
+                }
             }
         });
 
