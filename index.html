@@ -509,6 +509,13 @@
     </footer>
 
     <script>
+        // Solución para limpiar el estado de caché (bfcache) al usar las flechas del navegador
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+
         const storyData = [
             {
                 title: "01. EL MITO QUE DIO NOMBRE AL INSTITUTO.",
