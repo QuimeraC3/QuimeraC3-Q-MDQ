@@ -73,23 +73,23 @@
             transition: opacity 1000ms ease;
         }
 
-        /* Transición de salida: Paso 1 (Desenfoque) y Paso 2 (Desvanecimiento en blanco) */
-        body.exit-phase-1 #bg-layer,
-        body.exit-phase-1 header,
-        body.exit-phase-1 main,
-        body.exit-phase-1 .top-bar,
-        body.exit-phase-1 footer {
+        /* Transición de salida unificada: Desenfoque y Desvanecimiento en blanco simultáneos */
+        body.exit-active #bg-layer,
+        body.exit-active header,
+        body.exit-active main,
+        body.exit-active .top-bar,
+        body.exit-active footer {
             filter: blur(15px);
             transition: filter 800ms ease;
         }
 
-        body.exit-phase-2 #intro-overlay {
+        body.exit-active #intro-overlay {
             opacity: 1;
             background-color: #ffffff;
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             pointer-events: auto;
-            transition: opacity 1000ms ease, background-color 1000ms ease, backdrop-filter 1000ms ease;
+            transition: opacity 800ms ease, background-color 800ms ease, backdrop-filter 800ms ease;
         }
 
         /* Navegación y Header */
@@ -193,7 +193,7 @@
         }
         
         #word-quimera.finale-active {
-            cursor: pointer; /* Modificado para mantener cursor de clic durante la animación */
+            cursor: pointer;
         }
 
         #word-quimera.finale-active span {
@@ -243,7 +243,7 @@
             display: none;
             max-width: 600px;
             width: 100%;
-            transform: translateY(50%); /* Descenso del 50% de su propia altura base */
+            transform: translateY(50%);
         }
 
         .seq-card h2 {
@@ -256,7 +256,6 @@
 
         .seq-card:hover { transform: translateY(50%) scale(1.05); }
 
-        /* Efectos de encendido y apagado para el recuadro principal (respetando translateY) */
         .tv-on-card {
             animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
@@ -312,7 +311,6 @@
             border: 2px solid var(--accent);
         }
 
-        /* Efecto TV Antigua para el Modal */
         .tv-off {
             animation: tvTurnOff 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
         }
@@ -345,7 +343,6 @@
             min-height: 100px;
         }
 
-        /* Enlaces dentro del modal (Paso 12) */
         .modal-body a {
             color: var(--accent);
             font-weight: bold;
@@ -387,7 +384,6 @@
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Sub-modal (Imágenes) con desvanecimiento fluido */
         .submodal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -428,7 +424,6 @@
         }
         .submodal-close:hover { transform: scale(1.2); }
 
-        /* Pie de página */
         footer {
             position: absolute;
             bottom: 0;
@@ -477,13 +472,11 @@
     </header>
 
     <main>
-        <!-- El recuadro dinámico central persistente -->
         <div id="central-card" class="seq-card">
             <h2><span id="card-title-text"></span><span class="cursor" id="card-cursor"></span></h2>
         </div>
     </main>
 
-    <!-- Modal Principal -->
     <div id="main-modal" class="modal-overlay">
         <div class="modal-window" id="modal-window">
             <div class="modal-title" id="modal-title"></div>
@@ -494,7 +487,6 @@
         </div>
     </div>
 
-    <!-- Sub-modal para imágenes -->
     <div id="sub-modal" class="submodal-overlay">
         <div class="submodal-content">
             <span class="submodal-close" onclick="closeSubModal()">&times;</span>
@@ -507,7 +499,6 @@
     </footer>
 
     <script>
-        /* BASE DE DATOS DE LA SECUENCIA */
         const storyData = [
             {
                 title: "01. EL MITO QUE DIO NOMBRE AL INSTITUTO.",
@@ -555,7 +546,7 @@
             },
             {
                 title: "12. EL CICLO DE QUIMERA.",
-                text: "Las cuatro funciones no constituyen actividades aisladas.\nForman un ciclo el cual se deriva del <a onclick=\"openSubModal('modelo_helicoidal.png')\">Modelo Helicoidal del Desarrollo del Conocimiento</a> desarrollado por el Dr. Cerezo:\n<a onclick=\"openSubModal('ciclo_conocimiento.png')\">INVESTIGACIÓN → CONOCIMIENTO → DOCENCIA → CAPACIDAD → SERVICIO → EXPERIENCIA → DIVULGACIÓN → NUEVAS PREGUNTAS → INVESTIGACIÓN</a>\nLa investigación genera conocimiento.\nLa docencia transforma conocimiento en capacidad.\nEl servicio transforma capacidad en aplicación.\nLa divulgación transforma conocimiento especializado en comprensión compartida.\nY las preguntas que surgen de todo este proceso pueden regresar nuevamente a la investigación.\nAsí, el ciclo nunca permanece completamente cerrado."
+                text: "Las las cuatro funciones no constituyen actividades aisladas.\nForman un ciclo el cual se deriva del <a onclick=\"openSubModal('modelo_helicoidal.png')\">Modelo Helicoidal del Desarrollo del Conocimiento</a> desarrollado por el Dr. Cerezo:\n<a onclick=\"openSubModal('ciclo_conocimiento.png')\">INVESTIGACIÓN → CONOCIMIENTO → DOCENCIA → CAPACIDAD → SERVICIO → EXPERIENCIA → DIVULGACIÓN → NUEVAS PREGUNTAS → INVESTIGACIÓN</a>\nLa investigación genera conocimiento.\nLa docencia transforma conocimiento en capacidad.\nEl servicio transforma capacidad en aplicación.\nLa divulgación transforma conocimiento especializado en comprensión compartida.\nY las preguntas que surgen de todo este proceso pueden regresar nuevamente a la investigación.\nAsí, el ciclo nunca permanece completamente cerrado."
             },
             {
                 title: "13. LA IDENTIDAD SIMBÓLICA DE QUIMERA.",
@@ -580,10 +571,9 @@
         const modalCursor = document.getElementById('modal-cursor');
         
         let isTyping = false;
-        let isCardBusy = true; // Bloquea los clics en el recuadro mientras haya animaciones
-        let isFinaleReady = false; // Bandera para detonar el final al interactuar con QUIMERA
+        let isCardBusy = true; 
+        let isFinaleReady = false; 
 
-        // Función de escritura para el recuadro central (aparición)
         const typeCardTitle = async (text, speed = 25) => {
             cardCursor.style.opacity = '1';
             let currentStr = '';
@@ -594,7 +584,6 @@
             }
         };
 
-        // Función de borrado inverso para el recuadro central
         const eraseCardTitle = async (speed = 15) => {
             cardCursor.style.opacity = '1';
             let currentStr = cardTitleText.innerHTML;
@@ -604,7 +593,6 @@
             }
         };
 
-        // Función de escritura progresiva para el Modal
         const typeSection = async (element, text, speed) => {
             let i = 0;
             let isTag = false;
@@ -624,7 +612,6 @@
             }
         };
 
-        // Abrir Modal
         centralCard.addEventListener('click', async () => {
             if (isCardBusy) return;
             document.body.classList.add('modal-blur-active');
@@ -653,7 +640,6 @@
             }, 300);
         });
 
-        // Cerrar Modal e iniciar transición de escritura inversa / avance
         const triggerTVClose = () => {
             if (modalWindow.classList.contains('tv-off')) return;
             isTyping = false; 
@@ -675,8 +661,6 @@
                     centralCard.classList.add('tv-off-card');
                     setTimeout(() => {
                         centralCard.style.display = 'none';
-                        
-                        // Inicia automáticamente la animación de QUIMERA y la habilita para clic
                         const wordQuimera = document.getElementById('word-quimera');
                         wordQuimera.classList.add('finale-active');
                         wordQuimera.classList.add('ready-to-click');
@@ -695,33 +679,25 @@
             if (e.target === mainModal && !isTyping) triggerTVClose();
         });
 
-        // Gran Final: Detonado únicamente por el clic en QUIMERA
+        // Gran Final unificado: Desenfoque y blanco ocurren al mismo tiempo al instante
         const triggerGrandFinale = () => {
-            // Comenzamos directamente con la secuencia de salida en pantalla completa
-            document.body.classList.add('exit-phase-1');
+            document.body.classList.add('exit-active');
             
             setTimeout(() => {
-                document.body.classList.add('exit-phase-2');
-                
-                setTimeout(() => {
-                    window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/';
-                }, 1000);
+                window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/';
             }, 800);
         };
 
-        // Event listener para el clic en "QUIMERA"
         const wordQuimeraBtn = document.getElementById('word-quimera');
         wordQuimeraBtn.addEventListener('click', () => {
             if (isFinaleReady) {
-                isFinaleReady = false; // Bloquea clics múltiples
+                isFinaleReady = false; 
                 wordQuimeraBtn.classList.remove('ready-to-click');
-                // Se quita el cursor estilo pointer si el desarrollador así lo prefiere
                 wordQuimeraBtn.style.cursor = 'default'; 
                 triggerGrandFinale();
             }
         });
 
-        // Control de Sub-Modales (Imágenes del Paso 12)
         const subModal = document.getElementById('sub-modal');
         const subImg = document.getElementById('submodal-img');
         
@@ -738,7 +714,6 @@
             if(e.target === subModal) closeSubModal();
         });
 
-        /* Controles de Música y Pantalla Completa */
         const music = document.getElementById('bg-music');
         const audioToggle = document.getElementById('audio-toggle');
         let isMusicPlaying = false;
@@ -783,7 +758,6 @@
             }
         });
 
-        // Secuencia global de inicio
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('intro-overlay');
             
@@ -839,7 +813,6 @@
                 typeFooterP();
             }, 5100);
 
-            // Aparición dinámica del recuadro central y tipeado inicial
             setTimeout(() => {
                 centralCard.style.display = 'block';
                 centralCard.classList.add('tv-on-card');
