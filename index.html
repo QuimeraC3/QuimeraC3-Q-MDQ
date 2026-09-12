@@ -181,6 +181,15 @@
             line-height: 4;
         }
 
+        /* Letras ocultas inicialmente para la animación de escritura en el título */
+        .hidden-letter {
+            opacity: 0;
+            display: inline-block;
+        }
+        .hidden-letter.revealed {
+            opacity: 1;
+        }
+
         /* Palabra QUIMERA al 200% con respecto al texto superior y animación de color */
         #word-quimera {
             display: inline-block;
@@ -380,6 +389,7 @@
             animation: blink 1s step-end infinite;
             margin-left: 2px;
             opacity: 0; 
+            transition: opacity 0.3s ease;
         }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
@@ -463,10 +473,10 @@
 
     <header>
         <h1>
-            MITOLOGÍA DETRÁS DE<br>
+            <span id="header-line1"></span><br>
             <span id="word-quimera">
-                <span style="--i:1">Q</span><span style="--i:2">U</span><span style="--i:3">I</span><span style="--i:4">M</span><span style="--i:5">E</span><span style="--i:6">R</span><span style="--i:7">A</span>
-            </span>
+                <span style="--i:1" class="hidden-letter">Q</span><span style="--i:2" class="hidden-letter">U</span><span style="--i:3" class="hidden-letter">I</span><span style="--i:4" class="hidden-letter">M</span><span style="--i:5" class="hidden-letter">E</span><span style="--i:6" class="hidden-letter">R</span><span style="--i:7" class="hidden-letter">A</span>
+            </span><span class="cursor" id="header-cursor"></span>
         </h1>
         <p data-text="El origen simbólico y conceptual que da vida e identidad a nuestro ecosistema."></p>
     </header>
@@ -610,6 +620,41 @@
                 if (!isTag) await new Promise(r => setTimeout(r, speed));
                 i++;
             }
+        };
+
+        // Función de escritura animada para el título principal del Header
+        const typeHeaderTitle = async () => {
+            const line1Text = "MITOLOGÍA DETRÁS DE";
+            const headerLine1 = document.getElementById('header-line1');
+            const wordQuimera = document.getElementById('word-quimera');
+            const headerCursor = document.getElementById('header-cursor');
+            const letterSpans = wordQuimera.querySelectorAll('.hidden-letter');
+
+            headerCursor.style.opacity = '1';
+
+            // 1. Escribir la primera línea carácter por carácter
+            let currentStr = '';
+            for (let i = 0; i < line1Text.length; i++) {
+                currentStr += line1Text.charAt(i);
+                headerLine1.innerHTML = currentStr;
+                headerLine1.appendChild(headerCursor);
+                await new Promise(r => setTimeout(r, 30));
+            }
+
+            await new Promise(r => setTimeout(r, 120));
+
+            // 2. Revelar letra por letra la palabra QUIMERA manteniendo sus spans e índices para el gran final
+            for (let i = 0; i < letterSpans.length; i++) {
+                letterSpans[i].classList.add('revealed');
+                wordQuimera.insertBefore(headerCursor, letterSpans[i].nextSibling);
+                await new Promise(r => setTimeout(r, 70));
+            }
+
+            // Al finalizar la animación, se oculta y elimina el cursor definitivamente
+            headerCursor.style.opacity = '0';
+            setTimeout(() => {
+                headerCursor.remove();
+            }, 500);
         };
 
         centralCard.addEventListener('click', async () => {
@@ -783,12 +828,19 @@
             }, 2100);
 
             setTimeout(() => { document.querySelector('header').style.opacity = '1'; }, 2900);
+            
+            // Iniciar máquina de escribir para el título principal
+            setTimeout(async () => {
+                await typeHeaderTitle();
+            }, 3200);
+
+            // Iniciar máquina de escribir para el subtítulo del header
             setTimeout(async () => {
                 const subP = document.querySelector('header p');
                 await typeSection(subP, subP.dataset.text, 15);
-            }, 3500);
+            }, 4600);
             
-            setTimeout(() => { document.querySelector('footer').style.opacity = '1'; }, 4700);
+            setTimeout(() => { document.querySelector('footer').style.opacity = '1'; }, 5300);
             
             setTimeout(() => {
                 const footerPs = document.querySelectorAll('footer p');
@@ -811,7 +863,7 @@
                     typeChar();
                 }
                 typeFooterP();
-            }, 5100);
+            }, 5700);
 
             setTimeout(() => {
                 centralCard.style.display = 'block';
@@ -822,7 +874,7 @@
                     await typeCardTitle(storyData[0].title, 30);
                     isCardBusy = false;
                 }, 600);
-            }, 5000); 
+            }, 5600); 
         });
     </script>
 </body>
