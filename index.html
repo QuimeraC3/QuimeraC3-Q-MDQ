@@ -331,6 +331,18 @@
             100% { transform: scale(0, 0); opacity: 0; filter: brightness(10); }
         }
 
+        /* Animación de encendido de televisión para el submodal de texto */
+        @keyframes tvTurnOn {
+            0% { transform: scale(0, 0); opacity: 0; filter: brightness(10); }
+            40% { transform: scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
+            70% { transform: scale(1, 0.005); opacity: 1; filter: brightness(2); }
+            100% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
+        }
+
+        .tv-on {
+            animation: tvTurnOn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+        }
+
         .modal-title {
             font-family: Georgia, serif;
             color: var(--accent);
@@ -397,7 +409,7 @@
         .submodal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.95);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -415,6 +427,9 @@
             position: relative;
             max-width: 90%;
             max-height: 90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .submodal-content img {
             max-width: 100%;
@@ -422,6 +437,8 @@
             border: 2px solid var(--accent);
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(200, 139, 50, 0.4);
+            opacity: 0;
+            transition: opacity 800ms ease-in-out;
         }
         .submodal-close {
             position: absolute;
@@ -433,6 +450,22 @@
             transition: transform 0.3s;
         }
         .submodal-close:hover { transform: scale(1.2); }
+
+        /* Estilo específico para la ventana de texto del modelo helicoidal dentro del submodal */
+        .submodal-text-window {
+            background: #ffffff;
+            padding: 3rem;
+            border-radius: 12px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            border: 2px solid var(--accent);
+            display: none;
+            color: var(--text-main);
+        }
 
         footer {
             position: absolute;
@@ -498,9 +531,17 @@
     </div>
 
     <div id="sub-modal" class="submodal-overlay">
-        <div class="submodal-content">
-            <span class="submodal-close" onclick="closeSubModal()">&times;</span>
+        <div class="submodal-content" id="submodal-content-wrapper">
+            <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
             <img id="submodal-img" src="" alt="Esquema Quimera">
+            
+            <div class="submodal-text-window" id="submodal-text-window">
+                <div class="modal-title" id="sub-modal-title"></div>
+                <div class="modal-body" id="sub-modal-body" style="color: var(--text-main);"></div>
+                <div class="modal-close-wrapper">
+                    <span class="modal-close-btn" id="sub-modal-close-btn"></span><span class="cursor" id="sub-modal-cursor"></span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -563,7 +604,7 @@
             },
             {
                 title: "12. EL CICLO DE QUIMERA.",
-                text: "Las las cuatro funciones no constituyen actividades aisladas.\nForman un ciclo el cual se deriva del <a onclick=\"openSubModal('modelo_helicoidal.png')\">Modelo Helicoidal del Desarrollo del Conocimiento</a> desarrollado por el Dr. Cerezo:\n<a onclick=\"openSubModal('ciclo_conocimiento.png')\">INVESTIGACIÓN → CONOCIMIENTO → DOCENCIA → CAPACIDAD → SERVICIO → EXPERIENCIA → DIVULGACIÓN → NUEVAS PREGUNTAS → INVESTIGACIÓN</a>\nLa investigación genera conocimiento.\nLa docencia transforma conocimiento en capacidad.\nEl servicio transforma capacidad en aplicación.\nLa divulgación transforma conocimiento especializado en comprensión compartida.\nY las preguntas que surgen de todo este proceso pueden regresar nuevamente a la investigación.\nAsí, el ciclo nunca permanece completamente cerrado."
+                text: "Las las cuatro funciones no constituyen actividades aisladas.\nForman un ciclo el cual se deriva del <a onclick=\"startHelicoidalSequence()\">Modelo Helicoidal del Desarrollo del Conocimiento</a> desarrollado por el Dr. Cerezo:\n<a onclick=\"openSubModal('ciclo_conocimiento.png')\">INVESTIGACIÓN → CONOCIMIENTO → DOCENCIA → CAPACIDAD → SERVICIO → EXPERIENCIA → DIVULGACIÓN → NUEVAS PREGUNTAS → INVESTIGACIÓN</a>\nLa investigación genera conocimiento.\nLa docencia transforma conocimiento en capacidad.\nEl servicio transforma capacidad en aplicación.\nLa divulgación transforma conocimiento especializado en comprensión compartida.\nY las preguntas que surgen de todo este proceso pueden regresar nuevamente a la investigación.\nAsí, el ciclo nunca permanece completamente cerrado."
             },
             {
                 title: "13. LA IDENTIDAD SIMBÓLICA DE QUIMERA.",
@@ -621,6 +662,25 @@
                 element.innerHTML = currentStr;
                 element.appendChild(modalCursor);
                 modalCursor.style.opacity = '1';
+
+                if (char === '<') isTag = true;
+                if (char === '>') isTag = false;
+                if (!isTag) await new Promise(r => setTimeout(r, speed));
+                i++;
+            }
+        };
+
+        const typeSubSection = async (element, text, speed, cursorElem) => {
+            let i = 0;
+            let isTag = false;
+            let currentStr = '';
+            while (i < text.length) {
+                if (!isSubTyping) break;
+                let char = text.charAt(i);
+                currentStr += char;
+                element.innerHTML = currentStr;
+                element.appendChild(cursorElem);
+                cursorElem.style.opacity = '1';
 
                 if (char === '<') isTag = true;
                 if (char === '>') isTag = false;
@@ -752,18 +812,140 @@
 
         const subModal = document.getElementById('sub-modal');
         const subImg = document.getElementById('submodal-img');
-        
+        const subModalTextWindow = document.getElementById('submodal-text-window');
+        const subModalXBtn = document.getElementById('submodal-x-btn');
+        const subModalTitle = document.getElementById('sub-modal-title');
+        const subModalBody = document.getElementById('sub-modal-body');
+        const subModalCloseBtn = document.getElementById('sub-modal-close-btn');
+        const subModalCursor = document.getElementById('sub-modal-cursor');
+
+        let isSubTyping = false;
+        let helicoidalSequenceRunning = false;
+
         window.openSubModal = (imgSrc) => {
+            helicoidalSequenceRunning = false;
+            subModalTextWindow.style.display = 'none';
+            subImg.style.display = 'block';
+            subModalXBtn.style.display = 'block';
+            subImg.style.opacity = '1';
             subImg.src = imgSrc; 
             subModal.classList.add('show');
         };
 
+        // Secuencia automática de las 4 imágenes y posterior submodal de texto
+        window.startHelicoidalSequence = async () => {
+            helicoidalSequenceRunning = true;
+            subModalTextWindow.style.display = 'none';
+            subImg.style.display = 'block';
+            subModalXBtn.style.display = 'block';
+            subModal.classList.add('show');
+
+            const images = [
+                'modelo_helicoidal_1.png',
+                'modelo_helicoidal_2.png',
+                'modelo_helicoidal_3.png',
+                'modelo_helicoidal_4.png'
+            ];
+
+            for (let i = 0; i < images.length; i++) {
+                if (!helicoidalSequenceRunning) return;
+                subImg.src = images[i];
+                subImg.style.opacity = '0';
+                await new Promise(r => setTimeout(r, 100));
+                
+                // Transición de entrada (desvanecimiento desde el negro)
+                subImg.style.opacity = '1';
+                await new Promise(r => setTimeout(r, 3000));
+
+                if (!helicoidalSequenceRunning) return;
+
+                // Si es la cuarta imagen, al terminar sus 3000ms activamos el submodal de texto con TV-on
+                if (i === images.length - 1) {
+                    subImg.style.opacity = '0';
+                    await new Promise(r => setTimeout(r, 800));
+                    if (!helicoidalSequenceRunning) return;
+                    showHelicoidalTextWindow();
+                    return;
+                } else {
+                    // Transición de salida (desvanecimiento a negro)
+                    subImg.style.opacity = '0';
+                    await new Promise(r => setTimeout(r, 800));
+                }
+            }
+        };
+
+        const showHelicoidalTextWindow = () => {
+            subImg.style.display = 'none';
+            subModalXBtn.style.display = 'none';
+            subModalTextWindow.style.display = 'block';
+            subModalTextWindow.classList.remove('tv-off');
+            subModalTextWindow.classList.add('tv-on');
+
+            subModalTitle.innerHTML = '';
+            subModalBody.innerHTML = '';
+            subModalCloseBtn.innerHTML = '';
+            subModalCursor.style.opacity = '0';
+            isSubTyping = true;
+
+            const textContent = `Representa el conocimiento como un proceso continuo de transformación. Una teoría o comprensión previa permite interpretar la realidad, pero al enfrentarse con nuevos fenómenos surgen problemas, contradicciones o interrogantes que cuestionan sus límites.
+
+El análisis permite investigar y construir respuestas; la revisión somete esas respuestas a criterios de rigor, coherencia y evidencia; y la transferencia incorpora el nuevo conocimiento a la comprensión existente.
+
+Sin embargo, el proceso no termina con la solución. Cada problema resuelto genera nuevas preguntas, y las nuevas preguntas permiten acceder a problemas de mayor complejidad.
+
+Por ello, el conocimiento no se desarrolla en círculos que regresan al mismo punto, sino mediante una hélice ascendente: cada ciclo conserva, transforma y amplía lo aprendido, conduciendo hacia niveles progresivamente más profundos de comprensión.
+
+Resolver un problema no es el final del conocimiento; es el comienzo de una pregunta mejor.`;
+
+            setTimeout(async () => {
+                await typeSubSection(subModalTitle, "MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO.", 20, subModalCursor);
+                if (!isSubTyping) return;
+                await typeSubSection(subModalBody, textContent, 8, subModalCursor);
+                if (!isSubTyping) return;
+                await typeSubSection(subModalCloseBtn, "Cerrar.", 30, subModalCursor);
+                
+                if(isSubTyping) {
+                    subModalCursor.style.opacity = '1';
+                    isSubTyping = false;
+                }
+            }, 500);
+        };
+
+        const triggerHelicoidalTextClose = () => {
+            if (subModalTextWindow.classList.contains('tv-off')) return;
+            isSubTyping = false;
+            subModalCursor.style.opacity = '0';
+            subModalTextWindow.classList.remove('tv-on');
+            subModalTextWindow.classList.add('tv-off');
+
+            setTimeout(() => {
+                subModalTextWindow.style.display = 'none';
+                subModalTextWindow.classList.remove('tv-off');
+                // Al terminar, aparece la cuarta imagen detrás del submodal
+                subImg.src = 'modelo_helicoidal_4.png';
+                subImg.style.display = 'block';
+                subModalXBtn.style.display = 'block';
+                subImg.style.opacity = '1';
+            }, 500);
+        };
+
+        subModalCloseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!isSubTyping) triggerHelicoidalTextClose();
+        });
+
         window.closeSubModal = () => {
+            helicoidalSequenceRunning = false;
+            isSubTyping = false;
             subModal.classList.remove('show');
+            subModalTextWindow.style.display = 'none';
+            subModalTextWindow.classList.remove('tv-off', 'tv-on');
         };
 
         subModal.addEventListener('click', (e) => {
-            if(e.target === subModal) closeSubModal();
+            if (e.target === subModal && !isSubTyping) {
+                closeSubModal();
+            }
         });
 
         const music = document.getElementById('bg-music');
