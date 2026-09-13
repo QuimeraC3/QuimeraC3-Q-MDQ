@@ -1040,31 +1040,7 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                 await typeSection(subP, subP.dataset.text, 15);
             }, 4600);
             
-            setTimeout(() => { document.querySelector('footer').style.opacity = '1'; }, 5300);
-            
-            setTimeout(() => {
-                const footerPs = document.querySelectorAll('footer p');
-                let pIndex = 0;
-                function typeFooterP() {
-                    if (pIndex >= footerPs.length) return;
-                    let p = footerPs[pIndex];
-                    let text = p.dataset.text.replace('2026', new Date().getFullYear());
-                    let i = 0;
-                    function typeChar() {
-                        if (i <= text.length) {
-                            p.innerHTML = text.substring(0, i);
-                            i++;
-                            setTimeout(typeChar, 18);
-                        } else {
-                            pIndex++;
-                            setTimeout(typeFooterP, 100);
-                        }
-                    }
-                    typeChar();
-                }
-                typeFooterP();
-            }, 5700);
-
+            // Recuadro central (Card 1) y su animación de título inicial
             setTimeout(() => {
                 centralCard.style.display = 'block';
                 centralCard.classList.add('tv-on-card');
@@ -1073,6 +1049,33 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                     centralCard.classList.remove('tv-on-card');
                     await typeCardTitle(storyData[0].title, 30);
                     isCardBusy = false;
+
+                    // NUEVA SECUENCIA: Justo al terminar el primer recuadro, aparece el footer y luego su texto
+                    document.querySelector('footer').style.opacity = '1';
+
+                    setTimeout(() => {
+                        const footerPs = document.querySelectorAll('footer p');
+                        let pIndex = 0;
+                        function typeFooterP() {
+                            if (pIndex >= footerPs.length) return;
+                            let p = footerPs[pIndex];
+                            let text = p.dataset.text.replace('2026', new Date().getFullYear());
+                            let i = 0;
+                            function typeChar() {
+                                if (i <= text.length) {
+                                    p.innerHTML = text.substring(0, i);
+                                    i++;
+                                    setTimeout(typeChar, 18);
+                                } else {
+                                    pIndex++;
+                                    setTimeout(typeFooterP, 100);
+                                }
+                            }
+                            typeChar();
+                        }
+                        typeFooterP();
+                    }, 400);
+
                 }, 600);
             }, 5600); 
         });
