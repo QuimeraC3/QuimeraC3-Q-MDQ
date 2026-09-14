@@ -533,7 +533,7 @@
     <div id="sub-modal" class="submodal-overlay">
         <div class="submodal-content" id="submodal-content-wrapper">
             <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
-            <img id="submodal-img" src="" alt="Esquema Quimera">
+            <img id="submodal-img" src="" alt="Esquema Quimera" style="opacity: 0;">
             
             <div class="submodal-text-window" id="submodal-text-window">
                 <div class="modal-title" id="sub-modal-title"></div>
@@ -849,9 +849,14 @@
 
             for (let i = 0; i < images.length; i++) {
                 if (!helicoidalSequenceRunning) return;
-                subImg.src = images[i];
+                
+                // Aseguramos que la imagen comience completamente en negro (opacidad 0) antes de cambiar la fuente
                 subImg.style.opacity = '0';
-                await new Promise(r => setTimeout(r, 100));
+                subImg.src = images[i];
+                
+                // Pequeña pausa para asegurar que la imagen cargue antes del desvanecimiento
+                await new Promise(r => setTimeout(r, 80));
+                if (!helicoidalSequenceRunning) return;
                 
                 // Transición de entrada (desvanecimiento desde el negro)
                 subImg.style.opacity = '1';
