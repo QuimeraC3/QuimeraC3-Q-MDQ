@@ -557,6 +557,19 @@
             }
         });
 
+        // --- PRECARGA DE IMÁGENES EN CACHÉ PARA EVITAR PARPADEOS ---
+        const imageList = [
+            '01-borrador_T-P.png',
+            '02-Teoria-Preg.png',
+            '03-HECE.png',
+            '04-MHDC.png',
+            'ECQ.png'
+        ];
+        imageList.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
         const storyData = [
             {
                 title: "01. EL MITO QUE DIO NOMBRE AL INSTITUTO.",
@@ -822,17 +835,26 @@
         let isSubTyping = false;
         let helicoidalSequenceRunning = false;
 
+        // FUNCIÓN CORREGIDA: Apertura individual de imagen con verificación de caché
         window.openSubModal = (imgSrc) => {
             helicoidalSequenceRunning = false;
             subModalTextWindow.style.display = 'none';
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
-            subImg.style.opacity = '1';
-            subImg.src = imgSrc; 
+            
+            subImg.src = imgSrc;
+            
+            if (subImg.complete) {
+                subImg.style.opacity = '1';
+            } else {
+                subImg.style.opacity = '0';
+                subImg.onload = () => { subImg.style.opacity = '1'; };
+            }
+            
             subModal.classList.add('show');
         };
 
-        // Secuencia automática de las 4 imágenes y posterior submodal de texto
+        // FUNCIÓN CORREGIDA: Secuencia helicoidal sincronizada con transiciones a negro
         window.startHelicoidalSequence = async () => {
             helicoidalSequenceRunning = true;
             subModalTextWindow.style.display = 'none';
@@ -850,31 +872,36 @@
             for (let i = 0; i < images.length; i++) {
                 if (!helicoidalSequenceRunning) return;
                 
-                // Aseguramos que la imagen comience completamente en negro (opacidad 0) antes de cambiar la fuente
+                // 1. Ocultar imagen previa completamente (fade a negro)
                 subImg.style.opacity = '0';
-                subImg.src = images[i];
                 
-                // Pequeña pausa para asegurar que la imagen cargue antes del desvanecimiento
-                await new Promise(r => setTimeout(r, 80));
+                // Esperar 800ms a que termine el fade out
+                await new Promise(r => setTimeout(r, 800));
                 if (!helicoidalSequenceRunning) return;
                 
-                // Transición de entrada (desvanecimiento desde el negro)
+                // 2. Asignar la nueva imagen
+                subImg.src = images[i];
+                
+                // 3. Confirmar que la imagen cargó completamente antes de continuar
+                await new Promise(resolve => {
+                    if (subImg.complete) resolve();
+                    else subImg.onload = resolve;
+                });
+                if (!helicoidalSequenceRunning) return;
+                
+                // 4. Mostrar la nueva imagen con fade in
                 subImg.style.opacity = '1';
                 await new Promise(r => setTimeout(r, 3000));
 
                 if (!helicoidalSequenceRunning) return;
 
-                // Si es la cuarta imagen, al terminar sus 3000ms activamos el submodal de texto con TV-on
+                // Si es la última imagen, cerramos e iniciamos la ventana de texto
                 if (i === images.length - 1) {
                     subImg.style.opacity = '0';
                     await new Promise(r => setTimeout(r, 800));
                     if (!helicoidalSequenceRunning) return;
                     showHelicoidalTextWindow();
                     return;
-                } else {
-                    // Transición de salida (desvanecimiento a negro)
-                    subImg.style.opacity = '0';
-                    await new Promise(r => setTimeout(r, 800));
                 }
             }
         };
