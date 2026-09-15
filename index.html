@@ -416,7 +416,7 @@
             z-index: 3000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.5s ease;
         }
         .submodal-overlay.show { 
             opacity: 1;
@@ -835,23 +835,30 @@
         let isSubTyping = false;
         let helicoidalSequenceRunning = false;
 
-        // FUNCIÓN CORREGIDA: Apertura individual de imagen con verificación de caché
+        // FUNCIÓN CORREGIDA: Apertura individual de imagen con transición suave desde el negro
         window.openSubModal = (imgSrc) => {
             helicoidalSequenceRunning = false;
             subModalTextWindow.style.display = 'none';
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
             
+            // Reiniciar opacidad a 0 inmediatamente antes de cargar la fuente
+            subImg.style.opacity = '0';
             subImg.src = imgSrc;
             
-            if (subImg.complete) {
-                subImg.style.opacity = '1';
-            } else {
-                subImg.style.opacity = '0';
-                subImg.onload = () => { subImg.style.opacity = '1'; };
-            }
-            
             subModal.classList.add('show');
+            
+            const triggerFadeIn = () => {
+                setTimeout(() => {
+                    subImg.style.opacity = '1';
+                }, 50);
+            };
+
+            if (subImg.complete) {
+                triggerFadeIn();
+            } else {
+                subImg.onload = triggerFadeIn;
+            }
         };
 
         // FUNCIÓN CORREGIDA: Secuencia helicoidal sincronizada con transiciones a negro
@@ -971,12 +978,17 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
             if (!isSubTyping) triggerHelicoidalTextClose();
         });
 
+        // FUNCIÓN CORREGIDA: Salida con desvanecimiento hacia el negro
         window.closeSubModal = () => {
             helicoidalSequenceRunning = false;
             isSubTyping = false;
+            subImg.style.opacity = '0';
             subModal.classList.remove('show');
-            subModalTextWindow.style.display = 'none';
-            subModalTextWindow.classList.remove('tv-off', 'tv-on');
+            
+            setTimeout(() => {
+                subModalTextWindow.style.display = 'none';
+                subModalTextWindow.classList.remove('tv-off', 'tv-on');
+            }, 500);
         };
 
         subModal.addEventListener('click', (e) => {
