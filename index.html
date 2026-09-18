@@ -165,34 +165,39 @@
         }
 
         /* ==========================================================
-           CONTROL INDEPENDIENTE DEL HEADER, H1 Y PÁRRAFO
-           ================================================---------- */
+           CONTROL 100% INDEPENDIENTE (HEADER, H1 Y PÁRRAFO)
+           ========================================================== */
         header {
             font-family: Georgia, serif;
-            font-size: 1rem;
-            text-align: center;
-            padding: 2rem 1rem 1rem 1rem;
-            margin-top: -5rem;
-            position: relative;
+            position: relative; /* Funciona como el ancla de posicionamiento absoluto */
             z-index: 10;
+            height: 220px;      /* Espacio reservado para el contenedor */
+            margin-top: 0rem;   /* <--- Mueve TODO EL BLOQUE del header independientemente */
+            padding: 0;
         }
 
         header h1 {
+            position: absolute; /* Desvinculado totalmente del flujo de los demás elementos */
+            width: 100%;
+            top: 2rem;          /* <--- Mueve el H1 de forma independiente desde la parte superior */
+            left: 0;
             font-family: Georgia, serif;
             font-size: 2rem;
             font-weight: 700;
             text-transform: uppercase;
             color: #ffffff;
             line-height: 1.3;
-            margin-top: 10rem;
-            margin-bottom: 0.5rem;
+            margin: 0;
         }
 
         header p {
+            position: absolute; /* Desvinculado totalmente del flujo de los demás elementos */
+            width: 100%;
+            top: 10rem;         /* <--- Mueve el PÁRRAFO de forma independiente desde la parte superior */
+            left: 0;
             font-size: 1.2rem;
             color: #e2e8f0;
-            position: relative;
-            margin-top: 0.5rem;
+            margin: 0;
         }
         /* ========================================================== */
 
