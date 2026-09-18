@@ -164,9 +164,12 @@
             color: #ffffff;
         }
 
+        /* ==========================================================
+           CONTROL INDEPENDIENTE DEL HEADER, H1 Y PÁRRAFO
+           ================================================---------- */
         header {
             text-align: center;
-            padding: -5rem 1rem 5rem 1rem;
+            padding: 2.5rem 1rem 1rem 1rem; /* Margen interno general del header */
             position: relative;
             z-index: 10;
         }
@@ -177,10 +180,24 @@
             font-weight: 700;
             text-transform: uppercase;
             color: #ffffff;
-            margin-top: 10rem;
-            margin-bottom: -5rem;
             line-height: 1.3;
+            
+            /* Movimiento independiente de H1 */
+            position: relative;
+            top: 0rem;        /* Cambia este valor para subir/bajar el título de forma independiente */
+            margin-bottom: 0.5rem; /* Espacio independiente debajo del título */
         }
+
+        header p {
+            font-size: 1.2rem;
+            color: #e2e8f0;
+            
+            /* Movimiento independiente del Párrafo */
+            position: relative;
+            top: 0rem;        /* Cambia este valor para mover el párrafo independientemente del h1 */
+            margin-top: 0.5rem;
+        }
+        /* ========================================================== */
 
         /* Letras ocultas inicialmente para la animación de escritura en el título */
         .hidden-letter {
@@ -222,12 +239,6 @@
             75% { color: var(--accent); }
             87.5% { color: #ffffff; }
             100% { color: #ffffff; }
-        }
-
-        header p {
-            font-size: 1.2rem;
-            color: #e2e8f0;
-            margin-top: 2.5rem;
         }
 
         /* Contenedor Central para el Recuadro Activo */
@@ -836,14 +847,13 @@
         let isSubTyping = false;
         let helicoidalSequenceRunning = false;
 
-        // FUNCIÓN CORREGIDA: Apertura individual de imagen con transición suave desde el negro
+        // Apertura individual de imagen con transición suave desde el negro
         window.openSubModal = (imgSrc) => {
             helicoidalSequenceRunning = false;
             subModalTextWindow.style.display = 'none';
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
             
-            // Reiniciar opacidad a 0 inmediatamente antes de cargar la fuente
             subImg.style.opacity = '0';
             subImg.src = imgSrc;
             
@@ -862,7 +872,7 @@
             }
         };
 
-        // FUNCIÓN CORREGIDA: Secuencia helicoidal sincronizada con transiciones a negro
+        // Secuencia helicoidal sincronizada con transiciones a negro
         window.startHelicoidalSequence = async () => {
             helicoidalSequenceRunning = true;
             subModalTextWindow.style.display = 'none';
@@ -880,30 +890,23 @@
             for (let i = 0; i < images.length; i++) {
                 if (!helicoidalSequenceRunning) return;
                 
-                // 1. Ocultar imagen previa completamente (fade a negro)
                 subImg.style.opacity = '0';
-                
-                // Esperar 800ms a que termine el fade out
                 await new Promise(r => setTimeout(r, 800));
                 if (!helicoidalSequenceRunning) return;
                 
-                // 2. Asignar la nueva imagen
                 subImg.src = images[i];
                 
-                // 3. Confirmar que la imagen cargó completamente antes de continuar
                 await new Promise(resolve => {
                     if (subImg.complete) resolve();
                     else subImg.onload = resolve;
                 });
                 if (!helicoidalSequenceRunning) return;
                 
-                // 4. Mostrar la nueva imagen con fade in
                 subImg.style.opacity = '1';
                 await new Promise(r => setTimeout(r, 3000));
 
                 if (!helicoidalSequenceRunning) return;
 
-                // Si es la última imagen, cerramos e iniciamos la ventana de texto
                 if (i === images.length - 1) {
                     subImg.style.opacity = '0';
                     await new Promise(r => setTimeout(r, 800));
@@ -962,7 +965,6 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                 subModalTextWindow.style.display = 'none';
                 subModalTextWindow.classList.remove('tv-off');
                 
-                // Al terminar, la cuarta imagen aparece con transición de entrada desde el negro
                 subImg.style.opacity = '0';
                 subImg.src = '04-MHDC.png';
                 subImg.style.display = 'block';
@@ -979,7 +981,6 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
             if (!isSubTyping) triggerHelicoidalTextClose();
         });
 
-        // FUNCIÓN CORREGIDA: Salida con desvanecimiento hacia el negro
         window.closeSubModal = () => {
             helicoidalSequenceRunning = false;
             isSubTyping = false;
@@ -1074,18 +1075,15 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
 
             setTimeout(() => { document.querySelector('header').style.opacity = '1'; }, 2900);
             
-            // Iniciar máquina de escribir para el título principal
             setTimeout(async () => {
                 await typeHeaderTitle();
             }, 3200);
 
-            // Iniciar máquina de escribir para el subtítulo del header
             setTimeout(async () => {
                 const subP = document.querySelector('header p');
                 await typeSection(subP, subP.dataset.text, 15);
             }, 4600);
             
-            // Recuadro central (Card 1) y su animación de título inicial
             setTimeout(() => {
                 centralCard.style.display = 'block';
                 centralCard.classList.add('tv-on-card');
@@ -1095,7 +1093,6 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                     await typeCardTitle(storyData[0].title, 30);
                     isCardBusy = false;
 
-                    // NUEVA SECUENCIA: Justo al terminar el primer recuadro, aparece el footer y luego su texto
                     document.querySelector('footer').style.opacity = '1';
 
                     setTimeout(() => {
