@@ -164,7 +164,7 @@
             color: #ffffff;
         }
 
-        /* HEADER ESTRUCTURAL SEGURO */
+        /* HEADER ESTRUCTURAL SEGURO - POSICIONES CARTESIANAS AJUSTADAS */
         header {
             font-family: Georgia, serif;
             position: relative;
@@ -172,7 +172,8 @@
             max-width: 900px;
             width: 100%;
             margin: 0 auto;
-            padding: 6rem 2rem 1rem 2rem;
+            /* Flecha 01: Padding superior de 10vh para ubicar "MITOLOGÍA DETRÁS DE" */
+            padding: 10vh 2rem 1rem 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -186,9 +187,15 @@
             text-transform: uppercase;
             color: #ffffff;
             line-height: 1.3;
-            margin: 0 0 1rem 0;
+            margin: 0;
             text-align: center;
             width: 100%;
+        }
+
+        /* Flecha 02: Separación vertical exacta para la palabra "QUIMERA" */
+        .arrow-02-text {
+            margin-top: 12vh;
+            margin-bottom: 1rem;
         }
 
         /* PALABRA QUIMERA ELÁSTICA (CLAMP) */
@@ -231,13 +238,15 @@
             12.5%, 25%, 62.5%, 75% { color: var(--accent); }
         }
 
-        /* TARJETA CENTRAL */
+        /* TARJETA CENTRAL - Flecha 03 */
         main {
             flex: 1;
             display: flex;
-            align-items: center;
+            /* Modificado a flex-end para anclar la tarjeta hacia abajo */
+            align-items: flex-end; 
             justify-content: center;
-            padding: 2rem;
+            /* Flecha 03: Padding bottom de 10vh define la coordenada Y final */
+            padding: 2rem 2rem 10vh 2rem; 
             z-index: 10;
             position: relative;
             transition: filter 0.5s ease;
@@ -484,8 +493,13 @@
     </nav>
 
     <header>
+        <!-- Flecha 01: MITOLOGÍA DETRÁS DE -->
         <h1>
-            <span id="header-line1"></span><br>
+            <span id="header-line1"></span>
+        </h1>
+        
+        <!-- Flecha 02: QUIMERA (Separada para permitir precisión cartesiana) -->
+        <h1 class="arrow-02-text">
             <span id="word-quimera">
                 <span style="--i:1" class="hidden-letter">Q</span><span style="--i:2" class="hidden-letter">U</span><span style="--i:3" class="hidden-letter">I</span><span style="--i:4" class="hidden-letter">M</span><span style="--i:5" class="hidden-letter">E</span><span style="--i:6" class="hidden-letter">R</span><span style="--i:7" class="hidden-letter">A</span>
             </span><span class="cursor" id="header-cursor"></span>
@@ -494,6 +508,7 @@
     </header>
 
     <main>
+        <!-- Flecha 03: Recuadro posicionado al fondo -->
         <div id="central-card" class="seq-card">
             <h2><span id="card-title-text"></span><span class="cursor" id="card-cursor"></span></h2>
         </div>
