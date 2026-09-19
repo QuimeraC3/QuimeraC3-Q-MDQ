@@ -30,7 +30,7 @@
             background-color: #000000;
         }
 
-        /* Transición de desenfoque general de la pantalla al abrir modal */
+        /* Transición de desenfoque general */
         #bg-layer, header, main, .top-bar, footer {
             transition: filter 0.5s ease, opacity 500ms ease;
         }
@@ -59,7 +59,7 @@
             transition: opacity 1000ms ease, filter 0.5s ease;
         }
 
-        /* Capa para transiciones globales de entrada en negro (sin blanco) */
+        /* Capa intro negra */
         #intro-overlay {
             position: fixed;
             top: 0;
@@ -73,7 +73,7 @@
             transition: opacity 1000ms ease;
         }
 
-        /* Transición de salida unificada: Desenfoque y Desvanecimiento en blanco simultáneos */
+        /* Gran Final a blanco */
         body.exit-active #bg-layer,
         body.exit-active header,
         body.exit-active main,
@@ -92,7 +92,7 @@
             transition: opacity 800ms ease, background-color 800ms ease, backdrop-filter 800ms ease;
         }
 
-        /* Navegación y Header */
+        /* Navegación Top Bar */
         .top-bar, header, footer {
             opacity: 0;
             transition: opacity 500ms ease, filter 0.5s ease;
@@ -164,49 +164,50 @@
             color: #ffffff;
         }
 
-        /* ==========================================================
-           CONTROL 100% INDEPENDIENTE (HEADER, H1 Y PÁRRAFO)
-           ========================================================== */
+        /* HEADER ESTRUCTURAL SEGURO */
         header {
             font-family: Georgia, serif;
             position: relative;
             z-index: 10;
-            height: 220px;
             max-width: 900px;
+            width: 100%;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 6rem 2rem 1rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         header h1 {
-            position: absolute;
-            width: calc(100% - 4px);
-            top: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
             font-family: Georgia, serif;
-            font-size: 2rem;
+            font-size: 2rem; /* Tamaño base */
             font-weight: 700;
             text-transform: uppercase;
             color: #ffffff;
             line-height: 1.3;
-            margin: 0;
+            margin: 0 0 1rem 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* PALABRA QUIMERA ELÁSTICA (CLAMP) */
+        #word-quimera {
+            display: inline-block;
+            /* Crece fluido entre 2.5rem en móviles y 6rem en monitores grandes */
+            font-size: clamp(2.5rem, 10vw, 6rem); 
+            transition: color 0.3s ease;
+            line-height: 1.1;
         }
 
         header p {
-            position: absolute;
-            width: calc(100% - 4rem);
-            top: 10rem;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
             font-size: 1.2rem;
             color: #e2e8f0;
             margin: 0;
+            text-align: center;
+            max-width: 750px;
         }
-        /* ========================================================== */
 
-        /* Letras ocultas inicialmente para la animación de escritura en el título */
         .hidden-letter {
             opacity: 0;
             display: inline-block;
@@ -215,18 +216,7 @@
             opacity: 1;
         }
 
-        /* Palabra QUIMERA al 300% con respecto al texto superior y animación de color */
-        #word-quimera {
-            display: inline-block;
-            font-size: 300%;
-            transition: color 0.3s ease;
-        }
-
-        #word-quimera.ready-to-click {
-            cursor: pointer;
-        }
-        
-        #word-quimera.finale-active {
+        #word-quimera.ready-to-click, #word-quimera.finale-active {
             cursor: pointer;
         }
 
@@ -237,18 +227,11 @@
         }
 
         @keyframes finaleSweep {
-            0% { color: #ffffff; }
-            12.5% { color: var(--accent); }
-            25% { color: var(--accent); }
-            37.5% { color: #ffffff; }
-            50% { color: #ffffff; }
-            62.5% { color: var(--accent); }
-            75% { color: var(--accent); }
-            87.5% { color: #ffffff; }
-            100% { color: #ffffff; }
+            0%, 37.5%, 50%, 87.5%, 100% { color: #ffffff; }
+            12.5%, 25%, 62.5%, 75% { color: var(--accent); }
         }
 
-        /* Contenedor Central para el Recuadro Activo */
+        /* TARJETA CENTRAL */
         main {
             flex: 1;
             display: flex;
@@ -271,7 +254,7 @@
             display: none;
             max-width: 600px;
             width: 100%;
-            transform: translateY(50%);
+            transform: translateY(20px);
         }
 
         .seq-card h2 {
@@ -282,51 +265,55 @@
             min-height: 2.2rem;
         }
 
-        .seq-card:hover { transform: translateY(50%) scale(1.05); }
+        .seq-card:hover { transform: translateY(20px) scale(1.05); }
 
-        .tv-on-card {
-            animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-        }
+        .tv-on-card { animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .tv-off-card { animation: tvTurnOffCard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
 
         @keyframes tvTurnOnCard {
-            0% { transform: translateY(50%) scale(0, 0); opacity: 0; filter: brightness(10); }
-            40% { transform: translateY(50%) scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
-            70% { transform: translateY(50%) scale(1, 0.005); opacity: 1; filter: brightness(2); }
-            100% { transform: translateY(50%) scale(1, 1); opacity: 1; filter: brightness(1); }
-        }
-
-        .tv-off-card {
-            animation: tvTurnOffCard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            0% { transform: translateY(20px) scale(0, 0); opacity: 0; filter: brightness(10); }
+            40% { transform: translateY(20px) scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
+            70% { transform: translateY(20px) scale(1, 0.005); opacity: 1; filter: brightness(2); }
+            100% { transform: translateY(20px) scale(1, 1); opacity: 1; filter: brightness(1); }
         }
 
         @keyframes tvTurnOffCard {
-            0% { transform: translateY(50%) scale(1, 1); opacity: 1; filter: brightness(1); }
-            40% { transform: translateY(50%) scale(1, 0.005); opacity: 1; filter: brightness(2); }
-            70% { transform: translateY(50%) scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
-            100% { transform: translateY(50%) scale(0, 0); opacity: 0; filter: brightness(10); }
+            0% { transform: translateY(20px) scale(1, 1); opacity: 1; filter: brightness(1); }
+            40% { transform: translateY(20px) scale(1, 0.005); opacity: 1; filter: brightness(2); }
+            70% { transform: translateY(20px) scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
+            100% { transform: translateY(20px) scale(0, 0); opacity: 0; filter: brightness(10); }
         }
 
-        /* Estilos del Modal Principal */
-        .modal-overlay {
+        /* MODALES */
+        .modal-overlay, .submodal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(5px);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2000;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
         }
 
-        .modal-overlay.show {
+        .modal-overlay {
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+        }
+
+        .submodal-overlay {
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            transition: opacity 0.5s ease;
+        }
+
+        .modal-overlay.show, .submodal-overlay.show {
             opacity: 1;
             pointer-events: auto;
         }
 
-        .modal-window {
+        .modal-window, .submodal-text-window {
             background: #ffffff;
             padding: 3rem;
             border-radius: 12px;
@@ -339,18 +326,14 @@
             border: 2px solid var(--accent);
         }
 
-        .tv-off {
-            animation: tvTurnOff 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+        .submodal-text-window {
+            display: none;
+            color: var(--text-main);
         }
 
-        @keyframes tvTurnOff {
-            0% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
-            40% { transform: scale(1, 0.005); opacity: 1; filter: brightness(2); }
-            70% { transform: scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
-            100% { transform: scale(0, 0); opacity: 0; filter: brightness(10); }
-        }
+        .tv-on { animation: tvTurnOn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important; }
+        .tv-off { animation: tvTurnOff 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important; }
 
-        /* Animación de encendido de televisión para el submodal de texto */
         @keyframes tvTurnOn {
             0% { transform: scale(0, 0); opacity: 0; filter: brightness(10); }
             40% { transform: scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
@@ -358,8 +341,11 @@
             100% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
         }
 
-        .tv-on {
-            animation: tvTurnOn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+        @keyframes tvTurnOff {
+            0% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
+            40% { transform: scale(1, 0.005); opacity: 1; filter: brightness(2); }
+            70% { transform: scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
+            100% { transform: scale(0, 0); opacity: 0; filter: brightness(10); }
         }
 
         .modal-title {
@@ -406,10 +392,7 @@
             transition: color 0.3s ease;
         }
 
-        .modal-close-btn:hover {
-            text-decoration: underline;
-            text-decoration-color: var(--accent);
-        }
+        .modal-close-btn:hover { text-decoration: underline; text-decoration-color: var(--accent); }
 
         .cursor {
             display: inline-block;
@@ -425,23 +408,6 @@
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        .submodal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 3000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-        .submodal-overlay.show { 
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
         .submodal-content {
             position: relative;
             max-width: 90%;
@@ -450,6 +416,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .submodal-content img {
             max-width: 100%;
             max-height: 85vh;
@@ -459,6 +426,7 @@
             opacity: 0;
             transition: opacity 800ms ease-in-out;
         }
+
         .submodal-close {
             position: absolute;
             top: -40px; right: -40px;
@@ -467,32 +435,15 @@
             cursor: pointer;
             font-weight: bold;
             transition: transform 0.3s;
+            z-index: 3001;
         }
         .submodal-close:hover { transform: scale(1.2); }
 
-        /* Estilo específico para la ventana de texto del modelo helicoidal dentro del submodal */
-        .submodal-text-window {
-            background: #ffffff;
-            padding: 3rem;
-            border-radius: 12px;
-            max-width: 700px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: var(--shadow-lg);
-            border: 2px solid var(--accent);
-            display: none;
-            color: var(--text-main);
-        }
-
         footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+            position: relative;
             width: 100%;
             text-align: center;
-            padding: 0.4rem 2rem;
+            padding: 0.8rem 2rem;
             background-color: rgba(11, 19, 41, 0.2);
             backdrop-filter: blur(8px);
             color: #ffffff;
@@ -502,9 +453,18 @@
             transition: filter 0.5s ease;
         }
 
-        footer p {
-            color: #ffffff;
+        /* MEDIA QUERIES PARA MÓVILES (SEGURIDAD RESPONSIVA) */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.5rem; }
+            header p { font-size: 1rem; }
+            .seq-card, .modal-window, .submodal-text-window { padding: 1.5rem; }
+            .modal-title { font-size: 1.4rem; }
+            .modal-body { font-size: 1rem; }
+            /* Reposicionar la X para que no se salga de pantallas táctiles estrechas */
+            .submodal-close { top: -15px; right: 0px; font-size: 2rem; text-shadow: 0 0 10px #000; }
+            .top-bar { flex-direction: column; gap: 0.5rem; }
         }
+
     </style>
 </head>
 <body>
@@ -556,7 +516,7 @@
             
             <div class="submodal-text-window" id="submodal-text-window">
                 <div class="modal-title" id="sub-modal-title"></div>
-                <div class="modal-body" id="sub-modal-body" style="color: var(--text-main);"></div>
+                <div class="modal-body" id="sub-modal-body"></div>
                 <div class="modal-close-wrapper">
                     <span class="modal-close-btn" id="sub-modal-close-btn"></span><span class="cursor" id="sub-modal-cursor"></span>
                 </div>
@@ -569,25 +529,14 @@
     </footer>
 
     <script>
-        // Solución para limpiar el estado de caché (bfcache) al usar las flechas del navegador
+        // Solución caché (bfcache)
         window.addEventListener('pageshow', (event) => {
-            if (event.persisted) {
-                window.location.reload();
-            }
+            if (event.persisted) window.location.reload();
         });
 
-        // --- PRECARGA DE IMÁGENES EN CACHÉ PARA EVITAR PARPADEOS ---
-        const imageList = [
-            '01-borrador_T-P.png',
-            '02-Teoria-Preg.png',
-            '03-HECE.png',
-            '04-MHDC.png',
-            'ECQ.png'
-        ];
-        imageList.forEach(src => {
-            const img = new Image();
-            img.src = src;
-        });
+        // PRECARGA DE IMÁGENES
+        const imageList = ['01-borrador_T-P.png', '02-Teoria-Preg.png', '03-HECE.png', '04-MHDC.png', 'ECQ.png'];
+        imageList.forEach(src => { const img = new Image(); img.src = src; });
 
         const storyData = [
             {
@@ -721,7 +670,6 @@
             }
         };
 
-        // Función de escritura animada para el título principal del Header
         const typeHeaderTitle = async () => {
             const line1Text = "MITOLOGÍA DETRÁS DE";
             const headerLine1 = document.getElementById('header-line1');
@@ -731,7 +679,6 @@
 
             headerCursor.style.opacity = '1';
 
-            // 1. Escribir la primera línea carácter por carácter
             let currentStr = '';
             for (let i = 0; i < line1Text.length; i++) {
                 currentStr += line1Text.charAt(i);
@@ -742,18 +689,14 @@
 
             await new Promise(r => setTimeout(r, 120));
 
-            // 2. Revelar letra por letra la palabra QUIMERA manteniendo sus spans e índices para el gran final
             for (let i = 0; i < letterSpans.length; i++) {
                 letterSpans[i].classList.add('revealed');
                 wordQuimera.insertBefore(headerCursor, letterSpans[i].nextSibling);
                 await new Promise(r => setTimeout(r, 70));
             }
 
-            // Al finalizar la animación, se oculta y elimina el cursor definitivamente
             headerCursor.style.opacity = '0';
-            setTimeout(() => {
-                headerCursor.remove();
-            }, 500);
+            setTimeout(() => headerCursor.remove(), 500);
         };
 
         centralCard.addEventListener('click', async () => {
@@ -823,13 +766,9 @@
             if (e.target === mainModal && !isTyping) triggerTVClose();
         });
 
-        // Gran Final unificado: Desenfoque y blanco ocurren al mismo tiempo al instante
         const triggerGrandFinale = () => {
             document.body.classList.add('exit-active');
-            
-            setTimeout(() => {
-                window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/';
-            }, 800);
+            setTimeout(() => { window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/'; }, 800);
         };
 
         const wordQuimeraBtn = document.getElementById('word-quimera');
@@ -854,32 +793,19 @@
         let isSubTyping = false;
         let helicoidalSequenceRunning = false;
 
-        // Apertura individual de imagen con transición suave desde el negro
         window.openSubModal = (imgSrc) => {
             helicoidalSequenceRunning = false;
             subModalTextWindow.style.display = 'none';
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
-            
             subImg.style.opacity = '0';
             subImg.src = imgSrc;
-            
             subModal.classList.add('show');
             
-            const triggerFadeIn = () => {
-                setTimeout(() => {
-                    subImg.style.opacity = '1';
-                }, 50);
-            };
-
-            if (subImg.complete) {
-                triggerFadeIn();
-            } else {
-                subImg.onload = triggerFadeIn;
-            }
+            const triggerFadeIn = () => { setTimeout(() => { subImg.style.opacity = '1'; }, 50); };
+            if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
         };
 
-        // Secuencia helicoidal sincronizada con transiciones a negro
         window.startHelicoidalSequence = async () => {
             helicoidalSequenceRunning = true;
             subModalTextWindow.style.display = 'none';
@@ -887,33 +813,26 @@
             subModalXBtn.style.display = 'block';
             subModal.classList.add('show');
 
-            const images = [
-                '01-borrador_T-P.png',
-                '02-Teoria-Preg.png',
-                '03-HECE.png',
-                '04-MHDC.png'
-            ];
+            const images = ['01-borrador_T-P.png', '02-Teoria-Preg.png', '03-HECE.png', '04-MHDC.png'];
 
             for (let i = 0; i < images.length; i++) {
                 if (!helicoidalSequenceRunning) return;
-                
                 subImg.style.opacity = '0';
                 await new Promise(r => setTimeout(r, 800));
-                if (!helicoidalSequenceRunning) return;
                 
+                if (!helicoidalSequenceRunning) return;
                 subImg.src = images[i];
                 
                 await new Promise(resolve => {
                     if (subImg.complete) resolve();
                     else subImg.onload = resolve;
                 });
-                if (!helicoidalSequenceRunning) return;
                 
+                if (!helicoidalSequenceRunning) return;
                 subImg.style.opacity = '1';
                 await new Promise(r => setTimeout(r, 3000));
 
                 if (!helicoidalSequenceRunning) return;
-
                 if (i === images.length - 1) {
                     subImg.style.opacity = '0';
                     await new Promise(r => setTimeout(r, 800));
@@ -977,9 +896,7 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                 subImg.style.display = 'block';
                 subModalXBtn.style.display = 'block';
                 
-                setTimeout(() => {
-                    subImg.style.opacity = '1';
-                }, 50);
+                setTimeout(() => { subImg.style.opacity = '1'; }, 50);
             }, 500);
         };
 
@@ -1003,9 +920,7 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
         subModal.addEventListener('click', (e) => {
             if (e.target === subModal) {
                 if (subModalTextWindow.style.display === 'block') {
-                    if (!isSubTyping) {
-                        triggerHelicoidalTextClose();
-                    }
+                    if (!isSubTyping) triggerHelicoidalTextClose();
                 } else {
                     closeSubModal();
                 }
@@ -1026,9 +941,7 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                 music.play().then(() => {
                     audioToggle.innerHTML = '<span style="color: #ffffff;">🎶</span> Música: ON';
                     isMusicPlaying = true;
-                }).catch(error => {
-                    console.log("Error al reproducir audio:", error);
-                });
+                }).catch(error => console.log("Error de audio:", error));
             }
         });
 
@@ -1038,9 +951,7 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().then(() => {
                     fullscreenToggle.textContent = '❌ Salir Pantalla Completa';
-                }).catch(err => {
-                    console.log("Error al intentar entrar en pantalla completa:", err);
-                });
+                }).catch(err => console.log("Error Fullscreen:", err));
             } else {
                 document.exitFullscreen().then(() => {
                     fullscreenToggle.textContent = '⛶ Pantalla Completa';
@@ -1049,11 +960,7 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
         });
 
         document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                fullscreenToggle.textContent = '⛶ Pantalla Completa';
-            } else {
-                fullscreenToggle.textContent = '❌ Salir Pantalla Completa';
-            }
+            fullscreenToggle.textContent = !document.fullscreenElement ? '⛶ Pantalla Completa' : '❌ Salir Pantalla Completa';
         });
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -1082,9 +989,7 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
 
             setTimeout(() => { document.querySelector('header').style.opacity = '1'; }, 2900);
             
-            setTimeout(async () => {
-                await typeHeaderTitle();
-            }, 3200);
+            setTimeout(async () => { await typeHeaderTitle(); }, 3200);
 
             setTimeout(async () => {
                 const subP = document.querySelector('header p');
