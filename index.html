@@ -11,6 +11,10 @@
             --accent: #c88b32; /* Cobre Dorado */
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
             --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+            
+            /* Nuevas variables para modales */
+            --card-bg: rgba(15, 23, 42, 0.90);
+            --card-border: rgba(255, 255, 255, 0.15);
         }
 
         * {
@@ -172,7 +176,6 @@
             max-width: 900px;
             width: 100%;
             margin: 0 auto;
-            /* Flecha 01: Padding superior de 10vh para ubicar "MITOLOGÍA DETRÁS DE" */
             padding: 01.5vh 2rem 1rem 2rem;
             display: flex;
             flex-direction: column;
@@ -182,7 +185,7 @@
 
         header h1 {
             font-family: Georgia, serif;
-            font-size: 3rem; /* Tamaño base */
+            font-size: 3rem; 
             font-weight: 700;
             text-transform: uppercase;
             color: #ffffff;
@@ -192,7 +195,6 @@
             width: 100%;
         }
 
-        /* Flecha 02: Separación vertical exacta para la palabra "QUIMERA" */
         .arrow-02-text {
             margin-top: 23vh;
             margin-bottom: 1rem;
@@ -239,14 +241,12 @@
             12.5%, 25%, 62.5%, 75% { color: var(--accent); }
         }
 
-        /* TARJETA CENTRAL - Flecha 03 */
+        /* TARJETA CENTRAL */
         main {
             flex: 1;
             display: flex;
-            /* Modificado a flex-end para anclar la tarjeta hacia abajo */
             align-items: flex-end; 
             justify-content: center;
-            /* Flecha 03: Padding bottom de 10vh define la coordenada Y final */
             padding: 2rem 2rem 07vh 2rem; 
             z-index: 10;
             position: relative;
@@ -294,7 +294,9 @@
             100% { transform: translateY(20px) scale(0, 0); opacity: 0; filter: brightness(10); }
         }
 
-        /* MODALES */
+        /* ========================================= */
+        /* MODALES ACTUALIZADOS                      */
+        /* ========================================= */
         .modal-overlay, .submodal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -306,14 +308,13 @@
             transition: opacity 0.4s ease;
         }
 
-        .modal-overlay {
-            background: rgba(0,0,0,0.85);
+        .modal-overlay, .submodal-overlay {
+            background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(5px);
             z-index: 2000;
         }
 
         .submodal-overlay {
-            background: rgba(0,0,0,0.95);
             z-index: 3000;
             transition: opacity 0.5s ease;
         }
@@ -324,8 +325,8 @@
         }
 
         .modal-window, .submodal-text-window {
-            background: #ffffff;
-            padding: 3rem;
+            background: var(--card-bg);
+            padding: clamp(1.5rem, 5vw, 3rem); /* Fluido */
             border-radius: 12px;
             max-width: 700px;
             width: 90%;
@@ -333,12 +334,11 @@
             overflow-y: auto;
             position: relative;
             box-shadow: var(--shadow-lg);
-            border: 2px solid var(--accent);
+            border: 1px solid var(--card-border);
         }
 
         .submodal-text-window {
             display: none;
-            color: var(--text-main);
         }
 
         .tv-on { animation: tvTurnOn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important; }
@@ -361,18 +361,18 @@
         .modal-title {
             font-family: Georgia, serif;
             color: var(--accent);
-            font-size: 1.8rem;
+            font-size: clamp(1.4rem, 4vw, 2rem);
             text-transform: uppercase;
             margin-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(200,139,50,0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 0.5rem;
             min-height: 2.5rem;
             text-align: center;
         }
 
         .modal-body {
-            font-size: 1.1rem;
-            color: var(--text-main);
+            font-size: clamp(1rem, 2.2vw, 1.15rem);
+            color: #f1f5f9;
             line-height: 1.8;
             margin-bottom: 2rem;
             white-space: pre-line;
@@ -386,11 +386,11 @@
             cursor: pointer;
             transition: color 0.3s;
         }
-        .modal-body a:hover { color: #000; }
+        .modal-body a:hover { color: #e0a96d; }
 
         .modal-close-wrapper {
             text-align: right;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             font-weight: bold;
             min-height: 2rem;
         }
@@ -402,12 +402,12 @@
             transition: color 0.3s ease;
         }
 
-        .modal-close-btn:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+        .modal-close-btn:hover { color: #e0a96d; }
 
         .cursor {
             display: inline-block;
             width: 8px;
-            height: 1.2rem;
+            height: clamp(1rem, 2.5vw, 1.2rem);
             background-color: var(--accent);
             vertical-align: text-bottom;
             animation: blink 1s step-end infinite;
@@ -441,13 +441,13 @@
             position: absolute;
             top: -40px; right: -40px;
             color: var(--accent);
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 6vw, 3rem);
             cursor: pointer;
             font-weight: bold;
-            transition: transform 0.3s;
+            transition: transform 0.3s, color 0.3s;
             z-index: 3001;
         }
-        .submodal-close:hover { transform: scale(1.2); }
+        .submodal-close:hover { transform: scale(1.2); color: #e0a96d; }
 
         footer {
             position: relative;
@@ -467,11 +467,9 @@
         @media (max-width: 768px) {
             header h1 { font-size: 1.5rem; }
             header p { font-size: 1rem; }
-            .seq-card, .modal-window, .submodal-text-window { padding: 1.5rem; }
-            .modal-title { font-size: 1.4rem; }
-            .modal-body { font-size: 1rem; }
+            .seq-card { padding: 1.5rem; }
             /* Reposicionar la X para que no se salga de pantallas táctiles estrechas */
-            .submodal-close { top: -15px; right: 0px; font-size: 2rem; text-shadow: 0 0 10px #000; }
+            .submodal-close { top: -15px; right: 0px; text-shadow: 0 0 10px #000; }
             .top-bar { flex-direction: column; gap: 0.5rem; }
         }
 
@@ -565,7 +563,7 @@
             },
             {
                 title: "03. QUIMERA FRENTE A BELEROFONTE.",
-                text: "El mito puede leerse, más allá de su dimensión narrativa, como el encuentro entre dos fuerzas.\n\nPor un lado:\n\nQUIMERA.\nLa complejidad.\nLa multiplicidad.\nLo desconocido.\nLo aparentemente contradictorio.\nEl problema que no puede reducirse fácilmente a una sola explicación.\n\nPor otro:\n\nBELEROFONTE.\nLa observación.\nLa estrategia.\nLa adaptación.\nLa utilización inteligente de recursos.\nLa capacidad de transformar un problema aparentemente imposible en un problema susceptible de ser resuelto.\n\nY entre ambos:\n\nPEGASO.\nLa herramienta que permite ampliar las capacidades del ser humano.\n\nDesde esta perspectiva, el mito puede resumirse simbólicamente como:\nLa complejidad no siempre se vence mediante mayor fuerza, sino mediante una mejor comprensión del problema y una estrategia adecuada para abordarlo."
+                text: "El mito puede leerse, más allá de su dimensión narrativa, como el encuentro entre dos fuerzas.\n\nPor un lado:\n\nQUIMERA.\nLa complejidad.\nLa multiplicidad.\nLo desconocido.\nLo aparentemente contradictorio.\nEl problema que no puede reducirse fácilmente a una sola explicación.\n\nPor otro:\n\nBELEROFONTE.\nLa observación.\nLa estrategia.\nLa adaptación.\nLa utilización inteligente de recursos.\nLa capacidad de transformas un problema aparentemente imposible en un problema susceptible de ser resuelto.\n\nY entre ambos:\n\nPEGASO.\nLa herramienta que permite ampliar las capacidades del ser humano.\n\nDesde esta perspectiva, el mito puede resumirse simbólicamente como:\nLa complejidad no siempre se vence mediante mayor fuerza, sino mediante una mejor comprensión del problema y una estrategia adecuada para abordarlo."
             },
             {
                 title: "04. ¿POR QUÉ QUIMERA?",
