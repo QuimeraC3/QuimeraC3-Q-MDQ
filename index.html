@@ -10,7 +10,7 @@
             --primary: #0f766e;
             --accent: #c88b32; /* Cobre Dorado */
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
             
             /* Nuevas variables para modales */
             --card-bg: rgba(15, 23, 42, 0.90);
@@ -123,7 +123,7 @@
         .brand-logo {
             color: #ffffff;
             font-family: Georgia, "Times New Roman", serif;
-            font-size: 0.99rem;
+            font-size: clamp(0.85rem, 2vw, 1rem);
             font-weight: 700;
             text-decoration: none;
             letter-spacing: -0.01em;
@@ -137,15 +137,16 @@
 
         .nav-links {
             display: flex;
-            gap: 1.25rem;
+            gap: clamp(0.5rem, 2vw, 1.25rem);
             list-style: none;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .nav-links a {
             color: #ffffff;
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: clamp(0.75rem, 1.5vw, 0.9rem);
             font-weight: 500;
             transition: color 0.2s ease;
         }
@@ -155,7 +156,7 @@
         }
         
         #audio-toggle, #fullscreen-toggle {
-            background: rgba(200, 139, 50, 0.6);
+            background: rgba(15, 118, 110, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.3);
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
@@ -168,7 +169,7 @@
             color: #ffffff;
         }
 
-        /* HEADER ESTRUCTURAL SEGURO - POSICIONES CARTESIANAS AJUSTADAS */
+        /* HEADER ESTRUCTURAL SEGURO - POSICIONES CARTESIANAS AJUSTADAS EXACTAS A INDEX V */
         header {
             font-family: Georgia, serif;
             position: relative;
@@ -176,7 +177,7 @@
             max-width: 900px;
             width: 100%;
             margin: 0 auto;
-            padding: 01.5vh 2rem 1rem 2rem;
+            padding: 06vh 2rem 1rem 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -185,7 +186,7 @@
 
         header h1 {
             font-family: Georgia, serif;
-            font-size: 3rem; 
+            font-size: clamp(2rem, 6vw, 4rem);
             font-weight: 700;
             text-transform: uppercase;
             color: #ffffff;
@@ -195,26 +196,20 @@
             width: 100%;
         }
 
-        .arrow-02-text {
-            margin-top: 23vh;
-            margin-bottom: 1rem;
-        }
-
-        /* TÍTULO MITOLOGÍA DETRÁS DE (ESTILOS VISIÓN CON TAMAÑO FIJO EN 16:9 Y ELÁSTICO EN OTRAS) */
+        /* TÍTULO MITOLOGÍA DETRÁS DE (ESTILOS Y PARÁMETROS IGUALADOS A INDEX V) */
         #header-line1 {
             color: #e2a547;
             display: inline-block;
-            font-size: clamp(2rem, 6vw, 4rem);
+            font-size: clamp(2.5rem, 10vw, 6rem);
             transition: color 0.3s ease;
             line-height: 1.1;
             -webkit-text-stroke: 1.5px #ffffff;
             text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
         }
 
-        @media (aspect-ratio: 16/9) {
-            #header-line1 {
-                font-size: 3rem;
-            }
+        .arrow-02-text {
+            margin-top: clamp(12vh, 17vh, 20vh);
+            margin-bottom: 1rem;
         }
 
         /* PALABRA QUIMERA ELÁSTICA (CLAMP) */
@@ -228,7 +223,7 @@
         }
 
         header p {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
             color: #e2e8f0;
             margin: 0;
             text-align: center;
@@ -264,7 +259,7 @@
             display: flex;
             align-items: flex-end; 
             justify-content: center;
-            padding: 2rem 2rem 07vh 2rem; 
+            padding: 2rem 2rem 7vh 2rem; 
             z-index: 10;
             position: relative;
             transition: filter 0.5s ease;
@@ -273,7 +268,7 @@
         .seq-card {
             background-color: #ffffff;
             border-radius: 12px;
-            padding: 2rem 3rem;
+            padding: clamp(1.5rem, 4vw, 2rem) clamp(1.5rem, 5vw, 3rem);
             box-shadow: var(--shadow-lg);
             cursor: pointer;
             text-align: center;
@@ -286,7 +281,7 @@
 
         .seq-card h2 {
             font-family: Georgia, serif;
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3.5vw, 1.6rem);
             color: var(--accent);
             text-transform: uppercase;
             min-height: 2.2rem;
@@ -343,7 +338,7 @@
 
         .modal-window, .submodal-text-window {
             background: var(--card-bg);
-            padding: clamp(1.5rem, 5vw, 3rem); /* Fluido */
+            padding: clamp(1.5rem, 5vw, 3rem);
             border-radius: 12px;
             max-width: 700px;
             width: 90%;
@@ -466,28 +461,51 @@
         }
         .submodal-close:hover { transform: scale(1.2); color: #e0a96d; }
 
+        /* FOOTER CORREGIDO EXACTAMENTE CON LOS PARÁMETROS DE INDEX V */
         footer {
-            position: relative;
+            position: absolute;
+            bottom: 0;
+            left: 0;
             width: 100%;
-            text-align: center;
-            padding: 0.8rem 2rem;
-            background-color: rgba(11, 19, 41, 0.2);
+            padding: 0.5rem 1rem;
+            background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
             color: #ffffff;
-            font-size: 0.8rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+            opacity: 0;
+            transition: opacity 500ms ease;
             z-index: 100;
-            transition: filter 0.5s ease;
         }
 
-        /* MEDIA QUERIES PARA MÓVILES (SEGURIDAD RESPONSIVA) */
+        footer.visible {
+            opacity: 1;
+        }
+
+        footer p {
+            color: #e2e8f0;
+        }
+
+        /* MEDIA QUERIES PARA MÓVILES (SEGURIDAD RESPONSIVA EXACTA) */
         @media (max-width: 768px) {
-            header h1 { font-size: 1.5rem; }
-            header p { font-size: 1rem; }
-            .seq-card { padding: 1.5rem; }
-            /* Reposicionar la X para que no se salga de pantallas táctiles estrechas */
-            .submodal-close { top: -15px; right: 0px; text-shadow: 0 0 10px #000; }
-            .top-bar { flex-direction: column; gap: 0.5rem; }
+            .submodal-close { 
+                top: -15px; 
+                right: 0px; 
+                text-shadow: 0 0 10px #000; 
+            }
+            .top-bar { 
+                flex-direction: column; 
+                gap: 0.5rem; 
+            }
+            .nav-links {
+                justify-content: center;
+            }
+            footer {
+                position: relative !important;
+                margin-top: 1.5rem;
+                padding: 1rem;
+            }
         }
 
     </style>
@@ -576,7 +594,7 @@
             },
             {
                 title: "02. BELEROFONTE.",
-                text: "La figura destinada a enfrentarse con Quimera fue Belerofonte, héroe de la mitología griega.\n\nSegún la tradición, Belerofonte recibió del rey Yóbates de Licia el encargo de matar a la criatura.\n\nLa tarea parecía extraordinariamente difícil.\n\nQuimera no podía enfrentarse como si fuera un enemigo ordinario. Su fuerza, su naturaleza híbrida y su capacidad de lanzar fuego convertían el enfrentamiento en un problema que requería algo más que fuerza física.\n\nBelerofonte contó con una ventaja decisiva: Pegaso, el caballo alado.\n\nMontado sobre Pegaso, pudo aproximarse a Quimera desde una posición que le permitía evitar directamente sus ataques y encontrar una estrategia para derrotarla.\n\nLa tradición relata que Belerofonte utilizó una lanza cuya punta había sido adaptada con plomo. Al enfrentarse a la criatura, el calor de su fuego derritió el metal, que penetró en ella y provocó su muerte.\n\nEl héroe no venció a Quimera simplemente porque fuera más fuerte: la venció porque encontró una forma diferente de abordar el problema."
+                text: "La figura destinada a enfrentarse con Quimera fue Belerofonte, héroe de la mitología griega.\n\nSegún la tradición, Belerofonte recibió del rey Yóbates de Licia el encargo de matar a la criatura.\n\nLa tarea parecía extraordinariamente difícil.\n\nQuimera no podía enfrentarse como si fuera un enemigo ordinario. Su fuerza, su naturaleza híbrida y su capacidad de lanzar fuego convertían el enfrentamiento en un problema que requería algo más que fuerza física.\n\nBelerofonte contó con una ventaja decisiva: Pegaso, el caballo alado.\n\nMontado sobre Pegaso, pudo aproximarse a Quimera desde una posición que le permitía evitar directamente sus ataques y encontrar una estrategia para derrotarla.\n\nLa tradición relata que Belerofonte utilizó una lanza cuya punta había sido adaptada con plomo. Al enfrentarse a la criatura, el calor de su fuego derritió el metal, que penetró en ella y provocó su muerte.\n\nEl héroe no venció a Quimera simplemente porque fue más fuerte: la venció porque encontró una forma diferente de abordar el problema."
             },
             {
                 title: "03. QUIMERA FRENTE A BELEROFONTE.",
@@ -1036,7 +1054,8 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                     await typeCardTitle(storyData[0].title, 30);
                     isCardBusy = false;
 
-                    document.querySelector('footer').style.opacity = '1';
+                    // FOOTER ACTIVADO CON CLASE VISIBLE Y TIEMPO EXACTO DE INDEX V
+                    document.querySelector('footer').classList.add('visible');
 
                     setTimeout(() => {
                         const footerPs = document.querySelectorAll('footer p');
