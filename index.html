@@ -200,6 +200,23 @@
             margin-bottom: 1rem;
         }
 
+        /* TÍTULO MITOLOGÍA DETRÁS DE (ESTILOS VISIÓN CON TAMAÑO FIJO EN 16:9 Y ELÁSTICO EN OTRAS) */
+        #header-line1 {
+            color: #e2a547;
+            display: inline-block;
+            font-size: clamp(2rem, 6vw, 4rem);
+            transition: color 0.3s ease;
+            line-height: 1.1;
+            -webkit-text-stroke: 1.5px #ffffff;
+            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        @media (aspect-ratio: 16/9) {
+            #header-line1 {
+                font-size: 3rem;
+            }
+        }
+
         /* PALABRA QUIMERA ELÁSTICA (CLAMP) */
         #word-quimera {
             display: inline-block;
