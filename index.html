@@ -12,7 +12,7 @@
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
             --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
             
-            /* Nuevas variables para modales */
+            /* Variables para modales */
             --card-bg: rgba(15, 23, 42, 0.90);
             --card-border: rgba(255, 255, 255, 0.15);
         }
@@ -169,7 +169,7 @@
             color: #ffffff;
         }
 
-        /* HEADER ESTRUCTURAL SEGURO - POSICIONES CARTESIANAS AJUSTADAS */
+        /* HEADER ESTRUCTURAL SEGURO */
         header {
             font-family: Georgia, serif;
             position: relative;
@@ -196,7 +196,6 @@
             width: 100%;
         }
 
-        /* TÍTULO MITOLOGÍA DETRÁS DE (DESPLAZADO HACIA LA FLECHA SIN ALTERAR OTROS ELEMENTOS) */
         #header-line1 {
             color: #e2a547;
             display: inline-block;
@@ -206,7 +205,7 @@
             -webkit-text-stroke: 1px #ffffff;
             text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
             position: relative;
-            top: -7.0vh; /* Ajuste cartesiano Y */
+            top: -7.0vh;
         }
 
         .arrow-02-text {
@@ -214,7 +213,6 @@
             margin-bottom: 1rem;
         }
 
-        /* PALABRA QUIMERA ELÁSTICA CON CONTROL CARTESIANO (Ejes X y Y) */
         #word-quimera {
             display: inline-block;
             font-size: clamp(2.5rem, 10vw, 6rem); 
@@ -223,8 +221,8 @@
             -webkit-text-stroke: 1.5px #000000;
             text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
             position: relative;
-            top: -1vh;  /* Ajuste cartesiano Y: Modifica este valor para mover arriba/abajo */
-            left: 0vh; /* Ajuste cartesiano X: Modifica este valor para mover izquierda/derecha */
+            top: -1vh;
+            left: 0vh;
         }
 
         header p {
@@ -258,7 +256,7 @@
             12.5%, 25%, 62.5%, 75% { color: var(--accent); }
         }
 
-        /* TARJETA CENTRAL */
+        /* TARJETA CENTRAL (Efectos intactos) */
         main {
             flex: 1;
             display: flex;
@@ -315,7 +313,7 @@
         }
 
         /* ========================================= */
-        /* MODALES ACTUALIZADOS                      */
+        /* MODALES Y SUBMODALES                      */
         /* ========================================= */
         .modal-overlay, .submodal-overlay {
             position: fixed;
@@ -361,6 +359,7 @@
             display: none;
         }
 
+        /* EFECTOS TV TURN ON / TURN OFF */
         .tv-on { animation: tvTurnOn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important; }
         .tv-off { animation: tvTurnOff 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important; }
 
@@ -469,7 +468,7 @@
         }
         .submodal-close:hover { transform: scale(1.2); color: #e0a96d; }
 
-        /* FOOTER CORREGIDO EXACTAMENTE CON LOS PARÁMETROS DE INDEX V */
+        /* FOOTER */
         footer {
             position: absolute;
             bottom: 0;
@@ -540,7 +539,7 @@
             <span id="header-line1"></span>
         </h1>
         
-        <!-- Flecha 02: QUIMERA (Separada para permitir precisión cartesiana) -->
+        <!-- Flecha 02: QUIMERA -->
         <h1 class="arrow-02-text">
             <span id="word-quimera">
                 <span style="--i:1" class="hidden-letter">Q</span><span style="--i:2" class="hidden-letter">U</span><span style="--i:3" class="hidden-letter">I</span><span style="--i:4" class="hidden-letter">M</span><span style="--i:5" class="hidden-letter">E</span><span style="--i:6" class="hidden-letter">R</span><span style="--i:7" class="hidden-letter">A</span>
@@ -756,6 +755,7 @@
             setTimeout(() => headerCursor.remove(), 500);
         };
 
+        /* APERTURA CON EFECTO DE ENCENDIDO TV EN MODAL PRINCIPAL */
         centralCard.addEventListener('click', async () => {
             if (isCardBusy) return;
             document.body.classList.add('modal-blur-active');
@@ -763,6 +763,7 @@
             setTimeout(async () => {
                 mainModal.classList.add('show');
                 modalWindow.classList.remove('tv-off');
+                modalWindow.classList.add('tv-on');
                 modalTitle.innerHTML = '';
                 modalBody.innerHTML = '';
                 modalCloseBtn.innerHTML = '';
@@ -784,10 +785,12 @@
             }, 300);
         });
 
+        /* CIERRE CON EFECTO DE APAGADO TV EN MODAL PRINCIPAL */
         const triggerTVClose = () => {
             if (modalWindow.classList.contains('tv-off')) return;
             isTyping = false; 
             modalCursor.style.opacity = '0';
+            modalWindow.classList.remove('tv-on');
             modalWindow.classList.add('tv-off');
 
             setTimeout(async () => {
@@ -811,7 +814,7 @@
                         isFinaleReady = true; 
                     }, 500); 
                 }
-            }, 600);
+            }, 500);
         };
 
         modalCloseBtn.addEventListener('click', (e) => {
@@ -838,7 +841,9 @@
             }
         });
 
+        /* SUBMODAL VARIABLES Y CONTROL */
         const subModal = document.getElementById('sub-modal');
+        const submodalContentWrapper = document.getElementById('submodal-content-wrapper');
         const subImg = document.getElementById('submodal-img');
         const subModalTextWindow = document.getElementById('submodal-text-window');
         const subModalXBtn = document.getElementById('submodal-x-btn');
@@ -850,24 +855,38 @@
         let isSubTyping = false;
         let helicoidalSequenceRunning = false;
 
+        /* APERTURA DE SUBMODAL CON EFECTO DE TV (tv-on) */
         window.openSubModal = (imgSrc) => {
             helicoidalSequenceRunning = false;
             subModalTextWindow.style.display = 'none';
+            subModalTextWindow.classList.remove('tv-on', 'tv-off');
+            
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
             subImg.style.opacity = '0';
             subImg.src = imgSrc;
+            
+            submodalContentWrapper.classList.remove('tv-off');
+            submodalContentWrapper.classList.add('tv-on');
+            
             subModal.classList.add('show');
             
             const triggerFadeIn = () => { setTimeout(() => { subImg.style.opacity = '1'; }, 50); };
             if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
         };
 
+        /* SECUENCIA HELICOIDAL CON EFECTO DE TV EN ENTRADA */
         window.startHelicoidalSequence = async () => {
             helicoidalSequenceRunning = true;
             subModalTextWindow.style.display = 'none';
+            subModalTextWindow.classList.remove('tv-on', 'tv-off');
+            
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
+            
+            submodalContentWrapper.classList.remove('tv-off');
+            submodalContentWrapper.classList.add('tv-on');
+            
             subModal.classList.add('show');
 
             const images = ['01-borrador_T-P.png', '02-Teoria-Preg.png', '03-HECE.png', '04-MHDC.png'];
@@ -903,6 +922,8 @@
         const showHelicoidalTextWindow = () => {
             subImg.style.display = 'none';
             subModalXBtn.style.display = 'none';
+            submodalContentWrapper.classList.remove('tv-on', 'tv-off');
+            
             subModalTextWindow.style.display = 'block';
             subModalTextWindow.classList.remove('tv-off');
             subModalTextWindow.classList.add('tv-on');
@@ -953,6 +974,9 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                 subImg.style.display = 'block';
                 subModalXBtn.style.display = 'block';
                 
+                submodalContentWrapper.classList.remove('tv-off');
+                submodalContentWrapper.classList.add('tv-on');
+                
                 setTimeout(() => { subImg.style.opacity = '1'; }, 50);
             }, 500);
         };
@@ -962,15 +986,29 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
             if (!isSubTyping) triggerHelicoidalTextClose();
         });
 
+        /* CIERRE COMPLETO DEL SUBMODAL CON EFECTO DE TV (tv-off) */
         window.closeSubModal = () => {
+            if (subModal.classList.contains('is-closing')) return;
+            subModal.classList.add('is-closing');
             helicoidalSequenceRunning = false;
             isSubTyping = false;
-            subImg.style.opacity = '0';
-            subModal.classList.remove('show');
+            
+            if (subModalTextWindow.style.display === 'block') {
+                subModalTextWindow.classList.remove('tv-on');
+                subModalTextWindow.classList.add('tv-off');
+            } else {
+                submodalContentWrapper.classList.remove('tv-on');
+                submodalContentWrapper.classList.add('tv-off');
+            }
             
             setTimeout(() => {
+                subImg.style.opacity = '0';
+                subModal.classList.remove('show');
+                subModal.classList.remove('is-closing');
+                
                 subModalTextWindow.style.display = 'none';
                 subModalTextWindow.classList.remove('tv-off', 'tv-on');
+                submodalContentWrapper.classList.remove('tv-off', 'tv-on');
             }, 500);
         };
 
@@ -984,6 +1022,7 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
             }
         });
 
+        /* CONTROLES DE MÚSICA Y PANTALLA COMPLETA */
         const music = document.getElementById('bg-music');
         const audioToggle = document.getElementById('audio-toggle');
         let isMusicPlaying = false;
@@ -1020,6 +1059,7 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
             fullscreenToggle.textContent = !document.fullscreenElement ? '⛶ Pantalla Completa' : '❌ Salir Pantalla Completa';
         });
 
+        /* SECUENCIA DE ENTRADA INICIAL */
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('intro-overlay');
             
@@ -1062,7 +1102,6 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                     await typeCardTitle(storyData[0].title, 30);
                     isCardBusy = false;
 
-                    // FOOTER ACTIVADO CON CLASE VISIBLE Y TIEMPO EXACTO DE INDEX V
                     document.querySelector('footer').classList.add('visible');
 
                     setTimeout(() => {
