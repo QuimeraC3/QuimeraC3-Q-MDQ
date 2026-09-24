@@ -323,7 +323,7 @@
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
         }
 
         .modal-overlay, .submodal-overlay {
@@ -334,7 +334,6 @@
 
         .submodal-overlay {
             z-index: 3000;
-            transition: opacity 0.5s ease;
         }
 
         .modal-overlay.show, .submodal-overlay.show {
@@ -801,10 +800,11 @@
             modalCursor.style.opacity = '0';
             modalWindow.classList.remove('tv-on');
             modalWindow.classList.add('tv-off');
+            mainModal.classList.remove('show');
+            document.body.classList.remove('modal-blur-active');
 
             setTimeout(async () => {
-                mainModal.classList.remove('show');
-                document.body.classList.remove('modal-blur-active');
+                modalWindow.classList.remove('tv-off');
                 
                 isCardBusy = true;
                 await eraseCardTitle(20);
@@ -1010,14 +1010,17 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                 submodalContentWrapper.classList.add('tv-off');
             }
             
+            // Retirar inmediatamente la clase .show para desvanecer el fondo de forma sincronizada
+            subModal.classList.remove('show');
+
             setTimeout(() => {
                 subImg.style.opacity = '0';
-                subModal.classList.remove('show');
-                subModal.classList.remove('is-closing');
-                
+                subImg.style.display = 'none';
                 subModalTextWindow.style.display = 'none';
+                
                 subModalTextWindow.classList.remove('tv-off', 'tv-on');
                 submodalContentWrapper.classList.remove('tv-off', 'tv-on');
+                subModal.classList.remove('is-closing');
             }, 500);
         };
 
