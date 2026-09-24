@@ -55,7 +55,7 @@
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            background: linear-gradient(rgba(15, 23, 42, 0.0), rgba(15, 23, 42, 0.0)), url('Quimera_MDQ.png');
+            background: linear-gradient(rgba(15, 23, 42, 0.0), rgba(15, 23, 42, 0.0)), url('Quimera_MDQ.webp');
             background-size: cover;
             background-position: center center;
             background-attachment: fixed;
@@ -591,7 +591,7 @@
         });
 
         // PRECARGA DE IMÁGENES
-        const imageList = ['01-borrador_T-P.png', '02-Teoria-Preg.png', '03-HECE.png', '04-MHDC.png', 'ECQ.png'];
+        const imageList = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp', 'ECQ.webp'];
         imageList.forEach(src => { const img = new Image(); img.src = src; });
 
         const storyData = [
@@ -641,7 +641,7 @@
             },
             {
                 title: "12. EL CICLO DE QUIMERA.",
-                text: "Las cuatro funciones no constituyen actividades aisladas, ni procesos independientes.\n\nForman un sistema interdependiente de transformación y retroalimentación que se articula como un ciclo de desarrollo del conocimiento, el cual se deriva del <a onclick=\"startHelicoidalSequence()\">Modelo Helicoidal del Desarrollo del Conocimiento</a> desarrollado por el Dr. Cerezo:\n\n<a onclick=\"openSubModal('ECQ.png')\">EL CICLO DE QUIMERA</a>\nLa INVESTIGACIÓN genera conocimiento.\nLa DOCENCIA transforma conocimiento en capacidad.\nEl SERVICIO transforma la capacidad en experiencia mediante su aplicación en contextos reales.\nLa DIVULGACIÓN transforma el conocimiento especializado enriquecido por la experiencia, en comprensión compartida.\nDe la interacción entre conocimiento, capacidad, experiencia y realidad, emergen nuevas preguntas que impulsan nuevamente a la investigación.\n\nPor ello, el ciclo se eleva, conservando lo aprendido: transforma y amplía el conocimiento, sin cerrar el ciclo."
+                text: "Las cuatro funciones no constituyen actividades aisladas, ni procesos independientes.\n\nForman un sistema interdependiente de transformación y retroalimentación que se articula como un ciclo de desarrollo del conocimiento, el cual se deriva del <a onclick=\"startHelicoidalSequence()\">Modelo Helicoidal del Desarrollo del Conocimiento</a> desarrollado por el Dr. Cerezo:\n\n<a onclick=\"openSubModal('ECQ.webp')\">EL CICLO DE QUIMERA</a>\nLa INVESTIGACIÓN genera conocimiento.\nLa DOCENCIA transforma conocimiento en capacidad.\nEl SERVICIO transforma la capacidad en experiencia mediante su aplicación en contextos reales.\nLa DIVULGACIÓN transforma el conocimiento especializado enriquecido por la experiencia, en comprensión compartida.\nDe la interacción entre conocimiento, capacidad, experiencia y realidad, emergen nuevas preguntas que impulsan nuevamente a la investigación.\n\nPor ello, el ciclo se eleva, conservando lo aprendido: transforma y amplía el conocimiento, sin cerrar el ciclo."
             },
             {
                 title: "13. LA IDENTIDAD SIMBÓLICA DE QUIMERA.",
@@ -889,7 +889,7 @@
             
             subModal.classList.add('show');
 
-            const images = ['01-borrador_T-P.png', '02-Teoria-Preg.png', '03-HECE.png', '04-MHDC.png'];
+            const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
 
             for (let i = 0; i < images.length; i++) {
                 if (!helicoidalSequenceRunning) return;
@@ -970,7 +970,7 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                 subModalTextWindow.classList.remove('tv-off');
                 
                 subImg.style.opacity = '0';
-                subImg.src = '04-MHDC.png';
+                subImg.src = '04-MHDC.webp';
                 subImg.style.display = 'block';
                 subModalXBtn.style.display = 'block';
                 
