@@ -32,6 +32,12 @@
             display: flex;
             flex-direction: column;
             background-color: #000000;
+            transition: filter 1s ease;
+        }
+
+        /* Desenfoque global ligero y fluido para la salida */
+        body.blurring {
+            filter: blur(12px);
         }
 
         /* Transición de desenfoque general */
@@ -63,6 +69,26 @@
             transition: opacity 1000ms ease, filter 0.5s ease;
         }
 
+        /* Canvas para Lluvia de Código Matrix */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        /* Clase de desvanecimiento a negro para elementos de la interfaz */
+        .fade-out-element {
+            opacity: 0 !important;
+            pointer-events: none !important;
+            transition: opacity 1.2s ease !important;
+        }
+
         /* Capa intro negra */
         #intro-overlay {
             position: fixed;
@@ -75,25 +101,6 @@
             pointer-events: none;
             opacity: 1;
             transition: opacity 1000ms ease;
-        }
-
-        /* Gran Final a blanco */
-        body.exit-active #bg-layer,
-        body.exit-active header,
-        body.exit-active main,
-        body.exit-active .top-bar,
-        body.exit-active footer {
-            filter: blur(15px);
-            transition: filter 800ms ease;
-        }
-
-        body.exit-active #intro-overlay {
-            opacity: 1;
-            background-color: #ffffff;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            pointer-events: auto;
-            transition: opacity 800ms ease, background-color 800ms ease, backdrop-filter 800ms ease;
         }
 
         /* Navegación Top Bar */
@@ -236,27 +243,13 @@
         .hidden-letter {
             opacity: 0;
             display: inline-block;
+            transition: color 0.4s ease;
         }
         .hidden-letter.revealed {
             opacity: 1;
         }
 
-        #word-quimera.ready-to-click, #word-quimera.finale-active {
-            cursor: pointer;
-        }
-
-        #word-quimera.finale-active span {
-            display: inline-block;
-            animation: finaleSweep 2s infinite;
-            animation-delay: calc(var(--i) * 0.1s);
-        }
-
-        @keyframes finaleSweep {
-            0%, 37.5%, 50%, 87.5%, 100% { color: #ffffff; }
-            12.5%, 25%, 62.5%, 75% { color: var(--accent); }
-        }
-
-        /* TARJETA CENTRAL (Efectos intactos) */
+        /* TARJETA CENTRAL */
         main {
             flex: 1;
             display: flex;
@@ -291,6 +284,7 @@
             color: var(--accent);
             text-transform: uppercase;
             min-height: 2.2rem;
+            -webkit-text-stroke: 0.5px #000000; /* Delineado negro de 0.5px solo para los títulos de la tarjeta blanca */
         }
 
         .seq-card:hover { transform: translateY(20px) scale(1.05); }
@@ -377,7 +371,7 @@
         }
 
         .modal-title {
-            font-family:Georgia, "Times New Roman", serif;
+            font-family: Georgia, "Times New Roman", serif;
             color: var(--accent);
             font-size: clamp(1.2rem, 3vw, 1.5rem);
             text-transform: uppercase;
@@ -397,7 +391,7 @@
             min-height: 100px;
         }
 
-        /* Ajuste de tipografía en submodales extraídos desde indexQE */
+        /* Ajuste de tipografía en submodales */
         .submodal-text-window .modal-title {
             font-size: clamp(1.2rem, 3vw, 1.5rem);
         }
@@ -425,7 +419,7 @@
         .modal-close-btn {
             color: var(--accent);
             cursor: pointer;
-            text-decoration: none;
+            text-decoration: underline; /* Subrayado de las palabras 'Cerrar' en los modales */
             transition: color 0.3s ease;
         }
 
@@ -529,6 +523,7 @@
 
     <audio id="bg-music" src="Tango_Futuro_(Lado_B).mp3" loop preload="auto"></audio>
     <div id="bg-layer"></div>
+    <canvas id="matrix-canvas"></canvas>
     <div id="intro-overlay"></div>
 
     <nav class="top-bar">
@@ -675,7 +670,137 @@
         
         let isTyping = false;
         let isCardBusy = true; 
-        let isFinaleReady = false; 
+
+        // Generador de Código Matrix Dorado de indexV
+        let matrixInterval = null;
+        function startMatrixRain() {
+            const canvas = document.getElementById('matrix-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZカタカナアアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            const fontSize = 16;
+            let columns = Math.floor(canvas.width / fontSize);
+            let drops = Array(columns).fill(1);
+
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
+
+                    if (Math.random() > 0.88) {
+                        ctx.fillStyle = '#fffbeb';
+                    } else {
+                        ctx.fillStyle = '#c88b32';
+                    }
+
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+
+            if (matrixInterval) clearInterval(matrixInterval);
+            matrixInterval = setInterval(draw, 33);
+        }
+
+        // Función de indexV para desvanecer elementos e iniciar la lluvia Matrix
+        function triggerMatrixAndFadeElements() {
+            const bgLayer = document.getElementById('bg-layer');
+            if (bgLayer) bgLayer.style.opacity = '0';
+
+            const elementsToFade = [
+                document.getElementById('header-line1'),
+                document.querySelector('header p'),
+                document.querySelector('.top-bar'),
+                document.getElementById('central-card'),
+                document.querySelector('footer')
+            ];
+
+            elementsToFade.forEach(el => {
+                if (el) el.classList.add('fade-out-element');
+            });
+
+            startMatrixRain();
+            const canvas = document.getElementById('matrix-canvas');
+            if (canvas) canvas.style.opacity = '1';
+        }
+
+        let globalColorInterval = null;
+
+        // Función para activar la animación de barrido de color y la transición limpia final al hacer clic en QUIMERA
+        function enableFinalHyperlink() {
+            const wordContainer = document.getElementById('word-quimera');
+            const letters = wordContainer.querySelectorAll('span');
+            wordContainer.style.cursor = 'pointer';
+
+            const stepTime = 120;
+
+            function runSequence() {
+                let i = 0;
+                function turnCopperGold(callback) {
+                    if (i < letters.length) {
+                        letters[i].style.color = '#c88b32';
+                        i++;
+                        globalColorInterval = setTimeout(() => turnCopperGold(callback), stepTime);
+                    } else if (callback) {
+                        callback();
+                    }
+                }
+
+                let j = 0;
+                function turnWhite(callback) {
+                    if (j < letters.length) {
+                        letters[j].style.color = '#ffffff';
+                        j++;
+                        globalColorInterval = setTimeout(() => turnWhite(callback), stepTime);
+                    } else if (callback) {
+                        callback();
+                    }
+                }
+
+                turnCopperGold(() => {
+                    i = 0;
+                    turnWhite(() => {
+                        j = 0;
+                        globalColorInterval = setTimeout(runSequence, 0);
+                    });
+                });
+            }
+
+            runSequence();
+
+            wordContainer.onclick = () => {
+                clearTimeout(globalColorInterval);
+
+                // Aplica un desenfoque global al cuerpo
+                document.body.classList.add('blurring');
+
+                // Transición a blanco utilizando el overlay
+                const overlay = document.getElementById('intro-overlay');
+                overlay.style.backgroundColor = '#ffffff';
+                overlay.style.opacity = '1';
+
+                // Redirección limpia tras 1000ms
+                setTimeout(() => {
+                    window.location.href = "https://quimerac3.github.io/QuimeraC3-Q/";
+                }, 1000);
+            };
+        }
 
         const typeCardTitle = async (text, speed = 25) => {
             cardCursor.style.opacity = '1';
@@ -763,9 +888,15 @@
             setTimeout(() => headerCursor.remove(), 500);
         };
 
-        /* APERTURA CON EFECTO DE ENCENDIDO TV EN MODAL PRINCIPAL */
+        /* APERTURA DE MODAL PRINCIPAL */
         centralCard.addEventListener('click', async () => {
             if (isCardBusy) return;
+
+            // Disparar animación Matrix y ocultar elementos en el último modal
+            if (currentStep === storyData.length - 1) {
+                triggerMatrixAndFadeElements();
+            }
+
             document.body.classList.add('modal-blur-active');
 
             setTimeout(async () => {
@@ -793,23 +924,23 @@
             }, 300);
         });
 
-        /* CIERRE CON EFECTO DE APAGADO TV EN MODAL PRINCIPAL */
+        /* CIERRE DE MODAL PRINCIPAL Y CONTROL DE TRANSICIÓN FINAL */
         const triggerTVClose = () => {
             if (modalWindow.classList.contains('tv-off')) return;
             isTyping = false; 
             modalCursor.style.opacity = '0';
             modalWindow.classList.remove('tv-on');
             modalWindow.classList.add('tv-off');
-            mainModal.classList.remove('show');
-            document.body.classList.remove('modal-blur-active');
 
             setTimeout(async () => {
+                mainModal.classList.remove('show');
+                document.body.classList.remove('modal-blur-active');
                 modalWindow.classList.remove('tv-off');
                 
                 isCardBusy = true;
-                await eraseCardTitle(20);
                 
                 if (currentStep < storyData.length - 1) {
+                    await eraseCardTitle(20);
                     currentStep++;
                     await typeCardTitle(storyData[currentStep].title, 30);
                     isCardBusy = false; 
@@ -817,10 +948,7 @@
                     centralCard.classList.add('tv-off-card');
                     setTimeout(() => {
                         centralCard.style.display = 'none';
-                        const wordQuimera = document.getElementById('word-quimera');
-                        wordQuimera.classList.add('finale-active');
-                        wordQuimera.classList.add('ready-to-click');
-                        isFinaleReady = true; 
+                        enableFinalHyperlink();
                     }, 500); 
                 }
             }, 500);
@@ -833,21 +961,6 @@
 
         mainModal.addEventListener('click', (e) => {
             if (e.target === mainModal && !isTyping) triggerTVClose();
-        });
-
-        const triggerGrandFinale = () => {
-            document.body.classList.add('exit-active');
-            setTimeout(() => { window.location.href = 'https://quimerac3.github.io/QuimeraC3-Q/'; }, 800);
-        };
-
-        const wordQuimeraBtn = document.getElementById('word-quimera');
-        wordQuimeraBtn.addEventListener('click', () => {
-            if (isFinaleReady) {
-                isFinaleReady = false; 
-                wordQuimeraBtn.classList.remove('ready-to-click');
-                wordQuimeraBtn.style.cursor = 'default'; 
-                triggerGrandFinale();
-            }
         });
 
         /* SUBMODAL VARIABLES Y CONTROL */
@@ -1012,7 +1125,6 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                 submodalContentWrapper.classList.add('tv-off');
             }
             
-            // Retirar inmediatamente la clase .show para desvanecer el fondo de forma sincronizada
             subModal.classList.remove('show');
 
             setTimeout(() => {
