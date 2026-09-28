@@ -284,7 +284,7 @@
             color: var(--accent);
             text-transform: uppercase;
             min-height: 2.2rem;
-            -webkit-text-stroke: 0.5px #000000; /* Delineado negro de 0.5px solo para los títulos de la tarjeta blanca */
+            -webkit-text-stroke: 0.5px #000000;
         }
 
         .seq-card:hover { transform: translateY(20px) scale(1.05); }
@@ -419,7 +419,7 @@
         .modal-close-btn {
             color: var(--accent);
             cursor: pointer;
-            text-decoration: underline; /* Subrayado de las palabras 'Cerrar' en los modales */
+            text-decoration: underline;
             transition: color 0.3s ease;
         }
 
@@ -671,7 +671,7 @@
         let isTyping = false;
         let isCardBusy = true; 
 
-        // Generador de Código Matrix Dorado de indexV
+        // Generador de Código Matrix Dorado
         let matrixInterval = null;
         function startMatrixRain() {
             const canvas = document.getElementById('matrix-canvas');
@@ -718,7 +718,7 @@
             matrixInterval = setInterval(draw, 33);
         }
 
-        // Función de indexV para desvanecer elementos e iniciar la lluvia Matrix
+        // Función para desvanecer elementos e iniciar la lluvia Matrix
         function triggerMatrixAndFadeElements() {
             const bgLayer = document.getElementById('bg-layer');
             if (bgLayer) bgLayer.style.opacity = '0';
@@ -742,7 +742,7 @@
 
         let globalColorInterval = null;
 
-        // Función para activar la animación de barrido de color y la transición limpia final al hacer clic en QUIMERA
+        // Función para activar la animación de barrido de color y la transición limpia final
         function enableFinalHyperlink() {
             const wordContainer = document.getElementById('word-quimera');
             const letters = wordContainer.querySelectorAll('span');
@@ -785,9 +785,10 @@
             runSequence();
 
             wordContainer.onclick = () => {
+                wordContainer.onclick = null; // Previene múltiples clics
                 clearTimeout(globalColorInterval);
 
-                // Aplica un desenfoque global al cuerpo
+                // Aplica desenfoque global al cuerpo
                 document.body.classList.add('blurring');
 
                 // Transición a blanco utilizando el overlay
@@ -924,17 +925,20 @@
             }, 300);
         });
 
-        /* CIERRE DE MODAL PRINCIPAL Y CONTROL DE TRANSICIÓN FINAL */
+        /* CIERRE DE MODAL PRINCIPAL Y CONTROL DE TRANSICIÓN FINAL (CORREGIDO) */
         const triggerTVClose = () => {
             if (modalWindow.classList.contains('tv-off')) return;
             isTyping = false; 
             modalCursor.style.opacity = '0';
+            
+            // Iniciar desvanecimiento del fondo, des-desenfoque y animación TV-off en simultáneo
+            mainModal.classList.remove('show');
+            document.body.classList.remove('modal-blur-active');
             modalWindow.classList.remove('tv-on');
             modalWindow.classList.add('tv-off');
 
             setTimeout(async () => {
-                mainModal.classList.remove('show');
-                document.body.classList.remove('modal-blur-active');
+                // Remover la clase de animación 'tv-off' una vez que la capa principal ya es invisible
                 modalWindow.classList.remove('tv-off');
                 
                 isCardBusy = true;
@@ -945,11 +949,9 @@
                     await typeCardTitle(storyData[currentStep].title, 30);
                     isCardBusy = false; 
                 } else {
-                    centralCard.classList.add('tv-off-card');
-                    setTimeout(() => {
-                        centralCard.style.display = 'none';
-                        enableFinalHyperlink();
-                    }, 500); 
+                    // Cierre definitivo del último modal sin destello en la tarjeta central
+                    centralCard.style.display = 'none';
+                    enableFinalHyperlink();
                 }
             }, 500);
         };
