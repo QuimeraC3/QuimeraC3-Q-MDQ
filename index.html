@@ -4,6 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MITOLOGÍA DETRÁS DE QUIMERA &bull; Ecosistema Científico y Académico</title>
+    
+    <!-- PRECARGA DEFINITIVA DE TODAS LAS IMÁGENES DEL ECOSISTEMA -->
+    <link rel="preload" href="Quimera_MDQ.webp" as="image">
+    <link rel="preload" href="Quimera_V_Mod.webp" as="image">
+    <link rel="preload" href="glitch_01.webp" as="image">
+    <link rel="preload" href="glitch_02.webp" as="image">
+    <link rel="preload" href="glitch_03.webp" as="image">
+    <link rel="preload" href="glitch_04.webp" as="image">
+    <link rel="preload" href="glitch_05.webp" as="image">
+    <link rel="preload" href="glitch_06.webp" as="image">
+    <link rel="preload" href="glitch_07.webp" as="image">
+    <link rel="preload" href="glitch_08.webp" as="image">
+    <link rel="preload" href="glitch_09.webp" as="image">
+    <link rel="preload" href="glitch_10.webp" as="image">
+    <link rel="preload" href="glitch_11.webp" as="image">
+    <link rel="preload" href="01-borrador_T-P.webp" as="image">
+    <link rel="preload" href="02-Teoria-Preg.webp" as="image">
+    <link rel="preload" href="03-HECE.webp" as="image">
+    <link rel="preload" href="04-MHDC.webp" as="image">
+    <link rel="preload" href="ECQ.webp" as="image">
+
     <style>
         :root {
             --text-main: #0f172a;
@@ -11,8 +32,6 @@
             --accent: #c88b32; /* Cobre Dorado */
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
             --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
-            
-            /* Variables para modales */
             --card-bg: rgba(15, 23, 42, 0.90);
             --card-border: rgba(255, 255, 255, 0.15);
         }
@@ -32,28 +51,38 @@
             display: flex;
             flex-direction: column;
             background-color: #000000;
-            transition: filter 1s ease;
         }
 
-        /* Desenfoque global ligero y fluido para la salida */
-        body.blurring {
-            filter: blur(12px);
+        /* CAPA CRT SCANLINES (Efecto de televisión antigua global) */
+        .crt-scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 2000;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 6px 100%;
+            opacity: 0.65;
         }
 
-        /* Transición de desenfoque general */
-        #bg-layer, header, main, .top-bar, footer {
-            transition: filter 0.5s ease, opacity 500ms ease;
+        /* Scanlines internas para ventanas modales */
+        .modal-scanlines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
+            background-size: 100% 3px, 6px 100%;
+            opacity: 0.75;
+            border-radius: 12px;
         }
 
-        body.modal-blur-active #bg-layer,
-        body.modal-blur-active header,
-        body.modal-blur-active main,
-        body.modal-blur-active .top-bar,
-        body.modal-blur-active footer {
-            filter: blur(8px);
-        }
-
-        /* Capa de fondo */
+        /* Capa de fondo estática, nítida y completa */
         #bg-layer {
             position: fixed;
             top: 0;
@@ -69,6 +98,34 @@
             transition: opacity 1000ms ease, filter 0.5s ease;
         }
 
+        /* Desenfoque exclusivo del fondo e interfaz posterior sin tocar la capa de glitch */
+        .blurring-content header,
+        .blurring-content .top-bar,
+        .blurring-content main,
+        .blurring-content footer,
+        .blurring-content #bg-layer {
+            filter: blur(12px);
+            transition: filter 0.5s ease;
+        }
+
+        /* Capa de luz reactiva exclusiva del puntero */
+        .cursor-light-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.22), rgba(200, 139, 50, 0.12) 45%, transparent 80%);
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .cursor-light-glow.visible {
+            opacity: 1;
+        }
+
         /* Canvas para Lluvia de Código Matrix */
         #matrix-canvas {
             position: fixed;
@@ -82,33 +139,60 @@
             transition: opacity 1.5s ease;
         }
 
-        /* Clase de desvanecimiento a negro para elementos de la interfaz */
+        /* Capa de Glitch Central: Se mantiene nítida sin backdrop-filter */
+        #glitch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2500;
+            pointer-events: none;
+            opacity: 0;
+            background: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.1s ease;
+        }
+
+        #glitch-img {
+            max-width: 55vw;
+            max-height: 55vh;
+            object-fit: contain;
+            filter: drop-shadow(0 0 40px rgba(56, 189, 248, 1)) contrast(160%) brightness(1.3);
+            animation: glitchJitter 0.08s infinite steps(2);
+        }
+
+        @keyframes glitchJitter {
+            0% { transform: translate(0, 0) skew(0deg); filter: hue-rotate(0deg); }
+            20% { transform: translate(-6px, 4px) skew(-3deg); filter: hue-rotate(90deg); }
+            40% { transform: translate(6px, -4px) skew(3deg); filter: hue-rotate(-90deg); }
+            60% { transform: translate(-3px, -4px) skew(1deg); }
+            80% { transform: translate(5px, 3px) skew(-2deg); }
+            100% { transform: translate(0, 0) skew(0deg); }
+        }
+
         .fade-out-element {
             opacity: 0 !important;
             pointer-events: none !important;
             transition: opacity 1.2s ease !important;
         }
 
-        /* Capa intro negra */
         #intro-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #000000;
+            background-color: #ffffff;
             z-index: 9999;
             pointer-events: none;
             opacity: 1;
-            transition: opacity 1000ms ease;
+            transition: opacity 1s ease, background-color 1.2s ease;
         }
 
-        /* Navegación Top Bar */
-        .top-bar, header, footer {
-            opacity: 0;
-            transition: opacity 500ms ease, filter 0.5s ease;
-        }
-
+        /* NAVEGACIÓN TOP BAR */
         .top-bar {
             background-color: rgba(11, 19, 41, 0.0);
             padding: 0.85rem 2rem;
@@ -117,6 +201,8 @@
             left: 0;
             width: 100%;
             z-index: 100;
+            opacity: 0;
+            transition: opacity 500ms ease, filter 0.5s ease;
         }
 
         .top-bar-container {
@@ -161,108 +247,191 @@
         .nav-links a:hover {
             color: #38bdf8;
         }
-        
+
         #audio-toggle, #fullscreen-toggle {
-            background: rgba(15, 118, 110, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 0.3rem 0.8rem;
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.22);
+            border: 1px solid rgba(56, 189, 248, 0.45);
+            color: #ffffff;
+            padding: 0.35rem 0.9rem;
             border-radius: 20px;
             cursor: pointer;
-            transition: opacity 500ms ease;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.15);
+            transition: opacity 500ms ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         #audio-toggle:hover, #fullscreen-toggle:hover {
-            background: var(--accent);
+            background: rgba(56, 189, 248, 0.5);
+            border-color: #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
             color: #ffffff;
         }
 
-        /* HEADER ESTRUCTURAL SEGURO */
+        /* EFECTO LÁSER COMÚN (ACELERADO A 0.6s) */
+        .laser-burn-effect {
+            opacity: 0;
+            clip-path: inset(0 100% 0 0);
+            position: relative;
+        }
+
+        .laser-burn-effect.active-laser {
+            opacity: 1;
+            animation: hyperLaserReveal 0.6s cubic-bezier(0.15, 1, 0.2, 1) forwards;
+        }
+
+        .laser-burn-effect.revealed {
+            opacity: 1;
+            clip-path: inset(0 0 0 0);
+        }
+
+        .laser-burn-effect.active-laser::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            bottom: -30px;
+            left: 0;
+            width: 16px;
+            background: radial-gradient(circle, #ffffff 0%, #38bdf8 40%, #c88b32 80%, transparent 100%);
+            box-shadow: 0 0 35px #38bdf8, 0 0 70px #fffbeb, 0 0 100px #c88b32, inset 0 0 15px #ffffff;
+            animation: hyperLaserBarMove 0.6s cubic-bezier(0.15, 1, 0.2, 1) forwards;
+            z-index: 15;
+            filter: blur(0.5px);
+        }
+
+        .laser-burn-effect.active-laser::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 120%;
+            pointer-events: none;
+            background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(56,189,248,0.6) 30%, rgba(200,139,50,0.3) 60%, transparent 100%);
+            mix-blend-mode: color-dodge;
+            animation: hyperLaserSparksWave 0.6s cubic-bezier(0.15, 1, 0.2, 1) forwards;
+            z-index: 12;
+        }
+
+        @keyframes hyperLaserReveal {
+            0% {
+                clip-path: inset(0 100% 0 0);
+                filter: brightness(4) contrast(200%) drop-shadow(0 0 30px rgba(56, 189, 248, 1));
+            }
+            50% {
+                filter: brightness(2.5) contrast(150%) drop-shadow(0 0 15px rgba(200, 139, 50, 0.9));
+            }
+            100% {
+                clip-path: inset(0 0 0 0);
+                filter: brightness(1) contrast(100%) drop-shadow(0 0 0px transparent);
+            }
+        }
+
+        @keyframes hyperLaserBarMove {
+            0% { left: 0%; opacity: 1; transform: scaleY(1.8) skewX(-15deg); }
+            50% { transform: scaleY(2.2) skewX(5deg); }
+            90% { opacity: 1; }
+            100% { left: 100%; opacity: 0; transform: scaleY(0.5) skewX(0deg); }
+        }
+
+        @keyframes hyperLaserSparksWave {
+            0% { opacity: 1; clip-path: inset(0 100% 0 0); }
+            100% { opacity: 0; clip-path: inset(0 0 0 0); }
+        }
+
+        .hologram-mode {
+            animation: hologramNeonGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes hologramNeonGlow {
+            0% { text-shadow: 0 0 8px rgba(56, 189, 248, 0.7), 0 0 20px rgba(15, 118, 110, 0.5), 3px 3px 8px rgba(0, 0, 0, 0.8); }
+            50% { text-shadow: 0 0 20px rgba(56, 189, 248, 1), 0 0 35px rgba(56, 189, 248, 0.8), 0 0 50px rgba(200, 139, 50, 0.6), 3px 3px 8px rgba(0, 0, 0, 0.8); }
+            100% { text-shadow: 0 0 8px rgba(56, 189, 248, 0.7), 0 0 20px rgba(15, 118, 110, 0.5), 3px 3px 8px rgba(0, 0, 0, 0.8); }
+        }
+
+        @keyframes hologramBoxGlow {
+            0% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4), 0 0 30px rgba(15, 118, 110, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+            50% { box-shadow: 0 0 32px rgba(56, 189, 248, 0.95), 0 0 65px rgba(56, 189, 248, 0.65), 0 0 85px rgba(200, 139, 50, 0.55), 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+            100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4), 0 0 30px rgba(15, 118, 110, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+        }
+
+        /* HEADER ESTRUCTURAL */
         header {
             font-family: Georgia, serif;
             position: relative;
             z-index: 10;
-            max-width: 900px;
+            max-width: 1100px;
             width: 100%;
             margin: 0 auto;
-            padding: 06vh 2rem 1rem 2rem;
+            padding: 6vh 2rem 1rem 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-        }
-
-        header h1 {
-            font-family: Georgia, serif;
-            font-size: clamp(2rem, 6vw, 4rem);
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #ffffff;
-            line-height: 1.3;
-            margin: 0;
-            text-align: center;
-            width: 100%;
+            transition: filter 0.5s ease;
         }
 
         #header-line1 {
             color: #e2a547;
             display: inline-block;
-            font-size: clamp(2.0rem, 3.5vw, 3.5rem);
-            transition: color 0.3s ease;
-            line-height: 1.3;
-            -webkit-text-stroke: 1px #ffffff;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
-            position: relative;
-            top: -7.0vh;
+            font-size: clamp(2.0rem, 07vw, 4.5rem); 
+            line-height: 1.1;
+            -webkit-text-stroke: 1.5px #ffffff;
+            margin-top: 1rem;
         }
 
         .arrow-02-text {
-            margin-top: clamp(12vh, 17vh, 20vh);
+            margin-top: 7.5rem;
             margin-bottom: 1rem;
         }
 
         #word-quimera {
             display: inline-block;
-            font-size: clamp(2.5rem, 10vw, 6rem); 
-            transition: color 0.3s ease;
+            font-size: clamp(2.5rem, 10vw, 6rem);
+            letter-spacing: 0em;
             line-height: 1.1;
             -webkit-text-stroke: 1.5px #000000;
-            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
-            position: relative;
-            top: 0vh;
-            left: 0vh;
+            color: #ffffff;
         }
 
-        header p {
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
-            color: #e2e8f0;
-            margin: 0;
-            text-align: center;
-            max-width: 750px;
-        }
-
-        .hidden-letter {
-            opacity: 0;
+        .quimera-letter {
             display: inline-block;
+            color: #ffffff;
             transition: color 0.4s ease;
         }
-        .hidden-letter.revealed {
-            opacity: 1;
+
+        .subtitle-text {
+            font-family: Georgia, "Times New Roman", serif;
+            margin-top: 8rem;
+            margin-bottom: -3rem;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-weight: 900;
+            line-height: 1.5;
+            max-width: 1100px;
+            width: 100%;
+            color: #ffffff;
+            text-align: center;
+            z-index: 10;
+            -webkit-text-stroke: 0.5px #000000;
         }
 
-        /* TARJETA CENTRAL */
+        /* TARJETA CENTRAL CON EFECTO DE LUZ RGB POSTERIOR (Hologram Box Glow) */
         main {
             flex: 1;
             display: flex;
             align-items: flex-end; 
             justify-content: center;
-            padding: 2rem 2rem 7vh 2rem; 
+            padding: 2rem 2rem 10vh 2rem; 
             z-index: 10;
             position: relative;
             transition: filter 0.5s ease;
         }
 
         .seq-card {
-            background-color: rgba(15, 23, 42, 0.6);
+            background-color: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(1px);
+            border: 1.5px solid #ffffff;
             border-radius: 12px;
             padding: clamp(1.5rem, 4vw, 2rem) clamp(1.5rem, 5vw, 3rem);
             box-shadow: var(--shadow-lg);
@@ -273,9 +442,6 @@
             max-width: 600px;
             width: 100%;
             transform: translateY(20px);
-            position: relative;
-            top: 0.5vh;
-            left: 0vw;
         }
 
         .seq-card h2 {
@@ -284,12 +450,16 @@
             color: #ffffff;
             text-transform: uppercase;
             min-height: 2.2rem;
-            -webkit-text-stroke: 0.1px #000000;
+            -webkit-text-stroke: 0.25px #c88b32;
         }
 
         .seq-card:hover { transform: translateY(20px) scale(1.05); }
 
-        .tv-on-card { animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .tv-on-card { 
+            animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate; 
+            animation-delay: 0s, 0.6s;
+        }
+        
         .tv-off-card { animation: tvTurnOffCard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
 
         @keyframes tvTurnOnCard {
@@ -306,9 +476,7 @@
             100% { transform: translateY(20px) scale(0, 0); opacity: 0; filter: brightness(10); }
         }
 
-        /* ========================================= */
-        /* MODALES Y SUBMODALES                      */
-        /* ========================================= */
+        /* MODALES Y SUBMODALES CON TEXTURA DE RESPALDO Quimera_V_Mod.webp */
         .modal-overlay, .submodal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -317,17 +485,20 @@
             justify-content: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
         }
 
-        .modal-overlay, .submodal-overlay {
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(5px);
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
             z-index: 2000;
         }
 
         .submodal-overlay {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
             z-index: 3000;
+            transition: opacity 0.5s ease;
         }
 
         .modal-overlay.show, .submodal-overlay.show {
@@ -336,68 +507,73 @@
         }
 
         .modal-window, .submodal-text-window {
-            background: var(--card-bg);
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('Quimera_V_Mod.webp');
+            background-size: cover;
+            background-position: center center;
             padding: clamp(1.5rem, 5vw, 3rem);
             border-radius: 12px;
-            max-width: 700px;
+            max-width: 750px;
             width: 90%;
             max-height: 85vh;
             overflow-y: auto;
             position: relative;
             box-shadow: var(--shadow-lg);
             border: 1px solid var(--card-border);
+            transform-origin: center center;
+            backface-visibility: hidden;
+            transform: translateZ(0);
         }
 
         .submodal-text-window {
             display: none;
         }
 
-        /* EFECTOS TV TURN ON / TURN OFF */
-        .tv-on { animation: tvTurnOn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important; }
-        .tv-off { animation: tvTurnOff 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards !important; }
+        .tv-on { animation: tvTurnOn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate !important; animation-delay: 0s, 0.4s; }
+        .tv-off { animation: tvShutdown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
 
-        @keyframes tvTurnOn {
-            0% { transform: scale(0, 0); opacity: 0; filter: brightness(10); }
-            40% { transform: scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
-            70% { transform: scale(1, 0.005); opacity: 1; filter: brightness(2); }
-            100% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
+        @keyframes tvShutdown {
+            0% { transform: scale(1, 1); filter: brightness(1); opacity: 1; }
+            40% { transform: scale(1, 0.005); filter: brightness(3); opacity: 1; }
+            70% { transform: scale(0.001, 0.005); filter: brightness(5); opacity: 1; }
+            100% { transform: scale(0, 0); filter: brightness(0); opacity: 0; }
         }
 
-        @keyframes tvTurnOff {
-            0% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
-            40% { transform: scale(1, 0.005); opacity: 1; filter: brightness(2); }
-            70% { transform: scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
-            100% { transform: scale(0, 0); opacity: 0; filter: brightness(10); }
+        @keyframes tvTurnOn {
+            0% { transform: scale(0, 0); filter: brightness(0); opacity: 0; }
+            30% { transform: scale(0.001, 0.005); filter: brightness(5); opacity: 1; }
+            60% { transform: scale(1, 0.005); filter: brightness(3); opacity: 1; }
+            100% { transform: scale(1, 1); filter: brightness(1); opacity: 1; }
         }
 
         .modal-title {
             font-family: Georgia, "Times New Roman", serif;
+            font-weight: 700;
             color: var(--accent);
             font-size: clamp(1.2rem, 3vw, 1.5rem);
             text-transform: uppercase;
             margin-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
             padding-bottom: 0.5rem;
             min-height: 2.5rem;
             text-align: center;
+            -webkit-text-stroke: 0.25px #ffffff;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 10;
         }
 
         .modal-body {
-            font-size: clamp(1rem, 2.2vw, 1.15rem);
+            font-size: clamp(0.9rem, 2vw, 1.02rem);
+            font-weight: 600;
             color: #f1f5f9;
             line-height: 1.8;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             white-space: pre-line;
             min-height: 100px;
-        }
-
-        /* Ajuste de tipografía en submodales */
-        .submodal-text-window .modal-title {
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
-        }
-
-        .submodal-text-window .modal-body {
-            font-size: clamp(0.9rem, 2vw, 1.02rem);
+            -webkit-text-stroke: 0.3px #000000;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+            position: relative;
+            z-index: 10;
         }
 
         .modal-body a {
@@ -409,11 +585,25 @@
         }
         .modal-body a:hover { color: #e0a96d; }
 
+        .process-flow {
+            background-color: rgba(15, 118, 110, 0.25);
+            color: #5eead4;
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            font-weight: bold;
+            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+            text-align: center;
+            border-radius: 0 8px 8px 0;
+        }
+
         .modal-close-wrapper {
             text-align: right;
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
-            font-weight: bold;
+            font-size: clamp(0.9rem, 2vw, 1.02rem);
+            font-weight: 600;
             min-height: 2rem;
+            position: relative;
+            z-index: 10;
         }
 
         .modal-close-btn {
@@ -421,23 +611,12 @@
             cursor: pointer;
             text-decoration: underline;
             transition: color 0.3s ease;
-        }
-
-        .modal-close-btn:hover { color: #e0a96d; }
-
-        .cursor {
             display: inline-block;
-            width: 8px;
-            height: clamp(1rem, 2.5vw, 1.2rem);
-            background-color: var(--accent);
-            vertical-align: text-bottom;
-            animation: blink 1s step-end infinite;
-            margin-left: 2px;
-            opacity: 0; 
-            transition: opacity 0.3s ease;
         }
 
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .modal-close-btn:hover { 
+            color: #e0a96d;
+        }
 
         .submodal-content {
             position: relative;
@@ -471,11 +650,11 @@
         .submodal-close:hover { transform: scale(1.2); color: #e0a96d; }
 
         /* FOOTER */
-        footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
+        footer.laser-burn-effect {
+            position: absolute !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
             padding: 0.5rem 1rem;
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(8px);
@@ -483,195 +662,285 @@
             text-align: center;
             color: #ffffff;
             font-size: clamp(0.7rem, 1.2vw, 0.85rem);
-            opacity: 0;
-            transition: opacity 500ms ease;
             z-index: 100;
-        }
-
-        footer.visible {
-            opacity: 1;
+            transition: filter 0.5s ease;
         }
 
         footer p {
             color: #e2e8f0;
         }
 
-        /* MEDIA QUERIES PARA MÓVILES */
-        @media (max-width: 768px) {
-            .submodal-close { 
-                top: -15px; 
-                right: 0px; 
-                text-shadow: 0 0 10px #000; 
-            }
-            .top-bar { 
-                flex-direction: column; 
-                gap: 0.5rem; 
-            }
-            .nav-links {
-                justify-content: center;
-            }
-            footer {
-                position: relative !important;
-                margin-top: 1.5rem;
-                padding: 1rem;
-            }
+        @media (max-width: 900px) {
+            body { height: auto; overflow-y: auto; overflow-x: hidden; }
+            #bg-layer { height: 100%; background-attachment: scroll; }
+            .top-bar { position: relative !important; flex-direction: column; gap: 0.5rem; padding: 1rem; text-align: center; }
+            .top-bar-container { flex-direction: column; gap: 0.8rem; }
+            .nav-links { justify-content: center; gap: 0.8rem; }
+            header { padding: 2rem 1rem 1rem 1rem; }
+            .submodal-close { top: -15px; right: 0px; text-shadow: 0 0 10px #000; }
+            footer.laser-burn-effect { position: relative !important; margin-top: 1.5rem; padding: 1rem; bottom: auto !important; left: auto !important; }
         }
-
     </style>
 </head>
 <body>
 
+    <!-- Capa CRT Scanlines -->
+    <div class="crt-scanlines"></div>
+
     <audio id="bg-music" src="Tango_Futuro_(Lado_B).mp3" loop preload="auto"></audio>
     <div id="bg-layer"></div>
+    <div class="cursor-light-glow" id="cursor-light-glow"></div>
     <canvas id="matrix-canvas"></canvas>
+
+    <!-- Capa de Glitch Central -->
+    <div id="glitch-overlay">
+        <img id="glitch-img" src="" alt="Glitch Visual">
+    </div>
+
     <div id="intro-overlay"></div>
 
     <nav class="top-bar">
         <div class="top-bar-container">
-            <a href="https://quimerac3.github.io/" class="brand-logo" data-text="QUIMERA - Inicio General"></a>
+            <a href="https://quimerac3.github.io/" class="brand-logo laser-burn-effect" id="brand-logo" data-text="QUIMERA - Inicio General"></a>
             <ul class="nav-links">
-                <li><a href="#" id="audio-toggle"><span style="color: #ffffff;">🎵</span> Música: OFF</a></li>
-                <li><a href="#" id="fullscreen-toggle">⛶ Pantalla Completa</a></li>
+                <li><a href="#" id="audio-toggle" class="laser-burn-effect"><span style="color: #ffffff;">🎵</span> Música: OFF</a></li>
+                <li><a href="#" id="fullscreen-toggle" class="laser-burn-effect">⛶ Pantalla Completa</a></li>
             </ul>
         </div>
     </nav>
 
     <header>
-        <!-- Flecha 01: MITOLOGÍA DETRÁS DE -->
-        <h1>
-            <span id="header-line1"></span>
+        <h1 class="laser-burn-effect" id="header-line1-container" data-text="MITOLOGÍA DETRÁS DE">
+            <span id="header-line1">MITOLOGÍA DETRÁS DE</span>
         </h1>
         
-        <!-- Flecha 02: QUIMERA -->
-        <h1 class="arrow-02-text">
+        <!-- Contenedor con letras independientes para QUIMERA -->
+        <h1 class="arrow-02-text laser-burn-effect" id="word-quimera-container" data-text="QUIMERA">
             <span id="word-quimera">
-                <span style="--i:1" class="hidden-letter">Q</span><span style="--i:2" class="hidden-letter">U</span><span style="--i:3" class="hidden-letter">I</span><span style="--i:4" class="hidden-letter">M</span><span style="--i:5" class="hidden-letter">E</span><span style="--i:6" class="hidden-letter">R</span><span style="--i:7" class="hidden-letter">A</span>
-            </span><span class="cursor" id="header-cursor"></span>
+                <span class="quimera-letter" data-index="0">Q</span>
+                <span class="quimera-letter" data-index="1">U</span>
+                <span class="quimera-letter" data-index="2">I</span>
+                <span class="quimera-letter" data-index="3">M</span>
+                <span class="quimera-letter" data-index="4">E</span>
+                <span class="quimera-letter" data-index="5">R</span>
+                <span class="quimera-letter" data-index="6">A</span>
+            </span>
         </h1>
-        <p data-text="El origen simbólico y conceptual que da vida e identidad a nuestro ecosistema."></p>
+
+        <div class="subtitle-text laser-burn-effect" id="sub-text" data-text="El origen simbólico y conceptual que da vida e identidad a nuestro ecosistema.">El origen simbólico y conceptual que da vida e identidad a nuestro ecosistema.</div>
     </header>
 
     <main>
-        <!-- Flecha 03: Recuadro posicionado al fondo -->
         <div id="central-card" class="seq-card">
-            <h2><span id="card-title-text"></span><span class="cursor" id="card-cursor"></span></h2>
+            <h2 id="card-title-container" class="laser-burn-effect"><span id="card-title-text"></span></h2>
         </div>
     </main>
 
+    <!-- MODAL PRINCIPAL -->
     <div id="main-modal" class="modal-overlay">
         <div class="modal-window" id="modal-window">
-            <h2 class="modal-title" id="modal-title"></h2>
+            <div class="modal-scanlines"></div>
+            <h2 class="modal-title laser-burn-effect" id="modal-title"></h2>
             <div class="modal-body" id="modal-body"></div>
             <div class="modal-close-wrapper">
-                <span class="modal-close-btn" id="modal-close-btn"></span><span class="cursor" id="modal-cursor"></span>
+                <span class="laser-burn-effect" id="modal-close-btn" style="display:inline-block;">Cerrar.</span>
             </div>
         </div>
     </div>
 
+    <!-- SUBMODAL (Modelo Helicoidal e Imágenes asociadas) -->
     <div id="sub-modal" class="submodal-overlay">
         <div class="submodal-content" id="submodal-content-wrapper">
             <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
             <img id="submodal-img" src="" alt="Esquema Quimera" style="opacity: 0;">
             
             <div class="submodal-text-window" id="submodal-text-window">
-                <h2 class="modal-title" id="sub-modal-title"></h2>
+                <div class="modal-scanlines"></div>
+                <h2 class="modal-title laser-burn-effect" id="sub-modal-title"></h2>
                 <div class="modal-body" id="sub-modal-body"></div>
                 <div class="modal-close-wrapper">
-                    <span class="modal-close-btn" id="sub-modal-close-btn"></span><span class="cursor" id="sub-modal-cursor"></span>
+                    <span class="laser-burn-effect" id="sub-modal-close-btn" style="display:inline-block;">Cerrar.</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer>
-        <p data-text="&bull; &copy; 2026 Instituto Quimera. &bull; Centro de Investigación, Docencia, Servicio y Difusión. &bull; Dr.C. Cesar Cerezo Camacho. &bull; Todos los derechos reservados. &bull;"></p>
+    <footer class="laser-burn-effect" id="main-footer">
+        <p id="footer-text" data-text="&bull; &copy; 2026 Instituto Quimera. &bull; Centro de Investigación, Docencia, Servicio y Difusión. &bull; Dr.C. Cesar Cerezo Camacho. &bull; Todos los derechos reservados. &bull;"></p>
     </footer>
 
     <script>
-        // Solución caché (bfcache)
         window.addEventListener('pageshow', (event) => {
             if (event.persisted) window.location.reload();
         });
 
-        // PRECARGA DE IMÁGENES
-        const imageList = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp', 'ECQ.webp'];
-        imageList.forEach(src => { const img = new Image(); img.src = src; });
+        // 11 imágenes de glitch indexadas
+        const glitchImages = [
+            'glitch_01.webp', 'glitch_02.webp', 'glitch_03.webp', 'glitch_04.webp',
+            'glitch_05.webp', 'glitch_06.webp', 'glitch_07.webp', 'glitch_08.webp',
+            'glitch_09.webp', 'glitch_10.webp', 'glitch_11.webp'
+        ];
+
+        // CONTROL DE MOVIMIENTO DEL CURSOR
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            document.documentElement.style.setProperty('--mouse-x', `${mouseX}px`);
+            document.documentElement.style.setProperty('--mouse-y', `${mouseY}px`);
+        });
 
         const storyData = [
             {
                 title: "EL MITO QUE DIO NOMBRE AL INSTITUTO.",
-                text: "Mucho antes de convertirse en el nombre de un instituto dedicado al conocimiento, Quimera pertenecía al mundo de la mitología griega.\n\nSu historia es la de un ser extraordinario y monstruoso que, según las fuentes antiguas, habitaba en Licia.\n\nQuimera era descrita como una criatura híbrida, asociada con diferentes formas animales: tenía elementos de león, cabra y serpiente, y se distinguía por su capacidad de arrojar fuego.\n\nSu propia naturaleza era una combinación de partes que, aparentemente, no deberían coexistir.\n\nPrecisamente ahí reside una de las características más interesantes del mito: Quimera es una representación de lo compuesto, lo complejo y lo que no puede comprenderse desde una sola perspectiva.\n\nNo era simplemente un animal poderoso. Era una criatura cuya naturaleza exigía reconocer simultáneamente diferentes elementos."
+                content: [
+                    { type: 'p', text: "Mucho antes de convertirse en el nombre de un instituto dedicado al conocimiento, Quimera pertenecía al mundo de la mitología griega." },
+                    { type: 'p', text: "Su historia es la de un ser extraordinario y monstruoso que, según las fuentes antiguas, habitaba en Licia." },
+                    { type: 'p', text: "Quimera era descrita como una criatura híbrida, asociada con diferentes formas animales: tenía elementos de león, cabra y serpiente, y se distinguía por su capacidad de arrojar fuego." },
+                    { type: 'p', text: "Su propia naturaleza era una combinación de partes que, aparentemente, no deberían coexistir." },
+                    { type: 'p', text: "Precisamente ahí reside una de las características más interesantes del mito: Quimera es una representación de lo compuesto, lo complejo y lo que no puede comprenderse desde una sola perspectiva." },
+                    { type: 'p', text: "No era simplemente un animal poderoso. Era una criatura cuya naturaleza exigía reconocer simultáneamente diferentes elementos." }
+                ]
             },
             {
                 title: "BELEROFONTE.",
-                text: "La figura destinada a enfrentarse con Quimera fue Belerofonte, héroe de la mitología griega.\n\nSegún la tradición, Belerofonte recibió del rey Yóbates de Licia el encargo de matar a la criatura.\n\nLa tarea parecía extraordinariamente difícil.\n\nQuimera no podía enfrentarse como si fuera un enemigo ordinario. Su fuerza, su naturaleza híbrida y su capacidad de lanzar fuego convertían el enfrentamiento en un problema que requería algo más que fuerza física.\n\nBelerofonte contó con una ventaja decisiva: Pegaso, el caballo alado.\n\nMontado sobre Pegaso, pudo aproximarse a Quimera desde una posición que le permitía evitar directamente sus ataques y encontrar una estrategia para derrotarla.\n\nLa tradición relata que Belerofonte utilizó una lanza cuya punta había sido adaptada con plomo. Al enfrentarse a la criatura, el calor de su fuego derritió el metal, que penetró en ella y provocó su muerte.\n\nEl héroe no venció a Quimera simplemente porque fue más fuerte:\nLa venció porque encontró una forma diferente de abordar el problema."
+                content: [
+                    { type: 'p', text: "La figura destinada a enfrentarse con Quimera fue Belerofonte, héroe de la mitología griega." },
+                    { type: 'p', text: "Según la tradición, Belerofonte recibió del rey Yóbates de Licia el encargo de matar a la criatura." },
+                    { type: 'p', text: "La tarea parecía extraordinariamente difícil." },
+                    { type: 'p', text: "Quimera no podía enfrentarse como si fuera un enemigo ordinario. Su fuerza, su naturaleza híbrida y su capacidad de lanzar fuego convertían el enfrentamiento en un problema que requería algo más que fuerza física." },
+                    { type: 'p', text: "Belerofonte contó con una ventaja decisiva: Pegaso, el caballo alado." },
+                    { type: 'p', text: "Montado sobre Pegaso, pudo aproximarse a Quimera desde una posición que le permitía evitar directamente sus ataques y encontrar una estrategia para derrotarla." },
+                    { type: 'p', text: "La tradición relata que Belerofonte utilizó una lanza cuya punta había sido adaptada con plomo. Al enfrentarse a la criatura, el calor de su fuego derritió el metal, que penetró en ella y provocó su muerte." },
+                    { type: 'p', text: "El héroe no venció a Quimera simplemente porque fue más fuerte:\nLa venció porque encontró una forma diferente de abordar el problema." }
+                ]
             },
             {
                 title: "QUIMERA FRENTE A BELEROFONTE.",
-                text: "El mito puede leerse, más allá de su dimensión narrativa, como el encuentro entre dos fuerzas.\n\nPor un lado:\n\nQUIMERA.\nLa complejidad.\nLa multiplicidad.\nLo desconocido.\nLo aparentemente contradictorio.\nEl problema que no puede reducirse fácilmente a una sola explicación.\n\nPor otro:\n\nBELEROFONTE.\nLa observación.\nLa estrategia.\nLa adaptación.\nLa utilización inteligente de recursos.\nLa capacidad de transformar un problema aparentemente imposible en un problema susceptible de ser resuelto.\n\nY entre ambos:\n\nPEGASO.\nLa herramienta que permite ampliar las capacidades del ser humano.\n\nDesde esta perspectiva, el mito puede resumirse simbólicamente como:\nLa complejidad no siempre se vence mediante mayor fuerza, sino mediante una mejor comprensión del problema y una estrategia adecuada para abordarlo."
+                content: [
+                    { type: 'p', text: "El mito puede leerse, más allá de su dimensión narrativa, como el encuentro entre dos fuerzas." },
+                    { type: 'p', text: "Por un lado:\n\nQUIMERA.\nLa complejidad.\nLa multiplicidad.\nLo desconocido.\nLo aparentemente contradictorio.\nEl problema que no puede reducirse fácilmente a una sola explicación." },
+                    { type: 'p', text: "Por otro:\n\nBELEROFONTE.\nLa observación.\nLa estrategia.\nLa adaptación.\nLa utilización inteligente de recursos.\nLa capacidad de transformar un problema aparentemente imposible en un problema susceptible de ser resuelto." },
+                    { type: 'p', text: "Y entre ambos:\n\nPEGASO.\nLa herramienta que permite ampliar las capacidades del ser humano." },
+                    { type: 'p', text: "Desde esta perspectiva, el mito puede resumirse simbólicamente como:\nLa complejidad no siempre se vence mediante mayor fuerza, sino mediante una mejor comprensión del problema y una estrategia adecuada para abordarlo." }
+                ]
             },
             {
                 title: "¿POR QUÉ QUIMERA?",
-                text: "El nombre del Instituto nace precisamente de esta imagen.\n\nQUIMERA representa aquello que resulta complejo, híbrido, multidimensional y difícil de comprender desde una única perspectiva.\n\nLas ciencias contemporáneas presentan constantemente problemas de esta naturaleza.\n\nLa salud, por ejemplo, no pertenece exclusivamente a una disciplina.\nUn mismo problema puede involucrar simultáneamente:\nBIOLOGÍA + MEDICINA + GENÉTICA + ESTADÍSTICA + TECNOLOGÍA + COMUNICACIÓN + LENGUAJE + COMPORTAMIENTO HUMANO.\n\nIntentar comprenderlo desde una sola perspectiva puede resultar insuficiente.\n\nPor ello, QUIMERA adopta simbólicamente la criatura mitológica como representación de la complejidad interdisciplinaria.\n\nNO SE TRATA DE DESTRUIR LA COMPLEJIDAD:\n\nSE TRATA DE COMPRENDERLA."
+                content: [
+                    { type: 'p', text: "El nombre del Instituto nace precisamente de esta imagen." },
+                    { type: 'p', text: "QUIMERA representa aquello que resulta complejo, híbrido, multidimensional y difícil de comprender desde una única perspectiva." },
+                    { type: 'p', text: "Las ciencias contemporáneas presentan constantemente problemas de esta naturaleza." },
+                    { type: 'p', text: "La salud, por ejemplo, no pertenece exclusivamente a una disciplina.\nUn mismo problema puede involucrar simultáneamente:\nBIOLOGÍA + MEDICINA + GENÉTICA + ESTADÍSTICA + TECNOLOGÍA + COMUNICACIÓN + LENGUAJE + COMPORTAMIENTO HUMANO." },
+                    { type: 'p', text: "Intentar comprenderlo desde una sola perspectiva puede resultar insuficiente." },
+                    { type: 'p', text: "Por ello, QUIMERA adopta simbólicamente la criatura mitológica como representación de la complejidad interdisciplinaria." },
+                    { type: 'p', text: "NO SE TRATA DE DESTRUIR LA COMPLEJIDAD:\n\nSE TRATA DE COMPRENDERLA." }
+                ]
             },
             {
                 title: "¿Y POR QUÉ BELEROFONTE?",
-                text: "Si Quimera representa el problema complejo, Belerofonte representa al ser humano que decide enfrentarlo.\n\nNo mediante la fuerza indiscriminada, sino mediante:\n• Observación.\n• Conocimiento.\n• Estrategia.\n• Adaptación.\n• Uso de herramientas.\n• Razonamiento.\n• Decisión.\n\nPor ello, dentro de la identidad de QUIMERA, Belerofonte representa la dimensión metodológica del conocimiento.\n\nEl conocimiento permite reconocer el problema.\nLa metodología permite organizarlo.\nEl razonamiento permite analizarlo.\nLas herramientas permiten intervenir sobre él.\nY la evaluación permite determinar si la intervención funcionó."
+                content: [
+                    { type: 'p', text: "Si Quimera representa el problema complejo, Belerofonte representa al ser humano que decide enfrentarlo." },
+                    { type: 'p', text: "No mediante la fuerza indiscriminada, sino mediante:\n• Observación.\n• Conocimiento.\n• Estrategia.\n• Adaptación.\n• Uso de herramientas.\n• Razonamiento.\n• Decisión." },
+                    { type: 'p', text: "Por ello, dentro de la identidad de QUIMERA, Belerofonte representa la dimensión metodológica del conocimiento." },
+                    { type: 'p', text: "El conocimiento permite reconocer el problema.\nLa metodología permite organizarlo.\nEl razonamiento permite analizarlo.\nLas herramientas permiten intervenir sobre él.\nY la evaluación permite determinar si la intervención funcionó." }
+                ]
             },
             {
                 title: "PEGASO: LA HERRAMIENTA QUE AMPLÍA AL SER HUMANO.",
-                text: "Pegaso ocupa una posición especial dentro de esta interpretación.\n\nBelerofonte necesitaba una herramienta que le permitiera enfrentarse a Quimera desde una perspectiva diferente.\n\nPegaso le proporcionó esa capacidad.\n\nPor ello, dentro de la simbología institucional de QUIMERA, Pegaso representa la tecnología y las herramientas desarrolladas para ampliar las capacidades humanas.\n\nLa herramienta no sustituye al pensamiento: LO POTENCÍA.\n\nEsta distinción es fundamental:\n\nLa tecnología puede proporcionar nuevas capacidades para observar, analizar, comunicar o intervenir.\n\nLa responsabilidad de decidir qué hacer con esas capacidades continúa perteneciendo al ser humano."
+                content: [
+                    { type: 'p', text: "Pegaso ocupa una posición especial dentro de esta interpretación." },
+                    { type: 'p', text: "Belerofonte necesitaba una herramienta que le permitiera enfrentarse a Quimera desde una perspectiva diferente." },
+                    { type: 'p', text: "Pegaso le proporcionó esa capacidad." },
+                    { type: 'p', text: "Por ello, dentro de la simbología institucional de QUIMERA, Pegaso representa la tecnología y las herramientas desarrolladas para ampliar las capacidades humanas." },
+                    { type: 'p', text: "La herramienta no sustituye al pensamiento: LO POTENCÍA." },
+                    { type: 'p', text: "Esta distinción es fundamental:\n\nLa tecnología puede proporcionar nuevas capacidades para observar, analizar, comunicar o intervenir.\n\nLa responsabilidad de decidir qué hacer con esas capacidades continúa perteneciendo al ser humano." }
+                ]
             },
             {
                 title: "DE LA MITOLOGÍA A LA MISIÓN.",
-                text: "La mitología detrás de QUIMERA no pretende convertir una historia antigua en una explicación científica:\n\nSu función es simbólica.\n\nEl mito proporciona un lenguaje para expresar una idea que permanece vigente:\nLos problemas complejos requieren comprensión, integración, estrategia y herramientas adecuadas.\n\nA partir de esta idea, el Instituto QUIMERA organiza su actividad alrededor de cuatro funciones fundamentales:\n\nINVESTIGACIÓN · DOCENCIA · SERVICIO · DIVULGACIÓN\n\nCada una representa una etapa diferente de la relación entre el conocimiento y la sociedad."
+                content: [
+                    { type: 'p', text: "La mitología detrás de QUIMERA no pretende convertir una historia antigua en una explicación científica:\n\nSu función es simbólica." },
+                    { type: 'p', text: "El mito proporciona un lenguaje para expresar una idea que permanece vigente:\nLos problemas complejos requieren comprensión, integración, estrategia y herramientas adecuadas." },
+                    { type: 'p', text: "A partir de esta idea, el Instituto QUIMERA organiza su actividad alrededor de cuatro funciones fundamentales:\n\nINVESTIGACIÓN &middot; DOCENCIA &middot; SERVICIO &middot; DIVULGACIÓN" },
+                    { type: 'p', text: "Cada una representa una etapa diferente de la relación entre el conocimiento y la sociedad." }
+                ]
             },
             {
                 title: "QUIMERA E INVESTIGACIÓN.",
-                text: "La investigación representa el esfuerzo por comprender a Quimera:\nAntes de intentar resolver un problema complejo es necesario estudiarlo.\n\nInvestigar significa observar, formular preguntas, generar hipótesis, analizar evidencia, identificar relaciones, reconocer incertidumbres y producir nuevo conocimiento.\n\nEn este sentido:\nLa investigación es el proceso mediante el cual Quimera deja de ser solamente un problema y comienza a convertirse en un objeto de estudio y conocimiento.\n\nLa investigación constituye, por tanto, el fundamento intelectual del Instituto."
+                content: [
+                    { type: 'p', text: "La investigación representa el esfuerzo por comprender a Quimera:\nAntes de intentar resolver un problema complejo es necesario estudiarlo." },
+                    { type: 'p', text: "Investigar significa observar, formular preguntas, generar hipótesis, analizar evidencia, identificar relaciones, reconocer incertidumbres y producir nuevo conocimiento." },
+                    { type: 'p', text: "En este sentido:\nLa investigación es el proceso mediante el cual Quimera deja de ser solamente un problema y comienza a convertirse en un objeto de estudio y conocimiento." },
+                    { type: 'p', text: "La investigación constituye, por tanto, el fundamento intelectual del Instituto." }
+                ]
             },
             {
                 title: "QUIMERA Y DOCENCIA.",
-                text: "La docencia representa la transferencia estructurada del conocimiento.\nEl conocimiento que no puede enseñarse corre el riesgo de permanecer aislado.\n\nPor ello, QUIMERA transforma los resultados de la investigación, la experiencia profesional y el desarrollo metodológico en:\n\n• Cursos.\n• Programas educativos.\n• Series pedagógicas.\n• Talleres.\n• Guías.\n• Materiales didácticos.\n• Herramientas de aprendizaje.\n\nLa docencia convierte el conocimiento individual o institucional en capacidad compartida."
+                content: [
+                    { type: 'p', text: "La docencia representa la transferencia estructurada del conocimiento.\nEl conocimiento que no puede enseñarse corre el riesgo de permanecer aislado." },
+                    { type: 'p', text: "Por ello, QUIMERA transforma los resultados de la investigación, la experiencia profesional y el desarrollo metodológico en:\n\n• Cursos.\n• Programas educativos.\n• Series pedagógicas.\n• Talleres.\n• Guías.\n• Materiales didácticos.\n• Herramientas de aprendizaje." },
+                    { type: 'p', text: "La docencia convierte el conocimiento individual o institucional en capacidad compartida." }
+                ]
             },
             {
                 title: "QUIMERA Y SERVICIO.",
-                text: "El servicio representa la aplicación del conocimiento.\nComprender un problema y enseñar sobre él, no siempre es suficiente.\nExisten situaciones en las que el conocimiento debe transformarse en una intervención concreta.\n\nLos servicios de QUIMERA buscan llevar conocimientos, metodologías y herramientas hacia contextos profesionales donde puedan generar utilidad real.\n\nPor ello, el servicio constituye el punto en el que el conocimiento abandona el plano exclusivamente teórico y entra en contacto con la práctica."
+                content: [
+                    { type: 'p', text: "El servicio representa la aplicación del conocimiento.\nComprender un problema y enseñar sobre él, no siempre es suficiente.\nExisten situaciones en las que el conocimiento debe transformarse en una intervención concreta." },
+                    { type: 'p', text: "Los servicios de QUIMERA buscan llevar conocimientos, metodologías y herramientas hacia contextos profesionales donde puedan generar utilidad real." },
+                    { type: 'p', text: "Por ello, el servicio constituye el punto en el que el conocimiento abandona el plano exclusivamente teórico y entra en contacto con la práctica." }
+                ]
             },
             {
                 title: "QUIMERA Y DIVULGACIÓN.",
-                text: "El conocimiento científico no debe permanecer inaccesible por la forma en que se comunica.\nPor medio de publicaciones, infografías, recursos digitales, materiales educativos y otros medios de comunicación, QUIMERA busca acercar el conocimiento a diferentes públicos.\n\nLa divulgación representa la transferencia del conocimiento más allá de los espacios especializados.\nDivulgar significa transformar el conocimiento especializado en contenidos comprensibles sin sacrificar su rigor.\n\nLa divulgación constituye, por tanto, un puente entre:\nConocimiento especializado → Comprensión pública."
+                content: [
+                    { type: 'p', text: "El conocimiento científico no debe permanecer inaccesible por la forma en que se comunica.\nPor medio de publicaciones, infografías, recursos digitales, materiales educativos y otros medios de comunicación, QUIMERA busca acercar el conocimiento a diferentes públicos." },
+                    { type: 'p', text: "La divulgación representa la transferencia del conocimiento más allá de los espacios especializados.\nDivulgar significa transformar el conocimiento especializado en contenidos comprensibles sin sacrificar su rigor." },
+                    { type: 'p', text: "La divulgación constituye, por tanto, un puente entre:\nConocimiento especializado &rarr; Comprensión pública." }
+                ]
             },
             {
                 title: "EL CICLO DE QUIMERA.",
-                text: "Investigación, docencia, servicio y divulgación:\nNo constituyen actividades aisladas, ni procesos independientes.\n\nForman un sistema interdependiente de transformación y retroalimentación que se articula como un ciclo de desarrollo del conocimiento, el cual se deriva del <a onclick=\"startHelicoidalSequence()\">Modelo Helicoidal del Desarrollo del Conocimiento</a> desarrollado por el Dr. Cerezo:\n\n<a onclick=\"openSubModal('ECQ.webp')\">EL CICLO DE QUIMERA</a>\nLa INVESTIGACIÓN genera conocimiento.\nLa DOCENCIA transforma conocimiento en capacidad.\nEl SERVICIO transforma la capacidad en experiencia mediante su aplicación en contextos reales.\nLa DIVULGACIÓN transforma el conocimiento especializado enriquecido por la experiencia, en comprensión compartida.\nDe la interacción entre conocimiento, capacidad, experiencia y realidad, emergen nuevas preguntas que impulsan nuevamente a la investigación.\n\nPor ello, el ciclo se eleva, conservando lo aprendido:\nTransforma y amplía el conocimiento, sin cerrar el ciclo."
+                content: [
+                    { type: 'p', text: "Investigación, docencia, servicio y divulgación:\nNo constituyen actividades aisladas, ni procesos independientes." },
+                    { type: 'p', text: "Forman un sistema interdependiente de transformación y retroalimentación que se articula como un ciclo de desarrollo del conocimiento, el cual se deriva del <a onclick=\"startHelicoidalSequence()\">Modelo Helicoidal del Desarrollo del Conocimiento</a> desarrollado por el Dr. Cerezo:" },
+                    { type: 'flow', text: "EL CICLO DE QUIMERA\nLa INVESTIGACIÓN genera conocimiento.\nLa DOCENCIA transforma conocimiento en capacidad.\nEl SERVICIO transforma la capacidad en experiencia mediante su aplicación en contextos reales.\nLa DIVULGACIÓN transforma el conocimiento especializado enriquecido por la experiencia, en comprensión compartida.\nDe la interacción entre conocimiento, capacidad, experiencia y realidad, emergen nuevas preguntas que impulsan nuevamente a la investigación." },
+                    { type: 'p', text: "Por ello, el ciclo se eleva, conservando lo aprendido:\nTransforma y amplía el conocimiento, sin cerrar el ciclo.\n\n<a onclick=\"openSubModal('ECQ.webp')\">Ver esquema del Ciclo de Quimera</a>" }
+                ]
             },
             {
                 title: "LA IDENTIDAD SIMBÓLICA DE QUIMERA.",
-                text: "Desde esta perspectiva:\n\nQUIMERA representa la complejidad.\nBELEROFONTE representa al profesional que decide comprenderla y enfrentarla.\nPEGASO representa las herramientas y la tecnología que amplían sus capacidades.\nEL MÉTODO representa la estrategia que permite transformar una situación compleja en un problema susceptible de análisis.\nEL CONOCIMIENTO representa aquello que permite comprender antes de intervenir.\nLA TRANSFERENCIA representa el movimiento del conocimiento hacia la práctica y la sociedad.\nY EL CICLO representa la evolución continua del conocimiento."
+                content: [
+                    { type: 'p', text: "Desde esta perspectiva:\n\nQUIMERA representa la complejidad.\nBELEROFONTE representa al profesional que decide comprenderla y enfrentarla.\nPPEGASO representa las herramientas y la tecnología que amplían sus capacidades.\nEL MÉTODO representa la estrategia que permite transformar una situación compleja en un problema susceptible de análisis.\nEL CONOCIMIENTO representa aquello que permite comprender antes de intervenir.\nLA TRANSFERENCIA representa el movimiento del conocimiento hacia la práctica y la sociedad.\nY EL CICLO representa la evolución continua del conocimiento." }
+                ]
             },
             {
                 title: "EL SIGNIFICADO DEL NOMBRE.",
-                text: "QUIMERA no toma su nombre porque pretenda reproducir el monstruo de la mitología. Lo toma porque reconoce en él una poderosa metáfora de aquello que pretende estudiar y comprender: LA COMPLEJIDAD.\n\nY reconoce en Belerofonte otra metáfora igualmente importante:\nLa capacidad humana de enfrentar la complejidad mediante CONOCIMIENTO, ESTRATEGIA, HERRAMIENTAS Y DECISIÓN RESPONSABLE.\n\nEntre ambos existe la idea que fundamenta el espíritu de QUIMERA:\nNo todo problema complejo necesita una respuesta simple.\nNecesita una respuesta que sea capaz de comprender su complejidad sin perder la claridad necesaria para actuar.\n\nEse es el espíritu detrás de QUIMERA."
+                content: [
+                    { type: 'p', text: "QUIMERA no toma su nombre porque pretenda reproducir el monstruo de la mitología. Lo toma porque reconoce en él una poderosa metáfora de aquello que pretende estudiar y comprender: LA COMPLEJIDAD." },
+                    { type: 'p', text: "Y reconoce en Belerofonte otra metáfora igualmente importante:\nLa capacidad humana de enfrentar la complejidad mediante CONOCIMIENTO, ESTRATEGIA, HERRAMIENTAS Y DECISIÓN RESPONSABLE." },
+                    { type: 'p', text: "Entre ambos existe la idea que fundamenta el espíritu de QUIMERA:\nNo todo problema complejo necesita una respuesta simple.\nNecesita una respuesta que sea capaz de comprender su complejidad sin perder la claridad necesaria para actuar." },
+                    { type: 'p', text: "Ese es el espíritu detrás de QUIMERA." }
+                ]
             }
         ];
 
         let currentStep = 0;
         const centralCard = document.getElementById('central-card');
+        const cardTitleContainer = document.getElementById('card-title-container');
         const cardTitleText = document.getElementById('card-title-text');
-        const cardCursor = document.getElementById('card-cursor');
         
         const mainModal = document.getElementById('main-modal');
         const modalWindow = document.getElementById('modal-window');
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
         const modalCloseBtn = document.getElementById('modal-close-btn');
-        const modalCursor = document.getElementById('modal-cursor');
         
-        let isTyping = false;
+        let isModalBusy = false;
         let isCardBusy = true; 
 
-        // Generador de Código Matrix Dorado
         let matrixInterval = null;
         function startMatrixRain() {
             const canvas = document.getElementById('matrix-canvas');
@@ -718,14 +987,16 @@
             matrixInterval = setInterval(draw, 33);
         }
 
-        // Función para desvanecer elementos e iniciar la lluvia Matrix
         function triggerMatrixAndFadeElements() {
             const bgLayer = document.getElementById('bg-layer');
             if (bgLayer) bgLayer.style.opacity = '0';
 
+            const cursorGlow = document.getElementById('cursor-light-glow');
+            if (cursorGlow) cursorGlow.classList.remove('visible');
+
             const elementsToFade = [
-                document.getElementById('header-line1'),
-                document.querySelector('header p'),
+                document.getElementById('header-line1-container'),
+                document.getElementById('sub-text'),
                 document.querySelector('.top-bar'),
                 document.getElementById('central-card'),
                 document.querySelector('footer')
@@ -742,13 +1013,17 @@
 
         let globalColorInterval = null;
 
-        // Función para activar la animación de barrido de color y la transición limpia final
+        // Implementación del efecto de blanco a dorado (cobre) hasta que sea seleccionada
         function enableFinalHyperlink() {
-            const wordContainer = document.getElementById('word-quimera');
-            const letters = wordContainer.querySelectorAll('span');
+            const wordContainer = document.getElementById('word-quimera-container');
+            const letters = document.querySelectorAll('.quimera-letter');
+            
+            wordContainer.classList.remove('hologram-mode');
+            wordContainer.style.opacity = '1';
+            wordContainer.style.pointerEvents = 'auto';
             wordContainer.style.cursor = 'pointer';
 
-            const stepTime = 120;
+            const stepTime = 120; // Velocidad de transición entre cada letra
 
             function runSequence() {
                 let i = 0;
@@ -757,9 +1032,7 @@
                         letters[i].style.color = '#c88b32';
                         i++;
                         globalColorInterval = setTimeout(() => turnCopperGold(callback), stepTime);
-                    } else if (callback) {
-                        callback();
-                    }
+                    } else if (callback) callback();
                 }
 
                 let j = 0;
@@ -768,9 +1041,7 @@
                         letters[j].style.color = '#ffffff';
                         j++;
                         globalColorInterval = setTimeout(() => turnWhite(callback), stepTime);
-                    } else if (callback) {
-                        callback();
-                    }
+                    } else if (callback) callback();
                 }
 
                 turnCopperGold(() => {
@@ -785,232 +1056,188 @@
             runSequence();
 
             wordContainer.onclick = () => {
-                wordContainer.onclick = null; // Previene múltiples clics
                 clearTimeout(globalColorInterval);
+                document.body.classList.add('blurring-content');
 
-                // Aplica desenfoque global al cuerpo
-                document.body.classList.add('blurring');
-
-                // Transición a blanco utilizando el overlay
                 const overlay = document.getElementById('intro-overlay');
                 overlay.style.backgroundColor = '#ffffff';
                 overlay.style.opacity = '1';
 
-                // Redirección limpia tras 1000ms
                 setTimeout(() => {
                     window.location.href = "https://quimerac3.github.io/QuimeraC3-Q/";
                 }, 1000);
             };
         }
 
-        const typeCardTitle = async (text, speed = 25) => {
-            cardCursor.style.opacity = '1';
-            let currentStr = '';
-            for (let i = 0; i < text.length; i++) {
-                currentStr += text.charAt(i);
-                cardTitleText.innerHTML = currentStr;
-                await new Promise(r => setTimeout(r, speed));
-            }
-        };
+        async function updateCardTitleLaser(text) {
+            cardTitleContainer.classList.remove('revealed');
+            cardTitleContainer.classList.add('active-laser');
+            cardTitleText.textContent = text;
+            
+            await new Promise(r => setTimeout(r, 600));
+            cardTitleContainer.classList.remove('active-laser');
+            cardTitleContainer.classList.add('revealed');
+        }
 
-        const eraseCardTitle = async (speed = 15) => {
-            cardCursor.style.opacity = '1';
-            let currentStr = cardTitleText.innerHTML;
-            for (let i = currentStr.length; i >= 0; i--) {
-                cardTitleText.innerHTML = currentStr.substring(0, i);
-                await new Promise(r => setTimeout(r, speed));
-            }
-        };
+        // FUNCIÓN AUXILIAR DE ANIMACIÓN ESCALONADA CON SOLAPAMIENTO RESPETANDO CONTENEDORES
+        async function animateModalContent(titleElem, bodyElem, closeElem, titleText, contentData) {
+            titleElem.textContent = titleText;
+            bodyElem.innerHTML = '';
+            closeElem.className = 'laser-burn-effect';
+            closeElem.textContent = 'Cerrar.';
 
-        const typeSection = async (element, text, speed) => {
-            let i = 0;
-            let isTag = false;
-            let currentStr = '';
-            while (i < text.length) {
-                if (!isTyping) break;
-                let char = text.charAt(i);
-                currentStr += char;
-                element.innerHTML = currentStr;
-                element.appendChild(modalCursor);
-                modalCursor.style.opacity = '1';
+            const elementsToAnimate = [titleElem];
 
-                if (char === '<') isTag = true;
-                if (char === '>') isTag = false;
-                if (!isTag) await new Promise(r => setTimeout(r, speed));
-                i++;
-            }
-        };
-
-        const typeSubSection = async (element, text, speed, cursorElem) => {
-            let i = 0;
-            let isTag = false;
-            let currentStr = '';
-            while (i < text.length) {
-                if (!isSubTyping) break;
-                let char = text.charAt(i);
-                currentStr += char;
-                element.innerHTML = currentStr;
-                element.appendChild(cursorElem);
-                cursorElem.style.opacity = '1';
-
-                if (char === '<') isTag = true;
-                if (char === '>') isTag = false;
-                if (!isTag) await new Promise(r => setTimeout(r, speed));
-                i++;
-            }
-        };
-
-        const typeHeaderTitle = async () => {
-            const line1Text = "MITOLOGÍA DETRÁS DE";
-            const headerLine1 = document.getElementById('header-line1');
-            const wordQuimera = document.getElementById('word-quimera');
-            const headerCursor = document.getElementById('header-cursor');
-            const letterSpans = wordQuimera.querySelectorAll('.hidden-letter');
-
-            headerCursor.style.opacity = '1';
-
-            let currentStr = '';
-            for (let i = 0; i < line1Text.length; i++) {
-                currentStr += line1Text.charAt(i);
-                headerLine1.innerHTML = currentStr;
-                headerLine1.appendChild(headerCursor);
-                await new Promise(r => setTimeout(r, 30));
+            for (let block of contentData) {
+                const blockElem = document.createElement(block.type === 'flow' ? 'div' : 'p');
+                if (block.type === 'flow') {
+                    blockElem.className = 'process-flow laser-burn-effect';
+                } else {
+                    blockElem.className = 'laser-burn-effect';
+                    blockElem.style.marginBottom = '1rem';
+                }
+                blockElem.innerHTML = block.text;
+                bodyElem.appendChild(blockElem);
+                elementsToAnimate.push(blockElem);
             }
 
-            await new Promise(r => setTimeout(r, 120));
+            elementsToAnimate.push(closeElem);
 
-            for (let i = 0; i < letterSpans.length; i++) {
-                letterSpans[i].classList.add('revealed');
-                wordQuimera.insertBefore(headerCursor, letterSpans[i].nextSibling);
-                await new Promise(r => setTimeout(r, 70));
+            await new Promise(r => setTimeout(r, 100));
+
+            for (let el of elementsToAnimate) {
+                el.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 250));
             }
 
-            headerCursor.style.opacity = '0';
-            setTimeout(() => headerCursor.remove(), 500);
-        };
+            await new Promise(r => setTimeout(r, 600));
 
-        /* APERTURA DE MODAL PRINCIPAL */
+            for (let el of elementsToAnimate) {
+                el.classList.remove('active-laser');
+                el.classList.add('revealed');
+            }
+            closeElem.className = 'modal-close-btn revealed';
+        }
+
+        function triggerCardGlitch(callback) {
+            const glitchOverlay = document.getElementById('glitch-overlay');
+            const glitchImg = document.getElementById('glitch-img');
+
+            const randomGlitch = glitchImages[currentStep % glitchImages.length];
+            glitchImg.src = ''; 
+            glitchOverlay.style.opacity = '1';
+
+            setTimeout(() => {
+                glitchImg.src = randomGlitch;
+            }, 30);
+
+            setTimeout(() => {
+                glitchOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    if (callback) callback();
+                }, 100); 
+            }, 750);
+        }
+
         centralCard.addEventListener('click', async () => {
-            if (isCardBusy) return;
+            if (isCardBusy || isModalBusy) return;
 
-            // Disparar animación Matrix y ocultar elementos en el último modal
+            // SI ES EL ÚLTIMO PASO: Programamos el retraso de 2 segundos para activar la lluvia de Matrix
             if (currentStep === storyData.length - 1) {
-                triggerMatrixAndFadeElements();
+                setTimeout(() => {
+                    triggerMatrixAndFadeElements();
+                }, 2000);
             }
 
-            document.body.classList.add('modal-blur-active');
+            // Aplicamos desenfoque únicamente a los elementos de fondo
+            document.body.classList.add('blurring-content');
 
-            setTimeout(async () => {
+            triggerCardGlitch(async () => {
+                document.body.classList.remove('blurring-content');
                 mainModal.classList.add('show');
                 modalWindow.classList.remove('tv-off');
                 modalWindow.classList.add('tv-on');
-                modalTitle.innerHTML = '';
-                modalBody.innerHTML = '';
-                modalCloseBtn.innerHTML = '';
-                modalCursor.style.opacity = '0';
-                isTyping = true;
+                
+                isModalBusy = true;
 
                 const data = storyData[currentStep];
+                modalBody.style.textAlign = data.align || 'left';
                 
-                await typeSection(modalTitle, data.title, 20);
-                if (!isTyping) return;
-                await typeSection(modalBody, data.text, 10);
-                if (!isTyping) return;
-                await typeSection(modalCloseBtn, "Cerrar.", 30);
+                await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
                 
-                if(isTyping) {
-                    modalCursor.style.opacity = '1';
-                    isTyping = false;
-                }
-            }, 300);
+                isModalBusy = false;
+            });
         });
 
-        /* CIERRE DE MODAL PRINCIPAL Y CONTROL DE TRANSICIÓN FINAL (CORREGIDO) */
         const triggerTVClose = () => {
-            if (modalWindow.classList.contains('tv-off')) return;
-            isTyping = false; 
-            modalCursor.style.opacity = '0';
+            if (modalWindow.classList.contains('tv-off') || isModalBusy) return;
             
-            // Iniciar desvanecimiento del fondo, des-desenfoque y animación TV-off en simultáneo
-            mainModal.classList.remove('show');
-            document.body.classList.remove('modal-blur-active');
             modalWindow.classList.remove('tv-on');
             modalWindow.classList.add('tv-off');
 
             setTimeout(async () => {
-                // Remover la clase de animación 'tv-off' una vez que la capa principal ya es invisible
+                mainModal.classList.remove('show');
                 modalWindow.classList.remove('tv-off');
                 
+                modalTitle.textContent = '';
+                modalBody.innerHTML = '';
+                modalCloseBtn.className = 'laser-burn-effect';
+
                 isCardBusy = true;
                 
                 if (currentStep < storyData.length - 1) {
-                    await eraseCardTitle(20);
                     currentStep++;
-                    await typeCardTitle(storyData[currentStep].title, 30);
+                    await updateCardTitleLaser(storyData[currentStep].title);
                     isCardBusy = false; 
                 } else {
-                    // Cierre definitivo del último modal sin destello en la tarjeta central
-                    centralCard.style.display = 'none';
-                    enableFinalHyperlink();
+                    centralCard.classList.add('tv-off-card');
+                    setTimeout(() => {
+                        centralCard.style.display = 'none';
+                        enableFinalHyperlink();
+                    }, 500); 
                 }
-            }, 500);
+            }, 400);
         };
 
         modalCloseBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if(!isTyping) triggerTVClose();
+            if(!isModalBusy) triggerTVClose();
         });
 
         mainModal.addEventListener('click', (e) => {
-            if (e.target === mainModal && !isTyping) triggerTVClose();
+            if (e.target === mainModal && !isModalBusy) triggerTVClose();
         });
 
-        /* SUBMODAL VARIABLES Y CONTROL */
+        /* --- CONTROL DE SUBMODALES Y SECUENCIA HELICOIDAL --- */
         const subModal = document.getElementById('sub-modal');
-        const submodalContentWrapper = document.getElementById('submodal-content-wrapper');
         const subImg = document.getElementById('submodal-img');
         const subModalTextWindow = document.getElementById('submodal-text-window');
         const subModalXBtn = document.getElementById('submodal-x-btn');
         const subModalTitle = document.getElementById('sub-modal-title');
         const subModalBody = document.getElementById('sub-modal-body');
         const subModalCloseBtn = document.getElementById('sub-modal-close-btn');
-        const subModalCursor = document.getElementById('sub-modal-cursor');
 
-        let isSubTyping = false;
+        let isSubModalBusy = false;
         let helicoidalSequenceRunning = false;
 
-        /* APERTURA DE SUBMODAL CON EFECTO DE TV (tv-on) */
         window.openSubModal = (imgSrc) => {
             helicoidalSequenceRunning = false;
             subModalTextWindow.style.display = 'none';
-            subModalTextWindow.classList.remove('tv-on', 'tv-off');
-            
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
             subImg.style.opacity = '0';
             subImg.src = imgSrc;
-            
-            submodalContentWrapper.classList.remove('tv-off');
-            submodalContentWrapper.classList.add('tv-on');
-            
             subModal.classList.add('show');
             
             const triggerFadeIn = () => { setTimeout(() => { subImg.style.opacity = '1'; }, 50); };
             if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
         };
 
-        /* SECUENCIA HELICOIDAL CON EFECTO DE TV EN ENTRADA */
         window.startHelicoidalSequence = async () => {
             helicoidalSequenceRunning = true;
             subModalTextWindow.style.display = 'none';
-            subModalTextWindow.classList.remove('tv-on', 'tv-off');
-            
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
-            
-            submodalContentWrapper.classList.remove('tv-off');
-            submodalContentWrapper.classList.add('tv-on');
-            
             subModal.classList.add('show');
 
             const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
@@ -1018,7 +1245,7 @@
             for (let i = 0; i < images.length; i++) {
                 if (!helicoidalSequenceRunning) return;
                 subImg.style.opacity = '0';
-                await new Promise(r => setTimeout(r, 800));
+                await new Promise(r => setTimeout(r, 600));
                 
                 if (!helicoidalSequenceRunning) return;
                 subImg.src = images[i];
@@ -1030,12 +1257,12 @@
                 
                 if (!helicoidalSequenceRunning) return;
                 subImg.style.opacity = '1';
-                await new Promise(r => setTimeout(r, 3000));
+                await new Promise(r => setTimeout(r, 2000));
 
                 if (!helicoidalSequenceRunning) return;
                 if (i === images.length - 1) {
                     subImg.style.opacity = '0';
-                    await new Promise(r => setTimeout(r, 800));
+                    await new Promise(r => setTimeout(r, 600));
                     if (!helicoidalSequenceRunning) return;
                     showHelicoidalTextWindow();
                     return;
@@ -1043,51 +1270,32 @@
             }
         };
 
-        const showHelicoidalTextWindow = () => {
+        const showHelicoidalTextWindow = async () => {
             subImg.style.display = 'none';
             subModalXBtn.style.display = 'none';
-            submodalContentWrapper.classList.remove('tv-on', 'tv-off');
-            
             subModalTextWindow.style.display = 'block';
             subModalTextWindow.classList.remove('tv-off');
             subModalTextWindow.classList.add('tv-on');
 
-            subModalTitle.innerHTML = '';
-            subModalBody.innerHTML = '';
-            subModalCloseBtn.innerHTML = '';
-            subModalCursor.style.opacity = '0';
-            isSubTyping = true;
+            isSubModalBusy = true;
 
-            const textContent = `Representa el conocimiento como un proceso continuo de transformación. Una teoría o comprensión previa permite interpretar la realidad, pero al enfrentarse con nuevos fenómenos surgen problemas, contradicciones o interrogantes que cuestionan sus límites.
+            const paragraphs = [
+                "Representa el conocimiento como un proceso continuo de transformación. Una teoría o comprensión previa permite interpretar la realidad, pero al enfrentarse con nuevos fenómenos surgen problemas, contradicciones o interrogantes que cuestionan sus límites.",
+                "El análisis permite investigar y construir respuestas; la revisión somete esas respuestas a criterios de rigor, coherencia y evidencia; y la transferencia incorpora el nuevo conocimiento a la comprensión existente.",
+                "Sin embargo, el proceso no termina con la solución. Cada problema resuelto genera nuevas preguntas, y las nuevas preguntas permiten acceder a problemas de mayor complejidad.",
+                "Por ello, el conocimiento no se desarrolla en círculos que regresan al mismo punto, sino mediante una hélice ascendente: cada ciclo conserva, transforma y amplía lo aprendido, conduciendo hacia niveles progresivamente más profundos de comprensión.",
+                "Resolver un problema no es el final del conocimiento; es el comienzo de una pregunta mejor."
+            ];
 
-El análisis permite investigar y construir respuestas; la revisión somete esas respuestas a criterios de rigor, coherencia y evidencia; y la transferencia incorpora el nuevo conocimiento a la comprensión existente.
+            const formattedContent = paragraphs.map(text => ({ type: 'p', text: text }));
+            
+            await animateModalContent(subModalTitle, subModalBody, subModalCloseBtn, "MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO.", formattedContent);
 
-Sin embargo, el proceso no termina con la solución. Cada problema resuelto genera nuevas preguntas, y las nuevas preguntas permiten acceder a problemas de mayor complejidad.
-
-Por ello, el conocimiento no se desarrolla en círculos que regresan al mismo punto, sino mediante una hélice ascendente:
-
-Cada ciclo conserva, transforma y amplía lo aprendido, conduciendo hacia niveles progresivamente más profundos de comprensión.
-
-Resolver un problema no es el final del conocimiento; es el comienzo de una pregunta mejor.`;
-
-            setTimeout(async () => {
-                await typeSubSection(subModalTitle, "MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO.", 20, subModalCursor);
-                if (!isSubTyping) return;
-                await typeSubSection(subModalBody, textContent, 8, subModalCursor);
-                if (!isSubTyping) return;
-                await typeSubSection(subModalCloseBtn, "Cerrar.", 30, subModalCursor);
-                
-                if(isSubTyping) {
-                    subModalCursor.style.opacity = '1';
-                    isSubTyping = false;
-                }
-            }, 500);
+            isSubModalBusy = false;
         };
 
         const triggerHelicoidalTextClose = () => {
-            if (subModalTextWindow.classList.contains('tv-off')) return;
-            isSubTyping = false;
-            subModalCursor.style.opacity = '0';
+            if (subModalTextWindow.classList.contains('tv-off') || isSubModalBusy) return;
             subModalTextWindow.classList.remove('tv-on');
             subModalTextWindow.classList.add('tv-off');
 
@@ -1095,13 +1303,14 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
                 subModalTextWindow.style.display = 'none';
                 subModalTextWindow.classList.remove('tv-off');
                 
+                subModalTitle.textContent = '';
+                subModalBody.innerHTML = '';
+                subModalCloseBtn.className = 'laser-burn-effect';
+
                 subImg.style.opacity = '0';
                 subImg.src = '04-MHDC.webp';
                 subImg.style.display = 'block';
                 subModalXBtn.style.display = 'block';
-                
-                submodalContentWrapper.classList.remove('tv-off');
-                submodalContentWrapper.classList.add('tv-on');
                 
                 setTimeout(() => { subImg.style.opacity = '1'; }, 50);
             }, 500);
@@ -1109,48 +1318,31 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
 
         subModalCloseBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (!isSubTyping) triggerHelicoidalTextClose();
+            if (!isSubModalBusy) triggerHelicoidalTextClose();
         });
 
-        /* CIERRE COMPLETO DEL SUBMODAL CON EFECTO DE TV (tv-off) */
         window.closeSubModal = () => {
-            if (subModal.classList.contains('is-closing')) return;
-            subModal.classList.add('is-closing');
             helicoidalSequenceRunning = false;
-            isSubTyping = false;
-            
-            if (subModalTextWindow.style.display === 'block') {
-                subModalTextWindow.classList.remove('tv-on');
-                subModalTextWindow.classList.add('tv-off');
-            } else {
-                submodalContentWrapper.classList.remove('tv-on');
-                submodalContentWrapper.classList.add('tv-off');
-            }
-            
+            isSubModalBusy = false;
+            subImg.style.opacity = '0';
             subModal.classList.remove('show');
-
+            
             setTimeout(() => {
-                subImg.style.opacity = '0';
-                subImg.style.display = 'none';
                 subModalTextWindow.style.display = 'none';
-                
                 subModalTextWindow.classList.remove('tv-off', 'tv-on');
-                submodalContentWrapper.classList.remove('tv-off', 'tv-on');
-                subModal.classList.remove('is-closing');
             }, 500);
         };
 
         subModal.addEventListener('click', (e) => {
             if (e.target === subModal) {
                 if (subModalTextWindow.style.display === 'block') {
-                    if (!isSubTyping) triggerHelicoidalTextClose();
+                    if (!isSubModalBusy) triggerHelicoidalTextClose();
                 } else {
                     closeSubModal();
                 }
             }
         });
 
-        /* CONTROLES DE MÚSICA Y PANTALLA COMPLETA */
         const music = document.getElementById('bg-music');
         const audioToggle = document.getElementById('audio-toggle');
         let isMusicPlaying = false;
@@ -1187,76 +1379,96 @@ Resolver un problema no es el final del conocimiento; es el comienzo de una preg
             fullscreenToggle.textContent = !document.fullscreenElement ? '⛶ Pantalla Completa' : '❌ Salir Pantalla Completa';
         });
 
-        /* SECUENCIA DE ENTRADA INICIAL */
+        // SECUENCIA DE ENTRADA GENERAL
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('intro-overlay');
-            
-            setTimeout(() => {
+
+            async function runEntranceSequence() {
+                overlay.style.backgroundColor = '#ffffff';
+                overlay.style.opacity = '1';
+                await new Promise(r => setTimeout(r, 150));
+
+                overlay.style.backgroundColor = '#000000';
+                await new Promise(r => setTimeout(r, 600));
+
                 document.getElementById('bg-layer').style.opacity = '1';
-                overlay.style.opacity = '0';
-            }, 600);
-
-            setTimeout(() => { document.querySelector('.top-bar').style.opacity = '1'; }, 1600);
-            
-            setTimeout(() => {
-                const brandLogo = document.querySelector('.brand-logo');
-                const text = brandLogo.dataset.text;
-                let i = 0;
-                function typeBrandLogo() {
-                    if (i <= text.length) {
-                        brandLogo.innerHTML = text.substring(0, i);
-                        i++;
-                        setTimeout(typeBrandLogo, 25);
-                    }
-                }
-                typeBrandLogo();
-            }, 2100);
-
-            setTimeout(() => { document.querySelector('header').style.opacity = '1'; }, 2900);
-            
-            setTimeout(async () => { await typeHeaderTitle(); }, 3200);
-
-            setTimeout(async () => {
-                const subP = document.querySelector('header p');
-                await typeSection(subP, subP.dataset.text, 15);
-            }, 4600);
-            
-            setTimeout(() => {
-                centralCard.style.display = 'block';
-                centralCard.classList.add('tv-on-card');
+                document.getElementById('cursor-light-glow').classList.add('visible');
                 
-                setTimeout(async () => {
-                    centralCard.classList.remove('tv-on-card');
-                    await typeCardTitle(storyData[0].title, 30);
-                    isCardBusy = false;
+                overlay.style.opacity = '0';
+                await new Promise(r => setTimeout(r, 500));
 
-                    document.querySelector('footer').classList.add('visible');
+                document.querySelector('.top-bar').style.opacity = '1';
+                await new Promise(r => setTimeout(r, 200));
 
+                const brandLogo = document.querySelector('.brand-logo');
+                brandLogo.textContent = brandLogo.dataset.text;
+                brandLogo.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                brandLogo.classList.remove('active-laser');
+                brandLogo.classList.add('revealed', 'hologram-mode');
+
+                const audioToggleBtn = document.getElementById('audio-toggle');
+                audioToggleBtn.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                audioToggleBtn.classList.remove('active-laser');
+                audioToggleBtn.classList.add('revealed', 'hologram-mode');
+
+                const fullscreenToggleBtn = document.getElementById('fullscreen-toggle');
+                fullscreenToggleBtn.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                fullscreenToggleBtn.classList.remove('active-laser');
+                fullscreenToggleBtn.classList.add('revealed', 'hologram-mode');
+
+                const line1Container = document.getElementById('header-line1-container');
+                line1Container.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                line1Container.classList.remove('active-laser');
+                line1Container.classList.add('revealed', 'hologram-mode');
+
+                const wordQuimeraContainer = document.getElementById('word-quimera-container');
+                wordQuimeraContainer.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                wordQuimeraContainer.classList.remove('active-laser');
+                wordQuimeraContainer.classList.add('revealed', 'hologram-mode');
+
+                const subText = document.getElementById('sub-text');
+                subText.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                subText.classList.remove('active-laser');
+                subText.classList.add('revealed', 'hologram-mode');
+
+                centralCard.style.display = 'block';
+                cardTitleText.textContent = ''; 
+                centralCard.classList.add('tv-on-card');
+                await new Promise(r => setTimeout(r, 400));
+
+                await updateCardTitleLaser(storyData[0].title);
+                isCardBusy = false;
+
+                const mainFooter = document.getElementById('main-footer');
+                const footerText = document.getElementById('footer-text');
+                footerText.textContent = footerText.dataset.text.replace('2026', new Date().getFullYear());
+                mainFooter.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                mainFooter.classList.remove('active-laser');
+                mainFooter.classList.add('revealed', 'hologram-mode');
+            }
+
+            runEntranceSequence();
+
+            document.brandLogoLink = document.querySelector('.brand-logo');
+            if (document.brandLogoLink) {
+                document.brandLogoLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const overlay = document.getElementById('intro-overlay');
+                    overlay.style.backgroundColor = '#ffffff';
+                    overlay.style.opacity = '1';
+                    
                     setTimeout(() => {
-                        const footerPs = document.querySelectorAll('footer p');
-                        let pIndex = 0;
-                        function typeFooterP() {
-                            if (pIndex >= footerPs.length) return;
-                            let p = footerPs[pIndex];
-                            let text = p.dataset.text.replace('2026', new Date().getFullYear());
-                            let i = 0;
-                            function typeChar() {
-                                if (i <= text.length) {
-                                    p.innerHTML = text.substring(0, i);
-                                    i++;
-                                    setTimeout(typeChar, 18);
-                                } else {
-                                    pIndex++;
-                                    setTimeout(typeFooterP, 100);
-                                }
-                            }
-                            typeChar();
-                        }
-                        typeFooterP();
-                    }, 400);
-
-                }, 600);
-            }, 5600); 
+                        window.location.href = "https://quimerac3.github.io/";
+                    }, 1000);
+                });
+            }
         });
     </script>
 </body>
