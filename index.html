@@ -356,7 +356,7 @@
             100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4), 0 0 30px rgba(15, 118, 110, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
         }
 
-        /* HEADER ESTRUCTURAL OPTIMIZADO PARA ASCENSO LIBRE */
+        /* HEADER ESTRUCTURAL OPTIMIZADO PARA ASCENSO LIBRE Y PROTECCIÓN DE TILDES */
         header {
             font-family: Georgia, serif;
             position: relative;
@@ -364,7 +364,7 @@
             max-width: 1100px;
             width: 100%;
             margin: 0 auto;
-            padding: 2vh 2rem 1rem 2rem; /* Reducido el padding superior de 6vh a 2vh para permitir elevación real */
+            padding: 2vh 2rem 1rem 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -382,11 +382,12 @@
             color: #e2a547;
             display: inline-block;
             font-size: clamp(1.5rem, 3.5vw, 4rem); 
-            line-height: 1.1;
+            line-height: 1.3; /* Aumentado de 1.1 a 1.3 para proteger los acentos superiores */
             -webkit-text-stroke: 1.5px #ffffff;
             transform: translateY(0rem);
             position: relative;
             z-index: 20;
+            padding-top: 0.2em; /* Margen superior interno de seguridad */
         }
 
         .arrow-02-text {
@@ -397,10 +398,11 @@
         #word-quimera {
             display: inline-block;
             font-size: clamp(2.5rem, 10vw, 6rem);
-            letter-spacing: -0.05em;
-            line-height: 1.1;
+            letter-spacing: -0.02em; /* Espaciado moderado para evitar cortes laterales */
+            line-height: 1.3; /* Aumentado para espacio vertical seguro */
             -webkit-text-stroke: 1.5px #000000;
             color: #ffffff;
+            padding-right: 0.15em; /* Previene el recorte del borde derecho del trazo en la letra A */
         }
 
         .quimera-letter {
