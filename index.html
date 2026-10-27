@@ -24,6 +24,21 @@
     <link rel="preload" href="03-HECE.webp" as="image">
     <link rel="preload" href="04-MHDC.webp" as="image">
     <link rel="preload" href="ECQ.webp" as="image">
+    <!-- PRECARGA DE IMÁGENES DE FONDO DE CADA MODAL -->
+    <link rel="preload" href="Mod_01.webp" as="image">
+    <link rel="preload" href="Mod_02.webp" as="image">
+    <link rel="preload" href="Mod_03.webp" as="image">
+    <link rel="preload" href="Mod_04.webp" as="image">
+    <link rel="preload" href="Mod_05.webp" as="image">
+    <link rel="preload" href="Mod_06.webp" as="image">
+    <link rel="preload" href="Mod_07.webp" as="image">
+    <link rel="preload" href="Mod_08.webp" as="image">
+    <link rel="preload" href="Mod_09.webp" as="image">
+    <link rel="preload" href="Mod_10.webp" as="image">
+    <link rel="preload" href="Mod_11.webp" as="image">
+    <link rel="preload" href="Mod_12.webp" as="image">
+    <link rel="preload" href="Mod_13.webp" as="image">
+    <link rel="preload" href="Mod_14.webp" as="image">
 
     <style>
         :root {
@@ -471,7 +486,7 @@
             100% { transform: translateY(20px) scale(0, 0); opacity: 0; filter: brightness(10); }
         }
 
-        /* MODALES Y SUBMODALES CON TEXTURA DE RESPALDO Quimera_V_Mod.webp */
+        /* MODALES Y SUBMODALES CON TEXTURA DE RESPALDO Quimera_V_Mod.webp Y FONDO DINÁMICO DE MODAL */
         .modal-overlay, .submodal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -502,7 +517,6 @@
         }
 
         .modal-window, .submodal-text-window {
-            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('Quimera_V_Mod.webp');
             background-size: cover;
             background-position: center center;
             padding: clamp(1.5rem, 5vw, 3rem);
@@ -519,7 +533,14 @@
             transform: translateZ(0);
         }
 
+        .modal-window {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), var(--modal-bg-img, url('Quimera_V_Mod.webp'));
+        }
+
         .submodal-text-window {
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('Quimera_V_Mod.webp');
+            background-size: cover;
+            background-position: center center;
             display: none;
         }
 
@@ -789,6 +810,7 @@
         const storyData = [
             {
                 title: "EL MITO QUE DIO NOMBRE AL INSTITUTO.",
+                bgImage: "Mod_01.webp",
                 content: [
                     { type: 'p', text: "Mucho antes de convertirse en el nombre de un instituto dedicado al conocimiento, Quimera pertenecía al mundo de la mitología griega." },
                     { type: 'p', text: "Su historia es la de un ser extraordinario y monstruoso que, según las fuentes antiguas, habitaba en Licia." },
@@ -800,6 +822,7 @@
             },
             {
                 title: "BELEROFONTE.",
+                bgImage: "Mod_02.webp",
                 content: [
                     { type: 'p', text: "La figura destinada a enfrentarse con Quimera fue Belerofonte, héroe de la mitología griega." },
                     { type: 'p', text: "Según la tradición, Belerofonte recibió del rey Yóbates de Licia el encargo de matar a la criatura." },
@@ -813,6 +836,7 @@
             },
             {
                 title: "QUIMERA FRENTE A BELEROFONTE.",
+                bgImage: "Mod_03.webp",
                 content: [
                     { type: 'p', text: "El mito puede leerse, más allá de su dimensión narrativa, como el encuentro entre dos fuerzas." },
                     { type: 'p', text: "Por un lado:\n\nQUIMERA.\nLa complejidad.\nLa multiplicidad.\nLo desconocido.\nLo aparentemente contradictorio.\nLas múltiples fuerzas combinadas.\nEl problema que no puede reducirse fácilmente a una sola explicación." },
@@ -823,6 +847,7 @@
             },
             {
                 title: "¿POR QUÉ QUIMERA?",
+                bgImage: "Mod_04.webp",
                 content: [
                     { type: 'p', text: "El nombre del Instituto nace precisamente de esta imagen." },
                     { type: 'p', text: "QUIMERA representa aquello que resulta complejo, híbrido, multidimensional y difícil de comprender desde una única perspectiva." },
@@ -835,6 +860,7 @@
             },
             {
                 title: "¿Y POR QUÉ BELEROFONTE?",
+                bgImage: "Mod_05.webp",
                 content: [
                     { type: 'p', text: "Si Quimera representa el problema complejo, Belerofonte representa al ser humano que decide enfrentarlo." },
                     { type: 'p', text: "No mediante la fuerza indiscriminada, sino mediante:\n• Observación.\n• Conocimiento.\n• Estrategia.\n• Adaptación.\n• Uso de herramientas.\n• Razonamiento.\n• Decisión." },
@@ -844,6 +870,7 @@
             },
             {
                 title: "PEGASO: LA HERRAMIENTA QUE AMPLÍA AL SER HUMANO.",
+                bgImage: "Mod_06.webp",
                 content: [
                     { type: 'p', text: "Pegaso ocupa una posición especial dentro de esta interpretación." },
                     { type: 'p', text: "Belerofonte necesitaba una herramienta que le permitiera enfrentarse a Quimera desde una perspectiva diferente." },
@@ -855,6 +882,7 @@
             },
             {
                 title: "DE LA MITOLOGÍA A LA MISIÓN.",
+                bgImage: "Mod_07.webp",
                 content: [
                     { type: 'p', text: "La mitología detrás de QUIMERA no pretende convertir una historia antigua en una explicación científica:\n\nSu función es simbólica." },
                     { type: 'p', text: "El mito proporciona un lenguaje para expresar una idea que permanece vigente:\nLos problemas complejos requieren comprensión, integración, estrategia y herramientas adecuadas." },
@@ -864,6 +892,7 @@
             },
             {
                 title: "QUIMERA E INVESTIGACIÓN.",
+                bgImage: "Mod_08.webp",
                 content: [
                     { type: 'p', text: "La investigación representa el esfuerzo por comprender a Quimera:\nAntes de intentar resolver un problema complejo es necesario estudiarlo." },
                     { type: 'p', text: "Investigar significa observar, formular preguntas, generar hipótesis, analizar evidencia, identificar relaciones, reconocer incertidumbres y producir nuevo conocimiento." },
@@ -873,6 +902,7 @@
             },
             {
                 title: "QUIMERA Y DOCENCIA.",
+                bgImage: "Mod_09.webp",
                 content: [
                     { type: 'p', text: "La docencia representa la transferencia estructurada del conocimiento.\nEl conocimiento que no puede enseñarse corre el riesgo de permanecer aislado." },
                     { type: 'p', text: "Por ello, QUIMERA transforma los resultados de la investigación, la experiencia profesional y el desarrollo metodológico en:\n\n• Cursos.\n• Programas educativos.\n• Series pedagógicas.\n• Talleres.\n• Guías.\n• Materiales didácticos.\n• Herramientas de aprendizaje." },
@@ -881,6 +911,7 @@
             },
             {
                 title: "QUIMERA Y SERVICIO.",
+                bgImage: "Mod_10.webp",
                 content: [
                     { type: 'p', text: "El servicio representa la aplicación del conocimiento.\nComprender un problema y enseñar sobre él, no siempre es suficiente.\nExisten situaciones en las que el conocimiento debe transformarse en una intervención concreta." },
                     { type: 'p', text: "Los servicios de QUIMERA buscan llevar conocimientos, metodologías y herramientas hacia contextos profesionales donde puedan generar utilidad real." },
@@ -889,6 +920,7 @@
             },
             {
                 title: "QUIMERA Y DIVULGACIÓN.",
+                bgImage: "Mod_11.webp",
                 content: [
                     { type: 'p', text: "El conocimiento científico no debe permanecer inaccesible por la forma en que se comunica.\nPor medio de publicaciones, infografías, recursos digitales, materiales educativos y otros medios de comunicación, QUIMERA busca acercar el conocimiento a diferentes públicos." },
                     { type: 'p', text: "La divulgación representa la transferencia del conocimiento más allá de los espacios especializados.\nDivulgar significa transformar el conocimiento especializado en contenidos comprensibles sin sacrificar su rigor." },
@@ -897,6 +929,7 @@
             },
             {
                 title: "EL CICLO DE QUIMERA.",
+                bgImage: "Mod_12.webp",
                 content: [
                     { type: 'p', text: "INVESIGACIÓN, DOCENCIA, SERVICIO Y DIVULGACIÓN:\nNo constituyen actividades aisladas, ni procesos independientes." },
                     { type: 'p', text: "Derivado del <a onclick=\"startHelicoidalSequence()\">MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO</a> desarrollado por el Dr. Cerezo, los cuatro procesos forman un sistema interdependiente de transformación y retroalimentación que se articula como un ciclo de desarrollo del conocimiento:" },
@@ -906,12 +939,14 @@
             },
             {
                 title: "LA IDENTIDAD SIMBÓLICA DE QUIMERA.",
+                bgImage: "Mod_13.webp",
                 content: [
                     { type: 'p', text: "Desde esta perspectiva:\n\nQUIMERA representa la complejidad.\nBELEROFONTE representa al profesional que decide comprenderla y enfrentarla.\nPEGASO representa las herramientas y la tecnología que amplían sus capacidades.\n\nEL MÉTODO representa la estrategia que permite transformar una situación compleja en un problema susceptible de análisis.\nEL CONOCIMIENTO representa aquello que permite comprender antes de intervenir.\nLA TRANSFERENCIA representa el movimiento del conocimiento hacia la práctica y la sociedad.\n\nY EL CICLO representa la evolución continua del conocimiento." }
                 ]
             },
             {
                 title: "EL SIGNIFICADO DEL NOMBRE.",
+                bgImage: "Mod_14.webp",
                 content: [
                     { type: 'p', text: "QUIMERA no toma su nombre porque pretenda reproducir el monstruo de la mitología. Lo toma porque reconoce en él una poderosa metáfora de aquello que pretende estudiar y comprender: LA COMPLEJIDAD." },
                     { type: 'p', text: "Y reconoce en Belerofonte otra metáfora igualmente importante:\nLa capacidad humana de enfrentar la complejidad mediante CONOCIMIENTO, ESTRATEGIA, METODOLOGÍA, HERRAMIENTAS Y DECISIÓN RESPONSABLE." },
@@ -1146,6 +1181,11 @@
             document.body.classList.add('blurring-content');
 
             triggerCardGlitch(async () => {
+                const data = storyData[currentStep];
+
+                // Asignación de imagen de fondo específica para el modal
+                modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
+
                 document.body.classList.remove('blurring-content');
                 mainModal.classList.add('show');
                 modalWindow.classList.remove('tv-off');
@@ -1153,7 +1193,6 @@
                 
                 isModalBusy = true;
 
-                const data = storyData[currentStep];
                 modalBody.style.textAlign = data.align || 'left';
                 
                 await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
