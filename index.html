@@ -82,10 +82,10 @@
             opacity: 0.65;
         }
 
-        /* EFECTO CRT UNIFICADO (Opción B: Pantalla TV CRT fija con capa estática sobre el scroll) */
+        /* EFECTO CRT UNIFICADO (Pantalla TV CRT fija con capa estática sobre el scroll) */
         .crt-screen-effect {
             position: relative;
-            overflow: hidden; /* La ventana contenedora no hace scroll, solo el wrapper interno */
+            overflow: hidden;
             border-radius: 16px;
             box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.9), 0 25px 35px -10px rgba(0, 0, 0, 0.6);
         }
@@ -549,7 +549,7 @@
         .modal-window, .submodal-text-window {
             background-size: cover;
             background-position: center center;
-            padding: 0; /* Padding movido a .modal-scroll-wrapper para scroll perfecto detrás de las scanlines */
+            padding: 0;
             border-radius: 16px;
             max-width: 750px;
             width: 90%;
@@ -663,6 +663,7 @@
             color: #e0a96d;
         }
 
+        /* CONTENEDOR DE IMÁGENES DE SUBMODAL LIBRE DE RECUADROS OPACOS */
         .submodal-content {
             position: relative;
             max-width: 90%;
@@ -670,11 +671,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 16px;
-            background: #000000;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--card-border);
-            padding: 1rem;
         }
 
         .submodal-content img {
@@ -805,7 +801,7 @@
 
     <!-- SUBMODAL (Modelo Helicoidal e Imágenes asociadas) -->
     <div id="sub-modal" class="submodal-overlay">
-        <div class="submodal-content crt-screen-effect" id="submodal-content-wrapper">
+        <div class="submodal-content" id="submodal-content-wrapper">
             <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
             <img id="submodal-img" src="" alt="Esquema Quimera" style="opacity: 0;">
             
