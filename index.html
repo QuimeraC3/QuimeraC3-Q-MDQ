@@ -82,19 +82,40 @@
             opacity: 0.65;
         }
 
-        /* Scanlines internas para ventanas modales */
-        .modal-scanlines {
+        /* EFECTO CRT UNIFICADO (Curvatura de pantalla de tubo + Scanlines físicas para modales y submodales) */
+        .crt-screen-effect {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.9), 0 25px 35px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        .crt-screen-effect::before {
+            content: "";
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 5;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.04));
+            z-index: 20;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
             background-size: 100% 3px, 6px 100%;
-            opacity: 0.75;
-            border-radius: 12px;
+            opacity: 0.85;
+            border-radius: inherit;
+        }
+
+        .crt-screen-effect::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 21;
+            background: radial-gradient(circle at center, transparent 55%, rgba(0, 0, 0, 0.85) 100%);
+            border-radius: inherit;
         }
 
         /* Capa de fondo estática, nítida y completa */
@@ -520,7 +541,7 @@
             background-size: cover;
             background-position: center center;
             padding: clamp(1.5rem, 5vw, 3rem);
-            border-radius: 12px;
+            border-radius: 16px;
             max-width: 750px;
             width: 90%;
             max-height: 85vh;
@@ -641,6 +662,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 16px;
+            background: #000000;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--card-border);
+            padding: 1rem;
         }
 
         .submodal-content img {
@@ -654,6 +680,9 @@
             transform-origin: center center;
             backface-visibility: hidden;
             transform: translateZ(0);
+            display: block;
+            position: relative;
+            z-index: 10;
         }
 
         .submodal-close {
@@ -755,8 +784,7 @@
 
     <!-- MODAL PRINCIPAL -->
     <div id="main-modal" class="modal-overlay">
-        <div class="modal-window" id="modal-window">
-            <div class="modal-scanlines"></div>
+        <div class="modal-window crt-screen-effect" id="modal-window">
             <h2 class="modal-title laser-burn-effect" id="modal-title"></h2>
             <div class="modal-body" id="modal-body"></div>
             <div class="modal-close-wrapper">
@@ -767,12 +795,11 @@
 
     <!-- SUBMODAL (Modelo Helicoidal e Imágenes asociadas) -->
     <div id="sub-modal" class="submodal-overlay">
-        <div class="submodal-content" id="submodal-content-wrapper">
+        <div class="submodal-content crt-screen-effect" id="submodal-content-wrapper">
             <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
             <img id="submodal-img" src="" alt="Esquema Quimera" style="opacity: 0;">
             
-            <div class="submodal-text-window" id="submodal-text-window">
-                <div class="modal-scanlines"></div>
+            <div class="submodal-text-window crt-screen-effect" id="submodal-text-window">
                 <h2 class="modal-title laser-burn-effect" id="sub-modal-title"></h2>
                 <div class="modal-body" id="sub-modal-body"></div>
                 <div class="modal-close-wrapper">
