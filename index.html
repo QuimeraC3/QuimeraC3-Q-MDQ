@@ -651,6 +651,9 @@
             box-shadow: 0 0 20px rgba(200, 139, 50, 0.4);
             opacity: 0;
             transition: opacity 800ms ease-in-out;
+            transform-origin: center center;
+            backface-visibility: hidden;
+            transform: translateZ(0);
         }
 
         .submodal-close {
@@ -1257,12 +1260,19 @@
             subModalTextWindow.style.display = 'none';
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
-            subImg.style.opacity = '0';
+            
+            subImg.classList.remove('tv-off', 'tv-on');
+            subImg.style.opacity = '';
             subImg.src = imgSrc;
             subModal.classList.add('show');
             
-            const triggerFadeIn = () => { setTimeout(() => { subImg.style.opacity = '1'; }, 50); };
-            if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
+            if (imgSrc === 'ECQ.webp') {
+                subImg.classList.add('tv-on');
+            } else {
+                subImg.style.opacity = '0';
+                const triggerFadeIn = () => { setTimeout(() => { subImg.style.opacity = '1'; }, 50); };
+                if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
+            }
         };
 
         window.startHelicoidalSequence = async () => {
@@ -1270,6 +1280,7 @@
             subModalTextWindow.style.display = 'none';
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
+            subImg.classList.remove('tv-off', 'tv-on');
             subModal.classList.add('show');
 
             const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
@@ -1356,8 +1367,19 @@
         window.closeSubModal = () => {
             helicoidalSequenceRunning = false;
             isSubModalBusy = false;
-            subImg.style.opacity = '0';
-            subModal.classList.remove('show');
+            
+            if (subImg.src.includes('ECQ.webp') && subImg.classList.contains('tv-on')) {
+                subImg.classList.remove('tv-on');
+                subImg.classList.add('tv-off');
+                setTimeout(() => {
+                    subImg.classList.remove('tv-off');
+                    subImg.style.opacity = '0';
+                    subModal.classList.remove('show');
+                }, 400);
+            } else {
+                subImg.style.opacity = '0';
+                subModal.classList.remove('show');
+            }
             
             setTimeout(() => {
                 subModalTextWindow.style.display = 'none';
