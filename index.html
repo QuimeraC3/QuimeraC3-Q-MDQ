@@ -538,9 +538,9 @@
             background-position: center center;
             padding: 0;
             border-radius: 16px;
-            max-width: 750px;
+            max-width: 92vw; /* AMPLIADO PARA MEJOR LECTURA */
             width: 100%;
-            max-height: 85vh;
+            max-height: 92vh; /* MÁS ESPACIO VERTICAL */
             position: relative;
             box-shadow: var(--shadow-lg);
             border: 1px solid var(--card-border);
@@ -553,14 +553,22 @@
             background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), var(--modal-bg-img, url('Mod_00.webp'));
         }
 
-        /* VENTANA DE SUBMODAL EQUIPADA CON RETROILUMINACIÓN RGB Y TEXTURA DE FONDO */
+        /* VENTANA DE SUBMODAL ESTÁNDAR (Con textura Mod_00) */
         .submodal-window {
             background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('Mod_00.webp');
-            max-width: 850px;
-            padding: 2rem;
+            max-width: 92vw;
+            width: auto;
+            padding: 2.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        /* VENTANA ESPECIAL PARA ECQ.webp (SIN TEXTURA DE FONDO, SOLO FONDO OSCURO Y LUZ RGB) */
+        .submodal-window.ecq-clean-mode {
+            background: rgba(0, 0, 0, 0.92);
+            border: 1.5px solid rgba(56, 189, 248, 0.4);
+            padding: 2.5rem;
         }
 
         /* SUB-SUBMODAL CON OPACIDAD EXCLUSIVA EN LA IMAGEN DE FONDO */
@@ -621,7 +629,7 @@
         }
 
         .modal-body {
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem); /* TAMAÑO MÁS GRANDE PARA FACILITAR LECTURA */
             font-weight: 700;
             color: #ffffff;
             line-height: 1.8;
@@ -650,14 +658,14 @@
             padding: 1rem 1.5rem;
             margin: 1.5rem 0;
             font-weight: bold;
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
             text-align: center;
             border-radius: 0 8px 8px 0;
         }
 
         .modal-close-wrapper {
             text-align: right;
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
             font-weight: 700;
             min-height: 2rem;
             position: relative;
@@ -677,14 +685,14 @@
             color: #ffffff;
         }
 
-        /* IMÁGENES DENTRO DE LA VENTANA DE SUBMODAL */
+        /* IMÁGENES DENTRO DE LA VENTANA DE SUBMODAL (MUCHO MÁS GRANDES Y CÓMODAS) */
         #submodal-img {
-            max-width: 100%;
-            max-height: 75vh;
+            max-width: 88vw;
+            max-height: 82vh;
             object-fit: contain;
             border: 1.5px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
-            box-shadow: 0 0 20px rgba(200, 139, 50, 0.3);
+            box-shadow: 0 0 25px rgba(200, 139, 50, 0.4);
             opacity: 0;
             transition: opacity 800ms ease-in-out;
             display: block;
@@ -694,9 +702,9 @@
 
         .submodal-close {
             position: absolute;
-            top: -40px; right: -40px;
+            top: -45px; right: 0px;
             color: var(--accent);
-            font-size: clamp(2rem, 6vw, 3rem);
+            font-size: clamp(2.2rem, 6vw, 3.2rem);
             cursor: pointer;
             font-weight: bold;
             transition: transform 0.3s, color 0.3s;
@@ -732,7 +740,7 @@
             .top-bar-container { flex-direction: column; gap: 0.8rem; }
             .nav-links { justify-content: center; gap: 0.8rem; }
             header { padding: 2rem 1rem 1rem 1rem; }
-            .submodal-close { top: -15px; right: 0px; text-shadow: 0 0 10px #000; }
+            .submodal-close { top: -20px; right: 0px; text-shadow: 0 0 10px #000; }
             footer.laser-burn-effect { position: relative !important; margin-top: 1.5rem; padding: 1rem; bottom: auto !important; left: auto !important; }
         }
     </style>
@@ -802,7 +810,7 @@
         </div>
     </div>
 
-    <!-- SUBMODAL (Con ventana modal estructurada y retroiluminación RGB holográfica) -->
+    <!-- SUBMODAL (Con tamaño ampliado y modo limpio exclusivo para ECQ.webp sin textura de fondo) -->
     <div id="sub-modal" class="submodal-overlay">
         <div class="submodal-window crt-screen-effect" id="submodal-window-box">
             <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
@@ -1302,6 +1310,13 @@
             subModal.classList.add('show');
             document.body.classList.add('blurring-content');
             
+            // Verificamos si es ECQ.webp para quitarle la textura de fondo de Mod_00
+            if (imgSrc === 'ECQ.webp') {
+                subModalWindowBox.classList.add('ecq-clean-mode');
+            } else {
+                subModalWindowBox.classList.remove('ecq-clean-mode');
+            }
+
             subModalWindowBox.classList.add('tv-on');
             
             const triggerFadeIn = () => { 
@@ -1319,6 +1334,7 @@
             subModal.classList.add('show');
             document.body.classList.add('blurring-content');
             
+            subModalWindowBox.classList.remove('ecq-clean-mode'); // Asegura textura para la secuencia helicoidal
             subModalWindowBox.classList.add('tv-on');
 
             const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
@@ -1406,7 +1422,7 @@
             helicoidalSequenceRunning = false;
             isSubModalBusy = false;
             
-            subModalWindowBox.classList.remove('tv-on');
+            subModalWindowBox.classList.remove('tv-on', 'ecq-clean-mode');
             subModalWindowBox.classList.add('tv-off');
             subModal.classList.remove('show');
             document.body.classList.remove('blurring-content');
@@ -1507,7 +1523,7 @@
                 line1Container.classList.add('revealed', 'hologram-mode');
 
                 const wordQuimeraContainer = document.getElementById('word-quimera-container');
-                wordQuimeraContainer.classList.add('active-laser');
+                    wordQuimeraContainer.classList.add('active-laser');
                 await new Promise(r => setTimeout(r, 600));
                 wordQuimeraContainer.classList.remove('active-laser');
                 wordQuimeraContainer.classList.add('revealed', 'hologram-mode');
