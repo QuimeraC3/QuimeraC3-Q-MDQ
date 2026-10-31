@@ -516,13 +516,13 @@
         }
 
         .modal-overlay {
-            background: rgba(0, 0, 0, 0.75); /* Oscurecimiento general de la pantalla de fondo */
+            background: rgba(0, 0, 0, 0.80); /* Oscurecimiento general de la pantalla de fondo */
             backdrop-filter: blur(8px);
             z-index: 2000;
         }
 
         .submodal-overlay {
-            background: rgba(0, 0, 0, 0.75); /* Oscurecimiento general de la pantalla de fondo en submodales */
+            background: rgba(0, 0, 0, 0.80); /* Oscurecimiento general de la pantalla de fondo en submodales */
             backdrop-filter: blur(8px);
             z-index: 3000;
             transition: opacity 0.5s ease;
@@ -553,11 +553,29 @@
             background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), var(--modal-bg-img, url('Mod_00.webp'));
         }
 
+        /* SUB-SUBMODAL CON OPACIDAD EXCLUSIVA EN LA IMAGEN DE FONDO */
         .submodal-text-window {
-            background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('Mod_00.webp');
+            background: none;
             background-size: cover;
             background-position: center center;
             display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submodal-text-window::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('Mod_00.webp');
+            background-size: cover;
+            background-position: center center;
+            opacity: 0.35; /* <--- AQUÍ PUEDES AJUSTAR LA OPACIDAD DE LA IMAGEN DE FONDO (0.0 a 1.0) */
+            z-index: 1;
+            pointer-events: none;
         }
 
         .tv-on { animation: tvTurnOn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate !important; animation-delay: 0s, 0.4s; }
@@ -1483,7 +1501,7 @@
                 brandLogo.classList.remove('active-laser');
                 brandLogo.classList.add('revealed', 'hologram-mode');
 
-                const audioToggleBtn = document.getElementById('audio-toggle');
+                    const audioToggleBtn = document.getElementById('audio-toggle');
                 audioToggleBtn.classList.add('active-laser');
                 await new Promise(r => setTimeout(r, 600));
                 audioToggleBtn.classList.remove('active-laser');
@@ -1510,6 +1528,7 @@
                 centralCard.style.display = 'block';
                 cardTitleText.textContent = ''; 
                 centralCard.classList.add('tv-on-card');
+                await newFooter = document.getElementById('main-footer'); // Safe reference
                 await new Promise(r => setTimeout(r, 400));
 
                 await updateCardTitleLaser(storyData[0].title);
