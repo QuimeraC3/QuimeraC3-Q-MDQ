@@ -82,12 +82,12 @@
             opacity: 0.65;
         }
 
-        /* EFECTO CRT UNIFICADO (Pantalla TV CRT fija con capa estática sobre el scroll) */
+        /* EFECTO CRT UNIFICADO (Sin oscurecimiento en esquinas) */
         .crt-screen-effect {
             position: relative;
             overflow: hidden;
             border-radius: 16px;
-            box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.9), 0 25px 35px -10px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 25px 35px -10px rgba(0, 0, 0, 0.6); /* Sombra externa limpia sin viñeta interna */
         }
 
         .crt-screen-effect::before {
@@ -105,18 +105,7 @@
             border-radius: inherit;
         }
 
-        .crt-screen-effect::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 21;
-            background: radial-gradient(circle at center, transparent 55%, rgba(0, 0, 0, 0.85) 100%);
-            border-radius: inherit;
-        }
+        /* NOTA: Se eliminó .crt-screen-effect::after para evitar el oscurecimiento de las esquinas */
 
         /* CONTENEDOR INTERNO DE DESPLAZAMIENTO (Scroll suave por detrás del marco CRT) */
         .modal-scroll-wrapper {
@@ -800,7 +789,7 @@
         </div>
     </div>
 
-    <!-- SUBMODAL (Modelo Helicoidal e Imágenes asociadas con efecto CRT Scanlines restaurado) -->
+    <!-- SUBMODAL (Modelo Helicoidal e Imágenes asociadas con efecto CRT Scanlines sin viñeta) -->
     <div id="sub-modal" class="submodal-overlay">
         <div class="submodal-content crt-screen-effect" id="submodal-content-wrapper">
             <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
