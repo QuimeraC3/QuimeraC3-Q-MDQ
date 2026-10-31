@@ -516,13 +516,13 @@
         }
 
         .modal-overlay {
-            background: rgba(0, 0, 0, 0.80); /* Oscurecimiento general de la pantalla de fondo */
+            background: rgba(0, 0, 0, 0.80);
             backdrop-filter: blur(8px);
             z-index: 2000;
         }
 
         .submodal-overlay {
-            background: rgba(0, 0, 0, 0.80); /* Oscurecimiento general de la pantalla de fondo en submodales */
+            background: rgba(0, 0, 0, 0.80);
             backdrop-filter: blur(8px);
             z-index: 3000;
             transition: opacity 0.5s ease;
@@ -533,7 +533,7 @@
             pointer-events: auto;
         }
 
-        .modal-window, .submodal-text-window {
+        .modal-window, .submodal-window, .submodal-text-window {
             background-size: cover;
             background-position: center center;
             padding: 0;
@@ -553,14 +553,22 @@
             background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), var(--modal-bg-img, url('Mod_00.webp'));
         }
 
+        /* VENTANA DE SUBMODAL EQUIPADA CON RETROILUMINACIÓN RGB Y TEXTURA DE FONDO */
+        .submodal-window {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('Mod_00.webp');
+            max-width: 850px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         /* SUB-SUBMODAL CON OPACIDAD EXCLUSIVA EN LA IMAGEN DE FONDO */
         .submodal-text-window {
             background: none;
-            background-size: cover;
-            background-position: center center;
             display: none;
-            position: relative;
             overflow: hidden;
+            max-width: 100%;
         }
 
         .submodal-text-window::before {
@@ -573,7 +581,7 @@
             background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('Mod_00.webp');
             background-size: cover;
             background-position: center center;
-            opacity: 0.35; /* <--- AQUÍ PUEDES AJUSTAR LA OPACIDAD DE LA IMAGEN DE FONDO (0.0 a 1.0) */
+            opacity: 0.1;
             z-index: 1;
             pointer-events: none;
         }
@@ -669,27 +677,16 @@
             color: #ffffff;
         }
 
-        /* CONTENEDOR DE IMÁGENES DE SUBMODAL LIBRE DE RECUADROS OPACOS */
-        .submodal-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .submodal-content img {
+        /* IMÁGENES DENTRO DE LA VENTANA DE SUBMODAL */
+        #submodal-img {
             max-width: 100%;
-            max-height: 85vh;
-            border: 2px solid var(--accent);
+            max-height: 75vh;
+            object-fit: contain;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
             border-radius: 8px;
-            box-shadow: 0 0 20px rgba(200, 139, 50, 0.4);
+            box-shadow: 0 0 20px rgba(200, 139, 50, 0.3);
             opacity: 0;
             transition: opacity 800ms ease-in-out;
-            transform-origin: center center;
-            backface-visibility: hidden;
-            transform: translateZ(0);
             display: block;
             position: relative;
             z-index: 10;
@@ -805,9 +802,9 @@
         </div>
     </div>
 
-    <!-- SUBMODAL (Modelo Helicoidal e Imágenes asociadas con efecto CRT Scanlines sin viñeta) -->
+    <!-- SUBMODAL (Con ventana modal estructurada y retroiluminación RGB holográfica) -->
     <div id="sub-modal" class="submodal-overlay">
-        <div class="submodal-content crt-screen-effect" id="submodal-content-wrapper">
+        <div class="submodal-window crt-screen-effect" id="submodal-window-box">
             <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
             <img id="submodal-img" src="" alt="Esquema Quimera" style="opacity: 0;">
             
@@ -1085,7 +1082,6 @@
 
         let globalColorInterval = null;
 
-        // Implementación del efecto de blanco a dorado (cobre) hasta que sea seleccionada
         function enableFinalHyperlink() {
             const wordContainer = document.getElementById('word-quimera-container');
             const letters = document.querySelectorAll('.quimera-letter');
@@ -1095,7 +1091,7 @@
             wordContainer.style.pointerEvents = 'auto';
             wordContainer.style.cursor = 'pointer';
 
-            const stepTime = 120; // Velocidad de transición entre cada letra
+            const stepTime = 120;
 
             function runSequence() {
                 let i = 0;
@@ -1151,7 +1147,6 @@
             cardTitleContainer.classList.add('revealed');
         }
 
-        // FUNCIÓN AUXILIAR DE ANIMACIÓN ESCALONADA CON SOLAPAMIENTO RESPETANDO CONTENEDORES
         async function animateModalContent(titleElem, bodyElem, closeElem, titleText, contentData) {
             titleElem.textContent = titleText;
             bodyElem.innerHTML = '';
@@ -1214,20 +1209,17 @@
         centralCard.addEventListener('click', async () => {
             if (isCardBusy || isModalBusy) return;
 
-            // SI ES EL ÚLTIMO PASO: Programamos el retraso de 2 segundos para activar la lluvia de Matrix
             if (currentStep === storyData.length - 1) {
                 setTimeout(() => {
                     triggerMatrixAndFadeElements();
                 }, 2000);
             }
 
-            // Aplicamos desenfoque y mantenemos el fondo borroso y oscurecido mientras el modal esté abierto
             document.body.classList.add('blurring-content');
 
             triggerCardGlitch(async () => {
                 const data = storyData[currentStep];
 
-                // Asignación de imagen de fondo específica para el modal
                 modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
 
                 mainModal.classList.add('show');
@@ -1249,7 +1241,7 @@
             
             modalWindow.classList.remove('tv-on');
             modalWindow.classList.add('tv-off');
-            mainModal.classList.remove('show'); // Desvanece el fondo oscuro inmediatamente al iniciar el cierre
+            mainModal.classList.remove('show');
 
             setTimeout(async () => {
                 modalWindow.classList.remove('tv-off');
@@ -1258,7 +1250,6 @@
                 modalBody.innerHTML = '';
                 modalCloseBtn.className = 'laser-burn-effect';
 
-                // Quitamos el desenfoque general al cerrar el modal principal
                 document.body.classList.remove('blurring-content');
 
                 isCardBusy = true;
@@ -1286,8 +1277,9 @@
             if (e.target === mainModal && !isModalBusy) triggerTVClose();
         });
 
-        /* --- CONTROL DE SUBMODALES Y SECUENCIA HELICOIDAL --- */
+        /* --- CONTROL DE SUBMODALES Y SECUENCIA HELICOIDAL CON RETROILUMINACIÓN RGB --- */
         const subModal = document.getElementById('sub-modal');
+        const subModalWindowBox = document.getElementById('submodal-window-box');
         const subImg = document.getElementById('submodal-img');
         const subModalTextWindow = document.getElementById('submodal-text-window');
         const subModalXBtn = document.getElementById('submodal-x-btn');
@@ -1304,19 +1296,18 @@
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
             
-            subImg.classList.remove('tv-off', 'tv-on');
-            subImg.style.opacity = '';
+            subModalWindowBox.classList.remove('tv-off', 'tv-on');
+            subImg.style.opacity = '0';
             subImg.src = imgSrc;
             subModal.classList.add('show');
-            document.body.classList.add('blurring-content'); // Mantener desenfoque general en submodal
+            document.body.classList.add('blurring-content');
             
-            if (imgSrc === 'ECQ.webp') {
-                subImg.classList.add('tv-on');
-            } else {
-                subImg.style.opacity = '0';
-                const triggerFadeIn = () => { setTimeout(() => { subImg.style.opacity = '1'; }, 50); };
-                if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
-            }
+            subModalWindowBox.classList.add('tv-on');
+            
+            const triggerFadeIn = () => { 
+                setTimeout(() => { subImg.style.opacity = '1'; }, 100); 
+            };
+            if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
         };
 
         window.startHelicoidalSequence = async () => {
@@ -1324,9 +1315,11 @@
             subModalTextWindow.style.display = 'none';
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
-            subImg.classList.remove('tv-off', 'tv-on');
+            subModalWindowBox.classList.remove('tv-off', 'tv-on');
             subModal.classList.add('show');
-            document.body.classList.add('blurring-content'); // Mantener desenfoque general en secuencia helicoidal
+            document.body.classList.add('blurring-content');
+            
+            subModalWindowBox.classList.add('tv-on');
 
             const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
 
@@ -1413,21 +1406,15 @@
             helicoidalSequenceRunning = false;
             isSubModalBusy = false;
             
-            subModal.classList.remove('show'); // Desvanece el fondo oscuro inmediatamente al cerrar
-            document.body.classList.remove('blurring-content'); // Quitar desenfoque general al cerrar submodal
+            subModalWindowBox.classList.remove('tv-on');
+            subModalWindowBox.classList.add('tv-off');
+            subModal.classList.remove('show');
+            document.body.classList.remove('blurring-content');
             
-            if (subImg.src.includes('ECQ.webp') && subImg.classList.contains('tv-on')) {
-                subImg.classList.remove('tv-on');
-                subImg.classList.add('tv-off');
-                setTimeout(() => {
-                    subImg.classList.remove('tv-off');
-                    subImg.style.opacity = '0';
-                }, 400);
-            } else {
-                subImg.style.opacity = '0';
-            }
+            subImg.style.opacity = '0';
             
             setTimeout(() => {
+                subModalWindowBox.classList.remove('tv-off');
                 subModalTextWindow.style.display = 'none';
                 subModalTextWindow.classList.remove('tv-off', 'tv-on');
             }, 500);
