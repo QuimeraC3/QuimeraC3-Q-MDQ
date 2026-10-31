@@ -1501,7 +1501,7 @@
                 brandLogo.classList.remove('active-laser');
                 brandLogo.classList.add('revealed', 'hologram-mode');
 
-                    const audioToggleBtn = document.getElementById('audio-toggle');
+                const audioToggleBtn = document.getElementById('audio-toggle');
                 audioToggleBtn.classList.add('active-laser');
                 await new Promise(r => setTimeout(r, 600));
                 audioToggleBtn.classList.remove('active-laser');
@@ -1528,7 +1528,6 @@
                 centralCard.style.display = 'block';
                 cardTitleText.textContent = ''; 
                 centralCard.classList.add('tv-on-card');
-                await newFooter = document.getElementById('main-footer'); // Safe reference
                 await new Promise(r => setTimeout(r, 400));
 
                 await updateCardTitleLaser(storyData[0].title);
