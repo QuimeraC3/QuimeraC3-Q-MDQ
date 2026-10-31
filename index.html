@@ -87,7 +87,7 @@
             position: relative;
             overflow: hidden;
             border-radius: 16px;
-            box-shadow: 0 25px 35px -10px rgba(0, 0, 0, 0.6); /* Sombra externa limpia sin viñeta interna */
+            box-shadow: 0 25px 35px -10px rgba(0, 0, 0, 0.6);
         }
 
         .crt-screen-effect::before {
@@ -104,8 +104,6 @@
             opacity: 0.85;
             border-radius: inherit;
         }
-
-        /* NOTA: Se eliminó .crt-screen-effect::after para evitar el oscurecimiento de las esquinas */
 
         /* CONTENEDOR INTERNO DE DESPLAZAMIENTO (Scroll suave por detrás del marco CRT) */
         .modal-scroll-wrapper {
@@ -505,7 +503,7 @@
             100% { transform: translateY(20px) scale(0, 0); opacity: 0; filter: brightness(10); }
         }
 
-        /* MODALES Y SUBMODALES CON TEXTURA DE RESPALDO Mod_00.webp Y FONDO DINÁMICO DE MODAL */
+        /* MODALES Y SUBMODALES CON FONDO OSCURECIDO (PANTALLA GENERAL) Y TEXTURA */
         .modal-overlay, .submodal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -518,13 +516,13 @@
         }
 
         .modal-overlay {
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.75); /* Oscurecimiento general de la pantalla de fondo */
             backdrop-filter: blur(8px);
             z-index: 2000;
         }
 
         .submodal-overlay {
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.75); /* Oscurecimiento general de la pantalla de fondo en submodales */
             backdrop-filter: blur(8px);
             z-index: 3000;
             transition: opacity 0.5s ease;
@@ -1205,7 +1203,7 @@
                 }, 2000);
             }
 
-            // Aplicamos desenfoque únicamente a los elementos de fondo
+            // Aplicamos desenfoque y mantenemos el fondo borroso y oscurecido mientras el modal esté abierto
             document.body.classList.add('blurring-content');
 
             triggerCardGlitch(async () => {
@@ -1214,7 +1212,6 @@
                 // Asignación de imagen de fondo específica para el modal
                 modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
 
-                document.body.classList.remove('blurring-content');
                 mainModal.classList.add('show');
                 modalWindow.classList.remove('tv-off');
                 modalWindow.classList.add('tv-on');
@@ -1242,6 +1239,9 @@
                 modalTitle.textContent = '';
                 modalBody.innerHTML = '';
                 modalCloseBtn.className = 'laser-burn-effect';
+
+                // Quitamos el desenfoque general al cerrar el modal principal
+                document.body.classList.remove('blurring-content');
 
                 isCardBusy = true;
                 
@@ -1290,6 +1290,7 @@
             subImg.style.opacity = '';
             subImg.src = imgSrc;
             subModal.classList.add('show');
+            document.body.classList.add('blurring-content'); // Mantener desenfoque general en submodal
             
             if (imgSrc === 'ECQ.webp') {
                 subImg.classList.add('tv-on');
@@ -1307,6 +1308,7 @@
             subModalXBtn.style.display = 'block';
             subImg.classList.remove('tv-off', 'tv-on');
             subModal.classList.add('show');
+            document.body.classList.add('blurring-content'); // Mantener desenfoque general en secuencia helicoidal
 
             const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
 
@@ -1394,6 +1396,7 @@
             isSubModalBusy = false;
             
             subModal.classList.remove('show'); // Desvanece el fondo oscuro inmediatamente al cerrar
+            document.body.classList.remove('blurring-content'); // Quitar desenfoque general al cerrar submodal
             
             if (subImg.src.includes('ECQ.webp') && subImg.classList.contains('tv-on')) {
                 subImg.classList.remove('tv-on');
