@@ -624,11 +624,11 @@
             z-index: 10;
         }
 
-        /* CAMBIO EXCLUSIVO PARA EL TÍTULO DEL MODAL DE CALIBRACIÓN */
+        /* CAMBIO 1: Título de LA CALIBRACIÓN DE "EL CICLO DE QUIMERA" exclusivo en blanco con delineado negro */
         #calibration-modal .modal-title {
-            color: #ffffff;
-            -webkit-text-stroke: 1px #000000;
-            text-shadow: 0 0 15px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 0, 0, 0.5);
+            color: #ffffff !important;
+            -webkit-text-stroke: 1px #000000 !important;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.9) !important;
         }
 
         .modal-body {
@@ -784,10 +784,10 @@
             text-shadow: 0 0 10px var(--accent);
         }
 
-        /* CANDADOS HOLOGRÁFICOS DE CALIBRACIÓN (REESCALADOS UN +50%) */
+        /* CANDADOS HOLOGRÁFICOS DE CALIBRACIÓN */
         .holo-lock {
-            width: 68px;
-            height: 83px;
+            width: 45px;
+            height: 55px;
             position: relative;
             display: inline-block;
             vertical-align: middle;
@@ -797,28 +797,27 @@
         .holo-shackle {
             position: absolute;
             top: 0;
-            left: 12px;
-            width: 42px;
-            height: 38px;
-            border: 5px solid #38bdf8;
-            border-top-left-radius: 21px;
-            border-top-right-radius: 21px;
+            left: 8px;
+            width: 28px;
+            height: 25px;
+            border: 4px solid #38bdf8;
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
             border-bottom: none;
             box-shadow: 0 0 15px #38bdf8, inset 0 0 5px #38bdf8;
             transform-origin: bottom left;
-            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .holo-body {
             position: absolute;
             bottom: 0;
-            width: 68px;
-            height: 52px;
+            width: 45px;
+            height: 35px;
             background: rgba(56, 189, 248, 0.25);
-            border: 3px solid #38bdf8;
-            border-radius: 10px;
+            border: 2px solid #38bdf8;
+            border-radius: 8px;
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.85), inset 0 0 8px rgba(56, 189, 248, 0.6);
-            transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
         }
 
         @keyframes holoFloat {
@@ -826,17 +825,16 @@
             100% { transform: translateY(-4px); filter: drop-shadow(0 0 15px rgba(56, 189, 248, 1)); }
         }
 
-        /* CANDADO DESBLOQUEADO (VERDE LIMA NEÓN) */
         .holo-lock.unlocked .holo-shackle {
-            transform: rotate(-45deg) translateY(-8px) translateX(-6px);
-            border-color: #22c55e !important;
-            box-shadow: 0 0 25px #22c55e, inset 0 0 10px #22c55e !important;
+            transform: rotate(-45deg) translateY(-6px) translateX(-4px);
+            border-color: #22c55e;
+            box-shadow: 0 0 20px #22c55e, inset 0 0 8px #22c55e;
         }
 
         .holo-lock.unlocked .holo-body {
-            border-color: #22c55e !important;
-            background: rgba(34, 197, 94, 0.4) !important;
-            box-shadow: 0 0 35px rgba(34, 197, 94, 0.95), inset 0 0 12px rgba(34, 197, 94, 0.7) !important;
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.35);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.95);
         }
 
         .holo-lock.error .holo-shackle {
@@ -945,16 +943,16 @@
     <!-- MODAL DE CALIBRACIÓN DE EL CICLO DE QUIMERA -->
     <div id="calibration-modal" class="modal-overlay">
         <div class="modal-window crt-screen-effect" id="calibration-modal-window" style="--modal-bg-img: url('Quimeratrix.webp');">
-            <div class="modal-scroll-wrapper" style="display: flex; flex-direction: column; justify-content: center; min-height: 70vh;">
+            <div class="modal-scroll-wrapper">
                 <h2 class="modal-title laser-burn-effect revealed">LA CALIBRACIÓN DE "EL CICLO DE QUIMERA"</h2>
                 <div class="modal-body" style="text-align: center; font-size: clamp(1.0rem, 7.0vw, 1.5rem); -webkit-text-stroke: 1.0px #000000; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">
                     Navegante: Arrastra o selecciona un concepto y colócalo en el recuadro correspondiente para calibrar el ciclo del conocimiento.
                 </div>
                 
-                <!-- Conceptos disponibles en una sola línea -->
+                <!-- CAMBIO 2: Conceptos disponibles reorganizados en una sola línea en el orden solicitado -->
                 <div style="margin-bottom: 2rem; text-align: center;">
                     <div style="font-size: 1.5rem; color: #38bdf8; -webkit-text-stroke: 1.0px #000000; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700;">CONCEPTOS DISPONIBLES:</div>
-                    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;" id="cal-source-container"></div>
+                    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;" id="cal-source-single-row"></div>
                 </div>
 
                 <!-- Líneas de calibración -->
@@ -1385,6 +1383,7 @@
         }
 
         /* --- LÓGICA DEL ACERTIJO: LA CALIBRACIÓN DE EL CICLO DE QUIMERA (CON DRAG & DROP Y CLIC) --- */
+        // CAMBIO 2: Arreglo único en el orden exacto solicitado para mostrarse en una sola línea
         const availableConcepts = ["SERVICIO", "INVESTIGACIÓN", "DIVULGACIÓN", "DOCENCIA"];
 
         const calLinesData = [
@@ -1452,7 +1451,8 @@
         }
 
         function renderCalibrationPuzzle() {
-            const container = document.getElementById('cal-source-container');
+            // CAMBIO 2: Renderizar los 4 conceptos en el contenedor de una sola línea
+            const container = document.getElementById('cal-source-single-row');
             container.innerHTML = '';
             availableConcepts.forEach(c => {
                 const box = document.createElement('div');
