@@ -1413,7 +1413,6 @@
         function placeConceptInSlot(concept, slotIdx) {
             if (!concept || calPlaced[slotIdx] !== null) return;
 
-            // Encontrar si ya estaba en otro slot y limpiarlo
             for (let i = 0; i < 4; i++) {
                 if (calPlaced[i] === concept) {
                     calPlaced[i] = null;
@@ -1454,12 +1453,10 @@
                 box.textContent = `[ ${c} ]`;
                 box.draggable = !calUsed[c];
 
-                // Eventos de Arrastre (Drag)
                 box.ondragstart = (e) => {
                     e.dataTransfer.setData('text/plain', c);
                 };
 
-                // Evento de Clic
                 box.onclick = () => {
                     if (!calUsed[c]) {
                         selectedSourceConcept = (selectedSourceConcept === c) ? null : c;
@@ -1477,12 +1474,10 @@
                 box.textContent = `[ ${c} ]`;
                 box.draggable = !calUsed[c];
 
-                // Eventos de Arrastre (Drag)
                 box.ondragstart = (e) => {
                     e.dataTransfer.setData('text/plain', c);
                 };
 
-                // Evento de Clic
                 box.onclick = () => {
                     if (!calUsed[c]) {
                         selectedSourceConcept = (selectedSourceConcept === c) ? null : c;
@@ -1503,7 +1498,6 @@
                 slot.className = 'cal-target-slot' + (calPlaced[idx] ? ' filled' : '');
                 slot.textContent = calPlaced[idx] ? `[ ${calPlaced[idx]} ]` : '[ ? ]';
 
-                // Eventos para recibir el Arrastre (Drop)
                 slot.ondragover = (e) => {
                     e.preventDefault();
                     slot.classList.add('drag-over');
@@ -1522,7 +1516,6 @@
                     }
                 };
 
-                // Evento de Clic en el Slot
                 slot.onclick = () => {
                     if (calPlaced[idx]) {
                         const returned = calPlaced[idx];
@@ -1908,7 +1901,6 @@
                 line1Container.classList.add('active-laser');
                 await new Promise(r => setTimeout(r, 600));
                 line1Container.classList.remove('active-laser');
-                line1Container.classList.0 = 'revealed';
                 line1Container.classList.add('revealed', 'hologram-mode');
 
                 const wordQuimeraContainer = document.getElementById('word-quimera-container');
