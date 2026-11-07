@@ -624,6 +624,13 @@
             z-index: 10;
         }
 
+        /* CAMBIO EXCLUSIVO PARA EL TÍTULO DEL MODAL DE CALIBRACIÓN */
+        #calibration-modal .modal-title {
+            color: #ffffff;
+            -webkit-text-stroke: 1px #000000;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 0, 0, 0.5);
+        }
+
         .modal-body {
             font-size: clamp(1.0rem, 2.5vw, 1.5rem);
             font-weight: 700;
@@ -777,10 +784,10 @@
             text-shadow: 0 0 10px var(--accent);
         }
 
-        /* CANDADOS HOLOGRÁFICOS DE CALIBRACIÓN */
+        /* CANDADOS HOLOGRÁFICOS DE CALIBRACIÓN (REESCALADOS UN +50%) */
         .holo-lock {
-            width: 45px;
-            height: 55px;
+            width: 68px;
+            height: 83px;
             position: relative;
             display: inline-block;
             vertical-align: middle;
@@ -790,27 +797,28 @@
         .holo-shackle {
             position: absolute;
             top: 0;
-            left: 8px;
-            width: 28px;
-            height: 25px;
-            border: 4px solid #38bdf8;
-            border-top-left-radius: 14px;
-            border-top-right-radius: 14px;
+            left: 12px;
+            width: 42px;
+            height: 38px;
+            border: 5px solid #38bdf8;
+            border-top-left-radius: 21px;
+            border-top-right-radius: 21px;
             border-bottom: none;
             box-shadow: 0 0 15px #38bdf8, inset 0 0 5px #38bdf8;
             transform-origin: bottom left;
-            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1), border-color 0.4s ease, box-shadow 0.4s ease;
         }
 
         .holo-body {
             position: absolute;
             bottom: 0;
-            width: 45px;
-            height: 35px;
+            width: 68px;
+            height: 52px;
             background: rgba(56, 189, 248, 0.25);
-            border: 2px solid #38bdf8;
-            border-radius: 8px;
+            border: 3px solid #38bdf8;
+            border-radius: 10px;
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.85), inset 0 0 8px rgba(56, 189, 248, 0.6);
+            transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
         }
 
         @keyframes holoFloat {
@@ -818,16 +826,17 @@
             100% { transform: translateY(-4px); filter: drop-shadow(0 0 15px rgba(56, 189, 248, 1)); }
         }
 
+        /* CANDADO DESBLOQUEADO (VERDE LIMA NEÓN) */
         .holo-lock.unlocked .holo-shackle {
-            transform: rotate(-45deg) translateY(-6px) translateX(-4px);
-            border-color: #22c55e;
-            box-shadow: 0 0 20px #22c55e, inset 0 0 8px #22c55e;
+            transform: rotate(-45deg) translateY(-8px) translateX(-6px);
+            border-color: #22c55e !important;
+            box-shadow: 0 0 25px #22c55e, inset 0 0 10px #22c55e !important;
         }
 
         .holo-lock.unlocked .holo-body {
-            border-color: #22c55e;
-            background: rgba(34, 197, 94, 0.35);
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.95);
+            border-color: #22c55e !important;
+            background: rgba(34, 197, 94, 0.4) !important;
+            box-shadow: 0 0 35px rgba(34, 197, 94, 0.95), inset 0 0 12px rgba(34, 197, 94, 0.7) !important;
         }
 
         .holo-lock.error .holo-shackle {
@@ -936,17 +945,16 @@
     <!-- MODAL DE CALIBRACIÓN DE EL CICLO DE QUIMERA -->
     <div id="calibration-modal" class="modal-overlay">
         <div class="modal-window crt-screen-effect" id="calibration-modal-window" style="--modal-bg-img: url('Quimeratrix.webp');">
-            <div class="modal-scroll-wrapper">
+            <div class="modal-scroll-wrapper" style="display: flex; flex-direction: column; justify-content: center; min-height: 70vh;">
                 <h2 class="modal-title laser-burn-effect revealed">LA CALIBRACIÓN DE "EL CICLO DE QUIMERA"</h2>
                 <div class="modal-body" style="text-align: center; font-size: clamp(1.0rem, 7.0vw, 1.5rem); -webkit-text-stroke: 1.0px #000000; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">
                     Navegante: Arrastra o selecciona un concepto y colócalo en el recuadro correspondiente para calibrar el ciclo del conocimiento.
                 </div>
                 
-                <!-- Conceptos disponibles (Dos arriba, dos abajo) -->
+                <!-- Conceptos disponibles en una sola línea -->
                 <div style="margin-bottom: 2rem; text-align: center;">
                     <div style="font-size: 1.5rem; color: #38bdf8; -webkit-text-stroke: 1.0px #000000; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700;">CONCEPTOS DISPONIBLES:</div>
-                    <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 0.8rem; flex-wrap: wrap;" id="cal-source-top"></div>
-                    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;" id="cal-source-bottom"></div>
+                    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;" id="cal-source-container"></div>
                 </div>
 
                 <!-- Líneas de calibración -->
@@ -1377,8 +1385,7 @@
         }
 
         /* --- LÓGICA DEL ACERTIJO: LA CALIBRACIÓN DE EL CICLO DE QUIMERA (CON DRAG & DROP Y CLIC) --- */
-        const topConcepts = ["SERVICIO", "INVESTIGACIÓN"];
-        const bottomConcepts = ["DIVULGACIÓN", "DOCENCIA"];
+        const availableConcepts = ["SERVICIO", "INVESTIGACIÓN", "DIVULGACIÓN", "DOCENCIA"];
 
         const calLinesData = [
             { text: "Las ideas aplicadas, generan conocimiento.", correct: "INVESTIGACIÓN" },
@@ -1445,9 +1452,9 @@
         }
 
         function renderCalibrationPuzzle() {
-            const topDiv = document.getElementById('cal-source-top');
-            topDiv.innerHTML = '';
-            topConcepts.forEach(c => {
+            const container = document.getElementById('cal-source-container');
+            container.innerHTML = '';
+            availableConcepts.forEach(c => {
                 const box = document.createElement('div');
                 box.className = 'cal-concept-box' + (calUsed[c] ? ' used' : '') + (selectedSourceConcept === c ? ' selected' : '');
                 box.textContent = `[ ${c} ]`;
@@ -1463,28 +1470,7 @@
                         renderCalibrationPuzzle();
                     }
                 };
-                topDiv.appendChild(box);
-            });
-
-            const botDiv = document.getElementById('cal-source-bottom');
-            botDiv.innerHTML = '';
-            bottomConcepts.forEach(c => {
-                const box = document.createElement('div');
-                box.className = 'cal-concept-box' + (calUsed[c] ? ' used' : '') + (selectedSourceConcept === c ? ' selected' : '');
-                box.textContent = `[ ${c} ]`;
-                box.draggable = !calUsed[c];
-
-                box.ondragstart = (e) => {
-                    e.dataTransfer.setData('text/plain', c);
-                };
-
-                box.onclick = () => {
-                    if (!calUsed[c]) {
-                        selectedSourceConcept = (selectedSourceConcept === c) ? null : c;
-                        renderCalibrationPuzzle();
-                    }
-                };
-                botDiv.appendChild(box);
+                container.appendChild(box);
             });
 
             const linesContainer = document.getElementById('cal-target-lines');
