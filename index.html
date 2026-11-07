@@ -19,6 +19,9 @@
     <link rel="preload" href="glitch_09.webp" as="image">
     <link rel="preload" href="glitch_10.webp" as="image">
     <link rel="preload" href="glitch_11.webp" as="image">
+    <link rel="preload" href="glitch_12.webp" as="image">
+    <link rel="preload" href="glitch_13.webp" as="image">
+    <link rel="preload" href="glitch_14.webp" as="image">
     <link rel="preload" href="01-borrador_T-P.webp" as="image">
     <link rel="preload" href="02-Teoria-Preg.webp" as="image">
     <link rel="preload" href="03-HECE.webp" as="image">
@@ -83,7 +86,7 @@
             opacity: 0.65;
         }
 
-        /* EFECTO CRT UNIFICADO (Sin oscurecimiento en esquinas) */
+        /* EFECTO CRT UNIFICADO */
         .crt-screen-effect {
             position: relative;
             overflow: hidden;
@@ -106,7 +109,7 @@
             border-radius: inherit;
         }
 
-        /* CONTENEDOR INTERNO DE DESPLAZAMIENTO (Scroll suave por detrás del marco CRT) */
+        /* CONTENEDOR INTERNO DE DESPLAZAMIENTO */
         .modal-scroll-wrapper {
             position: relative;
             z-index: 10;
@@ -115,7 +118,11 @@
             padding: clamp(1.5rem, 5vw, 3rem);
         }
 
-        /* Capa de fondo estática, nítida y completa */
+        .modal-scroll-wrapper::-webkit-scrollbar { width: 8px; }
+        .modal-scroll-wrapper::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        .modal-scroll-wrapper::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+        /* Capa de fondo estática */
         #bg-layer {
             position: fixed;
             top: 0;
@@ -131,7 +138,6 @@
             transition: opacity 1000ms ease, filter 0.5s ease;
         }
 
-        /* Desenfoque exclusivo del fondo e interfaz posterior sin tocar la capa de glitch */
         .blurring-content header,
         .blurring-content .top-bar,
         .blurring-content main,
@@ -141,7 +147,6 @@
             transition: filter 0.5s ease;
         }
 
-        /* Capa de luz reactiva exclusiva del puntero */
         .cursor-light-glow {
             position: fixed;
             top: 0;
@@ -159,7 +164,6 @@
             opacity: 1;
         }
 
-        /* Canvas para Lluvia de Código Matrix */
         #matrix-canvas {
             position: fixed;
             top: 0;
@@ -172,7 +176,6 @@
             transition: opacity 1.5s ease;
         }
 
-        /* Capa de Glitch Central: Se mantiene nítida sin backdrop-filter */
         #glitch-overlay {
             position: fixed;
             top: 0;
@@ -225,7 +228,6 @@
             transition: opacity 1s ease, background-color 1.2s ease;
         }
 
-        /* NAVEGACIÓN TOP BAR */
         .top-bar {
             background-color: rgba(11, 19, 41, 0.0);
             padding: 0.85rem 2rem;
@@ -301,7 +303,6 @@
             color: #ffffff;
         }
 
-        /* EFECTO LÁSER COMÚN (ACELERADO A 0.6s) */
         .laser-burn-effect {
             opacity: 0;
             clip-path: inset(0 100% 0 0);
@@ -389,7 +390,6 @@
             100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4), 0 0 30px rgba(15, 118, 110, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
         }
 
-        /* HEADER ESTRUCTURAL OPTIMIZADO PARA ASCENSO LIBRE Y PROTECCIÓN DE TILDES */
         header {
             font-family: Georgia, serif;
             position: relative;
@@ -444,7 +444,6 @@
             transition: color 0.4s ease;
         }
 
-        /* TARJETA CENTRAL CON EFECTO DE LUZ RGB POSTERIOR (Hologram Box Glow) */
         main {
             flex: 1;
             display: flex;
@@ -504,7 +503,6 @@
             100% { transform: translateY(20px) scale(0, 0); opacity: 0; filter: brightness(10); }
         }
 
-        /* MODALES Y SUBMODALES CON FONDO OSCURECIDO Y TEXTURA */
         .modal-overlay, .submodal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -708,92 +706,61 @@
         }
         .submodal-close:hover { transform: scale(1.2); color: #e0a96d; }
 
-        /* ESTILOS DEL ACERTIJO: LA CALIBRACIÓN DE EL CICLO DE QUIMERA */
-        .calibration-source-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(140px, 1fr));
-            gap: 1rem;
-            max-width: 420px;
-            margin: 1.5rem auto;
-        }
-
-        .calibration-concept-box {
-            background: rgba(11, 19, 41, 0.9);
+        /* ESTILOS PARA EL ACERTIJO DE CALIBRACIÓN DE EL CICLO DE QUIMERA */
+        .cal-concept-box {
+            background: rgba(0, 0, 0, 0.85);
             border: 2px solid rgba(200, 139, 50, 0.6);
             border-radius: 8px;
-            padding: 0.8rem 1rem;
-            color: var(--accent);
+            padding: 0.5rem 1.2rem;
             font-family: monospace;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             font-weight: bold;
-            font-size: clamp(0.95rem, 2vw, 1.15rem);
-            text-align: center;
+            color: var(--accent);
             cursor: pointer;
             user-select: none;
             transition: all 0.2s ease;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
-            -webkit-text-stroke: 0.5px #000000;
         }
 
-        .calibration-concept-box:hover:not(.used) {
+        .cal-concept-box:hover:not(.used) {
             border-color: #38bdf8;
             transform: translateY(-2px);
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-            color: #ffffff;
         }
 
-        .calibration-concept-box.used {
+        .cal-concept-box.selected {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.3);
+            color: #ffffff;
+            box-shadow: 0 0 15px #38bdf8;
+        }
+
+        .cal-concept-box.used {
             opacity: 0.3;
             cursor: not-allowed;
             border-color: rgba(255, 255, 255, 0.1);
         }
 
-        .calibration-concept-box.selected {
-            border-color: #fef384;
-            background: rgba(200, 139, 50, 0.4);
-            color: #fef384;
-            box-shadow: 0 0 20px rgba(254, 243, 132, 0.6);
-        }
-
-        .calibration-targets-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 750px;
-            margin: 1.5rem auto;
-        }
-
-        .calibration-target-row {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 1.2rem;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            padding: 0.8rem 1.2rem;
-        }
-
-        .calibration-target-box {
-            width: 170px;
-            height: 50px;
+        .cal-target-slot {
+            min-width: 150px;
+            padding: 0.5rem 1rem;
             background: rgba(11, 19, 41, 0.9);
             border: 2px dashed rgba(56, 189, 248, 0.6);
-            border-radius: 6px;
-            display: flex;
+            border-radius: 8px;
+            display: inline-flex;
             justify-content: center;
             align-items: center;
             font-family: monospace;
-            font-size: 0.95rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             font-weight: bold;
             color: #ffffff;
             cursor: pointer;
             user-select: none;
             transition: all 0.2s ease;
-            flex-shrink: 0;
-            -webkit-text-stroke: 0.5px #000000;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
         }
 
-        .calibration-target-box.filled {
+        .cal-target-slot.filled {
             border-style: solid;
             border-color: var(--accent);
             background: rgba(200, 139, 50, 0.3);
@@ -801,73 +768,40 @@
             text-shadow: 0 0 10px var(--accent);
         }
 
-        .calibration-text {
-            color: #ffffff;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            font-weight: 600;
-            text-align: left;
-            -webkit-text-stroke: 0.25px #000000;
-        }
-
-        .calibration-reset-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 1.5rem;
-        }
-
-        .btn-calibration-reset {
-            background: rgba(200, 139, 50, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: #ffffff;
-            padding: 0.6rem 1.5rem;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: background 0.3s, box-shadow 0.3s;
-        }
-
-        .btn-calibration-reset:hover {
-            background: rgba(200, 139, 50, 0.9);
-            box-shadow: 0 0 15px rgba(200, 139, 50, 0.8);
-        }
-
-        /* CANDADOS HOLOGRÁFICOS */
+        /* CANDADOS HOLOGRÁFICOS DE CALIBRACIÓN (AZUL EN ESPERA, VERDE AL ABRIRSE, ROJO AL FALLAR) */
         .holo-lock {
             width: 45px;
-            height: 58px;
+            height: 55px;
             position: relative;
             display: inline-block;
             vertical-align: middle;
-            flex-shrink: 0;
             animation: holoFloat 2s ease-in-out infinite alternate;
         }
 
         .holo-shackle {
             position: absolute;
             top: 0;
-            left: 9px;
-            width: 27px;
+            left: 8px;
+            width: 28px;
             height: 25px;
             border: 4px solid #38bdf8;
             border-top-left-radius: 14px;
             border-top-right-radius: 14px;
             border-bottom: none;
-            box-shadow: 0 0 15px #38bdf8, inset 0 0 6px #38bdf8;
+            box-shadow: 0 0 15px #38bdf8, inset 0 0 5px #38bdf8;
             transform-origin: bottom left;
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .holo-body {
             position: absolute;
             bottom: 0;
             width: 45px;
-            height: 36px;
+            height: 35px;
             background: rgba(56, 189, 248, 0.25);
-            border: 3px solid #38bdf8;
+            border: 2px solid #38bdf8;
             border-radius: 8px;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.85), inset 0 0 10px rgba(56, 189, 248, 0.6);
-            transition: all 0.4s ease;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.85), inset 0 0 8px rgba(56, 189, 248, 0.6);
         }
 
         @keyframes holoFloat {
@@ -876,7 +810,7 @@
         }
 
         .holo-lock.unlocked .holo-shackle {
-            transform: rotate(-45deg) translateY(-8px) translateX(-4px);
+            transform: rotate(-45deg) translateY(-6px) translateX(-4px);
             border-color: #22c55e;
             box-shadow: 0 0 20px #22c55e, inset 0 0 8px #22c55e;
         }
@@ -902,8 +836,8 @@
 
         @keyframes lockShake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
         }
 
         /* FOOTER */
@@ -990,6 +924,34 @@
         </div>
     </main>
 
+    <!-- MODAL DE CALIBRACIÓN DE EL CICLO DE QUIMERA -->
+    <div id="calibration-modal" class="modal-overlay">
+        <div class="modal-window crt-screen-effect" id="calibration-modal-window" style="--modal-bg-img: url('ECQ01.webp');">
+            <div class="modal-scroll-wrapper">
+                <h2 class="modal-title laser-burn-effect revealed">LA CALIBRACIÓN DE "EL CICLO DE QUIMERA"</h2>
+                <div class="modal-body" style="text-align: center; font-size: clamp(0.95rem, 2.2vw, 1.25rem); margin-bottom: 1.5rem;">
+                    Navegante: Selecciona un concepto y colócalo en el recuadro correspondiente para calibrar el ciclo del conocimiento.
+                </div>
+                
+                <!-- Conceptos disponibles (Dos arriba, dos abajo) -->
+                <div style="margin-bottom: 2rem; text-align: center;">
+                    <div style="font-size: 0.9rem; color: #38bdf8; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: bold;">CONCEPTOS DISPONIBLES:</div>
+                    <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 0.8rem; flex-wrap: wrap;" id="cal-source-top"></div>
+                    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;" id="cal-source-bottom"></div>
+                </div>
+
+                <!-- Líneas de calibración -->
+                <div style="display: flex; flex-direction: column; gap: 1.2rem; max-width: 800px; margin: 0 auto; text-align: left;" id="cal-target-lines"></div>
+
+                <!-- Botón Reiniciar Centrado -->
+                <div style="margin-top: 2.5rem; text-align: center;" id="cal-reset-container">
+                    <button id="cal-btn-reset" style="background: rgba(200, 139, 50, 0.6); border: 1px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 0.6rem 1.8rem; border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 0 15px rgba(200,139,50,0.6); transition: all 0.3s ease;">REINICIAR</button>
+                </div>
+                <div style="margin-top: 1rem; text-align: center;" id="cal-status-msg" style="color: #38bdf8; font-family: monospace; font-weight: bold; font-size: 1.1rem; min-height: 1.5rem;"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL PRINCIPAL -->
     <div id="main-modal" class="modal-overlay">
         <div class="modal-window crt-screen-effect" id="modal-window">
@@ -1003,7 +965,7 @@
         </div>
     </div>
 
-    <!-- SUBMODAL (Incluye visualizador de esquemas y el acertijo de calibración) -->
+    <!-- SUBMODAL -->
     <div id="sub-modal" class="submodal-overlay">
         <div class="submodal-window crt-screen-effect" id="submodal-window-box">
             <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
@@ -1173,7 +1135,7 @@
                 content: [
                     { type: 'p', text: "INVESTIGACIÓN, DOCENCIA, SERVICIO Y DIVULGACIÓN:\nNo constituyen actividades aisladas, ni procesos independientes." },
                     { type: 'p', text: "Derivado del <a onclick=\"startHelicoidalSequence()\">MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO</a> desarrollado por el Dr. Cerezo, los cuatro procesos forman un sistema interdependiente de transformación y retroalimentación que se articula como un ciclo de desarrollo del conocimiento:" },
-                    { type: 'flow', text: " <a onclick=\"openCalibrationModal()\">EL CICLO DE QUIMERA</a> \nLa INVESTIGACIÓN genera conocimiento.\nLa DOCENCIA transforma conocimiento en capacidad.\nEl SERVICIO transforma la capacidad en experiencia mediante su aplicación en contextos reales.\nLa DIVULGACIÓN transforma el conocimiento especializado enriquecido por la experiencia, en comprensión compartida.\nDe la interacción entre conocimiento, capacidad, experiencia y realidad, emergen nuevas preguntas que impulsan nuevamente a la investigación." },
+                    { type: 'flow', text: " <a onclick=\"openSubModal('ECQ.webp')\">EL CICLO DE QUIMERA</a> \nLa INVESTIGACIÓN genera conocimiento.\nLa DOCENCIA transforma conocimiento en capacidad.\nEl SERVICIO transforma la capacidad en experiencia mediante su aplicación en contextos reales.\nLa DIVULGACIÓN transforma el conocimiento especializado enriquecido por la experiencia, en comprensión compartida.\nDe la interacción entre conocimiento, capacidad, experiencia y realidad, emergen nuevas preguntas que impulsan nuevamente a la investigación." },
                     { type: 'p', text: "Por ello, el ciclo se eleva, conservando lo aprendido:\nTransforma y amplía el conocimiento, sin cerrar el ciclo." }
                 ]
             },
@@ -1405,6 +1367,179 @@
             }, 750);
         }
 
+        /* --- LÓGICA DEL ACERTIJO: LA CALIBRACIÓN DE EL CICLO DE QUIMERA --- */
+        const topConcepts = ["SERVICIO", "INVESTIGACIÓN"];
+        const bottomConcepts = ["DIVULGACIÓN", "DOCENCIA"];
+
+        const calLinesData = [
+            { text: "Al generar conocimiento", correct: "INVESTIGACIÓN" },
+            { text: "se transforma en capacidad", correct: "DOCENCIA" },
+            { text: "y al aplicarla se transforma en experiencia,", correct: "SERVICIO" },
+            { text: "la cual es imperativo compartir.", correct: "DIVULGACIÓN" }
+        ];
+
+        let calPlaced = [null, null, null, null];
+        let calUsed = { "SERVICIO": false, "INVESTIGACIÓN": false, "DIVULGACIÓN": false, "DOCENCIA": false };
+        let selectedSourceConcept = null;
+
+        function openCalibrationModal() {
+            const calModal = document.getElementById('calibration-modal');
+            const calModalWindow = document.getElementById('calibration-modal-window');
+            
+            calModal.classList.add('show');
+            calModalWindow.classList.remove('tv-off');
+            calModalWindow.classList.add('tv-on');
+            
+            initCalibrationPuzzle();
+        }
+
+        function initCalibrationPuzzle() {
+            calPlaced = [null, null, null, null];
+            calUsed = { "SERVICIO": false, "INVESTIGACIÓN": false, "DIVULGACIÓN": false, "DOCENCIA": false };
+            selectedSourceConcept = null;
+            document.getElementById('cal-status-msg').textContent = "";
+            renderCalibrationPuzzle();
+        }
+
+        function renderCalibrationPuzzle() {
+            const topDiv = document.getElementById('cal-source-top');
+            topDiv.innerHTML = '';
+            topConcepts.forEach(c => {
+                const box = document.createElement('div');
+                box.className = 'cal-concept-box' + (calUsed[c] ? ' used' : '') + (selectedSourceConcept === c ? ' selected' : '');
+                box.textContent = `[ ${c} ]`;
+                box.onclick = () => {
+                    if (!calUsed[c]) {
+                        selectedSourceConcept = c;
+                        renderCalibrationPuzzle();
+                    }
+                };
+                topDiv.appendChild(box);
+            });
+
+            const botDiv = document.getElementById('cal-source-bottom');
+            botDiv.innerHTML = '';
+            bottomConcepts.forEach(c => {
+                const box = document.createElement('div');
+                box.className = 'cal-concept-box' + (calUsed[c] ? ' used' : '') + (selectedSourceConcept === c ? ' selected' : '');
+                box.textContent = `[ ${c} ]`;
+                box.onclick = () => {
+                    if (!calUsed[c]) {
+                        selectedSourceConcept = c;
+                        renderCalibrationPuzzle();
+                    }
+                };
+                botDiv.appendChild(box);
+            });
+
+            const linesContainer = document.getElementById('cal-target-lines');
+            linesContainer.innerHTML = '';
+
+            calLinesData.forEach((line, idx) => {
+                const row = document.createElement('div');
+                row.style.cssText = "display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; background: rgba(11, 19, 41, 0.7); padding: 0.8rem 1.2rem; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.3);";
+
+                const slot = document.createElement('div');
+                slot.className = 'cal-target-slot' + (calPlaced[idx] ? ' filled' : '');
+                slot.textContent = calPlaced[idx] ? `[ ${calPlaced[idx]} ]` : '[ ? ]';
+                slot.onclick = () => {
+                    if (calPlaced[idx]) {
+                        const returned = calPlaced[idx];
+                        calUsed[returned] = false;
+                        calPlaced[idx] = null;
+                        const lockElem = document.getElementById(`cal-lock-${idx}`);
+                        lockElem.classList.remove('unlocked', 'error');
+                        document.getElementById('cal-status-msg').textContent = "";
+                        renderCalibrationPuzzle();
+                    } else if (selectedSourceConcept) {
+                        const concept = selectedSourceConcept;
+                        calPlaced[idx] = concept;
+                        calUsed[concept] = true;
+                        selectedSourceConcept = null;
+
+                        const lockElem = document.getElementById(`cal-lock-${idx}`);
+                        if (concept === line.correct) {
+                            lockElem.classList.add('unlocked');
+                            lockElem.classList.remove('error');
+                            checkCalibrationComplete();
+                        } else {
+                            lockElem.classList.add('error');
+                            document.getElementById('cal-status-msg').textContent = "¡Concepto incorrecto! Intenta de nuevo.";
+                            setTimeout(() => {
+                                lockElem.classList.remove('error');
+                                calPlaced[idx] = null;
+                                calUsed[concept] = false;
+                                document.getElementById('cal-status-msg').textContent = "";
+                                renderCalibrationPuzzle();
+                            }, 600);
+                        }
+                        renderCalibrationPuzzle();
+                    }
+                };
+                row.appendChild(slot);
+
+                const lockContainer = document.createElement('div');
+                lockContainer.id = `cal-lock-${idx}`;
+                lockContainer.className = 'holo-lock' + (calPlaced[idx] === line.correct ? ' unlocked' : '');
+                lockContainer.innerHTML = '<div class="holo-shackle"></div><div class="holo-body"></div>';
+                row.appendChild(lockContainer);
+
+                const textSpan = document.createElement('div');
+                textSpan.style.cssText = "color: #ffffff; font-weight: 600; font-size: clamp(0.9rem, 2vw, 1.1rem); flex: 1; min-width: 250px;";
+                textSpan.textContent = line.text;
+                row.appendChild(textSpan);
+
+                linesContainer.appendChild(row);
+            });
+        }
+
+        function checkCalibrationComplete() {
+            let allCorrect = true;
+            for (let i = 0; i < 4; i++) {
+                if (calPlaced[i] !== calLinesData[i].correct) {
+                    allCorrect = false;
+                    break;
+                }
+            }
+            if (allCorrect) {
+                document.getElementById('cal-status-msg').style.color = "#22c55e";
+                document.getElementById('cal-status-msg').textContent = "¡CALIBRACIÓN EXITOSA! ACCEDIENDO A EL CICLO DE QUIMERA...";
+                setTimeout(() => {
+                    onCalibrationCompleted();
+                }, 1400);
+            }
+        }
+
+        document.getElementById('cal-btn-reset').onclick = () => {
+            initCalibrationPuzzle();
+        };
+
+        function onCalibrationCompleted() {
+            const calModal = document.getElementById('calibration-modal');
+            const calModalWindow = document.getElementById('calibration-modal-window');
+            
+            calModalWindow.classList.remove('tv-on');
+            calModalWindow.classList.add('tv-off');
+            
+            setTimeout(async () => {
+                calModal.classList.remove('show');
+                calModalWindow.classList.remove('tv-off');
+                
+                // Abrir el modal correspondiente a EL CICLO DE QUIMERA (storyData[11])
+                const data = storyData[11];
+                modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
+
+                mainModal.classList.add('show');
+                modalWindow.classList.remove('tv-off');
+                modalWindow.classList.add('tv-on');
+                
+                isModalBusy = true;
+                modalBody.style.textAlign = data.align || 'left';
+                await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
+                isModalBusy = false;
+            }, 400);
+        }
+
         centralCard.addEventListener('click', async () => {
             if (isCardBusy || isModalBusy) return;
 
@@ -1418,6 +1553,12 @@
 
             triggerCardGlitch(async () => {
                 const data = storyData[currentStep];
+
+                // Interceptar cuando es "EL CICLO DE QUIMERA." (Paso 11) para mostrar primero el acertijo de calibración
+                if (currentStep === 11) {
+                    openCalibrationModal();
+                    return;
+                }
 
                 modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
 
@@ -1476,7 +1617,7 @@
             if (e.target === mainModal && !isModalBusy) triggerTVClose();
         });
 
-        /* --- CONTROL DE SUBMODALES Y ACERTIJO DE CALIBRACIÓN --- */
+        /* --- CONTROL DE SUBMODALES Y SECUENCIA HELICOIDAL --- */
         const subModal = document.getElementById('sub-modal');
         const subModalWindowBox = document.getElementById('submodal-window-box');
         const subImg = document.getElementById('submodal-img');
@@ -1495,12 +1636,7 @@
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
             
-            // Remover contenido de calibración si existiera
-            const calContainer = document.getElementById('calibration-modal-content');
-            if (calContainer) calContainer.style.display = 'none';
-
             subModalWindowBox.classList.remove('tv-off', 'tv-on');
-            subModalWindowBox.style.backgroundImage = ""; // Restaurar textura predeterminada Mod_00
             subImg.style.opacity = '0';
             subImg.src = imgSrc;
             subModal.classList.add('show');
@@ -1520,169 +1656,16 @@
             if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
         };
 
-        /* --- LÓGICA DE LA CALIBRACIÓN DE EL CICLO DE QUIMERA --- */
-        const calibrationData = [
-            { concept: "INVESTIGACIÓN", text: "Al generar conocimiento" },
-            { concept: "DOCENCIA", text: "se transforma en capacidad" },
-            { concept: "SERVICIO", text: "y al aplicarla se transforma en experiencia" },
-            { concept: "DIVULGACIÓN", text: "la cual es imperativo compartir." }
-        ];
-
-        let selectedConcept = null;
-        let placedConcepts = [null, null, null, null];
-        let lockStates = [false, false, false, false];
-
-        window.openCalibrationModal = () => {
-            helicoidalSequenceRunning = false;
-            subModalTextWindow.style.display = 'none';
-            subImg.style.display = 'none';
-            subModalXBtn.style.display = 'block';
-            
-            subModalWindowBox.classList.remove('tv-off', 'tv-on', 'ecq-clean-mode');
-            subModalWindowBox.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('ECQ01.webp')";
-
-            let calContainer = document.getElementById('calibration-modal-content');
-            if (!calContainer) {
-                calContainer = document.createElement('div');
-                calContainer.id = 'calibration-modal-content';
-                calContainer.className = 'modal-scroll-wrapper';
-                subModalWindowBox.appendChild(calContainer);
-            }
-            calContainer.style.display = 'block';
-
-            resetCalibrationData();
-            renderCalibrationPuzzle();
-
-            subModal.classList.add('show');
-            document.body.classList.add('blurring-content');
-            subModalWindowBox.classList.add('tv-on');
-        };
-
-        function resetCalibrationData() {
-            selectedConcept = null;
-            placedConcepts = [null, null, null, null];
-            lockStates = [false, false, false, false];
-        }
-
-        function renderCalibrationPuzzle() {
-            const calContainer = document.getElementById('calibration-modal-content');
-            if (!calContainer) return;
-
-            // Orden solicitado: dos arriba, dos abajo: [SERVICIO] [INVESTIGACIÓN] / [DIVULGACIÓN] [DOCENCIA]
-            const sourceConcepts = ["SERVICIO", "INVESTIGACIÓN", "DIVULGACIÓN", "DOCENCIA"];
-
-            let html = `
-                <h2 class="modal-title">LA CALIBRACIÓN DE "EL CICLO DE QUIMERA"</h2>
-                <p style="color: #ffffff; text-align: center; margin-bottom: 1.2rem; font-size: clamp(0.95rem, 2vw, 1.15rem); text-shadow: 0 0 8px rgba(0,0,0,0.8);">
-                    Selecciona un concepto superior y colócalo en el recuadro correspondiente junto a su descripción analítica.
-                </p>
-                <div class="calibration-source-grid">
-            `;
-
-            sourceConcepts.forEach(concept => {
-                const isUsed = placedConcepts.includes(concept);
-                const isSelected = selectedConcept === concept;
-                let classes = "calibration-concept-box";
-                if (isUsed) classes += " used";
-                if (isSelected) classes += " selected";
-
-                html += `<div class="${classes}" onclick="selectConcept('${concept}')">${concept}</div>`;
-            });
-
-            html += `</div><div class="calibration-targets-container">`;
-
-            calibrationData.forEach((item, index) => {
-                const placed = placedConcepts[index];
-                const isUnlocked = lockStates[index];
-                const targetClass = placed ? "calibration-target-box filled" : "calibration-target-box";
-                const lockClass = isUnlocked ? "holo-lock unlocked" : "holo-lock";
-
-                html += `
-                    <div class="calibration-target-row">
-                        <div class="${targetClass}" onclick="handleTargetClick(${index})">
-                            ${placed ? placed : '[      ]'}
-                        </div>
-                        <div class="${lockClass}" id="cal-lock-${index}">
-                            <div class="holo-shackle"></div>
-                            <div class="holo-body"></div>
-                        </div>
-                        <div class="calibration-text">${item.text}</div>
-                    </div>
-                `;
-            });
-
-            html += `</div>
-                <div class="calibration-reset-container">
-                    <button class="btn-calibration-reset" onclick="resetCalibrationPuzzleUI()">REINICIAR</button>
-                </div>
-            `;
-
-            calContainer.innerHTML = html;
-        }
-
-        window.selectConcept = (concept) => {
-            if (placedConcepts.includes(concept)) return;
-            selectedConcept = (selectedConcept === concept) ? null : concept;
-            renderCalibrationPuzzle();
-        };
-
-        window.handleTargetClick = (targetIndex) => {
-            if (lockStates[targetIndex]) return;
-
-            if (placedConcepts[targetIndex]) {
-                placedConcepts[targetIndex] = null;
-                renderCalibrationPuzzle();
-                return;
-            }
-
-            if (selectedConcept) {
-                placedConcepts[targetIndex] = selectedConcept;
-                selectedConcept = null;
-                renderCalibrationPuzzle();
-
-                const correctConcept = calibrationData[targetIndex].concept;
-                if (placedConcepts[targetIndex] === correctConcept) {
-                    lockStates[targetIndex] = true;
-                    renderCalibrationPuzzle();
-
-                    if (lockStates.every(state => state)) {
-                        setTimeout(() => {
-                            closeSubModal();
-                            openSubModal('ECQ.webp');
-                        }, 1400);
-                    }
-                } else {
-                    const lockElem = document.getElementById(`cal-lock-${targetIndex}`);
-                    if (lockElem) {
-                        lockElem.classList.add('error');
-                        setTimeout(() => {
-                            lockElem.classList.remove('error');
-                            placedConcepts[targetIndex] = null;
-                            renderCalibrationPuzzle();
-                        }, 600);
-                    }
-                }
-            }
-        };
-
-        window.resetCalibrationPuzzleUI = () => {
-            resetCalibrationData();
-            renderCalibrationPuzzle();
-        };
-
         window.startHelicoidalSequence = async () => {
             helicoidalSequenceRunning = true;
             subModalTextWindow.style.display = 'none';
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
-            
-            const calContainer = document.getElementById('calibration-modal-content');
-            if (calContainer) calContainer.style.display = 'none';
-
-            subModalWindowBox.classList.remove('tv-off', 'tv-on', 'ecq-clean-mode');
-            subModalWindowBox.style.backgroundImage = "";
+            subModalWindowBox.classList.remove('tv-off', 'tv-on');
             subModal.classList.add('show');
             document.body.classList.add('blurring-content');
+            
+            subModalWindowBox.classList.remove('ecq-clean-mode');
             subModalWindowBox.classList.add('tv-on');
 
             const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
@@ -1771,14 +1754,11 @@
             isSubModalBusy = false;
             
             subModalWindowBox.classList.remove('tv-on', 'ecq-clean-mode');
-            subModalWindowBox.style.backgroundImage = "";
             subModalWindowBox.classList.add('tv-off');
             subModal.classList.remove('show');
             document.body.classList.remove('blurring-content');
             
             subImg.style.opacity = '0';
-            const calContainer = document.getElementById('calibration-modal-content');
-            if (calContainer) calContainer.style.display = 'none';
             
             setTimeout(() => {
                 subModalWindowBox.classList.remove('tv-off');
