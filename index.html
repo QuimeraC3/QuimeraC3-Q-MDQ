@@ -1539,11 +1539,10 @@
                 }
             }
             if (allCorrect) {
-                // Eliminado el código que sobrescribía style.color para respetar tus estilos personalizados
                 document.getElementById('cal-status-msg').textContent = "¡CALIBRACIÓN EXITOSA! ACCEDIENDO A EL CICLO DE QUIMERA...";
                 setTimeout(() => {
                     onCalibrationCompleted();
-                }, 1400);
+                }, 3200); // <--- TIEMPO AMPLIADO A 3.2 SEGUNDOS PARA UNA LECTURA CÓMODA
             }
         }
 
@@ -1871,7 +1870,7 @@
 
                 const audioToggleBtn = document.getElementById('audio-toggle');
                 audioToggleBtn.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
+                await new `Promise`(r => setTimeout(r, 600));
                 audioToggleBtn.classList.remove('active-laser');
                 audioToggleBtn.classList.add('revealed', 'hologram-mode');
 
