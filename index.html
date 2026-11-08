@@ -1542,7 +1542,7 @@
                 document.getElementById('cal-status-msg').textContent = "¡CALIBRACIÓN EXITOSA! ACCEDIENDO A EL CICLO DE QUIMERA...";
                 setTimeout(() => {
                     onCalibrationCompleted();
-                }, 3200); // <--- TIEMPO AMPLIADO A 3.2 SEGUNDOS PARA UNA LECTURA CÓMODA
+                }, 3200); // 3.2 segundos de lectura cómoda
             }
         }
 
@@ -1870,7 +1870,7 @@
 
                 const audioToggleBtn = document.getElementById('audio-toggle');
                 audioToggleBtn.classList.add('active-laser');
-                await new `Promise`(r => setTimeout(r, 600));
+                await new Promise(r => setTimeout(r, 600)); // <--- Corregido sin backticks
                 audioToggleBtn.classList.remove('active-laser');
                 audioToggleBtn.classList.add('revealed', 'hologram-mode');
 
