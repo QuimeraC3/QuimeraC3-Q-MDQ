@@ -48,11 +48,10 @@
         :root {
             --text-main: #0f172a;
             --primary: #0f766e;
-            --accent: #c88b32; /* Cobre Dorado */
+            --primary-hover: #115e59;
+            --accent: #c88b32;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
-            --card-bg: rgba(15, 23, 42, 0.90);
-            --card-border: rgba(255, 255, 255, 0.15);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
         }
 
         * {
@@ -65,14 +64,14 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             color: var(--text-main);
             line-height: 1.6;
-            min-height: 100vh;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
             background-color: #000000;
         }
 
-        /* CAPA CRT SCANLINES (Efecto de televisión antigua global) */
+        /* CAPA CRT SCANLINES */
         .crt-scanlines {
             position: fixed;
             top: 0;
@@ -86,12 +85,10 @@
             opacity: 0.65;
         }
 
-        /* EFECTO CRT UNIFICADO */
         .crt-screen-effect {
             position: relative;
             overflow: hidden;
-            border-radius: 16px;
-            box-shadow: 0 25px 35px -10px rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
         }
 
         .crt-screen-effect::before {
@@ -109,135 +106,178 @@
             border-radius: inherit;
         }
 
-        /* CONTENEDOR INTERNO DE DESPLAZAMIENTO */
-        .modal-scroll-wrapper {
-            position: relative;
-            z-index: 10;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: clamp(1.5rem, 5vw, 3rem);
+        /* RETROILUMINACIÓN RGB HOLOGRÁFICA PERMANENTE */
+        @keyframes hologramBoxGlow {
+            0% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4), 0 0 30px rgba(15, 118, 110, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+            50% { box-shadow: 0 0 32px rgba(56, 189, 248, 0.95), 0 0 65px rgba(56, 189, 248, 0.65), 0 0 85px rgba(200, 139, 50, 0.55), 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+            100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4), 0 0 30px rgba(15, 118, 110, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
         }
 
-        .modal-scroll-wrapper::-webkit-scrollbar { width: 8px; }
-        .modal-scroll-wrapper::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
-        .modal-scroll-wrapper::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
-
-        /* Capa de fondo estática */
-        #bg-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            background: linear-gradient(rgba(15, 23, 42, 0.0), rgba(15, 23, 42, 0.0)), url('Quimera_MDQ.webp');
-            background-size: cover;
-            background-position: center center;
-            background-attachment: fixed;
-            opacity: 0;
-            transition: opacity 1000ms ease, filter 0.5s ease;
+        .hologram-glow-box {
+            animation: hologramBoxGlow 3s ease-in-out infinite alternate;
         }
 
-        .blurring-content header,
-        .blurring-content .top-bar,
-        .blurring-content main,
-        .blurring-content footer,
-        .blurring-content #bg-layer {
-            filter: blur(12px);
-            transition: filter 0.5s ease;
+        /* EFECTO HOLOGRÁFICO DE PARTÍCULAS (EVAPORACIÓN / APARICIÓN) */
+        @keyframes holoVaporize {
+            0% { opacity: 1; filter: blur(0px) brightness(1); transform: scale(1) translateY(0); }
+            50% { opacity: 0.6; filter: blur(3px) brightness(2) drop-shadow(0 0 15px #38bdf8); transform: scale(1.02) translateY(-5px); }
+            100% { opacity: 0; filter: blur(8px) brightness(3); transform: scale(0.98) translateY(-15px); letter-spacing: 0.2em; }
+        }
+
+        .vaporize-effect {
+            animation: holoVaporize 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes holoMaterialize {
+            0% { opacity: 0; filter: blur(6px) brightness(2.5); transform: scale(0.98) translateY(10px); }
+            100% { opacity: 1; filter: blur(0px) brightness(1); transform: scale(1) translateY(0); }
+        }
+
+        .materialize-effect {
+            animation: holoMaterialize 0.9s cubic-bezier(0.1, 1, 0.3, 1) forwards;
+        }
+
+        /* ANIMACIÓN TV */
+        .tv-turn-on {
+            animation: tvTurnOn 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            pointer-events: auto !important;
+        }
+
+        @keyframes tvTurnOn {
+            0% { transform: scale(0, 0.01); opacity: 0; filter: brightness(20); }
+            40% { transform: scale(1, 0.01); opacity: 1; filter: brightness(10); }
+            100% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
+        }
+
+        .tv-turn-off {
+            animation: tvTurnOff 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes tvTurnOff {
+            0% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
+            60% { transform: scale(1, 0.01); opacity: 1; filter: brightness(10); }
+            100% { transform: scale(0, 0.01); opacity: 0; filter: brightness(20); }
         }
 
         .cursor-light-glow {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             pointer-events: none;
-            z-index: 0;
-            background: radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.22), rgba(200, 139, 50, 0.12) 45%, transparent 80%);
+            z-index: 1;
+            background: radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.18), rgba(200, 139, 50, 0.1) 45%, transparent 80%);
             opacity: 0;
             transition: opacity 1.5s ease;
         }
 
-        .cursor-light-glow.visible {
-            opacity: 1;
-        }
+        .cursor-light-glow.visible { opacity: 1; }
 
         #matrix-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 15000;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 1.5s ease;
+            transition: opacity 1200ms ease;
         }
 
-        #glitch-overlay {
+        #bg-layer {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2500;
-            pointer-events: none;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -3;
+            background: linear-gradient(rgba(15, 23, 42, 0.00), rgba(15, 23, 42, 0.00)), url('Quimera_MDQ.webp');
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
             opacity: 0;
-            background: rgba(0, 0, 0, 0.5);
-            transition: opacity 0.1s ease;
+            transition: opacity 1200ms ease;
         }
 
-        #glitch-img {
-            max-width: 55vw;
-            max-height: 55vh;
-            object-fit: contain;
-            filter: drop-shadow(0 0 40px rgba(56, 189, 248, 1)) contrast(160%) brightness(1.3);
-            animation: glitchJitter 0.08s infinite steps(2);
+        #bg-top-layer {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -2;
+            background: url('QuimeraC3-Q1.webp');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0;
+            transition: opacity 1200ms ease, transform 0.2s ease;
+            pointer-events: none;
+            transform-origin: center center;
         }
 
-        @keyframes glitchJitter {
-            0% { transform: translate(0, 0) skew(0deg); filter: hue-rotate(0deg); }
-            20% { transform: translate(-6px, 4px) skew(-3deg); filter: hue-rotate(90deg); }
-            40% { transform: translate(6px, -4px) skew(3deg); filter: hue-rotate(-90deg); }
-            60% { transform: translate(-3px, -4px) skew(1deg); }
-            80% { transform: translate(5px, 3px) skew(-2deg); }
-            100% { transform: translate(0, 0) skew(0deg); }
+        /* RECUADRO SELECCIONABLE INTERACTIVO (HOTSPOT) */
+        #hotspot-box {
+            position: fixed;
+            top: 200px;
+            left: 600px;
+            width: 380px;
+            height: 325px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 5;
+            pointer-events: auto;
+            text-decoration: none;
         }
 
-        .fade-out-element {
-            opacity: 0 !important;
-            pointer-events: none !important;
-            transition: opacity 1.2s ease !important;
+        /* ANIMACIÓN DE LATIDO A 106 LPM */
+        @keyframes heartbeat106 {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.035); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.025); }
+            100% { transform: scale(1); }
+        }
+
+        #bg-top-layer.heartbeat-active {
+            animation: heartbeat106 0.566s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        #bg-layer.bg-glitch-active {
+            animation: bgGlitchAnim 0.35s steps(2, end) 1 both;
+        }
+
+        @keyframes bgGlitchAnim {
+            0% { filter: hue-rotate(0deg) contrast(100%); transform: translate(0); }
+            20% { filter: hue-rotate(90deg) contrast(220%) invert(15%); transform: translate(-8px, 4px); }
+            40% { filter: hue-rotate(-90deg) contrast(180%); transform: translate(8px, -4px); }
+            60% { filter: invert(30%) contrast(250%); transform: translate(-4px, 2px); }
+            80% { filter: hue-rotate(45deg) contrast(150%); transform: translate(4px, -2px); }
+            100% { filter: none; transform: translate(0); }
         }
 
         #intro-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #ffffff;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #ffffff;
             z-index: 9999;
             pointer-events: none;
             opacity: 1;
-            transition: opacity 1s ease, background-color 1.2s ease;
+            transition: opacity 1000ms ease, background-color 1000ms ease;
         }
 
+        body.blurred-page { pointer-events: none; }
+        body.blurred-page #intro-overlay {
+            opacity: 1;
+            background-color: #ffffff;
+            transition: opacity 500ms ease, background-color 500ms ease;
+        }
+
+        /* NAVEGACIÓN SUPERIOR */
         .top-bar {
             background-color: rgba(11, 19, 41, 0.0);
             padding: 0.85rem 2rem;
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             width: 100%;
             z-index: 100;
-            opacity: 0;
-            transition: opacity 500ms ease, filter 0.5s ease;
         }
 
         .top-bar-container {
@@ -251,37 +291,31 @@
         .brand-logo {
             color: #ffffff;
             font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(0.85rem, 2vw, 1rem);
+            font-size: clamp(0.85rem, 1.5vw, 1.1rem);
             font-weight: 700;
             text-decoration: none;
-            letter-spacing: -0.01em;
-            transition: color 0.2s ease, opacity 500ms ease;
+            display: inline-block;
+            transition: color 0.2s ease;
         }
 
-        .brand-logo:hover {
-            color: #38bdf8;
-            text-decoration: underline;
-        }
+        .brand-logo:hover { color: #38bdf8; text-decoration: underline; }
 
         .nav-links {
             display: flex;
-            gap: clamp(0.5rem, 2vw, 1.25rem);
+            gap: 1.25rem;
             list-style: none;
             align-items: center;
-            flex-wrap: wrap;
         }
 
         .nav-links a {
             color: #ffffff;
             text-decoration: none;
-            font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+            font-size: clamp(0.75rem, 1.2vw, 0.9rem);
             font-weight: 500;
             transition: color 0.2s ease;
         }
 
-        .nav-links a:hover {
-            color: #38bdf8;
-        }
+        .nav-links a:hover { color: #38bdf8; }
 
         #audio-toggle, #fullscreen-toggle {
             display: inline-block;
@@ -300,7 +334,71 @@
             background: rgba(56, 189, 248, 0.5);
             border-color: #38bdf8;
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+
+        header {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .ecosistema-title {
+            position: absolute;
+            top: 11vh; left: 50.5%;
+            transform: translateX(-50%);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.5rem, 4vw, 4rem);
+            line-height: 1.1;
+            -webkit-text-stroke: 1.5px #000000;
+            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            width: 100%;
+            text-align: center;
+            pointer-events: auto;
             color: #ffffff;
+            opacity: 0;
+        }
+
+        header h1 {
+            position: absolute;
+            top: 61vh; left: 50.5%;
+            transform: translateX(-50%);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(2rem, 8.5vw, 7rem);
+            line-height: 1.1;
+            -webkit-text-stroke: 1.5px #000000;
+            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8);
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            width: 100%;
+            text-align: center;
+            pointer-events: auto;
+            color: #ffffff;
+            opacity: 0;
+        }
+
+        header p {
+            position: absolute;
+            top: calc(61vh + 6.25rem + 1.0rem);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: #ffffff;
+            font-weight: 700;
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            pointer-events: auto;
+            -webkit-text-stroke: 1px #000000;
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.4), 4px 4px 10px rgba(0, 0, 0, 0.8);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(226, 232, 240, 0.85) 100%);
+            -webkit-background-clip: text;
+            opacity: 0;
         }
 
         .laser-burn-effect {
@@ -311,7 +409,7 @@
 
         .laser-burn-effect.active-laser {
             opacity: 1;
-            animation: hyperLaserReveal 0.6s cubic-bezier(0.15, 1, 0.2, 1) forwards;
+            animation: hyperLaserReveal 1.2s cubic-bezier(0.15, 1, 0.2, 1) forwards;
         }
 
         .laser-burn-effect.revealed {
@@ -322,56 +420,47 @@
         .laser-burn-effect.active-laser::before {
             content: '';
             position: absolute;
-            top: -30px;
-            bottom: -30px;
-            left: 0;
+            top: -30px; bottom: -30px; left: 0;
             width: 16px;
             background: radial-gradient(circle, #ffffff 0%, #38bdf8 40%, #c88b32 80%, transparent 100%);
             box-shadow: 0 0 35px #38bdf8, 0 0 70px #fffbeb, 0 0 100px #c88b32, inset 0 0 15px #ffffff;
-            animation: hyperLaserBarMove 0.6s cubic-bezier(0.15, 1, 0.2, 1) forwards;
+            animation: hyperLaserBarMove 1.2s cubic-bezier(0.15, 1, 0.2, 1) forwards;
             z-index: 15;
             filter: blur(0.5px);
         }
 
-        .laser-burn-effect.active-laser::after {
-            content: '';
-            position: absolute;
-            top: -10px;
-            bottom: -10px;
-            left: 0;
-            right: 0;
-            height: 120%;
-            pointer-events: none;
-            background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(56,189,248,0.6) 30%, rgba(200,139,50,0.3) 60%, transparent 100%);
-            mix-blend-mode: color-dodge;
-            animation: hyperLaserSparksWave 0.6s cubic-bezier(0.15, 1, 0.2, 1) forwards;
-            z-index: 12;
-        }
-
         @keyframes hyperLaserReveal {
-            0% {
-                clip-path: inset(0 100% 0 0);
-                filter: brightness(4) contrast(200%) drop-shadow(0 0 30px rgba(56, 189, 248, 1));
-            }
-            50% {
-                filter: brightness(2.5) contrast(150%) drop-shadow(0 0 15px rgba(200, 139, 50, 0.9));
-            }
-            100% {
-                clip-path: inset(0 0 0 0);
-                filter: brightness(1) contrast(100%) drop-shadow(0 0 0px transparent);
-            }
+            0% { clip-path: inset(0 100% 0 0); filter: brightness(4) contrast(200%); }
+            100% { clip-path: inset(0 0 0 0); filter: brightness(1) contrast(100%); }
         }
 
         @keyframes hyperLaserBarMove {
             0% { left: 0%; opacity: 1; transform: scaleY(1.8) skewX(-15deg); }
-            50% { transform: scaleY(2.2) skewX(5deg); }
-            90% { opacity: 1; }
             100% { left: 100%; opacity: 0; transform: scaleY(0.5) skewX(0deg); }
         }
 
-        @keyframes hyperLaserSparksWave {
-            0% { opacity: 1; clip-path: inset(0 100% 0 0); }
-            100% { opacity: 0; clip-path: inset(0 0 0 0); }
+        footer.laser-burn-effect {
+            position: absolute !important;
+            bottom: 0 !important; left: 0 !important;
+            width: 100% !important;
+            text-align: center;
+            padding: 0.4rem 2rem;
+            background-color: rgba(11, 19, 41, 0.2);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-size: clamp(0.65rem, 1vw, 0.8rem);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+
+        .glitch-slice-active {
+            animation: sliceGlitchMaster 0.35s steps(2, end) 1 both;
+        }
+
+        @keyframes sliceGlitchMaster {
+            0% { transform: translateX(-50%) translate(0); filter: hue-rotate(0deg); }
+            50% { transform: translateX(-50%) translate(-12px, 6px); filter: contrast(220%) hue-rotate(90deg); }
+            100% { transform: translateX(-50%) translate(0); filter: none; }
         }
 
         .hologram-mode {
@@ -384,398 +473,244 @@
             100% { text-shadow: 0 0 8px rgba(56, 189, 248, 0.7), 0 0 20px rgba(15, 118, 110, 0.5), 3px 3px 8px rgba(0, 0, 0, 0.8); }
         }
 
-        @keyframes hologramBoxGlow {
-            0% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4), 0 0 30px rgba(15, 118, 110, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
-            50% { box-shadow: 0 0 32px rgba(56, 189, 248, 0.95), 0 0 65px rgba(56, 189, 248, 0.65), 0 0 85px rgba(200, 139, 50, 0.55), 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
-            100% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.4), 0 0 30px rgba(15, 118, 110, 0.3), 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+        .card-hologram-glow {
+            animation: cardHologramFlicker 4s infinite ease-in-out;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4), 0 0 30px rgba(200, 139, 50, 0.2), var(--shadow);
         }
 
-        header {
-            font-family: Georgia, serif;
-            position: relative;
+        @keyframes cardHologramFlicker {
+            0%, 100% { box-shadow: 0 0 12px rgba(56, 189, 248, 0.4), 0 0 25px rgba(200, 139, 50, 0.2), var(--shadow); border-color: rgba(255, 255, 255, 0.8); }
+            50% { box-shadow: 0 0 18px rgba(56, 189, 248, 0.6), var(--shadow); border-color: rgba(56, 189, 248, 0.9); }
+        }
+
+        header h1 a { color: #ffffff; text-decoration: none; display: inline-block; }
+        .quimera-letter { display: inline-block; color: #ffffff; }
+
+        @keyframes quimeraSequentialWave {
+            0%, 28.57%, 50%, 78.57%, 100% { color: #ffffff; }
+            3.57%, 25%, 53.57%, 75% { color: #c88b32; }
+        }
+
+        #quimera-link.active-wave .char-q { animation: quimeraSequentialWave 2.264s infinite linear; animation-delay: 0ms; }
+        #quimera-link.active-wave .char-u { animation: quimeraSequentialWave 2.264s infinite linear; animation-delay: 80.85ms; }
+        #quimera-link.active-wave .char-i { animation: quimeraSequentialWave 2.264s infinite linear; animation-delay: 161.70ms; }
+        #quimera-link.active-wave .char-m { animation: quimeraSequentialWave 2.264s infinite linear; animation-delay: 242.55ms; }
+        #quimera-link.active-wave .char-e { animation: quimeraSequentialWave 2.264s infinite linear; animation-delay: 323.40ms; }
+        #quimera-link.active-wave .char-r { animation: quimeraSequentialWave 2.264s infinite linear; animation-delay: 404.25ms; }
+        #quimera-link.active-wave .char-a { animation: quimeraSequentialWave 2.264s infinite linear; animation-delay: 485.10ms; }
+
+        .container {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            pointer-events: none;
             z-index: 10;
-            max-width: 1100px;
-            width: 100%;
-            margin: 0 auto;
-            padding: .02rem 2rem 1rem 2rem;
+        }
+
+        .info-card {
+            opacity: 0;
+            pointer-events: auto;
+            position: absolute;
+            text-decoration: none;
+            background-color: transparent;
+            border: 1px solid #ffffff;
+            border-radius: 12px;
+            padding: 0.7rem 0.8rem;
+            width: 20vw; max-width: 350px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, opacity 1200ms ease;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 0.2rem;
             text-align: center;
-            transition: filter 0.5s ease;
         }
 
-        #header-line1-container {
-            position: relative;
-            z-index: 20;
-            width: 100%;
-        }
-
-        #header-line1 {
-            color: #c88b32;
-            display: inline-block;
-            font-size: clamp(1.5rem, 3.5vw, 4rem); 
-            line-height: 1.3;
-            -webkit-text-stroke: 1.5px #ffffff;
-            transform: translateY(-1rem);
-            position: relative;
-            z-index: 20;
-            padding-top: 0.2em;
-        }
-
-        .arrow-02-text {
-            margin-top: 30.0rem;
-            margin-bottom: -04rem;
-        }
-
-        #word-quimera {
-            display: inline-block;
-            font-size: clamp(2.5rem, 10vw, 6rem);
-            letter-spacing: 0em;
-            line-height: 1.3;
-            -webkit-text-stroke: 1.5px #000000;
+        .info-card h2 {
+            opacity: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.4rem, 2.0vw, 1.6rem);
+            font-weight: 700;
             color: #ffffff;
-            padding-right: 0.15em;
+            -webkit-text-stroke: 0.5px #000000;
+            transition: color 0.3s ease, opacity 0.3s ease;
         }
 
-        .quimera-letter {
-            display: inline-block;
+        .info-card:hover h2 { opacity: 1; color: var(--accent); }
+
+        .info-card p {
+            opacity: 0;
             color: #ffffff;
-            transition: color 0.4s ease;
+            font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+            font-weight: 600;
+            -webkit-text-stroke: 0.5px #000000;
+            transition: color 0.3s ease, opacity 0.3s ease;
         }
 
-        main {
-            flex: 1;
-            display: flex;
-            align-items: flex-end; 
-            justify-content: center;
-            padding: 2rem 2rem 08vh 2rem; 
-            z-index: 10;
-            position: relative;
-            transition: filter 0.5s ease;
-        }
+        .info-card:hover p { opacity: 1; color: #000000; -webkit-text-stroke: 0; }
 
-        .seq-card {
-            background-color: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(1px);
-            border: 1.5px solid #ffffff;
-            border-radius: 12px;
-            padding: clamp(1.5rem, 4vw, 2rem) clamp(1.5rem, 5vw, 3rem);
-            box-shadow: var(--shadow-lg);
-            cursor: pointer;
-            text-align: center;
-            transition: transform 0.3s ease, opacity 0.5s ease;
-            display: none;
-            max-width: 600px;
-            width: 100%;
-            transform: translateY(20px);
-        }
+        .card-1 { top: 15vh; left: 03vw; width: 15vw; transform: translateX(-10%) translateY(-25%); }
+        .card-1:hover { background-color: #ffffff; transform: translateX(-10%) translateY(-25%) translateY(-6px); }
 
-        .seq-card h2 {
-            font-family: Georgia, serif;
-            font-size: clamp(1.2rem, 3.5vw, 1.6rem);
-            color: #ffffff;
-            text-transform: uppercase;
-            min-height: 2.2rem;
-            -webkit-text-stroke: 0.25px #c88b32;
-        }
+        .card-2 { top: 46.5vh; left: 02.25vw; width: 14vw; transform: translateX(-10%) translateY(-25%); }
+        .card-2:hover { background-color: #ffffff; transform: translateX(-10%) translateY(-25%) translateY(-6px); }
 
-        .seq-card:hover { transform: translateY(20px) scale(1.05); }
+        .card-3 { top: 81.5vh; left: 49%; width: 12vw; padding: 0.3rem 0.7rem; transform: translateX(-50%) translateY(55%); }
+        .card-3:hover { background-color: #ffffff; transform: translateX(-50%) translateY(55%) translateY(-6px); }
 
-        .tv-on-card { 
-            animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate; 
-            animation-delay: 0s, 0.6s;
-        }
-        
-        .tv-off-card { animation: tvTurnOffCard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        .card-4 { top: 46.5vh; right: 01.75vw; width: 14.5vw; transform: translateX(10%) translateY(-25%); }
+        .card-4:hover { background-color: #ffffff; transform: translateX(10%) translateY(-25%) translateY(-6px); }
 
-        @keyframes tvTurnOnCard {
-            0% { transform: translateY(20px) scale(0, 0); opacity: 0; filter: brightness(10); }
-            40% { transform: translateY(20px) scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
-            70% { transform: translateY(20px) scale(1, 0.005); opacity: 1; filter: brightness(2); }
-            100% { transform: translateY(20px) scale(1, 1); opacity: 1; filter: brightness(1); }
-        }
+        .card-5 { top: 15vh; right: 02.5vw; width: 17.5vw; transform: translateX(10%) translateY(-25%); }
+        .card-5:hover { background-color: #ffffff; transform: translateX(10%) translateY(-25%) translateY(-6px); }
 
-        @keyframes tvTurnOffCard {
-            0% { transform: translateY(20px) scale(1, 1); opacity: 1; filter: brightness(1); }
-            40% { transform: translateY(20px) scale(1, 0.005); opacity: 1; filter: brightness(2); }
-            70% { transform: translateY(20px) scale(0.001, 0.005); opacity: 1; filter: brightness(5); }
-            100% { transform: translateY(20px) scale(0, 0); opacity: 0; filter: brightness(10); }
-        }
-
-        .modal-overlay, .submodal-overlay {
+        /* =====================================================================
+           MODAL 1: ACERTIJO TRIPLE (PORTAL QUIMERA)
+           ===================================================================== */
+        #modal-principal {
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: transparent;
+            z-index: 25000;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s ease;
+            transform: scale(0, 0.01);
         }
 
-        .modal-overlay {
-            background: rgba(0, 0, 0, 0.80);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-        }
-
-        .submodal-overlay {
-            background: rgba(0, 0, 0, 0.80);
-            backdrop-filter: blur(8px);
-            z-index: 3000;
-            transition: opacity 0.5s ease;
-        }
-
-        .modal-overlay.show, .submodal-overlay.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-window, .submodal-window, .submodal-text-window {
-            background-size: cover;
-            background-position: center center;
-            padding: 0;
-            border-radius: 16px;
-            max-width: 92vw;
-            width: 100%;
-            max-height: 92vh;
+        .contenido-modal-principal {
             position: relative;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--card-border);
-            transform-origin: center center;
-            backface-visibility: hidden;
-            transform: translateZ(0);
-        }
-
-        .modal-window {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), var(--modal-bg-img, url('Mod_00.webp'));
-        }
-
-        .submodal-window {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('Mod_00.webp');
-            max-width: 92vw;
-            width: auto;
-            padding: 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .submodal-window.ecq-clean-mode {
-            background: rgba(0, 0, 0, 0.92);
-            border: 1.5px solid rgba(56, 189, 248, 0.4);
-            padding: 2.5rem;
-        }
-
-        .submodal-text-window {
-            background: none;
-            display: none;
-            overflow: hidden;
-            max-width: 100%;
-        }
-
-        .submodal-text-window::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('Mod_00.webp');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('Quimeratrix.webp');
             background-size: cover;
             background-position: center center;
-            opacity: 0.1;
-            z-index: 1;
-            pointer-events: none;
+            border: 1.5px solid var(--accent);
+            border-radius: 12px;
+            width: 90vw;
+            max-width: 900px;
+            min-height: 88vh;
+            color: #ffffff;
+            z-index: 10;
+            transition: background-image 0.5s ease-in-out;
         }
 
-        .tv-on { animation: tvTurnOn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate !important; animation-delay: 0s, 0.4s; }
-        .tv-off { animation: tvShutdown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
-
-        @keyframes tvShutdown {
-            0% { transform: scale(1, 1); filter: brightness(1); opacity: 1; }
-            40% { transform: scale(1, 0.005); filter: brightness(3); opacity: 1; }
-            70% { transform: scale(0.001, 0.005); filter: brightness(5); opacity: 1; }
-            100% { transform: scale(0, 0); filter: brightness(0); opacity: 0; }
+        .modal-scroll-wrapper {
+            position: relative;
+            z-index: 10;
+            max-height: 88vh;
+            overflow-y: auto;
+            padding: 3rem 3.5rem;
+            text-align: center;
         }
 
-        @keyframes tvTurnOn {
-            0% { transform: scale(0, 0); filter: brightness(0); opacity: 0; }
-            30% { transform: scale(0.001, 0.005); filter: brightness(5); opacity: 1; }
-            60% { transform: scale(1, 0.005); filter: brightness(3); opacity: 1; }
-            100% { transform: scale(1, 1); filter: brightness(1); opacity: 1; }
-        }
+        .modal-scroll-wrapper::-webkit-scrollbar { width: 8px; }
+        .modal-scroll-wrapper::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+        .modal-scroll-wrapper::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
 
-        .modal-title {
+        .titulo-oculto {
+            color: #fef384;
             font-family: Georgia, "Times New Roman", serif;
             font-weight: 900;
-            color: var(--accent);
-            font-size: clamp(2rem, 5vw, 3rem);
-            text-transform: uppercase;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             margin-bottom: 1.5rem;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-            padding-bottom: 0.5rem;
-            min-height: 2.5rem;
             text-align: center;
-            -webkit-text-stroke: 0.8px #ffffff;
-            text-shadow: 0 0 15px rgba(200, 139, 50, 0.9), 0 0 25px rgba(56, 189, 248, 0.5);
-            position: relative;
-            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-shadow: 0 0 20px rgba(200, 139, 50, 0.9);
+            -webkit-text-stroke: 1px #000000;
+            padding: 0 15px;
         }
 
-        #calibration-modal .modal-title {
-            color: #ffffff !important;
-            -webkit-text-stroke: 1px #000000 !important;
-            text-shadow: 0 0 15px rgba(0, 0, 0, 0.9) !important;
-        }
-
-        .modal-body {
-            font-size: clamp(1.0rem, 2.5vw, 1.5rem);
-            font-weight: 700;
+        .acertijo-poema {
+            margin-bottom: 1.8rem;
             color: #ffffff;
-            line-height: 1.8;
-            margin-bottom: 1rem;
-            white-space: pre-line;
-            min-height: 100px;
-            -webkit-text-stroke: 0.25px rgba(0, 0, 0, 0.4);
-            text-shadow: 0 0 12px rgba(56, 189, 248, 0.6), 0 0 20px rgba(255, 255, 255, 0.4), 1px 1px 3px rgba(0, 0, 0, 0.8);
-            position: relative;
-            z-index: 10;
+            font-weight: 700;
+            font-size: clamp(1.0rem, 2.3vw, 1.45rem);
+            line-height: 1.7;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.95);
+            -webkit-text-stroke: 0.5px #000000;
+            text-align: justify;
         }
 
-        .modal-body a {
-            font-size: clamp(1.0rem, 2.5vw, 1.5rem);
-            color: #f2d132;
-            font-weight: 700;
+        .btn-continuar-link {
+            color: #c88b32;
+            font-weight: 800;
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
             text-decoration: underline;
             cursor: pointer;
-            transition: color 0.3s;
-        }
-        .modal-body a:hover { color: #ffffff; }
-
-        .process-flow {
-            background-color: rgba(15, 118, 110, 0.25);
-            color: #5eead4;
-            border-left: 4px solid var(--primary);
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            font-weight: 700;
-            font-size: clamp(1.0rem, 2.5vw, 1.5rem);
-            text-align: center;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .modal-close-wrapper {
-            text-align: right;
-            font-size: clamp(1.0rem, 2.5vw, 1.5rem);
-            font-weight: 700;
-            min-height: 2rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .modal-close-btn {
-            color: #f2d132;
-            cursor: pointer;
-            text-decoration: underline;
-            transition: color 0.3s ease;
-            display: inline-block;
-            -webkit-text-stroke: 0.25px #000000;
-        }
-
-        .modal-close-btn:hover { color: #ffffff; }
-
-        #submodal-img {
-            max-width: 88vw;
-            max-height: 82vh;
-            object-fit: contain;
-            border: 1.5px solid rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            box-shadow: 0 0 25px rgba(200, 139, 50, 0.4);
-            opacity: 0;
-            transition: opacity 800ms ease-in-out;
             display: block;
-            position: relative;
-            z-index: 10;
+            text-align: right;
+            margin-top: 2rem;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            -webkit-text-stroke: 0.5px #000000;
+            letter-spacing: 0.05em;
         }
 
-        .submodal-close {
-            position: absolute;
-            top: -45px; right: 0px;
-            color: var(--accent);
-            font-size: clamp(2.2rem, 6vw, 3.2rem);
-            cursor: pointer;
+        .btn-continuar-link:hover { color: #ffffff; text-shadow: 0 0 12px #ffffff; }
+
+        .glyphs-section-title {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: #38bdf8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             font-weight: bold;
-            transition: transform 0.3s, color 0.3s;
-            z-index: 3001;
+            -webkit-text-stroke: 1.0px #000000;
         }
-        .submodal-close:hover { transform: scale(1.2); color: #e0a96d; }
 
-        /* ESTILOS PARA EL ACERTIJO DE CALIBRACIÓN DE EL CICLO DE QUIMERA */
-        .cal-concept-box {
+        .glyphs-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            margin: 0.8rem 0 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .glyph-box {
+            width: clamp(40px, 6.5vw, 55px);
+            height: clamp(55px, 8.5vw, 75px);
             background: rgba(0, 0, 0, 0.85);
             border: 2px solid rgba(200, 139, 50, 0.6);
             border-radius: 8px;
-            padding: 0.5rem 1.2rem;
-            font-family: monospace;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            font-weight: bold;
-            color: var(--accent);
-            cursor: grab;
-            user-select: none;
-            transition: all 0.2s ease;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
-        }
-
-        .cal-concept-box:active {
-            cursor: grabbing;
-        }
-
-        .cal-concept-box:hover:not(.used) {
-            border-color: #38bdf8;
-            transform: translateY(-2px);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
-        }
-
-        .cal-concept-box.selected {
-            border-color: #38bdf8;
-            background: rgba(56, 189, 248, 0.3);
-            color: #ffffff;
-            box-shadow: 0 0 15px #38bdf8;
-        }
-
-        .cal-concept-box.used {
-            opacity: 0.3;
-            cursor: not-allowed;
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .cal-target-slot {
-            min-width: 150px;
-            padding: 0.5rem 1rem;
-            background: rgba(11, 19, 41, 0.9);
-            border: 2px dashed rgba(56, 189, 248, 0.6);
-            border-radius: 8px;
-            display: inline-flex;
+            display: flex;
             justify-content: center;
             align-items: center;
             font-family: monospace;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: bold;
+            color: var(--accent);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+            -webkit-text-stroke: 0.5px #000000;
+        }
+
+        .glyph-box:hover:not(.used) { border-color: #38bdf8; transform: translateY(-2px); box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
+        .glyph-box.used { opacity: 0.3; cursor: not-allowed; border-color: rgba(255, 255, 255, 0.1); }
+
+        .target-box {
+            width: clamp(40px, 6.5vw, 55px);
+            height: clamp(55px, 8.5vw, 75px);
+            background: rgba(11, 19, 41, 0.9);
+            border: 2px dashed rgba(56, 189, 248, 0.6);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: monospace;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
             font-weight: bold;
             color: #ffffff;
             cursor: pointer;
             user-select: none;
             transition: all 0.2s ease;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+            -webkit-text-stroke: 0.5px #000000;
         }
 
-        .cal-target-slot.drag-over {
-            border-color: #22c55e;
-            background: rgba(34, 197, 94, 0.2);
-        }
-
-        .cal-target-slot.filled {
+        .target-box.filled {
             border-style: solid;
             border-color: var(--accent);
             background: rgba(200, 139, 50, 0.3);
@@ -783,27 +718,38 @@
             text-shadow: 0 0 10px var(--accent);
         }
 
-        /* CANDADOS HOLOGRÁFICOS DE CALIBRACIÓN */
+        /* CANDADOS HOLOGRÁFICOS DEL ACERTIJO TRIPLE */
+        #hologram-locks-group-container {
+            display: none;
+            min-height: calc(88vh - 6rem);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .locks-container-group {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
         .holo-lock {
-            width: 45px;
-            height: 55px;
+            width: 180px; height: 218px;
             position: relative;
-            display: inline-block;
-            vertical-align: middle;
             animation: holoFloat 2s ease-in-out infinite alternate;
         }
 
         .holo-shackle {
             position: absolute;
-            top: 0;
-            left: 8px;
-            width: 28px;
-            height: 25px;
-            border: 4px solid #38bdf8;
-            border-top-left-radius: 14px;
-            border-top-right-radius: 14px;
+            top: 0; left: 33px;
+            width: 114px; height: 102px;
+            border: 11px solid #38bdf8;
+            border-top-left-radius: 57px;
+            border-top-right-radius: 57px;
             border-bottom: none;
-            box-shadow: 0 0 15px #38bdf8, inset 0 0 5px #38bdf8;
+            box-shadow: 0 0 38px #38bdf8, inset 0 0 15px #38bdf8;
             transform-origin: bottom left;
             transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
@@ -811,99 +757,379 @@
         .holo-body {
             position: absolute;
             bottom: 0;
-            width: 45px;
-            height: 35px;
+            width: 180px; height: 135px;
             background: rgba(56, 189, 248, 0.25);
-            border: 2px solid #38bdf8;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.85), inset 0 0 8px rgba(56, 189, 248, 0.6);
+            border: 6px solid #38bdf8;
+            border-radius: 24px;
+            box-shadow: 0 0 52px rgba(56, 189, 248, 0.85), inset 0 0 22px rgba(56, 189, 248, 0.6);
         }
 
         @keyframes holoFloat {
-            0% { transform: translateY(0px); filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.7)); }
-            100% { transform: translateY(-4px); filter: drop-shadow(0 0 15px rgba(56, 189, 248, 1)); }
+            0% { transform: translateY(0px); filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.7)); }
+            100% { transform: translateY(-8px); filter: drop-shadow(0 0 35px rgba(56, 189, 248, 1)); }
         }
 
         .holo-lock.unlocked .holo-shackle {
-            transform: rotate(-45deg) translateY(-6px) translateX(-4px);
+            transform: rotate(-45deg) translateY(-21px) translateX(-12px);
             border-color: #22c55e;
-            box-shadow: 0 0 20px #22c55e, inset 0 0 8px #22c55e;
+            box-shadow: 0 0 45px #22c55e, inset 0 0 18px #22c55e;
         }
 
         .holo-lock.unlocked .holo-body {
             border-color: #22c55e;
             background: rgba(34, 197, 94, 0.35);
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.95);
+            box-shadow: 0 0 65px rgba(34, 197, 94, 0.95);
         }
 
-        .holo-lock.error .holo-shackle {
-            border-color: #ef4444;
-            box-shadow: 0 0 20px #ef4444;
-            animation: lockShake 0.4s ease;
+        /* =====================================================================
+           MODAL 2: ÚLTIMO RETO DEL ECOSISTEMA QUIMERA (GALERÍA AUDIOVISUAL)
+           ===================================================================== */
+        #modal-galeria {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: transparent;
+            z-index: 26000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0, 0.01);
         }
 
-        .holo-lock.error .holo-body {
-            border-color: #ef4444;
-            background: rgba(239, 68, 68, 0.35);
-            box-shadow: 0 0 30px rgba(239, 68, 68, 0.95);
-            animation: lockShake 0.4s ease;
-        }
-
-        @keyframes lockShake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-4px); }
-            75% { transform: translateX(4px); }
-        }
-
-        /* FOOTER */
-        footer.laser-burn-effect {
-            position: absolute !important;
-            bottom: 0 !important;
-            left: 0 !important;
-            width: 100% !important;
-            padding: 0.5rem 1rem;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(8px);
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
+        .contenido-modal-galeria {
+            position: relative;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('Quimeratrix.webp');
+            background-size: cover;
+            background-position: center center;
+            border: 1.5px solid var(--accent);
+            border-radius: 12px;
+            width: 92vw;
+            max-width: 980px;
+            min-height: 88vh;
             color: #ffffff;
-            font-size: clamp(0.7rem, 1.2vw, 0.85rem);
-            z-index: 100;
-            transition: filter 0.5s ease;
+            z-index: 10;
         }
 
-        footer p {
-            color: #e2e8f0;
+        .titulo-galeria {
+            color: #fef384;
+            font-family: Georgia, "Times New Roman", serif;
+            font-weight: 900;
+            font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+            margin-bottom: 1.2rem;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-shadow: 0 0 15px rgba(200, 139, 50, 0.9);
+            -webkit-text-stroke: 0.75px #000000;
+            padding: 0 10px;
         }
 
-        @media (max-width: 900px) {
+        .texto-galeria {
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+            line-height: 1.6;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.95);
+            -webkit-text-stroke: 0.5px #000000;
+            text-align: center;
+        }
+
+        .numbers-grid {
+            display: flex;
+            justify-content: center;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+            margin: 1rem auto;
+            max-width: 900px;
+        }
+
+        .num-btn {
+            background: rgba(0, 0, 0, 0.85);
+            border: 1.5px solid rgba(200, 139, 50, 0.7);
+            color: #fef384;
+            font-family: monospace;
+            font-size: 0.85rem;
+            font-weight: bold;
+            padding: 0.4rem 0.55rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-text-stroke: 0.4px #000;
+        }
+
+        .num-btn:hover {
+            background: rgba(56, 189, 248, 0.3);
+            border-color: #38bdf8;
+            transform: translateY(-2px);
+        }
+
+        .words-section-title {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            color: #38bdf8;
+            margin: 1.2rem 0 0.5rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: bold;
+            -webkit-text-stroke: 0.8px #000000;
+        }
+
+        .words-rows-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .word-row {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .word-box {
+            background: rgba(11, 19, 41, 0.85);
+            border: 2px solid rgba(56, 189, 248, 0.7);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            min-width: 115px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ffffff;
+            cursor: grab;
+            user-select: none;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            -webkit-text-stroke: 0.5px #000;
+            transition: all 0.2s ease;
+        }
+
+        .word-box.decrypted {
+            border-color: var(--accent);
+            color: #fef384;
+            background: rgba(200, 139, 50, 0.25);
+        }
+
+        .word-box:active { cursor: grabbing; }
+
+        .phrase-drop-container {
+            width: 100%;
+            max-width: 860px;
+            min-height: 75px;
+            margin: 1.5rem auto 1rem auto;
+            background: rgba(5, 10, 20, 0.9);
+            border: 2px dashed rgba(200, 139, 50, 0.8);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 1rem;
+            flex-wrap: wrap;
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .phrase-drop-container.error-glow {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.8);
+        }
+
+        .phrase-drop-container.success-glow {
+            border-color: #22c55e !important;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.9);
+        }
+
+        .phrase-slot {
+            width: 108px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: monospace;
+            font-size: 0.95rem;
+            color: transparent;
+        }
+
+        .phrase-slot.filled-slot {
+            color: #fef384;
+            background: rgba(200, 139, 50, 0.3);
+            border-color: #c88b32;
+            border-style: solid;
+            cursor: pointer;
+            font-weight: bold;
+            -webkit-text-stroke: 0.5px #000;
+        }
+
+        #hologram-success-galeria {
+            display: none;
+            min-height: calc(88vh - 6rem);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .holo-lock-large {
+            width: 200px; height: 240px;
+            position: relative;
+            animation: holoFloat 2s ease-in-out infinite alternate;
+        }
+
+        .holo-shackle-large {
+            position: absolute;
+            top: 0; left: 36px;
+            width: 128px; height: 112px;
+            border: 12px solid #22c55e;
+            border-top-left-radius: 64px;
+            border-top-right-radius: 64px;
+            border-bottom: none;
+            box-shadow: 0 0 45px #22c55e, inset 0 0 18px #22c55e;
+            transform-origin: bottom left;
+            transform: rotate(-45deg) translateY(-24px) translateX(-14px);
+        }
+
+        .holo-body-large {
+            position: absolute;
+            bottom: 0;
+            width: 200px; height: 150px;
+            background: rgba(34, 197, 94, 0.35);
+            border: 6px solid #22c55e;
+            border-radius: 24px;
+            box-shadow: 0 0 75px rgba(34, 197, 94, 0.95), inset 0 0 25px rgba(34, 197, 94, 0.6);
+        }
+
+        @media (max-width: 1200px) {
             body { height: auto; overflow-y: auto; overflow-x: hidden; }
-            #bg-layer { height: 100%; background-attachment: scroll; }
-            .top-bar { position: relative !important; flex-direction: column; gap: 0.5rem; padding: 1rem; text-align: center; }
-            .top-bar-container { flex-direction: column; gap: 0.8rem; }
-            .nav-links { justify-content: center; gap: 0.8rem; }
-            header { padding: 2rem 1rem 1rem 1rem; }
-            .submodal-close { top: -20px; right: 0px; text-shadow: 0 0 10px #000; }
-            footer.laser-burn-effect { position: relative !important; margin-top: 1.5rem; padding: 1rem; bottom: auto !important; left: auto !important; }
+            #bg-layer, #bg-top-layer { height: 100%; background-attachment: scroll; }
+            .top-bar { position: relative; background-color: rgba(11, 19, 41, 0.85); padding: 0.75rem 1rem; }
+            .top-bar-container { flex-direction: column; gap: 0.5rem; text-align: center; }
+            header { position: relative; height: auto; padding: 2rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+            .ecosistema-title, header h1, header p { position: relative !important; top: auto !important; left: auto !important; transform: none !important; width: 100% !important; max-width: 100% !important; }
+            .container { position: relative; height: auto; pointer-events: auto; display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 0 1rem 2rem 1rem; }
+            .info-card { position: relative !important; width: 100% !important; max-width: 420px !important; margin: 0 auto; background-color: rgba(15, 23, 42, 0.75); }
+            footer.laser-burn-effect { position: relative !important; margin-top: 1rem; padding: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Capa CRT Scanlines -->
     <div class="crt-scanlines"></div>
 
     <audio id="bg-music" src="Tango_Futuro_(Lado_B).mp3" loop preload="auto"></audio>
-    <div id="bg-layer"></div>
-    <div class="cursor-light-glow" id="cursor-light-glow"></div>
     <canvas id="matrix-canvas"></canvas>
+    
+    <!-- CAPAS DE FONDO DUALES -->
+    <div id="bg-layer"></div>
+    <div id="bg-top-layer"></div>
 
-    <!-- Capa de Glitch Central -->
-    <div id="glitch-overlay">
-        <img id="glitch-img" src="" alt="Glitch Visual">
+    <!-- RECUADRO SELECCIONABLE INTERACTIVO (HOTSPOT) -->
+    <a href="https://quimerac3.github.io/QuimeraC3-GAAV/" id="hotspot-box"></a>
+
+    <div class="cursor-light-glow" id="cursor-light-glow"></div>
+    <div id="intro-overlay"></div>
+
+    <!-- =========================================================================
+         MODAL 1: ACERTIJO TRIPLE
+         ========================================================================= -->
+    <div id="modal-principal">
+        <div class="contenido-modal-principal crt-screen-effect hologram-glow-box" id="contenido-modal-box">
+            <div class="modal-scroll-wrapper" id="modal-inner-scroll">
+
+                <!-- FASE 0: MODAL DE BIENVENIDA -->
+                <div id="fase-bienvenida-container">
+                    <h2 class="titulo-oculto">¡BIENVENIDO NAVEGANTE!</h2>
+                    <p class="acertijo-poema">
+                        Has encontrado el último portal de éste ECOSISTEMA ACADÉMICO.<br><br>
+                        Para lograr acceder a éste sitio restringido, es necesario que completes una prueba de conocimiento en la que hagas uso de tu memoria ancestral para recordar a los héroes mitológicos que dieron vida al símbolo representativo de éste Instituto.<br><br>
+                        Serás partícipe de la resolución del ACERTIJO TRIPLE:<br>
+                        -EL ENIGMA DE LA COMPLEJIDAD.<br>
+                        -EL DESAFÍO DE LA METODOLOGÍA Y LA ESTRATEGIA.<br>
+                        -LA HERRAMIENTA QUE AMPLIFICA AL SER HUMANO.
+                    </p>
+                    <a id="btn-continuar-welcome" class="btn-continuar-link">CONTINUAR</a>
+                </div>
+
+                <!-- CONTENEDOR DINÁMICO DE LAS FASES DEL ACERTIJO -->
+                <div id="fase-acertijo-container" style="display: none;">
+                    <h2 class="titulo-oculto" id="acertijo-titulo">EL ENIGMA DE LA COMPLEJIDAD.</h2>
+                    <p class="acertijo-poema" id="acertijo-texto"></p>
+
+                    <div id="puzzle-content-area">
+                        <div class="glyphs-section-title" id="glyphs-section-label">CRIPTEX (Descubre los glifos):</div>
+                        <div class="glyphs-wrapper" id="source-glyphs-container"></div>
+
+                        <div class="glyphs-section-title" style="margin-top: 1rem;">CODEX - INTRODUCE LA CONTRASEÑA:</div>
+                        <div class="glyphs-wrapper" id="target-glyphs-container"></div>
+
+                        <div style="margin-top: 1.2rem; display: flex; justify-content: center;" id="reset-container">
+                            <button class="btn-control" id="btn-reset" style="background: rgba(200, 139, 50, 0.6); border: 1px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 0.5rem 1.2rem; border-radius: 20px; cursor: pointer; font-size: 1rem; font-weight: 600;">REINICIAR</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTENEDOR DE LOS 3 CANDADOS HOLOGRÁFICOS -->
+                <div id="hologram-locks-group-container" style="display: none;">
+                    <div class="locks-container-group">
+                        <div class="holo-lock" id="lock-1"><div class="holo-shackle"></div><div class="holo-body"></div></div>
+                        <div class="holo-lock" id="lock-2"><div class="holo-shackle"></div><div class="holo-body"></div></div>
+                        <div class="holo-lock" id="lock-3"><div class="holo-shackle"></div><div class="holo-body"></div></div>
+                    </div>
+                    <p style="color: #38bdf8; font-family: monospace; font-size: clamp(1.2rem, 2.5vw, 1.7rem); font-weight: bold; margin-top: 1.2rem; text-shadow: 0 0 15px #38bdf8; -webkit-text-stroke: 0.5px #000000;" id="locks-status-text">SISTEMA PARCIALMENTE DESBLOQUEADO...</p>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <div id="intro-overlay"></div>
+    <!-- =========================================================================
+         MODAL 2: ÚLTIMO RETO
+         ========================================================================= -->
+    <div id="modal-galeria">
+        <div class="contenido-modal-galeria crt-screen-effect hologram-glow-box">
+            <div class="modal-scroll-wrapper">
+
+                <div id="fase-reto-galeria">
+                    <h2 class="titulo-galeria">¡BIENVENIDO AL ÚLTIMO RETO DEL ECOSISTEMA QUIMERA!</h2>
+                    <p class="texto-galeria">
+                        ¡FELICIDADES NAVEGANTE, LO HAS CONSEGUIDO!<br>
+                        Has descubierto los siete códigos incluidos en cada concepto del Ecosistema Quimera.<br>
+                        Es hora de descubrir el orden correcto de la frase que te dará acceso.<br>
+                        Selecciona con un clic los números de cada código descubierto y una vez desencriptada cada palabra, arrástrala a su correspondiente sitio para formar la palabra correcta.
+                    </p>
+
+                    <div class="numbers-grid" id="numbers-grid-container"></div>
+
+                    <div class="words-rows-container">
+                        <div class="word-row" id="words-row-1"></div>
+                        <div class="word-row" id="words-row-2"></div>
+                    </div>
+
+                    <div class="phrase-drop-container" id="phrase-drop-zone"></div>
+                </div>
+
+                <div id="hologram-success-galeria">
+                    <div class="holo-lock-large">
+                        <div class="holo-shackle-large"></div>
+                        <div class="holo-body-large"></div>
+                    </div>
+                    <p style="color: #22c55e; font-family: monospace; font-size: clamp(1.1rem, 2.2vw, 1.5rem); font-weight: bold; margin-top: 1.5rem; text-shadow: 0 0 20px #22c55e; -webkit-text-stroke: 0.5px #000000;">
+                        ¡BIENVENIDO NAVEGANTE A LA GALERÍA AUDIOVISUAL DEL ECOSISTEMA QUIMERA!
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <nav class="top-bar">
         <div class="top-bar-container">
@@ -916,895 +1142,607 @@
     </nav>
 
     <header>
-        <h1 class="laser-burn-effect" id="header-line1-container" data-text="MITOLOGÍA DETRÁS DE">
-            <span id="header-line1">MITOLOGÍA DETRÁS DE</span>
-        </h1>
-        
-        <h1 class="arrow-02-text laser-burn-effect" id="word-quimera-container" data-text="QUIMERA">
-            <span id="word-quimera">
-                <span class="quimera-letter" data-index="0">Q</span>
-                <span class="quimera-letter" data-index="1">U</span>
-                <span class="quimera-letter" data-index="2">I</span>
-                <span class="quimera-letter" data-index="3">M</span>
-                <span class="quimera-letter" data-index="4">E</span>
-                <span class="quimera-letter" data-index="5">R</span>
-                <span class="quimera-letter" data-index="6">A</span>
-            </span>
-        </h1>
+        <div class="ecosistema-title" data-text="ECOSISTEMA">ECOSISTEMA</div>
+        <h1 data-text="QUIMERA"><a href="#" id="quimera-link"><span class="quimera-letter char-q">Q</span><span class="quimera-letter char-u">U</span><span class="quimera-letter char-i">I</span><span class="quimera-letter char-m">M</span><span class="quimera-letter char-e">E</span><span class="quimera-letter char-r">R</span><span class="quimera-letter char-a">A</span></a></h1>
+        <p data-text="Un ecosistema para el conocimiento, la formación y la práctica interdisciplinaria.">Un ecosistema para el conocimiento, la formación y la práctica interdisciplinaria.</p>
     </header>
 
-    <main>
-        <div id="central-card" class="seq-card">
-            <h2 id="card-title-container" class="laser-burn-effect"><span id="card-title-text"></span></h2>
-        </div>
+    <main class="container">
+        <a href="https://quimerac3.github.io/QuimeraC3-Q-01QE/" class="info-card card-1" data-text="QUIMERA">
+            <h2>QUIMERA</h2>
+            <p>Esto somos.</p>
+        </a>
+        <a href="https://quimerac3.github.io/QuimeraC3-Q-02M/" class="info-card card-2" data-text="MISIÓN.">
+            <h2>MISIÓN.</h2>
+            <p>Para esto existimos.</p>
+        </a>
+        <a href="https://quimerac3.github.io/QuimeraC3-Q-03V/" class="info-card card-3" data-text="VISIÓN.">
+            <h2>VISIÓN.</h2>
+            <p>Hacia esto vamos.</p>
+        </a>
+        <a href="https://quimerac3.github.io/QuimeraC3-Q-04P/" class="info-card card-4" data-text="PRINCIPIOS.">
+            <h2>PRINCIPIOS.</h2>
+            <p>Así creamos.</p>
+        </a>
+        <a href="https://quimerac3.github.io/QuimeraC3-Q-05D/" class="info-card card-5" data-text="DESARROLLO.">
+            <h2>DESARROLLO.</h2>
+            <p>Aquí es donde creamos.</p>
+        </a>
     </main>
-
-    <!-- MODAL DE CALIBRACIÓN DE EL CICLO DE QUIMERA -->
-    <div id="calibration-modal" class="modal-overlay">
-        <div class="modal-window crt-screen-effect" id="calibration-modal-window" style="--modal-bg-img: url('Quimeratrix.webp');">
-            <div class="modal-scroll-wrapper">
-                <h2 class="modal-title laser-burn-effect revealed">LA CALIBRACIÓN DE "EL CICLO DE QUIMERA"</h2>
-                <div class="modal-body" style="text-align: center; font-size: clamp(1.0rem, 7.0vw, 1.5rem); -webkit-text-stroke: 1.0px #000000; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">
-                    Navegante: Arrastra o selecciona un concepto y colócalo en el recuadro correspondiente para calibrar el ciclo del conocimiento.
-                </div>
-                
-                <!-- Conceptos disponibles reorganizados en una sola línea en el orden solicitado -->
-                <div style="margin-bottom: 2rem; text-align: center;">
-                    <div style="font-size: 1.5rem; color: #38bdf8; -webkit-text-stroke: 1.0px #000000; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700;">CONCEPTOS DISPONIBLES:</div>
-                    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;" id="cal-source-single-row"></div>
-                </div>
-
-                <!-- Líneas de calibración -->
-                <div style="display: flex; flex-direction: column; gap: 1.2rem; max-width: 800px; margin: 0 auto; text-align: left;" id="cal-target-lines"></div>
-
-                <!-- Botón Reiniciar Centrado -->
-                <div style="margin-top: 2.5rem; text-align: center;" id="cal-reset-container">
-                    <button id="cal-btn-reset" style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 0.6rem 1.8rem; border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 0 15px rgba(200,139,50,0.6); transition: all 0.3s ease;">REINICIAR</button>
-                </div>
-                <!-- Mensaje de estado con tus estilos personalizados -->
-                <div id="cal-status-msg" style="margin-top: 1rem; text-align: center; color: #38bdf8; font-family: monospace; font-weight: 700; font-size: 2rem; -webkit-text-stroke: 1.0px #000000; min-height: 1.5rem;"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL PRINCIPAL -->
-    <div id="main-modal" class="modal-overlay">
-        <div class="modal-window crt-screen-effect" id="modal-window">
-            <div class="modal-scroll-wrapper">
-                <h2 class="modal-title laser-burn-effect" id="modal-title"></h2>
-                <div class="modal-body" id="modal-body"></div>
-                <div class="modal-close-wrapper">
-                    <span class="laser-burn-effect" id="modal-close-btn" style="display:inline-block;">Cerrar.</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- SUBMODAL -->
-    <div id="sub-modal" class="submodal-overlay">
-        <div class="submodal-window crt-screen-effect" id="submodal-window-box">
-            <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
-            <img id="submodal-img" src="" alt="Esquema Quimera" style="opacity: 0;">
-            
-            <div class="submodal-text-window crt-screen-effect" id="submodal-text-window">
-                <div class="modal-scroll-wrapper">
-                    <h2 class="modal-title laser-burn-effect" id="sub-modal-title"></h2>
-                    <div class="modal-body" id="sub-modal-body"></div>
-                    <div class="modal-close-wrapper">
-                        <span class="laser-burn-effect" id="sub-modal-close-btn" style="display:inline-block;">Cerrar.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <footer class="laser-burn-effect" id="main-footer">
         <p id="footer-text" data-text="&bull; &copy; 2026 Instituto Quimera. &bull; Centro de Investigación, Docencia, Servicio y Difusión. &bull; Dr.C. Cesar Cerezo Camacho. &bull; Todos los derechos reservados. &bull;"></p>
     </footer>
 
     <script>
-        window.addEventListener('pageshow', (event) => {
-            if (event.persisted) window.location.reload();
-        });
+        const GALLERY_URL = "https://quimerac3.github.io/QuimeraC3-GAAV/";
 
-        const glitchImages = [
-            'glitch_01.webp', 'glitch_02.webp', 'glitch_03.webp', 'glitch_04.webp',
-            'glitch_05.webp', 'glitch_06.webp', 'glitch_07.webp', 'glitch_08.webp',
-            'glitch_09.webp', 'glitch_10.webp', 'glitch_11.webp', 'glitch_12.webp',
-            'glitch_13.webp', 'glitch_14.webp'
+        // PRECARGA DE IMÁGENES
+        const assetImages = [
+            'Quimera_MDQ.webp',
+            'QuimeraC3-Q1.webp',
+            'Quimera_Negro.webp',
+            'Quimera.webp',
+            'Belerofonte_Negro.webp',
+            'Belerofonte.webp',
+            'Pegaso_Negro.webp',
+            'Pegaso.webp',
+            'Quimeratrix.webp'
         ];
+        assetImages.forEach(src => { const img = new Image(); img.src = src; });
 
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            document.documentElement.style.setProperty('--mouse-x', `${mouseX}px`);
-            document.documentElement.style.setProperty('--mouse-y', `${mouseY}px`);
-        });
-
-        const storyData = [
-            {
-                title: "EL MITO QUE DIO NOMBRE AL INSTITUTO.",
-                bgImage: "Mod_01.webp",
-                content: [
-                    { type: 'p', text: "Mucho antes de convertirse en el nombre de un instituto dedicado al conocimiento, Quimera pertenecía al mundo de la mitología griega." },
-                    { type: 'p', text: "Su historia es la de un ser extraordinario y monstruoso que, según las fuentes antiguas, habitaba en Licia." },
-                    { type: 'p', text: "Quimera era descrita como una criatura híbrida, asociada con diferentes formas animales: tenía elementos de león, cabra y serpiente (en ocasiones, en vez de serpiente se representaba como dragón occidental), y se distinguía por su capacidad de arrojar fuego." },
-                    { type: 'p', text: "Su propia naturaleza era una combinación de partes que, aparentemente, no deberían coexistir." },
-                    { type: 'p', text: "Precisamente ahí reside una de las características más interesantes del mito: Quimera es una representación de lo compuesto, lo complejo y lo que no puede comprenderse desde una sola perspectiva." },
-                    { type: 'p', text: "No era simplemente un animal poderoso. Era una criatura cuya naturaleza exigía reconocer simultáneamente diferentes elementos." }
-                ]
-            },
-            {
-                title: "BELEROFONTE.",
-                bgImage: "Mod_02.webp",
-                content: [
-                    { type: 'p', text: "La figura destinada a enfrentarse con Quimera fue Belerofonte, héroe de la mitología griega." },
-                    { type: 'p', text: "Según la tradición, Belerofonte recibió del rey Yóbates de Licia el encargo de matar a la criatura." },
-                    { type: 'p', text: "La tarea parecía extraordinariamente difícil." },
-                    { type: 'p', text: "Quimera no podía enfrentarse como si fuera un enemigo ordinario. Su fuerza, su naturaleza híbrida y su capacidad de lanzar fuego convertían el enfrentamiento en un problema que requería algo más que fuerza física." },
-                    { type: 'p', text: "Belerofonte contó con una ventaja decisiva: Pegaso, el caballo alado." },
-                    { type: 'p', text: "Montado sobre Pegaso, pudo aproximarse a Quimera desde una posición que le permitía evitar directamente sus ataques y encontrar una estrategia para derrotarla." },
-                    { type: 'p', text: "La tradición relata que Belerofonte utilizó una lanza cuya punta había sido adaptada con plomo. Al enfrentarse a la criatura, el calor de su fuego derritió el metal, que penetró en ella y provocó su muerte." },
-                    { type: 'p', text: "El héroe no venció a Quimera porque fuese más fuerte, porque Quimera lo superaba en fuerza por mucho:\nLa venció porque encontró una forma diferente de abordar el problema." }
-                ]
-            },
-            {
-                title: "QUIMERA FRENTE A BELEROFONTE.",
-                bgImage: "Mod_03.webp",
-                content: [
-                    { type: 'p', text: "El mito puede leerse, más allá de su dimensión narrativa, como el encuentro entre dos fuerzas." },
-                    { type: 'p', text: "Por un lado:\n\nQUIMERA.\nLa complejidad.\nLa multiplicidad.\nLo desconocido.\nLo aparentemente contradictorio.\nLas múltiples fuerzas combinadas.\nEl problema que no puede reducirse fácilmente a una sola explicación." },
-                    { type: 'p', text: "Por otro:\n\nBELEROFONTE.\nLa observación.\nLa estrategia.\nLa adaptación.\nLa utilización inteligente de recursos.\nLa metodología aplicada.\nLa capacidad de transformar un problema aparentemente imposible en un problema susceptible de ser resuelto." },
-                    { type: 'p', text: "Y entre ambos:\n\nPEGASO.\nLa herramienta que permite ampliar las capacidades del ser humano." },
-                    { type: 'p', text: "Desde esta perspectiva, el mito puede resumirse simbólicamente como:\nLa complejidad no siempre se vence mediante mayor fuerza, sino mediante una mejor comprensión del problema y una estrategia adecuada para abordarlo." }
-                ]
-            },
-            {
-                title: "¿POR QUÉ QUIMERA?",
-                bgImage: "Mod_04.webp",
-                content: [
-                    { type: 'p', text: "El nombre del Instituto nace precisamente de esta imagen." },
-                    { type: 'p', text: "QUIMERA representa aquello que resulta complejo, híbrido, multidimensional y difícil de comprender desde una única perspectiva." },
-                    { type: 'p', text: "Las ciencias contemporáneas presentan constantemente problemas de esta naturaleza." },
-                    { type: 'p', text: "La salud, por ejemplo, no pertenece exclusivamente a una disciplina.\nUn mismo problema puede involucrar simultáneamente:\nBIOLOGÍA + MEDICINA + GENÉTICA + ESTADÍSTICA + TECNOLOGÍA + COMUNICACIÓN + LENGUAJE + COMPORTAMIENTO HUMANO." },
-                    { type: 'p', text: "Intentar comprenderlo desde una sola perspectiva puede resultar insuficiente." },
-                    { type: 'p', text: "Por ello, QUIMERA adopta simbólicamente la criatura mitológica como representación de la complejidad interdisciplinaria." },
-                    { type: 'p', text: "NO SE TRATA DE DESTRUIR LA COMPLEJIDAD:\n\nSE TRATA DE -- C O M P R E N D E R L A -- ." }
-                ]
-            },
-            {
-                title: "¿Y POR QUÉ BELEROFONTE?",
-                bgImage: "Mod_05.webp",
-                content: [
-                    { type: 'p', text: "Si Quimera representa el problema complejo, Belerofonte representa al ser humano que decide enfrentarlo." },
-                    { type: 'p', text: "No mediante la fuerza indiscriminada, sino mediante:\n• Observación.\n• Conocimiento.\n• Estrategia.\n• Adaptación.\n• Uso de herramientas.\n• Razonamiento.\n• Decisión." },
-                    { type: 'p', text: "Por ello, dentro de la identidad de QUIMERA, Belerofonte representa la dimensión metodológica del conocimiento." },
-                    { type: 'p', text: "El conocimiento permite reconocer el problema.\nLa metodología permite organizarlo.\nEl razonamiento permite analizarlo.\nLas herramientas permiten intervenir sobre él.\nY la evaluación permite determinar si la intervención funcionó." }
-                ]
-            },
-            {
-                title: "PEGASO: LA HERRAMIENTA QUE AMPLIFICA AL SER HUMANO.",
-                bgImage: "Mod_06.webp",
-                content: [
-                    { type: 'p', text: "Pegaso ocupa una posición especial dentro de esta interpretación." },
-                    { type: 'p', text: "Belerofonte necesitaba una herramienta que le permitiera enfrentarse a Quimera desde una perspectiva diferente." },
-                    { type: 'p', text: "Pegaso le proporcionó esa capacidad." },
-                    { type: 'p', text: "Por ello, dentro de la simbología institucional de QUIMERA, Pegaso representa la tecnología y las herramientas desarrolladas para ampliar las capacidades humanas." },
-                    { type: 'p', text: "La herramienta no sustituye al pensamiento: LO POTENCÍA." },
-                    { type: 'p', text: "Esta distinción es fundamental:\n\nLa tecnología puede proporcionar nuevas capacidades para observar, analizar, comunicar o intervenir.\n\nLa responsabilidad de decidir qué hacer con esas capacidades continúa perteneciendo al ser humano." }
-                ]
-            },
-            {
-                title: "DE LA MITOLOGÍA A LA MISIÓN.",
-                bgImage: "Mod_07.webp",
-                content: [
-                    { type: 'p', text: "La mitología detrás de QUIMERA no pretende convertir una historia antigua en una explicación científica:\n\nSu función es simbólica." },
-                    { type: 'p', text: "El mito proporciona un lenguaje para expresar una idea que permanece vigente:\nLos problemas complejos requieren comprensión, integración, estrategia y herramientas adecuadas." },
-                    { type: 'p', text: "A partir de esta idea, el Instituto QUIMERA organiza su actividad alrededor de cuatro funciones fundamentales:\n\nINVESTIGACIÓN &middot; DOCENCIA &middot; SERVICIO &middot; DIVULGACIÓN" },
-                    { type: 'p', text: "Cada una representa una etapa diferente de la relación entre el conocimiento y la sociedad." }
-                ]
-            },
-            {
-                title: "QUIMERA E INVESTIGACIÓN.",
-                bgImage: "Mod_08.webp",
-                content: [
-                    { type: 'p', text: "La investigación representa el esfuerzo por comprender a Quimera:\nAntes de intentar resolver un problema complejo es necesario estudiarlo." },
-                    { type: 'p', text: "Investigar significa observar, formular preguntas, generar hipótesis, analizar evidencia, identificar relaciones, reconocer incertidumbres y producir nuevo conocimiento." },
-                    { type: 'p', text: "En este sentido:\nLa investigación es el proceso mediante el cual Quimera deja de ser solamente un problema y comienza a convertirse en un objeto de estudio y conocimiento." },
-                    { type: 'p', text: "La investigación constituye, por tanto, el fundamento intelectual del Instituto." }
-                ]
-            },
-            {
-                title: "QUIMERA Y DOCENCIA.",
-                bgImage: "Mod_09.webp",
-                content: [
-                    { type: 'p', text: "La docencia representa la transferencia estructurada del conocimiento.\nEl conocimiento que no puede enseñarse corre el riesgo de permanecer aislado." },
-                    { type: 'p', text: "Por ello, QUIMERA transforma los resultados de la investigación, la experiencia profesional y el desarrollo metodológico en:\n\n• Cursos.\n• Programas educativos.\n• Series pedagógicas.\n• Talleres.\n• Guías.\n• Materiales didácticos.\n• Herramientas de aprendizaje." },
-                    { type: 'p', text: "La docencia convierte el conocimiento individual o institucional en capacidad compartida." }
-                ]
-            },
-            {
-                title: "QUIMERA Y SERVICIO.",
-                bgImage: "Mod_10.webp",
-                content: [
-                    { type: 'p', text: "El servicio representa la aplicación del conocimiento.\nComprender un problema y enseñar sobre él, no siempre es suficiente.\nExisten situaciones en las que el conocimiento debe transformarse en una intervención concreta." },
-                    { type: 'p', text: "Los servicios de QUIMERA buscan llevar conocimientos, metodologías y herramientas hacia contextos profesionales donde puedan generar utilidad real." },
-                    { type: 'p', text: "Por ello, el servicio constituye el punto en el que el conocimiento abandona el plano exclusivamente teórico y entra en contacto con la práctica." }
-                ]
-            },
-            {
-                title: "QUIMERA Y DIVULGACIÓN.",
-                bgImage: "Mod_11.webp",
-                content: [
-                    { type: 'p', text: "El conocimiento científico no debe permanecer inaccesible por la forma en que se comunica.\nPor medio de publicaciones, infografías, recursos digitales, materiales educativos y otros medios de comunicación, QUIMERA busca acercar el conocimiento a diferentes públicos." },
-                    { type: 'p', text: "La divulgación representa la transferencia del conocimiento más allá de los espacios especializados.\nDivulgar significa transformar el conocimiento especializado en contenidos comprensibles sin sacrificar su rigor." },
-                    { type: 'p', text: "La divulgación constituye, por tanto, un puente entre:\nConocimiento especializado &rarr; Comprensión pública." }
-                ]
-            },
-            {
-                title: "EL CICLO DE QUIMERA.",
-                bgImage: "Mod_12.webp",
-                content: [
-                    { type: 'p', text: "INVESTIGACIÓN, DOCENCIA, SERVICIO Y DIVULGACIÓN:\nNo constituyen actividades aisladas, ni procesos independientes." },
-                    { type: 'p', text: "Derivado del <a onclick=\"startHelicoidalSequence()\">MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO</a> desarrollado por el Dr. Cerezo, los cuatro procesos forman un sistema interdependiente de transformación y retroalimentación que se articula como un ciclo de desarrollo del conocimiento:" },
-                    { type: 'flow', text: " <a onclick=\"openSubModal('ECQ.webp')\">EL CICLO DE QUIMERA</a> \nLa INVESTIGACIÓN genera conocimiento.\nLa DOCENCIA transforma conocimiento en capacidad.\nEl SERVICIO transforma la capacidad en experiencia mediante su aplicación en contextos reales.\nLa DIVULGACIÓN transforma el conocimiento especializado enriquecido por la experiencia, en comprensión compartida.\nDe la interacción entre conocimiento, capacidad, experiencia y realidad, emergen nuevas preguntas que impulsan nuevamente a la investigación." },
-                    { type: 'p', text: "Por ello, el ciclo se eleva, conservando lo aprendido:\nTransforma y amplía el conocimiento, sin cerrar el ciclo." }
-                ]
-            },
-            {
-                title: "LA IDENTIDAD SIMBÓLICA DE QUIMERA.",
-                bgImage: "Mod_13.webp",
-                content: [
-                    { type: 'p', text: "Desde esta perspectiva:\n\nQUIMERA representa la complejidad.\nBELEROFONTE representa al profesional que decide comprenderla y enfrentarla.\nPEGASO representa las herramientas y la tecnología que amplían sus capacidades.\n\nEL MÉTODO representa la estrategia que permite transformar una situación compleja en un problema susceptible de análisis.\nEL CONOCIMIENTO representa aquello que permite comprender antes de intervenir.\nLA TRANSFERENCIA representa el movimiento del conocimiento hacia la práctica y la sociedad.\n\nY EL CICLO representa la evolución continua del conocimiento." }
-                ]
-            },
-            {
-                title: "EL SIGNIFICADO DEL NOMBRE.",
-                bgImage: "Mod_14.webp",
-                content: [
-                    { type: 'p', text: "QUIMERA no toma su nombre porque pretenda reproducir el monstruo de la mitología. Lo toma porque reconoce en él una poderosa metáfora de aquello que pretende estudiar y comprender: LA COMPLEJIDAD." },
-                    { type: 'p', text: "Y reconoce en Belerofonte otra metáfora igualmente importante:\nLa capacidad humana de enfrentar la complejidad mediante CONOCIMIENTO, ESTRATEGIA, METODOLOGÍA, HERRAMIENTAS Y DECISIÓN RESPONSABLE." },
-                    { type: 'p', text: "Entre ambos existe la idea que fundamenta el espíritu de QUIMERA:\n\nNO TODO PROBLEMA COMPLEJO NECESITA UNA RESPUESTA SIMPLE.\nNECESITA UNA RESPUESTA QUE SEA CAPAZ DE COMPRENDER SU COMPLEJIDAD SIN PERDER LA CLARIDAD NECESARIA PARA ACTUAR." },
-                    { type: 'p', text: "Ese es el espíritu detrás de QUIMERA." }
-                ]
-            }
-        ];
-
-        let currentStep = 0;
-        const centralCard = document.getElementById('central-card');
-        const cardTitleContainer = document.getElementById('card-title-container');
-        const cardTitleText = document.getElementById('card-title-text');
-        
-        const mainModal = document.getElementById('main-modal');
-        const modalWindow = document.getElementById('modal-window');
-        const modalTitle = document.getElementById('modal-title');
-        const modalBody = document.getElementById('modal-body');
-        const modalCloseBtn = document.getElementById('modal-close-btn');
-        
-        let isModalBusy = false;
-        let isCardBusy = true; 
-
+        // MOTOR MATRIX DORADO
+        const matrixCanvas = document.getElementById('matrix-canvas');
+        const matrixCtx = matrixCanvas.getContext('2d');
         let matrixInterval = null;
-        function startMatrixRain() {
-            const canvas = document.getElementById('matrix-canvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+        let drops = [];
+        const fontSize = 16;
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const alphabet = katakana + latin;
 
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
+        function initMatrix() {
+            matrixCanvas.width = window.innerWidth;
+            matrixCanvas.height = window.innerHeight;
+            const columns = Math.floor(matrixCanvas.width / fontSize);
+            drops = Array(columns).fill(1);
+        }
 
-            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZカタカナアアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-            const fontSize = 16;
-            let columns = Math.floor(canvas.width / fontSize);
-            let drops = Array(columns).fill(1);
+        function drawMatrix() {
+            matrixCtx.globalCompositeOperation = 'destination-out';
+            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.08)'; 
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
 
-            function draw() {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            matrixCtx.globalCompositeOperation = 'source-over';
+            matrixCtx.fillStyle = '#c88b32';
+            matrixCtx.font = `${fontSize}px monospace`;
 
-                ctx.font = fontSize + 'px monospace';
-
-                for (let i = 0; i < drops.length; i++) {
-                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
-
-                    if (Math.random() > 0.88) {
-                        ctx.fillStyle = '#fffbeb';
-                    } else {
-                        ctx.fillStyle = '#c88b32';
-                    }
-
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                        drops[i] = 0;
-                    }
-                    drops[i]++;
+            for (let i = 0; i < drops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+                matrixCtx.fillText(text, x, y);
+                if (y > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
                 }
+                drops[i]++;
             }
-
-            if (matrixInterval) clearInterval(matrixInterval);
-            matrixInterval = setInterval(draw, 33);
         }
 
-        function triggerMatrixAndFadeElements() {
-            const bgLayer = document.getElementById('bg-layer');
-            if (bgLayer) bgLayer.style.opacity = '0';
-
-            const cursorGlow = document.getElementById('cursor-light-glow');
-            if (cursorGlow) cursorGlow.classList.remove('visible');
-
-            const elementsToFade = [
-                document.getElementById('header-line1-container'),
-                document.querySelector('.top-bar'),
-                document.getElementById('central-card'),
-                document.querySelector('footer')
-            ];
-
-            elementsToFade.forEach(el => {
-                if (el) el.classList.add('fade-out-element');
-            });
-
-            startMatrixRain();
-            const canvas = document.getElementById('matrix-canvas');
-            if (canvas) canvas.style.opacity = '1';
-        }
-
-        let globalColorInterval = null;
-
-        function enableFinalHyperlink() {
-            const wordContainer = document.getElementById('word-quimera-container');
-            const letters = document.querySelectorAll('.quimera-letter');
-            
-            wordContainer.classList.remove('hologram-mode');
-            wordContainer.style.opacity = '1';
-            wordContainer.style.pointerEvents = 'auto';
-            wordContainer.style.cursor = 'pointer';
-
-            const stepTime = 120;
-
-            function runSequence() {
-                let i = 0;
-                function turnCopperGold(callback) {
-                    if (i < letters.length) {
-                        letters[i].style.color = '#c88b32';
-                        i++;
-                        globalColorInterval = setTimeout(() => turnCopperGold(callback), stepTime);
-                    } else if (callback) callback();
-                }
-
-                let j = 0;
-                function turnWhite(callback) {
-                    if (j < letters.length) {
-                        letters[j].style.color = '#ffffff';
-                        j++;
-                        globalColorInterval = setTimeout(() => turnWhite(callback), stepTime);
-                    } else if (callback) callback();
-                }
-
-                turnCopperGold(() => {
-                    i = 0;
-                    turnWhite(() => {
-                        j = 0;
-                        globalColorInterval = setTimeout(runSequence, 0);
-                    });
-                });
+        function startMatrix() {
+            initMatrix();
+            if (!matrixInterval) {
+                matrixInterval = setInterval(drawMatrix, 33);
             }
-
-            runSequence();
-
-            wordContainer.onclick = () => {
-                clearTimeout(globalColorInterval);
-                document.body.classList.add('blurring-content');
-
-                const overlay = document.getElementById('intro-overlay');
-                overlay.style.backgroundColor = '#ffffff';
-                overlay.style.opacity = '1';
-
-                setTimeout(() => {
-                    window.location.href = "https://quimerac3.github.io/QuimeraC3-Q/";
-                }, 1000);
-            };
         }
+        window.addEventListener('resize', initMatrix);
 
-        async function updateCardTitleLaser(text) {
-            cardTitleContainer.classList.remove('revealed');
-            cardTitleContainer.classList.add('active-laser');
-            cardTitleText.textContent = text;
-            
-            await new Promise(r => setTimeout(r, 600));
-            cardTitleContainer.classList.remove('active-laser');
-            cardTitleContainer.classList.add('revealed');
-        }
-
-        async function animateModalContent(titleElem, bodyElem, closeElem, titleText, contentData) {
-            titleElem.textContent = titleText;
-            bodyElem.innerHTML = '';
-            closeElem.className = 'laser-burn-effect';
-            closeElem.textContent = 'Cerrar.';
-
-            const elementsToAnimate = [titleElem];
-
-            for (let block of contentData) {
-                const blockElem = document.createElement(block.type === 'flow' ? 'div' : 'p');
-                if (block.type === 'flow') {
-                    blockElem.className = 'process-flow laser-burn-effect';
-                } else {
-                    blockElem.className = 'laser-burn-effect';
-                    blockElem.style.marginBottom = '1rem';
-                }
-                blockElem.innerHTML = block.text;
-                bodyElem.appendChild(blockElem);
-                elementsToAnimate.push(blockElem);
+        /* =====================================================================
+           LÓGICA 1: ACERTIJO TRIPLE (PORTAL "QUIMERA")
+           ===================================================================== */
+        const riddlePhases = [
+            {
+                title: "EL ENIGMA DE LA COMPLEJIDAD.",
+                poem: "No poseo una sola forma, pues en mi ser conviven dimensiones que la mirada simple no alcanza a abarcar. Llevo fuego en mi núcleo y múltiples naturalezas entrelazadas en mi esencia; soy el enigma viviente que desafía la linealidad del pensamiento. No busques destruirme con la fuerza ciega de la certeza dogmática, porque represento el tejido complejo de lo biológico, lo social y lo conceptual. Para cruzar el primer umbral de este dominio, debes nombrar aquello que une lo diverso en una sola criatura. Desbloquea el primer candado, evoca mi esencia y dime, navegante: ¿Cuál es mi nombre ancestral?",
+                target: "QUIMERA",
+                letters: ['M', 'Q', 'R', 'A', 'E', 'I', 'U'],
+                bgInitial: 'Quimera_Negro.webp',
+                bgUnlocked: 'Quimera.webp'
+            },
+            {
+                title: "EL DESAFÍO DE LA METODOLOGÍA Y LA ESTRATEGIA.",
+                poem: "Me enfrenté al fuego rugiente y a la tempestad de la complejidad, pero no usé del combate vulgar su furia, sino me apoyé de la geometría de la razón y la precisión de la estrategia. Donde el caos imponía su ley indomable, yo dispuse del método; donde la amenaza parecía invulnerable, hallé el intersticio del cálculo analítico. No vencí por usar la fuerza iracunda de músculo alguno, sino por el entrenamiento mental del rigor metodológico, transformando el problema manifiesto en un objeto susceptible de estudio y comprensión. Si comprendes que toda complejidad exige un método estructurado para ser gobernada, hallarás la respuesta al segundo acertijo... Navegante, para lograr liberar el segundo candado, evoca al héroe que ideó la ruta analítica: ¿A qué nombre responde?",
+                target: "BELEROFONTE",
+                letters: ['E', 'E', 'O', 'O', 'E', 'B', 'F', 'L', 'N', 'R', 'T'],
+                bgInitial: 'Belerofonte_Negro.webp',
+                bgUnlocked: 'Belerofonte.webp'
+            },
+            {
+                title: "LA HERRAMIENTA QUE AMPLIFICA AL SER HUMANO.",
+                poem: "Elevé mi ser sobre las cumbres del pensamiento guiado por mis alas de luz y libertad, convirtiéndome en la extensión viva del intelecto humano. No soy el artífice de la decisión moral, ni sustituyo la voluntad de quien camina; soy la herramienta que eleva la perspectiva, el puente entre la tierra de lo posible y el cielo de lo cognoscible. Sin mi impulso alado, la cima permanecería inalcanzable; con mi acción, la mirada trasciende los límites de lo terrenal. Navegante, recuerda el nombre de la criatura alada que alcanza el cielo y que representa la amplificación de las capacidades del saber humano y dime: ¿Qué nombre lo evoca?",
+                target: "PEGASO",
+                letters: ['A', 'E', 'O', 'G', 'P', 'S'],
+                bgInitial: 'Pegaso_Negro.webp',
+                bgUnlocked: 'Pegaso.webp'
             }
-
-            elementsToAnimate.push(closeElem);
-
-            await new Promise(r => setTimeout(r, 100));
-
-            for (let el of elementsToAnimate) {
-                el.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 250));
-            }
-
-            await new Promise(r => setTimeout(r, 600));
-
-            for (let el of elementsToAnimate) {
-                el.classList.remove('active-laser');
-                el.classList.add('revealed');
-            }
-            closeElem.className = 'modal-close-btn revealed';
-        }
-
-        function triggerCardGlitch(callback) {
-            const glitchOverlay = document.getElementById('glitch-overlay');
-            const glitchImg = document.getElementById('glitch-img');
-
-            const randomGlitch = glitchImages[currentStep % glitchImages.length];
-            glitchImg.src = ''; 
-            glitchOverlay.style.opacity = '1';
-
-            setTimeout(() => {
-                glitchImg.src = randomGlitch;
-            }, 30);
-
-            setTimeout(() => {
-                glitchOverlay.style.opacity = '0';
-                setTimeout(() => {
-                    if (callback) callback();
-                }, 100); 
-            }, 750);
-        }
-
-        /* --- LÓGICA DEL ACERTIJO: LA CALIBRACIÓN DE EL CICLO DE QUIMERA (CON DRAG & DROP Y CLIC) --- */
-        const availableConcepts = ["SERVICIO", "INVESTIGACIÓN", "DIVULGACIÓN", "DOCENCIA"];
-
-        const calLinesData = [
-            { text: "Las ideas aplicadas, generan conocimiento.", correct: "INVESTIGACIÓN" },
-            { text: "Al enseñarse el conocimiento, se transforma en capacidad.", correct: "DOCENCIA" },
-            { text: "Al aplicar la capacidad se transforma en experiencia.", correct: "SERVICIO" },
-            { text: "Al adquirir experiencia, es imperativo compartirla.", correct: "DIVULGACIÓN" }
         ];
 
-        let calPlaced = [null, null, null, null];
-        let calUsed = { "SERVICIO": false, "INVESTIGACIÓN": false, "DIVULGACIÓN": false, "DOCENCIA": false };
-        let selectedSourceConcept = null;
+        let currentPhaseIdx = 0;
+        let sourceRevealed = [];
+        let sourceIntervals = [];
+        let currentState = [];
 
-        function openCalibrationModal() {
-            const calModal = document.getElementById('calibration-modal');
-            const calModalWindow = document.getElementById('calibration-modal-window');
-            
-            calModal.classList.add('show');
-            calModalWindow.classList.remove('tv-off');
-            calModalWindow.classList.add('tv-on');
-            
-            initCalibrationPuzzle();
+        const acertijoTitulo = document.getElementById('acertijo-titulo');
+        const acertijoTexto = document.getElementById('acertijo-texto');
+        const sourceContainer = document.getElementById('source-glyphs-container');
+        const targetContainer = document.getElementById('target-glyphs-container');
+        const btnReset = document.getElementById('btn-reset');
+        const contenidoModalBox = document.getElementById('contenido-modal-box');
+
+        const btnWelcomeContinuar = document.getElementById('btn-continuar-welcome');
+        btnWelcomeContinuar.onclick = () => {
+            const faseBienvenida = document.getElementById('fase-bienvenida-container');
+            faseBienvenida.classList.add('vaporize-effect');
+
+            setTimeout(() => {
+                faseBienvenida.style.display = 'none';
+                faseBienvenida.classList.remove('vaporize-effect');
+
+                const faseAcertijo = document.getElementById('fase-acertijo-container');
+                faseAcertijo.style.display = 'block';
+                faseAcertijo.classList.add('materialize-effect');
+
+                loadPhase(0);
+                setTimeout(() => faseAcertijo.classList.remove('materialize-effect'), 900);
+            }, 800);
+        };
+
+        function loadPhase(idx) {
+            currentPhaseIdx = idx;
+            const phase = riddlePhases[idx];
+            acertijoTitulo.textContent = phase.title;
+            acertijoTexto.textContent = phase.poem;
+            contenidoModalBox.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${phase.bgInitial}')`;
+
+            sourceRevealed = Array(phase.letters.length).fill(false);
+            currentState = Array(phase.target.length).fill(null);
+
+            startSourceMatrixIntervals(phase.letters);
+            renderPuzzle(phase);
         }
 
-        function initCalibrationPuzzle() {
-            calPlaced = [null, null, null, null];
-            calUsed = { "SERVICIO": false, "INVESTIGACIÓN": false, "DIVULGACIÓN": false, "DOCENCIA": false };
-            selectedSourceConcept = null;
-            document.getElementById('cal-status-msg').textContent = "";
-            renderCalibrationPuzzle();
-        }
-
-        function placeConceptInSlot(concept, slotIdx) {
-            if (!concept || calPlaced[slotIdx] !== null) return;
-
-            for (let i = 0; i < 4; i++) {
-                if (calPlaced[i] === concept) {
-                    calPlaced[i] = null;
-                }
-            }
-
-            calPlaced[slotIdx] = concept;
-            calUsed[concept] = true;
-            selectedSourceConcept = null;
-
-            const line = calLinesData[slotIdx];
-            const lockElem = document.getElementById(`cal-lock-${slotIdx}`);
-
-            if (concept === line.correct) {
-                lockElem.classList.add('unlocked');
-                lockElem.classList.remove('error');
-                checkCalibrationComplete();
-            } else {
-                lockElem.classList.add('error');
-                document.getElementById('cal-status-msg').textContent = "¡Concepto incorrecto! Intenta de nuevo.";
-                setTimeout(() => {
-                    lockElem.classList.remove('error');
-                    calPlaced[slotIdx] = null;
-                    calUsed[concept] = false;
-                    document.getElementById('cal-status-msg').textContent = "";
-                    renderCalibrationPuzzle();
-                }, 600);
-            }
-            renderCalibrationPuzzle();
-        }
-
-        function renderCalibrationPuzzle() {
-            const container = document.getElementById('cal-source-single-row');
-            container.innerHTML = '';
-            availableConcepts.forEach(c => {
-                const box = document.createElement('div');
-                box.className = 'cal-concept-box' + (calUsed[c] ? ' used' : '') + (selectedSourceConcept === c ? ' selected' : '');
-                box.textContent = `[ ${c} ]`;
-                box.draggable = !calUsed[c];
-
-                box.ondragstart = (e) => {
-                    e.dataTransfer.setData('text/plain', c);
-                };
-
-                box.onclick = () => {
-                    if (!calUsed[c]) {
-                        selectedSourceConcept = (selectedSourceConcept === c) ? null : c;
-                        renderCalibrationPuzzle();
+        function startSourceMatrixIntervals(letters) {
+            sourceIntervals.forEach(clearInterval);
+            sourceIntervals = [];
+            for (let i = 0; i < letters.length; i++) {
+                const interval = setInterval(() => {
+                    if (!sourceRevealed[i]) {
+                        const box = document.getElementById(`source-box-${i}`);
+                        if (box) box.textContent = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
                     }
-                };
-                container.appendChild(box);
+                }, 60);
+                sourceIntervals.push(interval);
+            }
+        }
+
+        function renderPuzzle(phase) {
+            sourceContainer.innerHTML = '';
+            phase.letters.forEach((char, idx) => {
+                const box = document.createElement('div');
+                box.id = `source-box-${idx}`;
+                box.className = 'glyph-box';
+                if (!sourceRevealed[idx]) {
+                    box.textContent = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                    box.onclick = () => revealSourceBox(idx, phase);
+                } else {
+                    box.textContent = char;
+                    if (currentState.includes(idx)) {
+                        box.classList.add('used');
+                        box.onclick = null;
+                    } else {
+                        box.onclick = () => sendToTarget(idx, phase);
+                    }
+                }
+                sourceContainer.appendChild(box);
             });
 
-            const linesContainer = document.getElementById('cal-target-lines');
-            linesContainer.innerHTML = '';
+            targetContainer.innerHTML = '';
+            for (let i = 0; i < phase.target.length; i++) {
+                const targetBox = document.createElement('div');
+                targetBox.className = 'target-box';
+                const sourceIdx = currentState[i];
+                if (sourceIdx !== null) {
+                    targetBox.textContent = phase.letters[sourceIdx];
+                    targetBox.classList.add('filled');
+                    targetBox.onclick = () => returnToSource(i, phase);
+                } else {
+                    targetBox.textContent = '_';
+                }
+                targetContainer.appendChild(targetBox);
+            }
+        }
 
-            calLinesData.forEach((line, idx) => {
-                const row = document.createElement('div');
-                row.style.cssText = "display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; background: rgba(11, 19, 41, 0.7); padding: 0.8rem 1.2rem; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.3);";
+        function revealSourceBox(idx, phase) {
+            if (sourceRevealed[idx]) return;
+            clearInterval(sourceIntervals[idx]);
+            sourceRevealed[idx] = true;
+            renderPuzzle(phase);
+        }
 
+        function sendToTarget(sourceIdx, phase) {
+            const emptySlot = currentState.indexOf(null);
+            if (emptySlot !== -1) {
+                currentState[emptySlot] = sourceIdx;
+                renderPuzzle(phase);
+                if (!currentState.includes(null)) checkPuzzleSolution(phase);
+            }
+        }
+
+        function returnToSource(targetIdx, phase) {
+            currentState[targetIdx] = null;
+            renderPuzzle(phase);
+        }
+
+        btnReset.onclick = () => {
+            const phase = riddlePhases[currentPhaseIdx];
+            sourceRevealed = Array(phase.letters.length).fill(false);
+            currentState = Array(phase.target.length).fill(null);
+            startSourceMatrixIntervals(phase.letters);
+            renderPuzzle(phase);
+        };
+
+        function checkPuzzleSolution(phase) {
+            const formedWord = currentState.map(idx => idx !== null ? phase.letters[idx] : '').join('');
+            if (formedWord === phase.target) {
+                triggerPhaseCompleted(currentPhaseIdx);
+            } else {
+                const targetBoxes = targetContainer.querySelectorAll('.target-box');
+                targetBoxes.forEach(b => { b.style.borderColor = '#ef4444'; b.style.color = '#ef4444'; });
+                setTimeout(() => renderPuzzle(phase), 600);
+            }
+        }
+
+        function triggerPhaseCompleted(phaseIdx) {
+            const phase = riddlePhases[phaseIdx];
+            contenidoModalBox.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('${phase.bgUnlocked}')`;
+
+            const faseContainer = document.getElementById('fase-acertijo-container');
+            faseContainer.classList.add('vaporize-effect');
+
+            setTimeout(() => {
+                faseContainer.style.display = 'none';
+                faseContainer.classList.remove('vaporize-effect');
+
+                const locksGroupContainer = document.getElementById('hologram-locks-group-container');
+                locksGroupContainer.style.display = 'flex';
+                locksGroupContainer.classList.add('materialize-effect');
+
+                const lock1 = document.getElementById('lock-1');
+                const lock2 = document.getElementById('lock-2');
+                const lock3 = document.getElementById('lock-3');
+                const statusText = document.getElementById('locks-status-text');
+
+                if (phaseIdx === 0) {
+                    lock1.classList.add('unlocked');
+                    statusText.textContent = "¡PRIMER CANDADO DESBLOQUEADO!";
+                } else if (phaseIdx === 1) {
+                    lock1.classList.add('unlocked');
+                    lock2.classList.add('unlocked');
+                    statusText.textContent = "¡SEGUNDO CANDADO DESBLOQUEADO!";
+                } else if (phaseIdx === 2) {
+                    lock1.classList.add('unlocked');
+                    lock2.classList.add('unlocked');
+                    lock3.classList.add('unlocked');
+                    statusText.textContent = "¡SISTEMA COMPLETAMENTE DESBLOQUEADO: ACCEDIENDO...";
+                }
+
+                setTimeout(() => {
+                    locksGroupContainer.classList.remove('materialize-effect');
+                    locksGroupContainer.classList.add('vaporize-effect');
+
+                    setTimeout(() => {
+                        locksGroupContainer.style.display = 'none';
+                        locksGroupContainer.classList.remove('vaporize-effect');
+
+                        if (phaseIdx < 2) {
+                            faseContainer.style.display = 'block';
+                            faseContainer.classList.add('materialize-effect');
+                            loadPhase(phaseIdx + 1);
+                        } else {
+                            const modalBox = document.getElementById('modal-principal');
+                            modalBox.classList.remove('tv-turn-on');
+                            modalBox.classList.add('tv-turn-off');
+
+                            // TRANSICIÓN SOLICITADA: desvanecimiento hacia el blanco y del blanco al negro, revelando MDQ
+                            setTimeout(() => {
+                                matrixCanvas.style.opacity = '0';
+                                const overlay = document.getElementById('intro-overlay');
+                                overlay.style.zIndex = '40000';
+                                overlay.style.backgroundColor = '#ffffff';
+                                overlay.style.opacity = '1';
+
+                                setTimeout(() => {
+                                    overlay.style.backgroundColor = '#000000';
+                                    setTimeout(() => {
+                                        overlay.style.opacity = '0';
+                                        runEcosystemEntrance(); // Inicia animaciones MDQ
+                                    }, 1000);
+                                }, 1000);
+                            }, 700);
+                        }
+                    }, 800);
+                }, 4000);
+            }, 800);
+        }
+
+        // APERTURA AUTOMÁTICA DEL ACERTIJO TRIPLE AL INICIO EN INDEXMDQ
+        window.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('intro-overlay');
+            // Desvanecimiento inicial de blanco a negro
+            setTimeout(() => {
+                overlay.style.backgroundColor = '#000000';
+                setTimeout(() => {
+                    startMatrix();
+                    matrixCanvas.style.opacity = '1';
+                    overlay.style.opacity = '0';
+
+                    setTimeout(() => {
+                        document.getElementById('fase-bienvenida-container').style.display = 'block';
+                        document.getElementById('fase-acertijo-container').style.display = 'none';
+                        document.getElementById('hologram-locks-group-container').style.display = 'none';
+                        contenidoModalBox.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('Quimeratrix.webp')`;
+                        document.getElementById('modal-principal').classList.add('tv-turn-on');
+                    }, 600);
+                }, 1000);
+            }, 500);
+        });
+
+        /* =====================================================================
+           LÓGICA 2: ÚLTIMO RETO (HOTSPOT)
+           ===================================================================== */
+        const alphabetMap = {
+            1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E', 6: 'F', 7: 'G', 8: 'H', 9: 'I',
+            10: 'J', 11: 'K', 12: 'L', 13: 'M', 14: 'N', 15: 'Ñ', 16: 'O', 17: 'P',
+            18: 'Q', 19: 'R', 20: 'S', 21: 'T', 22: 'U', 23: 'V', 24: 'W', 25: 'X',
+            26: 'Y', 27: 'Z'
+        };
+
+        const wordsData = [
+            { id: 'este', word: 'ESTE', code: [5, 20, 21, 5], row: 1 },
+            { id: 'quien', word: 'QUIEN', code: [18, 22, 9, 5, 14], row: 1 },
+            { id: 'toda', word: 'TODA', code: [21, 16, 4, 1], row: 1 },
+            { id: 'umbral', word: 'UMBRAL', code: [22, 13, 2, 19, 1, 12], row: 1 },
+            { id: 'cruce', word: 'CRUCE', code: [3, 19, 22, 3, 5], row: 2 },
+            { id: 'ignorancia', word: 'IGNORANCIA', code: [9, 7, 14, 16, 19, 1, 14, 3, 9, 1], row: 2 },
+            { id: 'pierda', word: 'PIERDA', code: [17, 9, 5, 19, 4, 1], row: 2 }
+        ];
+
+        const CORRECT_PHRASE = ['PIERDA', 'TODA', 'IGNORANCIA', 'QUIEN', 'CRUCE', 'ESTE', 'UMBRAL'];
+
+        let currentActiveWordId = null;
+        let currentInputSequence = [];
+        let decryptedWords = {};
+        let placedWords = Array(7).fill(null);
+
+        function initCryptexGame() {
+            currentActiveWordId = null;
+            currentInputSequence = [];
+            decryptedWords = {};
+            placedWords = Array(7).fill(null);
+
+            const gridContainer = document.getElementById('numbers-grid-container');
+            gridContainer.innerHTML = '';
+
+            for (let i = 1; i <= 27; i++) {
+                const numStr = String(i).padStart(2, '0');
+                const btn = document.createElement('button');
+                btn.className = 'num-btn';
+                btn.textContent = numStr;
+                btn.onclick = () => handleNumberClick(i);
+                gridContainer.appendChild(btn);
+            }
+
+            renderWordsRows();
+            renderDropSlots();
+        }
+
+        function renderWordsRows() {
+            const row1 = document.getElementById('words-row-1');
+            const row2 = document.getElementById('words-row-2');
+            row1.innerHTML = '';
+            row2.innerHTML = '';
+
+            wordsData.forEach(item => {
+                const box = document.createElement('div');
+                box.className = 'word-box';
+                box.id = `word-box-${item.id}`;
+                
+                if (decryptedWords[item.id]) {
+                    box.textContent = item.word;
+                    box.classList.add('decrypted');
+                    box.draggable = true;
+                    box.ondragstart = (e) => {
+                        e.dataTransfer.setData('text/plain', item.id);
+                    };
+                } else if (currentActiveWordId === item.id) {
+                    const partial = item.code.map((n, idx) => idx < currentInputSequence.length ? alphabetMap[n] : '_').join(' ');
+                    box.textContent = partial;
+                    box.style.borderColor = '#38bdf8';
+                } else {
+                    box.textContent = item.code.map(() => '_').join(' ');
+                }
+
+                if (item.row === 1) row1.appendChild(box);
+                else row2.appendChild(box);
+            });
+        }
+
+        function renderDropSlots() {
+            const dropZone = document.getElementById('phrase-drop-zone');
+            dropZone.innerHTML = '';
+
+            for (let i = 0; i < 7; i++) {
                 const slot = document.createElement('div');
-                slot.className = 'cal-target-slot' + (calPlaced[idx] ? ' filled' : '');
-                slot.textContent = calPlaced[idx] ? `[ ${calPlaced[idx]} ]` : '[ ? ]';
+                slot.className = 'phrase-slot';
+                slot.dataset.slot = i;
 
-                slot.ondragover = (e) => {
-                    e.preventDefault();
-                    slot.classList.add('drag-over');
-                };
+                const assignedWordId = placedWords[i];
+                if (assignedWordId) {
+                    const wordObj = wordsData.find(w => w.id === assignedWordId);
+                    slot.textContent = wordObj.word;
+                    slot.classList.add('filled-slot');
+                    slot.onclick = () => removeWordFromSlot(i);
+                }
 
-                slot.ondragleave = () => {
-                    slot.classList.remove('drag-over');
-                };
-
+                slot.ondragover = (e) => e.preventDefault();
                 slot.ondrop = (e) => {
                     e.preventDefault();
-                    slot.classList.remove('drag-over');
-                    const droppedConcept = e.dataTransfer.getData('text/plain');
-                    if (droppedConcept) {
-                        placeConceptInSlot(droppedConcept, idx);
-                    }
+                    const wordId = e.dataTransfer.getData('text/plain');
+                    if (wordId) assignWordToSlot(wordId, i);
                 };
 
-                slot.onclick = () => {
-                    if (calPlaced[idx]) {
-                        const returned = calPlaced[idx];
-                        calUsed[returned] = false;
-                        calPlaced[idx] = null;
-                        const lockElem = document.getElementById(`cal-lock-${idx}`);
-                        lockElem.classList.remove('unlocked', 'error');
-                        document.getElementById('cal-status-msg').textContent = "";
-                        renderCalibrationPuzzle();
-                    } else if (selectedSourceConcept) {
-                        placeConceptInSlot(selectedSourceConcept, idx);
-                    }
-                };
-                row.appendChild(slot);
-
-                const lockContainer = document.createElement('div');
-                lockContainer.id = `cal-lock-${idx}`;
-                lockContainer.className = 'holo-lock' + (calPlaced[idx] === line.correct ? ' unlocked' : '');
-                lockContainer.innerHTML = '<div class="holo-shackle"></div><div class="holo-body"></div>';
-                row.appendChild(lockContainer);
-
-                const textSpan = document.createElement('div');
-                textSpan.style.cssText = "color: #ffffff; font-weight: 600; font-size: clamp(0.9rem, 2vw, 1.1rem); flex: 1; min-width: 250px;";
-                textSpan.textContent = line.text;
-                row.appendChild(textSpan);
-
-                linesContainer.appendChild(row);
-            });
-        }
-
-        function checkCalibrationComplete() {
-            let allCorrect = true;
-            for (let i = 0; i < 4; i++) {
-                if (calPlaced[i] !== calLinesData[i].correct) {
-                    allCorrect = false;
-                    break;
-                }
-            }
-            if (allCorrect) {
-                document.getElementById('cal-status-msg').textContent = "¡CALIBRACIÓN EXITOSA! ACCEDIENDO A EL CICLO DE QUIMERA...";
-                setTimeout(() => {
-                    onCalibrationCompleted();
-                }, 3200); // 3.2 segundos de lectura cómoda
+                dropZone.appendChild(slot);
             }
         }
 
-        document.getElementById('cal-btn-reset').onclick = () => {
-            initCalibrationPuzzle();
-        };
-
-        function onCalibrationCompleted() {
-            const calModal = document.getElementById('calibration-modal');
-            const calModalWindow = document.getElementById('calibration-modal-window');
-            
-            calModalWindow.classList.remove('tv-on');
-            calModalWindow.classList.add('tv-off');
-            
-            setTimeout(async () => {
-                calModal.classList.remove('show');
-                calModalWindow.classList.remove('tv-off');
-                
-                const data = storyData[11];
-                modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
-
-                mainModal.classList.add('show');
-                modalWindow.classList.remove('tv-off');
-                modalWindow.classList.add('tv-on');
-                
-                isModalBusy = true;
-                modalBody.style.textAlign = data.align || 'left';
-                await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
-                isModalBusy = false;
-            }, 400);
-        }
-
-        centralCard.addEventListener('click', async () => {
-            if (isCardBusy || isModalBusy) return;
-
-            if (currentStep === storyData.length - 1) {
-                setTimeout(() => {
-                    triggerMatrixAndFadeElements();
-                }, 2000);
-            }
-
-            document.body.classList.add('blurring-content');
-
-            triggerCardGlitch(async () => {
-                const data = storyData[currentStep];
-
-                if (currentStep === 11) {
-                    openCalibrationModal();
-                    return;
+        function handleNumberClick(num) {
+            if (currentActiveWordId === null) {
+                const matchedWord = wordsData.find(w => !decryptedWords[w.id] && w.code[0] === num);
+                if (matchedWord) {
+                    currentActiveWordId = matchedWord.id;
+                    currentInputSequence = [num];
+                    checkSequenceProgress(matchedWord);
                 }
-
-                modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
-
-                mainModal.classList.add('show');
-                modalWindow.classList.remove('tv-off');
-                modalWindow.classList.add('tv-on');
-                
-                isModalBusy = true;
-
-                modalBody.style.textAlign = data.align || 'left';
-                
-                await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
-                
-                isModalBusy = false;
-            });
-        });
-
-        const triggerTVClose = () => {
-            if (modalWindow.classList.contains('tv-off') || isModalBusy) return;
-            
-            modalWindow.classList.remove('tv-on');
-            modalWindow.classList.add('tv-off');
-            mainModal.classList.remove('show');
-
-            setTimeout(async () => {
-                modalWindow.classList.remove('tv-off');
-                
-                modalTitle.textContent = '';
-                modalBody.innerHTML = '';
-                modalCloseBtn.className = 'laser-burn-effect';
-
-                document.body.classList.remove('blurring-content');
-
-                isCardBusy = true;
-                
-                if (currentStep < storyData.length - 1) {
-                    currentStep++;
-                    await updateCardTitleLaser(storyData[currentStep].title);
-                    isCardBusy = false; 
-                } else {
-                    centralCard.classList.add('tv-off-card');
-                    setTimeout(() => {
-                        centralCard.style.display = 'none';
-                        enableFinalHyperlink();
-                    }, 500); 
-                }
-            }, 400);
-        };
-
-        modalCloseBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if(!isModalBusy) triggerTVClose();
-        });
-
-        mainModal.addEventListener('click', (e) => {
-            if (e.target === mainModal && !isModalBusy) triggerTVClose();
-        });
-
-        /* --- CONTROL DE SUBMODALES Y SECUENCIA HELICOIDAL --- */
-        const subModal = document.getElementById('sub-modal');
-        const subModalWindowBox = document.getElementById('submodal-window-box');
-        const subImg = document.getElementById('submodal-img');
-        const subModalTextWindow = document.getElementById('submodal-text-window');
-        const subModalXBtn = document.getElementById('submodal-x-btn');
-        const subModalTitle = document.getElementById('sub-modal-title');
-        const subModalBody = document.getElementById('sub-modal-body');
-        const subModalCloseBtn = document.getElementById('sub-modal-close-btn');
-
-        let isSubModalBusy = false;
-        let helicoidalSequenceRunning = false;
-
-        window.openSubModal = (imgSrc) => {
-            helicoidalSequenceRunning = false;
-            subModalTextWindow.style.display = 'none';
-            subImg.style.display = 'block';
-            subModalXBtn.style.display = 'block';
-            
-            subModalWindowBox.classList.remove('tv-off', 'tv-on');
-            subImg.style.opacity = '0';
-            subImg.src = imgSrc;
-            subModal.classList.add('show');
-            document.body.classList.add('blurring-content');
-            
-            if (imgSrc === 'ECQ.webp') {
-                subModalWindowBox.classList.add('ecq-clean-mode');
             } else {
-                subModalWindowBox.classList.remove('ecq-clean-mode');
-            }
-
-            subModalWindowBox.classList.add('tv-on');
-            
-            const triggerFadeIn = () => { 
-                setTimeout(() => { subImg.style.opacity = '1'; }, 100); 
-            };
-            if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
-        };
-
-        window.startHelicoidalSequence = async () => {
-            helicoidalSequenceRunning = true;
-            subModalTextWindow.style.display = 'none';
-            subImg.style.display = 'block';
-            subModalXBtn.style.display = 'block';
-            subModalWindowBox.classList.remove('tv-off', 'tv-on');
-            subModal.classList.add('show');
-            document.body.classList.add('blurring-content');
-            
-            subModalWindowBox.classList.remove('ecq-clean-mode');
-            subModalWindowBox.classList.add('tv-on');
-
-            const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
-
-            for (let i = 0; i < images.length; i++) {
-                if (!helicoidalSequenceRunning) return;
-                subImg.style.opacity = '0';
-                await new Promise(r => setTimeout(r, 600));
-                
-                if (!helicoidalSequenceRunning) return;
-                subImg.src = images[i];
-                
-                await new Promise(resolve => {
-                    if (subImg.complete) resolve();
-                    else subImg.onload = resolve;
-                });
-                
-                if (!helicoidalSequenceRunning) return;
-                subImg.style.opacity = '1';
-                await new Promise(r => setTimeout(r, 2000));
-
-                if (!helicoidalSequenceRunning) return;
-                if (i === images.length - 1) {
-                    subImg.style.opacity = '0';
-                    await new Promise(r => setTimeout(r, 600));
-                    if (!helicoidalSequenceRunning) return;
-                    showHelicoidalTextWindow();
-                    return;
+                const matchedWord = wordsData.find(w => w.id === currentActiveWordId);
+                const nextIdx = currentInputSequence.length;
+                if (matchedWord && matchedWord.code[nextIdx] === num) {
+                    currentInputSequence.push(num);
+                    checkSequenceProgress(matchedWord);
+                } else {
+                    currentActiveWordId = null;
+                    currentInputSequence = [];
+                    renderWordsRows();
                 }
             }
-        };
+        }
 
-        const showHelicoidalTextWindow = async () => {
-            subImg.style.display = 'none';
-            subModalXBtn.style.display = 'none';
-            subModalTextWindow.style.display = 'block';
-            subModalTextWindow.classList.remove('tv-off');
-            subModalTextWindow.classList.add('tv-on');
+        function checkSequenceProgress(wordObj) {
+            if (currentInputSequence.length === wordObj.code.length) {
+                decryptedWords[wordObj.id] = wordObj.word;
+                currentActiveWordId = null;
+                currentInputSequence = [];
+            }
+            renderWordsRows();
+        }
 
-            isSubModalBusy = true;
+        function assignWordToSlot(wordId, slotIndex) {
+            const existingSlot = placedWords.indexOf(wordId);
+            if (existingSlot !== -1) placedWords[existingSlot] = null;
+            placedWords[slotIndex] = wordId;
+            renderDropSlots();
+            checkPhraseCompletion();
+        }
 
-            const paragraphs = [
-                "Representa el conocimiento como un proceso continuo de transformación. Una teoría o comprensión previa permite interpretar la realidad, pero al enfrentarse con nuevos fenómenos surgen problemas, contradicciones o interrogantes que cuestionan sus límites.",
-                "El análisis permite investigar y construir respuestas; la revisión somete esas respuestas a criterios de rigor, coherencia y evidencia; y la transferencia incorpora el nuevo conocimiento a la comprensión existente.",
-                "Sin embargo, el proceso no termina con la solución. Cada problema resuelto genera nuevas preguntas, y las nuevas preguntas permiten acceder a problemas de mayor complejidad.",
-                "Por ello, el conocimiento no se desarrolla en círculos que regresan al mismo punto, sino mediante una hélice ascendente: cada ciclo conserva, transforma y amplía lo aprendido, conduciendo hacia niveles progresivamente más profundos de comprensión.",
-                "Resolver un problema no es el final del conocimiento; es el comienzo de una pregunta mejor."
-            ];
+        function removeWordFromSlot(slotIndex) {
+            placedWords[slotIndex] = null;
+            renderDropSlots();
+            checkPhraseCompletion();
+        }
 
-            const formattedContent = paragraphs.map(text => ({ type: 'p', text: text }));
-            
-            await animateModalContent(subModalTitle, subModalBody, subModalCloseBtn, "MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO.", formattedContent);
+        function checkPhraseCompletion() {
+            const dropZone = document.getElementById('phrase-drop-zone');
+            if (placedWords.includes(null)) {
+                dropZone.classList.remove('error-glow', 'success-glow');
+                return;
+            }
 
-            isSubModalBusy = false;
-        };
+            const currentPhraseArray = placedWords.map(id => wordsData.find(w => w.id === id).word);
+            const isCorrect = currentPhraseArray.every((w, idx) => w === CORRECT_PHRASE[idx]);
 
-        const triggerHelicoidalTextClose = () => {
-            if (subModalTextWindow.classList.contains('tv-off') || isSubModalBusy) return;
-            subModalTextWindow.classList.remove('tv-on');
-            subModalTextWindow.classList.add('tv-off');
+            if (isCorrect) {
+                dropZone.classList.remove('error-glow');
+                dropZone.classList.add('success-glow');
+                triggerGaleriaSuccess();
+            } else {
+                dropZone.classList.remove('success-glow');
+                dropZone.classList.add('error-glow');
+            }
+        }
+
+        function triggerGaleriaSuccess() {
+            setTimeout(() => {
+                const retoContainer = document.getElementById('fase-reto-galeria');
+                retoContainer.classList.add('vaporize-effect');
+
+                setTimeout(() => {
+                    retoContainer.style.display = 'none';
+                    retoContainer.classList.remove('vaporize-effect');
+
+                    const successContainer = document.getElementById('hologram-success-galeria');
+                    successContainer.style.display = 'flex';
+                    successContainer.classList.add('materialize-effect');
+
+                    setTimeout(() => {
+                        successContainer.classList.remove('materialize-effect');
+                        successContainer.classList.add('vaporize-effect');
+
+                        setTimeout(() => {
+                            const modalGaleria = document.getElementById('modal-galeria');
+                            modalGaleria.classList.remove('tv-turn-on');
+                            modalGaleria.classList.add('tv-turn-off');
+
+                            setTimeout(() => {
+                                matrixCanvas.style.opacity = '0';
+                                const overlay = document.getElementById('intro-overlay');
+                                overlay.style.zIndex = '40000';
+                                overlay.style.backgroundColor = '#000000';
+                                overlay.style.opacity = '1';
+
+                                setTimeout(() => {
+                                    overlay.style.backgroundColor = '#ffffff';
+                                    setTimeout(() => {
+                                        window.location.replace(GALLERY_URL);
+                                    }, 1000);
+                                }, 800);
+                            }, 700);
+                        }, 800);
+                    }, 5000);
+                }, 800);
+            }, 600);
+        }
+
+        const hotspotBox = document.getElementById('hotspot-box');
+        hotspotBox.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            initCryptexGame();
+            document.getElementById('fase-reto-galeria').style.display = 'block';
+            document.getElementById('hologram-success-galeria').style.display = 'none';
+
+            const overlay = document.getElementById('intro-overlay');
+            overlay.style.backgroundColor = '#000000';
+            overlay.style.opacity = '1';
+
+            document.querySelectorAll('.top-bar, header, .container, #bg-layer, #bg-top-layer, #hotspot-box, #main-footer').forEach(el => {
+                el.style.transition = 'opacity 800ms ease';
+                el.style.opacity = '0';
+            });
 
             setTimeout(() => {
-                subModalTextWindow.style.display = 'none';
-                subModalTextWindow.classList.remove('tv-off');
-                
-                subModalTitle.textContent = '';
-                subModalBody.innerHTML = '';
-                subModalCloseBtn.className = 'laser-burn-effect';
+                startMatrix();
+                matrixCanvas.style.opacity = '1';
+                overlay.style.opacity = '0';
 
-                subImg.style.opacity = '0';
-                subImg.src = '04-MHDC.webp';
-                subImg.style.display = 'block';
-                subModalXBtn.style.display = 'block';
-                
-                setTimeout(() => { subImg.style.opacity = '1'; }, 50);
-            }, 500);
-        };
-
-        subModalCloseBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (!isSubModalBusy) triggerHelicoidalTextClose();
+                setTimeout(() => {
+                    document.getElementById('modal-galeria').classList.add('tv-turn-on');
+                }, 800);
+            }, 1000);
         });
 
-        window.closeSubModal = () => {
-            helicoidalSequenceRunning = false;
-            isSubModalBusy = false;
-            
-            subModalWindowBox.classList.remove('tv-on', 'ecq-clean-mode');
-            subModalWindowBox.classList.add('tv-off');
-            subModal.classList.remove('show');
-            document.body.classList.remove('blurring-content');
-            
-            subImg.style.opacity = '0';
-            
-            setTimeout(() => {
-                subModalWindowBox.classList.remove('tv-off');
-                subModalTextWindow.style.display = 'none';
-                subModalTextWindow.classList.remove('tv-off', 'tv-on');
-            }, 500);
-        };
-
-        subModal.addEventListener('click', (e) => {
-            e.target === subModal && (subModalTextWindow.style.display === 'block' ? (!isSubModalBusy && triggerHelicoidalTextClose()) : closeSubModal());
-        });
-
+        /* =====================================================================
+           CONTROLES GENERALES Y ANIMACIÓN DE ENTRADA MDQ
+           ===================================================================== */
         const music = document.getElementById('bg-music');
         const audioToggle = document.getElementById('audio-toggle');
         let isMusicPlaying = false;
@@ -1819,7 +1757,7 @@
                 music.play().then(() => {
                     audioToggle.innerHTML = '<span style="color: #ffffff;">🎶</span> Música: ON';
                     isMusicPlaying = true;
-                }).catch(error => console.log("Error de audio:", error));
+                }).catch(err => console.log(err));
             }
         });
 
@@ -1829,7 +1767,7 @@
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().then(() => {
                     fullscreenToggle.textContent = '❌ Salir Pantalla Completa';
-                }).catch(err => console.log("Error Fullscreen:", err));
+                });
             } else {
                 document.exitFullscreen().then(() => {
                     fullscreenToggle.textContent = '⛶ Pantalla Completa';
@@ -1837,93 +1775,129 @@
             }
         });
 
-        document.addEventListener('fullscreenchange', () => {
-            fullscreenToggle.textContent = !document.fullscreenElement ? '⛶ Pantalla Completa' : '❌ Salir Pantalla Completa';
+        document.addEventListener('mousemove', (e) => {
+            document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+            document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
         });
 
-        window.addEventListener('DOMContentLoaded', () => {
+        const bgTopLayer = document.getElementById('bg-top-layer');
+        if (hotspotBox && bgTopLayer) {
+            hotspotBox.addEventListener('mouseenter', () => bgTopLayer.classList.add('heartbeat-active'));
+            hotspotBox.addEventListener('mouseleave', () => bgTopLayer.classList.remove('heartbeat-active'));
+        }
+
+        function runEcosystemEntrance() {
             const overlay = document.getElementById('intro-overlay');
+            const bgLayer = document.getElementById('bg-layer');
+            const cursorGlow = document.getElementById('cursor-light-glow');
 
-            async function runEntranceSequence() {
-                overlay.style.backgroundColor = '#ffffff';
-                overlay.style.opacity = '1';
-                await new Promise(r => setTimeout(r, 150));
-
-                overlay.style.backgroundColor = '#000000';
-                await new Promise(r => setTimeout(r, 600));
-
-                document.getElementById('bg-layer').style.opacity = '1';
-                document.getElementById('cursor-light-glow').classList.add('visible');
-                
+            async function iniciarAnimaciones() {
                 overlay.style.opacity = '0';
-                await new Promise(r => setTimeout(r, 500));
+                bgLayer.style.opacity = '1';
+                if (bgTopLayer) bgTopLayer.style.opacity = '1';
+                cursorGlow.classList.add('visible');
+                bgLayer.classList.add('bg-glitch-active');
+                
+                const cards = ['.card-1', '.card-2', '.card-3', '.card-4', '.card-5'];
+                cards.forEach(cardSel => {
+                    const card = document.querySelector(cardSel);
+                    if (!card) return;
+                    card.style.opacity = '1';
+                    card.classList.add('glitch-slice-active');
+                });
+
+                setTimeout(() => {
+                    bgLayer.classList.remove('bg-glitch-active');
+                    cards.forEach(cardSel => {
+                        const card = document.querySelector(cardSel);
+                        if (!card) return;
+                        card.classList.remove('glitch-slice-active');
+                        card.classList.add('card-hologram-glow');
+                    });
+                }, 350);
 
                 document.querySelector('.top-bar').style.opacity = '1';
-                await new Promise(r => setTimeout(r, 200));
 
-                const brandLogo = document.querySelector('.brand-logo');
+                const brandLogo = document.getElementById('brand-logo');
                 brandLogo.textContent = brandLogo.dataset.text;
                 brandLogo.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
+                await new Promise(r => setTimeout(r, 1200));
                 brandLogo.classList.remove('active-laser');
                 brandLogo.classList.add('revealed', 'hologram-mode');
 
                 const audioToggleBtn = document.getElementById('audio-toggle');
                 audioToggleBtn.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600)); // <--- Corregido sin backticks
+                await new Promise(r => setTimeout(r, 1200));
                 audioToggleBtn.classList.remove('active-laser');
                 audioToggleBtn.classList.add('revealed', 'hologram-mode');
 
                 const fullscreenToggleBtn = document.getElementById('fullscreen-toggle');
                 fullscreenToggleBtn.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
+                await new Promise(r => setTimeout(r, 1200));
                 fullscreenToggleBtn.classList.remove('active-laser');
                 fullscreenToggleBtn.classList.add('revealed', 'hologram-mode');
 
-                const line1Container = document.getElementById('header-line1-container');
-                line1Container.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
-                line1Container.classList.remove('active-laser');
-                line1Container.classList.add('revealed', 'hologram-mode');
+                document.querySelector('header').style.opacity = '1';
 
-                const wordQuimeraContainer = document.getElementById('word-quimera-container');
-                wordQuimeraContainer.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
-                wordQuimeraContainer.classList.remove('active-laser');
-                wordQuimeraContainer.classList.add('revealed', 'hologram-mode');
-
-                centralCard.style.display = 'block';
-                cardTitleText.textContent = ''; 
-                centralCard.classList.add('tv-on-card');
-                await new Promise(r => setTimeout(r, 400));
-
-                await updateCardTitleLaser(storyData[0].title);
-                isCardBusy = false;
-
-                const mainFooter = document.getElementById('main-footer');
-                const footerText = document.getElementById('footer-text');
-                footerText.textContent = footerText.dataset.text.replace('2026', new Date().getFullYear());
-                mainFooter.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
-                mainFooter.classList.remove('active-laser');
-                mainFooter.classList.add('revealed', 'hologram-mode');
-            }
-
-            runEntranceSequence();
-
-            document.brandLogoLink = document.querySelector('.brand-logo');
-            if (document.brandLogoLink) {
-                document.brandLogoLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const overlay = document.getElementById('intro-overlay');
-                    overlay.style.backgroundColor = '#ffffff';
-                    overlay.style.opacity = '1';
-                    
+                function ejecutarGlitchUnico(selector, delay) {
                     setTimeout(() => {
-                        window.location.href = "https://quimerac3.github.io/";
-                    }, 1000);
-                });
+                        const el = document.querySelector(selector);
+                        if (!el) return;
+                        el.style.opacity = '1';
+                        el.classList.add('glitch-slice-active');
+                        setTimeout(() => {
+                            el.classList.remove('glitch-slice-active');
+                            el.classList.add('hologram-mode');
+                        }, 350);
+                    }, delay);
+                }
+
+                ejecutarGlitchUnico('.ecosistema-title', 200);
+                ejecutarGlitchUnico('header h1', 700);
+                ejecutarGlitchUnico('header p', 1200);
+
+                setTimeout(async () => {
+                    const mainFooter = document.getElementById('main-footer');
+                    const footerText = document.getElementById('footer-text');
+                    footerText.textContent = footerText.dataset.text.replace('2026', new Date().getFullYear());
+                    mainFooter.classList.add('active-laser');
+                    await new Promise(r => setTimeout(r, 1200));
+                    mainFooter.classList.remove('active-laser');
+                    mainFooter.classList.add('revealed', 'hologram-mode');
+                }, 1600);
             }
+
+            requestAnimationFrame(iniciarAnimaciones);
+        }
+
+        const allLinks = document.querySelectorAll('a[href]');
+        allLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.id === 'audio-toggle' || this.id === 'fullscreen-toggle' || this.id === 'quimera-link' || this.id === 'hotspot-box') return;
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) return;
+
+                e.preventDefault(); 
+                const targetUrl = this.href;
+
+                document.body.classList.add('blurred-page');
+                document.querySelectorAll('.top-bar, header, .container, #main-footer').forEach(el => {
+                    el.style.transition = 'opacity 800ms ease';
+                    el.style.opacity = '0';
+                });
+                document.getElementById('bg-layer').style.opacity = '0';
+                document.getElementById('bg-top-layer').style.opacity = '0';
+                document.getElementById('hotspot-box').style.opacity = '0';
+                document.getElementById('cursor-light-glow').style.opacity = '0';
+
+                const overlay = document.getElementById('intro-overlay');
+                overlay.style.zIndex = '40000';
+                overlay.style.backgroundColor = '#000000';
+                overlay.style.opacity = '1';
+
+                setTimeout(() => { overlay.style.backgroundColor = '#ffffff'; }, 600);
+                setTimeout(() => { window.location.href = targetUrl; }, 1200);
+            });
         });
     </script>
 </body>
