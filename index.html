@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MITOLOGÍA DETRÁS DE QUIMERA &bull; Ecosistema Científico y Académico</title>
     
-    <!-- PRECARGA DEFINITIVA DE TODAS LAS IMÁGENES DEL ECOSISTEMA MDQ -->
+    <!-- PRECARGA DEFINITIVA DE TODAS LAS IMÁGENES DEL ECOSISTEMA -->
     <link rel="preload" href="Quimera_MDQ.webp" as="image">
+    <link rel="preload" href="Quimera_Negro.webp" as="image">
+    <link rel="preload" href="Quimera.webp" as="image">
+    <link rel="preload" href="Belerofonte_Negro.webp" as="image">
+    <link rel="preload" href="Belerofonte.webp" as="image">
+    <link rel="preload" href="Pegaso_Negro.webp" as="image">
+    <link rel="preload" href="Pegaso.webp" as="image">
     <link rel="preload" href="Mod_00.webp" as="image">
     <link rel="preload" href="glitch_01.webp" as="image">
     <link rel="preload" href="glitch_02.webp" as="image">
@@ -28,6 +34,7 @@
     <link rel="preload" href="04-MHDC.webp" as="image">
     <link rel="preload" href="ECQ.webp" as="image">
     <link rel="preload" href="Quimeratrix.webp" as="image">
+    <!-- PRECARGA DE IMÁGENES DE FONDO DE CADA MODAL -->
     <link rel="preload" href="Mod_01.webp" as="image">
     <link rel="preload" href="Mod_02.webp" as="image">
     <link rel="preload" href="Mod_03.webp" as="image">
@@ -42,12 +49,6 @@
     <link rel="preload" href="Mod_12.webp" as="image">
     <link rel="preload" href="Mod_13.webp" as="image">
     <link rel="preload" href="Mod_14.webp" as="image">
-    <link rel="preload" href="Quimera_Negro.webp" as="image">
-    <link rel="preload" href="Quimera.webp" as="image">
-    <link rel="preload" href="Belerofonte_Negro.webp" as="image">
-    <link rel="preload" href="Belerofonte.webp" as="image">
-    <link rel="preload" href="Pegaso_Negro.webp" as="image">
-    <link rel="preload" href="Pegaso.webp" as="image">
 
     <style>
         :root {
@@ -77,11 +78,13 @@
             background-color: #000000;
         }
 
-        /* CAPA CRT SCANLINES */
+        /* CAPA CRT SCANLINES (Efecto de televisión antigua global) */
         .crt-scanlines {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: 2000;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
@@ -89,6 +92,7 @@
             opacity: 0.65;
         }
 
+        /* EFECTO CRT UNIFICADO */
         .crt-screen-effect {
             position: relative;
             overflow: hidden;
@@ -99,8 +103,10 @@
         .crt-screen-effect::before {
             content: "";
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 20;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
@@ -109,6 +115,7 @@
             border-radius: inherit;
         }
 
+        /* CONTENEDOR INTERNO DE DESPLAZAMIENTO */
         .modal-scroll-wrapper {
             position: relative;
             z-index: 10;
@@ -121,10 +128,13 @@
         .modal-scroll-wrapper::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
         .modal-scroll-wrapper::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
 
+        /* Capa de fondo estática */
         #bg-layer {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: -1;
             background: linear-gradient(rgba(15, 23, 42, 0.0), rgba(15, 23, 42, 0.0)), url('Quimera_MDQ.webp');
             background-size: cover;
@@ -145,8 +155,10 @@
 
         .cursor-light-glow {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
             z-index: 0;
             background: radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.22), rgba(200, 139, 50, 0.12) 45%, transparent 80%);
@@ -154,12 +166,16 @@
             transition: opacity 1.5s ease;
         }
 
-        .cursor-light-glow.visible { opacity: 1; }
+        .cursor-light-glow.visible {
+            opacity: 1;
+        }
 
         #matrix-canvas {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: 1;
             pointer-events: none;
             opacity: 0;
@@ -168,8 +184,10 @@
 
         #glitch-overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -205,8 +223,10 @@
 
         #intro-overlay {
             position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             background-color: #ffffff;
             z-index: 9999;
             pointer-events: none;
@@ -218,7 +238,8 @@
             background-color: rgba(11, 19, 41, 0.0);
             padding: 0.85rem 2rem;
             position: absolute;
-            top: 0; left: 0;
+            top: 0;
+            left: 0;
             width: 100%;
             z-index: 100;
             opacity: 0;
@@ -239,10 +260,14 @@
             font-size: clamp(0.85rem, 2vw, 1rem);
             font-weight: 700;
             text-decoration: none;
+            letter-spacing: -0.01em;
             transition: color 0.2s ease, opacity 500ms ease;
         }
 
-        .brand-logo:hover { color: #38bdf8; text-decoration: underline; }
+        .brand-logo:hover {
+            color: #38bdf8;
+            text-decoration: underline;
+        }
 
         .nav-links {
             display: flex;
@@ -260,7 +285,9 @@
             transition: color 0.2s ease;
         }
 
-        .nav-links a:hover { color: #38bdf8; }
+        .nav-links a:hover {
+            color: #38bdf8;
+        }
 
         #audio-toggle, #fullscreen-toggle {
             display: inline-block;
@@ -301,7 +328,9 @@
         .laser-burn-effect.active-laser::before {
             content: '';
             position: absolute;
-            top: -30px; bottom: -30px; left: 0;
+            top: -30px;
+            bottom: -30px;
+            left: 0;
             width: 16px;
             background: radial-gradient(circle, #ffffff 0%, #38bdf8 40%, #c88b32 80%, transparent 100%);
             box-shadow: 0 0 35px #38bdf8, 0 0 70px #fffbeb, 0 0 100px #c88b32, inset 0 0 15px #ffffff;
@@ -310,14 +339,45 @@
             filter: blur(0.5px);
         }
 
+        .laser-burn-effect.active-laser::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 120%;
+            pointer-events: none;
+            background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(56,189,248,0.6) 30%, rgba(200,139,50,0.3) 60%, transparent 100%);
+            mix-blend-mode: color-dodge;
+            animation: hyperLaserSparksWave 0.6s cubic-bezier(0.15, 1, 0.2, 1) forwards;
+            z-index: 12;
+        }
+
         @keyframes hyperLaserReveal {
-            0% { clip-path: inset(0 100% 0 0); filter: brightness(4) contrast(200%); }
-            100% { clip-path: inset(0 0 0 0); filter: brightness(1) contrast(100%); }
+            0% {
+                clip-path: inset(0 100% 0 0);
+                filter: brightness(4) contrast(200%) drop-shadow(0 0 30px rgba(56, 189, 248, 1));
+            }
+            50% {
+                filter: brightness(2.5) contrast(150%) drop-shadow(0 0 15px rgba(200, 139, 50, 0.9));
+            }
+            100% {
+                clip-path: inset(0 0 0 0);
+                filter: brightness(1) contrast(100%) drop-shadow(0 0 0px transparent);
+            }
         }
 
         @keyframes hyperLaserBarMove {
             0% { left: 0%; opacity: 1; transform: scaleY(1.8) skewX(-15deg); }
+            50% { transform: scaleY(2.2) skewX(5deg); }
+            90% { opacity: 1; }
             100% { left: 100%; opacity: 0; transform: scaleY(0.5) skewX(0deg); }
+        }
+
+        @keyframes hyperLaserSparksWave {
+            0% { opacity: 1; clip-path: inset(0 100% 0 0); }
+            100% { opacity: 0; clip-path: inset(0 0 0 0); }
         }
 
         .hologram-mode {
@@ -524,8 +584,10 @@
         .submodal-text-window::before {
             content: "";
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('Mod_00.webp');
             background-size: cover;
             background-position: center center;
@@ -656,7 +718,7 @@
         }
         .submodal-close:hover { transform: scale(1.2); color: #e0a96d; }
 
-        /* ESTILOS PARA EL ACERTIJO DE CALIBRACIÓN */
+        /* ESTILOS PARA EL ACERTIJO DE CALIBRACIÓN DE EL CICLO DE QUIMERA */
         .cal-concept-box {
             background: rgba(0, 0, 0, 0.85);
             border: 2px solid rgba(200, 139, 50, 0.6);
@@ -672,18 +734,23 @@
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
         }
 
-        .cal-concept-box:active { cursor: grabbing; }
+        .cal-concept-box:active {
+            cursor: grabbing;
+        }
+
         .cal-concept-box:hover:not(.used) {
             border-color: #38bdf8;
             transform: translateY(-2px);
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
         }
+
         .cal-concept-box.selected {
             border-color: #38bdf8;
             background: rgba(56, 189, 248, 0.3);
             color: #ffffff;
             box-shadow: 0 0 15px #38bdf8;
         }
+
         .cal-concept-box.used {
             opacity: 0.3;
             cursor: not-allowed;
@@ -722,9 +789,10 @@
             text-shadow: 0 0 10px var(--accent);
         }
 
-        /* CANDADOS HOLOGRÁFICOS */
+        /* CANDADOS HOLOGRÁFICOS DE CALIBRACIÓN */
         .holo-lock {
-            width: 45px; height: 55px;
+            width: 45px;
+            height: 55px;
             position: relative;
             display: inline-block;
             vertical-align: middle;
@@ -733,8 +801,10 @@
 
         .holo-shackle {
             position: absolute;
-            top: 0; left: 8px;
-            width: 28px; height: 25px;
+            top: 0;
+            left: 8px;
+            width: 28px;
+            height: 25px;
             border: 4px solid #38bdf8;
             border-top-left-radius: 14px;
             border-top-right-radius: 14px;
@@ -747,7 +817,8 @@
         .holo-body {
             position: absolute;
             bottom: 0;
-            width: 45px; height: 35px;
+            width: 45px;
+            height: 35px;
             background: rgba(56, 189, 248, 0.25);
             border: 2px solid #38bdf8;
             border-radius: 8px;
@@ -790,224 +861,11 @@
             75% { transform: translateX(4px); }
         }
 
-        /* ESTILOS DEL ACERTIJO TRIPLE INICIAL (MODAL PRINCIPAL) */
-        #modal-acertijo-inicial {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: transparent;
-            z-index: 25000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(0, 0.01);
-        }
-
-        .contenido-modal-acertijo {
-            position: relative;
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('Quimeratrix.webp');
-            background-size: cover;
-            background-position: center center;
-            border: 1.5px solid var(--accent);
-            border-radius: 12px;
-            width: 90vw;
-            max-width: 900px;
-            min-height: 88vh;
-            color: #ffffff;
-            z-index: 10;
-            transition: background-image 0.5s ease-in-out;
-        }
-
-        .titulo-oculto {
-            color: #fef384;
-            font-family: Georgia, "Times New Roman", serif;
-            font-weight: 900;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            margin-bottom: 1.5rem;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            text-shadow: 0 0 20px rgba(200, 139, 50, 0.9);
-            -webkit-text-stroke: 1px #000000;
-            padding: 0 15px;
-        }
-
-        .acertijo-poema {
-            margin-bottom: 1.8rem;
-            color: #ffffff;
-            font-weight: 700;
-            font-size: clamp(1.0rem, 2.3vw, 1.45rem);
-            line-height: 1.7;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.95);
-            -webkit-text-stroke: 0.5px #000000;
-            text-align: justify;
-        }
-
-        .btn-continuar-link {
-            color: #c88b32;
-            font-weight: 800;
-            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-            text-decoration: underline;
-            cursor: pointer;
-            display: block;
-            text-align: right;
-            margin-top: 2rem;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
-            -webkit-text-stroke: 0.5px #000000;
-            letter-spacing: 0.05em;
-        }
-
-        .btn-continuar-link:hover { color: #ffffff; text-shadow: 0 0 12px #ffffff; }
-
-        .glyphs-section-title {
-            font-size: clamp(1rem, 2.5vw, 1.5rem);
-            color: #38bdf8;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: bold;
-            -webkit-text-stroke: 1.0px #000000;
-        }
-
-        .glyphs-wrapper {
-            display: flex;
-            justify-content: center;
-            gap: 0.6rem;
-            margin: 0.8rem 0 1.5rem 0;
-            flex-wrap: wrap;
-        }
-
-        .glyph-box {
-            width: clamp(40px, 6.5vw, 55px);
-            height: clamp(55px, 8.5vw, 75px);
-            background: rgba(0, 0, 0, 0.85);
-            border: 2px solid rgba(200, 139, 50, 0.6);
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: monospace;
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            font-weight: bold;
-            color: var(--accent);
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.2s ease;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
-            -webkit-text-stroke: 0.5px #000000;
-        }
-
-        .glyph-box:hover:not(.used) { border-color: #38bdf8; transform: translateY(-2px); box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
-        .glyph-box.used { opacity: 0.3; cursor: not-allowed; border-color: rgba(255, 255, 255, 0.1); }
-
-        .target-box {
-            width: clamp(40px, 6.5vw, 55px);
-            height: clamp(55px, 8.5vw, 75px);
-            background: rgba(11, 19, 41, 0.9);
-            border: 2px dashed rgba(56, 189, 248, 0.6);
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: monospace;
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            font-weight: bold;
-            color: #ffffff;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.2s ease;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
-            -webkit-text-stroke: 0.5px #000000;
-        }
-
-        .target-box.filled {
-            border-style: solid;
-            border-color: var(--accent);
-            background: rgba(200, 139, 50, 0.3);
-            color: #fef384;
-            text-shadow: 0 0 10px var(--accent);
-        }
-
-        #hologram-locks-group-container {
-            display: none;
-            min-height: calc(88vh - 6rem);
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .locks-container-group {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            margin: 0 auto;
-            flex-wrap: wrap;
-        }
-
-        .holo-lock-large {
-            width: 180px; height: 218px;
-            position: relative;
-            animation: holoFloat 2s ease-in-out infinite alternate;
-        }
-
-        .holo-shackle-large {
-            position: absolute;
-            top: 0; left: 33px;
-            width: 114px; height: 102px;
-            border: 11px solid #22c55e;
-            border-top-left-radius: 57px;
-            border-top-right-radius: 57px;
-            border-bottom: none;
-            box-shadow: 0 0 38px #22c55e, inset 0 0 15px #22c55e;
-            transform-origin: bottom left;
-            transform: rotate(-45deg) translateY(-21px) translateX(-12px);
-        }
-
-        .holo-body-large {
-            position: absolute;
-            bottom: 0;
-            width: 180px; height: 135px;
-            background: rgba(34, 197, 94, 0.35);
-            border: 6px solid #22c55e;
-            border-radius: 24px;
-            box-shadow: 0 0 52px rgba(34, 197, 94, 0.85), inset 0 0 22px rgba(34, 197, 94, 0.6);
-        }
-
-        /* EFECTOS DE PARTÍCULAS */
-        @keyframes holoVaporize {
-            0% { opacity: 1; filter: blur(0px) brightness(1); transform: scale(1) translateY(0); }
-            50% { opacity: 0.6; filter: blur(3px) brightness(2) drop-shadow(0 0 15px #38bdf8); transform: scale(1.02) translateY(-5px); }
-            100% { opacity: 0; filter: blur(8px) brightness(3); transform: scale(0.98) translateY(-15px); letter-spacing: 0.2em; }
-        }
-        .vaporize-effect { animation: holoVaporize 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-
-        @keyframes holoMaterialize {
-            0% { opacity: 0; filter: blur(6px) brightness(2.5); transform: scale(0.98) translateY(10px); }
-            100% { opacity: 1; filter: blur(0px) brightness(1); transform: scale(1) translateY(0); }
-        }
-        .materialize-effect { animation: holoMaterialize 0.9s cubic-bezier(0.1, 1, 0.3, 1) forwards; }
-
-        .tv-turn-on { animation: tvTurnOn 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards; pointer-events: auto !important; }
-        .tv-turn-off { animation: tvTurnOff 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
-
-        @keyframes tvTurnOn {
-            0% { transform: scale(0, 0.01); opacity: 0; filter: brightness(20); }
-            40% { transform: scale(1, 0.01); opacity: 1; filter: brightness(10); }
-            100% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
-        }
-
-        @keyframes tvTurnOff {
-            0% { transform: scale(1, 1); opacity: 1; filter: brightness(1); }
-            60% { transform: scale(1, 0.01); opacity: 1; filter: brightness(10); }
-            100% { transform: scale(0, 0.01); opacity: 0; filter: brightness(20); }
-        }
-
         /* FOOTER */
         footer.laser-burn-effect {
             position: absolute !important;
-            bottom: 0 !important; left: 0 !important;
+            bottom: 0 !important;
+            left: 0 !important;
             width: 100% !important;
             padding: 0.5rem 1rem;
             background: rgba(15, 23, 42, 0.6);
@@ -1020,7 +878,9 @@
             transition: filter 0.5s ease;
         }
 
-        footer p { color: #e2e8f0; }
+        footer p {
+            color: #e2e8f0;
+        }
 
         @media (max-width: 900px) {
             body { height: auto; overflow-y: auto; overflow-x: hidden; }
@@ -1029,76 +889,239 @@
             .top-bar-container { flex-direction: column; gap: 0.8rem; }
             .nav-links { justify-content: center; gap: 0.8rem; }
             header { padding: 2rem 1rem 1rem 1rem; }
+            .submodal-close { top: -20px; right: 0px; text-shadow: 0 0 10px #000; }
             footer.laser-burn-effect { position: relative !important; margin-top: 1.5rem; padding: 1rem; bottom: auto !important; left: auto !important; }
         }
-    </style>
+    
+        /* =========================================================
+           PORTAL DE QUIMERA: ACERTIJO TRIPLE + CANDADOS HOLOGRÁFICOS
+           Trasladado desde indexC3Q y aislado para evitar conflictos.
+           ========================================================= */
+        #q-portal-modal {
+            position: fixed; inset: 0; z-index: 25000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transform: scale(0, .01);
+            background: rgba(0,0,0,.18);
+        }
+        #q-portal-modal.portal-tv-on {
+            animation: qPortalTVOn .7s cubic-bezier(.23,1,.32,1) forwards;
+            pointer-events: auto;
+        }
+        #q-portal-modal.portal-tv-off {
+            animation: qPortalTVOff .7s cubic-bezier(.23,1,.32,1) forwards;
+            pointer-events: none;
+        }
+        @keyframes qPortalTVOn {
+            0% { transform: scale(0,.01); opacity:0; filter:brightness(20); }
+            40% { transform:scale(1,.01); opacity:1; filter:brightness(10); }
+            100% { transform:scale(1,1); opacity:1; filter:brightness(1); }
+        }
+        @keyframes qPortalTVOff {
+            0% { transform:scale(1,1); opacity:1; filter:brightness(1); }
+            60% { transform:scale(1,.01); opacity:1; filter:brightness(10); }
+            100% { transform:scale(0,.01); opacity:0; filter:brightness(20); }
+        }
+        .q-portal-panel {
+            position:relative; width:90vw; max-width:900px; min-height:88vh;
+            max-height:92vh; overflow:hidden; color:#fff;
+            border:1.5px solid #c88b32; border-radius:12px;
+            background-image:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url('Quimeratrix.webp');
+            background-size:cover; background-position:center;
+            box-shadow:0 0 34px rgba(56,189,248,.32),0 0 65px rgba(200,139,50,.22);
+        }
+        .q-portal-scroll {
+            position:relative; z-index:2; max-height:92vh; overflow-y:auto;
+            padding:clamp(1.5rem,4vw,3rem) clamp(1.2rem,5vw,3.5rem);
+            text-align:center;
+            scrollbar-color:#c88b32 rgba(0,0,0,.35); scrollbar-width:thin;
+        }
+        .q-portal-scroll::-webkit-scrollbar { width:8px; }
+        .q-portal-scroll::-webkit-scrollbar-track { background:rgba(0,0,0,.3); }
+        .q-portal-scroll::-webkit-scrollbar-thumb { background:#c88b32; border-radius:4px; }
+        .q-portal-title {
+            color:#fef384; font-family:Georgia,serif; font-weight:900;
+            font-size:clamp(1.8rem,4vw,2.5rem); margin-bottom:1.5rem;
+            text-align:center; text-transform:uppercase; letter-spacing:.08em;
+            text-shadow:0 0 20px rgba(200,139,50,.9);
+            -webkit-text-stroke:1px #000; padding:0 15px;
+        }
+        .q-portal-poem {
+            margin-bottom:1.8rem; color:#fff; font-weight:700;
+            font-size:clamp(1rem,2.3vw,1.35rem); line-height:1.7;
+            text-shadow:0 0 10px rgba(0,0,0,.95);
+            -webkit-text-stroke:.45px #000; text-align:justify;
+        }
+        .q-portal-continue {
+            display:block; margin-top:2rem; text-align:right; cursor:pointer;
+            color:#c88b32; font-weight:800; font-size:clamp(1.1rem,2.5vw,1.5rem);
+            text-decoration:underline; letter-spacing:.05em;
+            -webkit-text-stroke:.5px #000;
+        }
+        .q-portal-continue:hover { color:#fff; text-shadow:0 0 12px #fff; }
+        .q-portal-action {
+            display:inline-flex; align-items:center; justify-content:center;
+            margin:1.2rem auto 0; min-width:230px; padding:14px 24px;
+            border:1px solid #c88b32;
+            background:linear-gradient(135deg,rgba(200,139,50,.2),rgba(200,139,50,.045));
+            color:#fef3c7; cursor:pointer; letter-spacing:.18em;
+            font-size:.78rem; text-transform:uppercase; transition:.3s ease;
+        }
+        .q-portal-action:hover {
+            background:rgba(200,139,50,.27);
+            box-shadow:0 0 32px rgba(200,139,50,.2); transform:translateY(-2px);
+        }
+        .q-portal-section-title {
+            font-size:clamp(1rem,2.5vw,1.5rem); color:#38bdf8;
+            margin:.5rem 0; text-transform:uppercase; letter-spacing:.05em;
+            font-weight:bold; -webkit-text-stroke:1px #000;
+        }
+        .q-portal-glyphs {
+            display:flex; justify-content:center; gap:.6rem;
+            margin:.8rem 0 1.5rem; flex-wrap:wrap;
+        }
+        .q-portal-glyph, .q-portal-target {
+            width:clamp(40px,6.5vw,55px); height:clamp(55px,8.5vw,75px);
+            display:flex; justify-content:center; align-items:center;
+            border-radius:8px; font-family:monospace;
+            font-size:clamp(1.2rem,3vw,1.8rem); font-weight:bold;
+            user-select:none; cursor:pointer; transition:all .2s ease;
+            -webkit-text-stroke:.5px #000;
+        }
+        .q-portal-glyph {
+            background:rgba(0,0,0,.85); border:2px solid rgba(200,139,50,.6);
+            color:#c88b32; box-shadow:inset 0 0 10px rgba(0,0,0,.9);
+        }
+        .q-portal-glyph:hover:not(.used) {
+            border-color:#38bdf8; transform:translateY(-2px);
+            box-shadow:0 0 15px rgba(56,189,248,.4);
+        }
+        .q-portal-glyph.used { opacity:.3; cursor:not-allowed; border-color:rgba(255,255,255,.1); }
+        .q-portal-target {
+            background:rgba(11,19,41,.9); border:2px dashed rgba(56,189,248,.6);
+            color:#fff; box-shadow:inset 0 0 10px rgba(0,0,0,.9);
+        }
+        .q-portal-target.filled {
+            border-style:solid; border-color:#c88b32;
+            background:rgba(200,139,50,.3); color:#fef384;
+            text-shadow:0 0 10px #c88b32;
+        }
+        #q-portal-locks {
+            display:none; min-height:calc(88vh - 6rem);
+            flex-direction:column; justify-content:center; align-items:center;
+        }
+        .q-portal-locks-row {
+            display:flex; justify-content:center; gap:2.5rem;
+            margin:0 auto; flex-wrap:wrap;
+        }
+        .q-portal-lock {
+            width:180px; height:218px; position:relative;
+            animation:qPortalLockFloat 2s ease-in-out infinite alternate;
+        }
+        .q-portal-shackle {
+            position:absolute; top:0; left:33px; width:114px; height:102px;
+            border:11px solid #38bdf8; border-bottom:none;
+            border-radius:57px 57px 0 0;
+            box-shadow:0 0 38px #38bdf8,inset 0 0 15px #38bdf8;
+            transform-origin:bottom left;
+            transition:transform .8s cubic-bezier(.23,1,.32,1);
+        }
+        .q-portal-lock-body {
+            position:absolute; bottom:0; width:180px; height:135px;
+            background:rgba(56,189,248,.25); border:6px solid #38bdf8;
+            border-radius:24px; box-shadow:0 0 52px rgba(56,189,248,.85),inset 0 0 22px rgba(56,189,248,.6);
+        }
+        @keyframes qPortalLockFloat {
+            0% { transform:translateY(0); filter:drop-shadow(0 0 18px rgba(56,189,248,.7)); }
+            100% { transform:translateY(-8px); filter:drop-shadow(0 0 35px rgba(56,189,248,1)); }
+        }
+        .q-portal-lock.unlocked .q-portal-shackle {
+            transform:rotate(-45deg) translateY(-21px) translateX(-12px);
+            border-color:#22c55e; box-shadow:0 0 45px #22c55e,inset 0 0 18px #22c55e;
+        }
+        .q-portal-lock.unlocked .q-portal-lock-body {
+            border-color:#22c55e; background:rgba(34,197,94,.35);
+            box-shadow:0 0 65px rgba(34,197,94,.95);
+        }
+        .q-portal-materialize { animation:qPortalMaterialize .9s cubic-bezier(.1,1,.3,1) forwards; }
+        .q-portal-vaporize { animation:qPortalVaporize .8s cubic-bezier(.4,0,.2,1) forwards; }
+        @keyframes qPortalMaterialize {
+            0% { opacity:0; filter:blur(6px) brightness(2.5); transform:scale(.98) translateY(10px); }
+            100% { opacity:1; filter:blur(0) brightness(1); transform:scale(1) translateY(0); }
+        }
+        @keyframes qPortalVaporize {
+            0% { opacity:1; filter:blur(0) brightness(1); transform:scale(1) translateY(0); }
+            50% { opacity:.6; filter:blur(3px) brightness(2) drop-shadow(0 0 15px #38bdf8); transform:scale(1.02) translateY(-5px); }
+            100% { opacity:0; filter:blur(8px) brightness(3); transform:scale(.98) translateY(-15px); letter-spacing:.2em; }
+        }
+        #q-portal-reset {
+            margin-top:1.2rem; background:rgba(200,139,50,.6);
+            border:1px solid rgba(255,255,255,.3); color:#fff;
+            padding:.5rem 1.2rem; border-radius:20px; cursor:pointer;
+            font-size:1rem; font-weight:600;
+        }
+        @media(max-width:760px) {
+            .q-portal-panel { width:96vw; min-height:90vh; }
+            .q-portal-scroll { max-height:90vh; padding:1.4rem 1rem; }
+            .q-portal-locks-row { gap:1rem; }
+            .q-portal-lock { transform:scale(.78); margin:-18px; }
+        }
+
+</style>
 </head>
 <body>
 
+    <!-- Capa CRT Scanlines -->
     <div class="crt-scanlines"></div>
 
     <audio id="bg-music" src="Tango_Futuro_(Lado_B).mp3" loop preload="auto"></audio>
     <div id="bg-layer"></div>
     <div class="cursor-light-glow" id="cursor-light-glow"></div>
-    <canvas id="matrix-canvas"></canvas>
+    <canvas id="matrix-canvas" style="position:fixed;inset:0;width:100vw;height:100vh;z-index:15000;pointer-events:none;opacity:0;transition:opacity 900ms ease;"></canvas>
 
+    <!-- Capa de Glitch Central -->
     <div id="glitch-overlay">
         <img id="glitch-img" src="" alt="Glitch Visual">
     </div>
 
-    <div id="intro-overlay"></div>
+    <div id="intro-overlay" style="z-index:9999;"></div>
 
-    <!-- MODAL DEL ACERTIJO TRIPLE INICIAL (EN EL INDEXMDQ) -->
-    <div id="modal-acertijo-inicial">
-        <div class="contenido-modal-acertijo crt-screen-effect hologram-glow-box" id="contenido-modal-box">
-            <div class="modal-scroll-wrapper" id="modal-inner-scroll">
-
-                <!-- FASE 0: BIENVENIDA -->
-                <div id="fase-bienvenida-container">
-                    <h2 class="titulo-oculto">¡BIENVENIDO NAVEGANTE!</h2>
-                    <p class="acertijo-poema">
-                        Has encontrado el último portal de éste ECOSISTEMA ACADÉMICO.<br><br>
-                        Para lograr acceder a éste sitio restringido, es necesario que completes una prueba de conocimiento en la que hagas uso de tu memoria ancestral para recordar a los héroes mitológicos que dieron vida al símbolo representativo de éste Instituto.<br><br>
-                        Serás partícipe de la resolución del ACERTIJO TRIPLE:<br>
-                        -EL ENIGMA DE LA COMPLEJIDAD.<br>
-                        -EL DESAFÍO DE LA METODOLOGÍA Y LA ESTRATEGIA.<br>
-                        -LA HERRAMIENTA QUE AMPLIFICA AL SER HUMANO.
-                    </p>
-                    <a id="btn-continuar-welcome" class="btn-continuar-link">CONTINUAR</a>
-                </div>
-
-                <!-- FASES DE LOS ACERTIJOS (1, 2 Y 3) -->
-                <div id="fase-acertijo-container" style="display: none;">
-                    <h2 class="titulo-oculto" id="acertijo-titulo">EL ENIGMA DE LA COMPLEJIDAD.</h2>
-                    <p class="acertijo-poema" id="acertijo-texto"></p>
-
-                    <div id="puzzle-content-area">
-                        <div class="glyphs-section-title" id="glyphs-section-label">CRIPTEX (Descubre los glifos):</div>
-                        <div class="glyphs-wrapper" id="source-glyphs-container"></div>
-
-                        <div class="glyphs-section-title" style="margin-top: 1rem;">CODEX - INTRODUCE LA CONTRASEÑA:</div>
-                        <div class="glyphs-wrapper" id="target-glyphs-container"></div>
-
-                        <div style="margin-top: 1.2rem; display: flex; justify-content: center;" id="reset-container">
-                            <button class="btn-control" id="btn-reset" style="background: rgba(200, 139, 50, 0.6); border: 1px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 0.5rem 1.2rem; border-radius: 20px; cursor: pointer; font-size: 1rem; font-weight: 600;">REINICIAR</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- CANDADOS HOLOGRÁFICOS DE ÉXITO -->
-                <div id="hologram-locks-group-container" style="display: none;">
-                    <div class="locks-container-group">
-                        <div class="holo-lock-large">
-                            <div class="holo-shackle-large"></div>
-                            <div class="holo-body-large"></div>
-                        </div>
-                    </div>
-                    <p style="color: #22c55e; font-family: monospace; font-size: clamp(1.2rem, 2.5vw, 1.7rem); font-weight: bold; margin-top: 1.5rem; text-shadow: 0 0 15px #22c55e; -webkit-text-stroke: 0.5px #000000;" id="locks-status-text">¡CANDADO DESBLOQUEADO!</p>
-                </div>
-
+    <!-- PORTAL DE QUIMERA: ACERTIJO TRIPLE TRAS LA LLUVIA MATRIX -->
+    <div id="q-portal-modal" aria-modal="true" role="dialog" aria-label="Portal de Quimera">
+      <div class="q-portal-panel" id="q-portal-panel">
+        <div class="q-portal-scroll">
+          <section id="q-portal-welcome">
+            <h2 class="q-portal-title">¡BIENVENIDO NAVEGANTE!</h2>
+            <p class="q-portal-poem">
+              Has encontrado el último portal de éste ECOSISTEMA ACADÉMICO.<br><br>
+              Para lograr acceder a éste sitio restringido, es necesario que completes una prueba de conocimiento en la que hagas uso de tu memoria ancestral para recordar a los héroes mitológicos que dieron vida al símbolo representativo de éste Instituto.<br><br>
+              Serás partícipe de la resolución del ACERTIJO TRIPLE:<br>
+              -EL ENIGMA DE LA COMPLEJIDAD.<br>
+              -EL DESAFÍO DE LA METODOLOGÍA Y LA ESTRATEGIA.<br>
+              -LA HERRAMIENTA QUE AMPLIFICA AL SER HUMANO.
+            </p>
+            <button id="q-portal-continue" class="q-portal-action">CONTINUAR</button>
+          </section>
+          <section id="q-portal-riddle" style="display:none;">
+            <h2 class="q-portal-title" id="q-portal-title"></h2>
+            <p class="q-portal-poem" id="q-portal-poem"></p>
+            <div class="q-portal-section-title">CRIPTEX (DESCUBRE LOS GLIFOS):</div>
+            <div class="q-portal-glyphs" id="q-portal-source"></div>
+            <div class="q-portal-section-title" style="margin-top:1rem;">CODEX · INTRODUCE LA CONTRASEÑA:</div>
+            <div class="q-portal-glyphs" id="q-portal-target"></div>
+            <button id="q-portal-reset">REINICIAR</button>
+          </section>
+          <section id="q-portal-locks">
+            <div class="q-portal-locks-row">
+              <div class="q-portal-lock" id="q-portal-lock-1"><div class="q-portal-shackle"></div><div class="q-portal-lock-body"></div></div>
+              <div class="q-portal-lock" id="q-portal-lock-2"><div class="q-portal-shackle"></div><div class="q-portal-lock-body"></div></div>
+              <div class="q-portal-lock" id="q-portal-lock-3"><div class="q-portal-shackle"></div><div class="q-portal-lock-body"></div></div>
             </div>
+            <p id="q-portal-lock-status" style="color:#38bdf8;font-family:monospace;font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:bold;margin-top:1.2rem;text-shadow:0 0 15px #38bdf8;-webkit-text-stroke:.5px #000;">SISTEMA PARCIALMENTE DESBLOQUEADO...</p>
+          </section>
         </div>
+      </div>
     </div>
+
 
     <nav class="top-bar">
         <div class="top-bar-container">
@@ -1134,7 +1157,7 @@
         </div>
     </main>
 
-    <!-- MODALES NATIVOS DE MDQ CON SUS TEXTOS COMPLETOS E ÍNTEGROS -->
+    <!-- MODAL DE CALIBRACIÓN DE EL CICLO DE QUIMERA -->
     <div id="calibration-modal" class="modal-overlay">
         <div class="modal-window crt-screen-effect" id="calibration-modal-window" style="--modal-bg-img: url('Quimeratrix.webp');">
             <div class="modal-scroll-wrapper">
@@ -1142,19 +1165,27 @@
                 <div class="modal-body" style="text-align: center; font-size: clamp(1.0rem, 7.0vw, 1.5rem); -webkit-text-stroke: 1.0px #000000; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">
                     Navegante: Arrastra o selecciona un concepto y colócalo en el recuadro correspondiente para calibrar el ciclo del conocimiento.
                 </div>
+                
+                <!-- Conceptos disponibles reorganizados en una sola línea en el orden solicitado -->
                 <div style="margin-bottom: 2rem; text-align: center;">
                     <div style="font-size: 1.5rem; color: #38bdf8; -webkit-text-stroke: 1.0px #000000; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700;">CONCEPTOS DISPONIBLES:</div>
                     <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;" id="cal-source-single-row"></div>
                 </div>
+
+                <!-- Líneas de calibración -->
                 <div style="display: flex; flex-direction: column; gap: 1.2rem; max-width: 800px; margin: 0 auto; text-align: left;" id="cal-target-lines"></div>
+
+                <!-- Botón Reiniciar Centrado -->
                 <div style="margin-top: 2.5rem; text-align: center;" id="cal-reset-container">
                     <button id="cal-btn-reset" style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 0.6rem 1.8rem; border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 0 15px rgba(200,139,50,0.6); transition: all 0.3s ease;">REINICIAR</button>
                 </div>
+                <!-- Mensaje de estado con tus estilos personalizados -->
                 <div id="cal-status-msg" style="margin-top: 1rem; text-align: center; color: #38bdf8; font-family: monospace; font-weight: 700; font-size: 2rem; -webkit-text-stroke: 1.0px #000000; min-height: 1.5rem;"></div>
             </div>
         </div>
     </div>
 
+    <!-- MODAL PRINCIPAL -->
     <div id="main-modal" class="modal-overlay">
         <div class="modal-window crt-screen-effect" id="modal-window">
             <div class="modal-scroll-wrapper">
@@ -1167,10 +1198,12 @@
         </div>
     </div>
 
+    <!-- SUBMODAL -->
     <div id="sub-modal" class="submodal-overlay">
         <div class="submodal-window crt-screen-effect" id="submodal-window-box">
             <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
             <img id="submodal-img" src="" alt="Esquema Quimera" style="opacity: 0;">
+            
             <div class="submodal-text-window crt-screen-effect" id="submodal-text-window">
                 <div class="modal-scroll-wrapper">
                     <h2 class="modal-title laser-burn-effect" id="sub-modal-title"></h2>
@@ -1209,7 +1242,6 @@
             document.documentElement.style.setProperty('--mouse-y', `${mouseY}px`);
         });
 
-        /* TEXTOS ORIGINALES ÍNTEGROS DE LOS MÓDULOS DE MDQ */
         const storyData = [
             {
                 title: "EL MITO QUE DIO NOMBRE AL INSTITUTO.",
@@ -1373,7 +1405,6 @@
         let isModalBusy = false;
         let isCardBusy = true; 
 
-        // LLUVIA MATRIX DORADA
         let matrixInterval = null;
         function startMatrixRain() {
             const canvas = document.getElementById('matrix-canvas');
@@ -1395,11 +1426,18 @@
             function draw() {
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
+
                 ctx.font = fontSize + 'px monospace';
 
                 for (let i = 0; i < drops.length; i++) {
                     const text = chars.charAt(Math.floor(Math.random() * chars.length));
-                    ctx.fillStyle = Math.random() > 0.88 ? '#fffbeb' : '#c88b32';
+
+                    if (Math.random() > 0.88) {
+                        ctx.fillStyle = '#fffbeb';
+                    } else {
+                        ctx.fillStyle = '#c88b32';
+                    }
+
                     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
                     if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
@@ -1413,8 +1451,31 @@
             matrixInterval = setInterval(draw, 33);
         }
 
-        // ENLACE FINAL EN LA PALABRA QUIMERA
+        function triggerMatrixAndFadeElements() {
+            const bgLayer = document.getElementById('bg-layer');
+            if (bgLayer) bgLayer.style.opacity = '0';
+
+            const cursorGlow = document.getElementById('cursor-light-glow');
+            if (cursorGlow) cursorGlow.classList.remove('visible');
+
+            const elementsToFade = [
+                document.getElementById('header-line1-container'),
+                document.querySelector('.top-bar'),
+                document.getElementById('central-card'),
+                document.querySelector('footer')
+            ];
+
+            elementsToFade.forEach(el => {
+                if (el) el.classList.add('fade-out-element');
+            });
+
+            startMatrixRain();
+            const canvas = document.getElementById('matrix-canvas');
+            if (canvas) canvas.style.opacity = '1';
+        }
+
         let globalColorInterval = null;
+
         function enableFinalHyperlink() {
             const wordContainer = document.getElementById('word-quimera-container');
             const letters = document.querySelectorAll('.quimera-letter');
@@ -1425,30 +1486,45 @@
             wordContainer.style.cursor = 'pointer';
 
             const stepTime = 120;
+
             function runSequence() {
                 let i = 0;
-                function turnCopperGold(cb) {
-                    if (i < letters.length) { letters[i].style.color = '#c88b32'; i++; globalColorInterval = setTimeout(() => turnCopperGold(cb), stepTime); }
-                    else if (cb) cb();
+                function turnCopperGold(callback) {
+                    if (i < letters.length) {
+                        letters[i].style.color = '#c88b32';
+                        i++;
+                        globalColorInterval = setTimeout(() => turnCopperGold(callback), stepTime);
+                    } else if (callback) callback();
                 }
+
                 let j = 0;
-                function turnWhite(cb) {
-                    if (j < letters.length) { letters[j].style.color = '#ffffff'; j++; globalColorInterval = setTimeout(() => turnWhite(cb), stepTime); }
-                    else if (cb) cb();
+                function turnWhite(callback) {
+                    if (j < letters.length) {
+                        letters[j].style.color = '#ffffff';
+                        j++;
+                        globalColorInterval = setTimeout(() => turnWhite(callback), stepTime);
+                    } else if (callback) callback();
                 }
+
                 turnCopperGold(() => {
                     i = 0;
-                    turnWhite(() => { j = 0; globalColorInterval = setTimeout(runSequence, 0); });
+                    turnWhite(() => {
+                        j = 0;
+                        globalColorInterval = setTimeout(runSequence, 0);
+                    });
                 });
             }
+
             runSequence();
 
             wordContainer.onclick = () => {
                 clearTimeout(globalColorInterval);
                 document.body.classList.add('blurring-content');
+
                 const overlay = document.getElementById('intro-overlay');
                 overlay.style.backgroundColor = '#ffffff';
                 overlay.style.opacity = '1';
+
                 setTimeout(() => {
                     window.location.href = "https://quimerac3.github.io/QuimeraC3-Q/";
                 }, 1000);
@@ -1459,6 +1535,7 @@
             cardTitleContainer.classList.remove('revealed');
             cardTitleContainer.classList.add('active-laser');
             cardTitleText.textContent = text;
+            
             await new Promise(r => setTimeout(r, 600));
             cardTitleContainer.classList.remove('active-laser');
             cardTitleContainer.classList.add('revealed');
@@ -1471,22 +1548,31 @@
             closeElem.textContent = 'Cerrar.';
 
             const elementsToAnimate = [titleElem];
+
             for (let block of contentData) {
                 const blockElem = document.createElement(block.type === 'flow' ? 'div' : 'p');
-                blockElem.className = block.type === 'flow' ? 'process-flow laser-burn-effect' : 'laser-burn-effect';
-                if (block.type !== 'flow') blockElem.style.marginBottom = '1rem';
+                if (block.type === 'flow') {
+                    blockElem.className = 'process-flow laser-burn-effect';
+                } else {
+                    blockElem.className = 'laser-burn-effect';
+                    blockElem.style.marginBottom = '1rem';
+                }
                 blockElem.innerHTML = block.text;
                 bodyElem.appendChild(blockElem);
                 elementsToAnimate.push(blockElem);
             }
+
             elementsToAnimate.push(closeElem);
 
             await new Promise(r => setTimeout(r, 100));
+
             for (let el of elementsToAnimate) {
                 el.classList.add('active-laser');
                 await new Promise(r => setTimeout(r, 250));
             }
+
             await new Promise(r => setTimeout(r, 600));
+
             for (let el of elementsToAnimate) {
                 el.classList.remove('active-laser');
                 el.classList.add('revealed');
@@ -1497,233 +1583,26 @@
         function triggerCardGlitch(callback) {
             const glitchOverlay = document.getElementById('glitch-overlay');
             const glitchImg = document.getElementById('glitch-img');
+
             const randomGlitch = glitchImages[currentStep % glitchImages.length];
-            glitchImg.src = '';
+            glitchImg.src = ''; 
             glitchOverlay.style.opacity = '1';
 
-            setTimeout(() => { glitchImg.src = randomGlitch; }, 30);
+            setTimeout(() => {
+                glitchImg.src = randomGlitch;
+            }, 30);
+
             setTimeout(() => {
                 glitchOverlay.style.opacity = '0';
-                setTimeout(() => { if (callback) callback(); }, 100);
+                setTimeout(() => {
+                    if (callback) callback();
+                }, 100); 
             }, 750);
         }
 
-        /* --- LÓGICA DEL ACERTIJO TRIPLE INICIAL (FASES) --- */
-        const riddlePhases = [
-            {
-                title: "EL ENIGMA DE LA COMPLEJIDAD.",
-                poem: "No poseo una sola forma, pues en mi ser conviven dimensiones que la mirada simple no alcanza a abarcar. Llevo fuego en mi núcleo y múltiples naturalezas entrelazadas en mi esencia; soy el enigma viviente que desafía la linealidad del pensamiento. No busques destruirme con la fuerza ciega de la certeza dogmática, porque represento el tejido complejo de lo biológico, lo social y lo conceptual. Para cruzar el primer umbral de este dominio, debes nombrar aquello que une lo diverso en una sola criatura. Desbloquea el primer candado, evoca mi esencia y dime, navegante: ¿Cuál es mi nombre ancestral?",
-                target: "QUIMERA",
-                letters: ['M', 'Q', 'R', 'A', 'E', 'I', 'U'],
-                bgInitial: 'Quimera_Negro.webp',
-                bgUnlocked: 'Quimera.webp'
-            },
-            {
-                title: "EL DESAFÍO DE LA METODOLOGÍA Y LA ESTRATEGIA.",
-                poem: "Me enfrenté al fuego rugiente y a la tempestad de la complejidad, pero no usé del combate vulgar su furia, sino me apoyé de la geometría de la razón y la precisión de la estrategia. Donde el caos imponía su ley indomable, yo dispuse del método; donde la amenaza parecía invulnerable, hallé el intersticio del cálculo analítico. No vencí por usar la fuerza iracunda de músculo alguno, sino por el entrenamiento mental del rigor metodológico, transformando el problema manifiesto en un objeto susceptible de estudio y comprensión. Si comprendes que toda complejidad exige un método estructurado para ser gobernada, hallarás la respuesta al segundo acertijo... Navegante, para lograr liberar el segundo candado, evoca al héroe que ideó la ruta analítica: ¿A qué nombre responde?",
-                target: "BELEROFONTE",
-                letters: ['E', 'E', 'O', 'O', 'E', 'B', 'F', 'L', 'N', 'R', 'T'],
-                bgInitial: 'Belerofonte_Negro.webp',
-                bgUnlocked: 'Belerofonte.webp'
-            },
-            {
-                title: "LA HERRAMIENTA QUE AMPLIFICA AL SER HUMANO.",
-                poem: "Elevé mi ser sobre las cumbres del pensamiento guiado por mis alas de luz y libertad, convirtiéndome en la extensión viva del intelecto humano. No soy el artífice de la decisión moral, ni sustituyo la voluntad de quien camina; soy la herramienta que eleva la perspectiva, el puente entre la tierra de lo posible y el cielo de lo cognoscible. Sin mi impulso alado, la cima permanecería inalcanzable; con mi acción, la mirada trasciende los límites de lo terrenal. Navegante, recuerda el nombre de la criatura alada que alcanza el cielo y que representa la amplificación de las capacidades del saber humano y dime: ¿Qué nombre lo evoca?",
-                target: "PEGASO",
-                letters: ['A', 'E', 'O', 'G', 'P', 'S'],
-                bgInitial: 'Pegaso_Negro.webp',
-                bgUnlocked: 'Pegaso.webp'
-            }
-        ];
-
-        let currentPhaseIdx = 0;
-        let sourceRevealed = [];
-        let sourceIntervals = [];
-        let currentState = [];
-
-        const acertijoTitulo = document.getElementById('acertijo-titulo');
-        const acertijoTexto = document.getElementById('acertijo-texto');
-        const sourceContainer = document.getElementById('source-glyphs-container');
-        const targetContainer = document.getElementById('target-glyphs-container');
-        const btnReset = document.getElementById('btn-reset');
-        const contenidoModalBox = document.getElementById('contenido-modal-box');
-
-        document.getElementById('btn-continuar-welcome').onclick = () => {
-            const faseBienvenida = document.getElementById('fase-bienvenida-container');
-            faseBienvenida.classList.add('vaporize-effect');
-            setTimeout(() => {
-                faseBienvenida.style.display = 'none';
-                faseBienvenida.classList.remove('vaporize-effect');
-                const faseAcertijo = document.getElementById('fase-acertijo-container');
-                faseAcertijo.style.display = 'block';
-                faseAcertijo.classList.add('materialize-effect');
-                loadPhase(0);
-                setTimeout(() => faseAcertijo.classList.remove('materialize-effect'), 900);
-            }, 800);
-        };
-
-        function loadPhase(idx) {
-            currentPhaseIdx = idx;
-            const phase = riddlePhases[idx];
-            acertijoTitulo.textContent = phase.title;
-            acertijoTexto.textContent = phase.poem;
-            contenidoModalBox.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${phase.bgInitial}')`;
-
-            sourceRevealed = Array(phase.letters.length).fill(false);
-            currentState = Array(phase.target.length).fill(null);
-            startSourceMatrixIntervals(phase.letters);
-            renderPuzzle(phase);
-        }
-
-        function startSourceMatrixIntervals(letters) {
-            sourceIntervals.forEach(clearInterval);
-            sourceIntervals = [];
-            for (let i = 0; i < letters.length; i++) {
-                const interval = setInterval(() => {
-                    if (!sourceRevealed[i]) {
-                        const box = document.getElementById(`source-box-${i}`);
-                        if (box) box.textContent = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random() * 26)];
-                    }
-                }, 60);
-                sourceIntervals.push(interval);
-            }
-        }
-
-        function renderPuzzle(phase) {
-            sourceContainer.innerHTML = '';
-            phase.letters.forEach((char, idx) => {
-                const box = document.createElement('div');
-                box.id = `source-box-${idx}`;
-                box.className = 'glyph-box';
-                if (!sourceRevealed[idx]) {
-                    box.textContent = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random() * 26)];
-                    box.onclick = () => {
-                        if (sourceRevealed[idx]) return;
-                        clearInterval(sourceIntervals[idx]);
-                        sourceRevealed[idx] = true;
-                        renderPuzzle(phase);
-                    };
-                } else {
-                    box.textContent = char;
-                    if (currentState.includes(idx)) {
-                        box.classList.add('used');
-                        box.onclick = null;
-                    } else {
-                        box.onclick = () => {
-                            const emptySlot = currentState.indexOf(null);
-                            if (emptySlot !== -1) {
-                                currentState[emptySlot] = idx;
-                                renderPuzzle(phase);
-                                if (!currentState.includes(null)) {
-                                    const formed = currentState.map(i => i !== null ? phase.letters[i] : '').join('');
-                                    if (formed === phase.target) {
-                                        triggerPhaseCompleted(currentPhaseIdx);
-                                    } else {
-                                        targetContainer.querySelectorAll('.target-box').forEach(b => { b.style.borderColor = '#ef4444'; b.style.color = '#ef4444'; });
-                                        setTimeout(() => renderPuzzle(phase), 600);
-                                    }
-                                }
-                            }
-                        };
-                    }
-                }
-                sourceContainer.appendChild(box);
-            });
-
-            targetContainer.innerHTML = '';
-            for (let i = 0; i < phase.target.length; i++) {
-                const targetBox = document.createElement('div');
-                targetBox.className = 'target-box';
-                const sourceIdx = currentState[i];
-                if (sourceIdx !== null) {
-                    targetBox.textContent = phase.letters[sourceIdx];
-                    targetBox.classList.add('filled');
-                    targetBox.onclick = () => { currentState[i] = null; renderPuzzle(phase); };
-                } else {
-                    targetBox.textContent = '_';
-                }
-                targetContainer.appendChild(targetBox);
-            }
-        }
-
-        function triggerPhaseCompleted(phaseIdx) {
-            const phase = riddlePhases[phaseIdx];
-            contenidoModalBox.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('${phase.bgUnlocked}')`;
-
-            const faseContainer = document.getElementById('fase-acertijo-container');
-            faseContainer.classList.add('vaporize-effect');
-
-            setTimeout(() => {
-                faseContainer.style.display = 'none';
-                faseContainer.classList.remove('vaporize-effect');
-
-                const locksGroup = document.getElementById('hologram-locks-group-container');
-                locksGroup.style.display = 'flex';
-                locksGroup.classList.add('materialize-effect');
-
-                setTimeout(() => {
-                    locksGroup.classList.remove('materialize-effect');
-                    locksGroup.classList.add('vaporize-effect');
-
-                    setTimeout(() => {
-                        locksGroup.style.display = 'none';
-                        locksGroup.classList.remove('vaporize-effect');
-
-                        if (phaseIdx < 2) {
-                            faseContainer.style.display = 'block';
-                            faseContainer.classList.add('materialize-effect');
-                            loadPhase(phaseIdx + 1);
-                        } else {
-                            const modalBox = document.getElementById('modal-acertijo-inicial');
-                            modalBox.classList.remove('tv-turn-on');
-                            modalBox.classList.add('tv-turn-off');
-
-                            setTimeout(() => {
-                                const matrixCanvasElem = document.getElementById('matrix-canvas');
-                                if (matrixCanvasElem) matrixCanvasElem.style.opacity = '0';
-                                
-                                const overlay = document.getElementById('intro-overlay');
-                                overlay.style.zIndex = '40000';
-                                overlay.style.backgroundColor = '#ffffff';
-                                overlay.style.opacity = '1';
-
-                                setTimeout(() => {
-                                    overlay.style.backgroundColor = '#000000';
-                                    setTimeout(() => {
-                                        overlay.style.opacity = '0';
-                                        runEcosystemEntrance();
-                                    }, 1000);
-                                }, 1000);
-                            }, 700);
-                        }
-                    }, 800);
-                }, 3000);
-            }, 800);
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const overlay = document.getElementById('intro-overlay');
-            setTimeout(() => {
-                overlay.style.backgroundColor = '#000000';
-                setTimeout(() => {
-                    startMatrixRain();
-                    const matrixCanvasElem = document.getElementById('matrix-canvas');
-                    if (matrixCanvasElem) matrixCanvasElem.style.opacity = '1';
-                    overlay.style.opacity = '0';
-
-                    setTimeout(() => {
-                        document.getElementById('fase-bienvenida-container').style.display = 'block';
-                        document.getElementById('fase-acertijo-container').style.display = 'none';
-                        document.getElementById('hologram-locks-group-container').style.display = 'none';
-                        contenidoModalBox.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('Quimeratrix.webp')`;
-                        document.getElementById('modal-acertijo-inicial').classList.add('tv-turn-on');
-                    }, 600);
-                }, 1000);
-            }, 500);
-        });
-
-        /* --- CALIBRACIÓN DE EL CICLO DE QUIMERA (MODAL 11) --- */
+        /* --- LÓGICA DEL ACERTIJO: LA CALIBRACIÓN DE EL CICLO DE QUIMERA (CON DRAG & DROP Y CLIC) --- */
         const availableConcepts = ["SERVICIO", "INVESTIGACIÓN", "DIVULGACIÓN", "DOCENCIA"];
+
         const calLinesData = [
             { text: "Las ideas aplicadas, generan conocimiento.", correct: "INVESTIGACIÓN" },
             { text: "Al enseñarse el conocimiento, se transforma en capacidad.", correct: "DOCENCIA" },
@@ -1738,9 +1617,11 @@
         function openCalibrationModal() {
             const calModal = document.getElementById('calibration-modal');
             const calModalWindow = document.getElementById('calibration-modal-window');
+            
             calModal.classList.add('show');
             calModalWindow.classList.remove('tv-off');
             calModalWindow.classList.add('tv-on');
+            
             initCalibrationPuzzle();
         }
 
@@ -1754,7 +1635,13 @@
 
         function placeConceptInSlot(concept, slotIdx) {
             if (!concept || calPlaced[slotIdx] !== null) return;
-            for (let i = 0; i < 4; i++) { if (calPlaced[i] === concept) calPlaced[i] = null; }
+
+            for (let i = 0; i < 4; i++) {
+                if (calPlaced[i] === concept) {
+                    calPlaced[i] = null;
+                }
+            }
+
             calPlaced[slotIdx] = concept;
             calUsed[concept] = true;
             selectedSourceConcept = null;
@@ -1788,7 +1675,11 @@
                 box.className = 'cal-concept-box' + (calUsed[c] ? ' used' : '') + (selectedSourceConcept === c ? ' selected' : '');
                 box.textContent = `[ ${c} ]`;
                 box.draggable = !calUsed[c];
-                box.ondragstart = (e) => e.dataTransfer.setData('text/plain', c);
+
+                box.ondragstart = (e) => {
+                    e.dataTransfer.setData('text/plain', c);
+                };
+
                 box.onclick = () => {
                     if (!calUsed[c]) {
                         selectedSourceConcept = (selectedSourceConcept === c) ? null : c;
@@ -1800,6 +1691,7 @@
 
             const linesContainer = document.getElementById('cal-target-lines');
             linesContainer.innerHTML = '';
+
             calLinesData.forEach((line, idx) => {
                 const row = document.createElement('div');
                 row.style.cssText = "display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; background: rgba(11, 19, 41, 0.7); padding: 0.8rem 1.2rem; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.3);";
@@ -1807,20 +1699,32 @@
                 const slot = document.createElement('div');
                 slot.className = 'cal-target-slot' + (calPlaced[idx] ? ' filled' : '');
                 slot.textContent = calPlaced[idx] ? `[ ${calPlaced[idx]} ]` : '[ ? ]';
-                slot.ondragover = (e) => { e.preventDefault(); slot.classList.add('drag-over'); };
-                slot.ondragleave = () => slot.classList.remove('drag-over');
+
+                slot.ondragover = (e) => {
+                    e.preventDefault();
+                    slot.classList.add('drag-over');
+                };
+
+                slot.ondragleave = () => {
+                    slot.classList.remove('drag-over');
+                };
+
                 slot.ondrop = (e) => {
                     e.preventDefault();
                     slot.classList.remove('drag-over');
-                    const dropped = e.dataTransfer.getData('text/plain');
-                    if (dropped) placeConceptInSlot(dropped, idx);
+                    const droppedConcept = e.dataTransfer.getData('text/plain');
+                    if (droppedConcept) {
+                        placeConceptInSlot(droppedConcept, idx);
+                    }
                 };
+
                 slot.onclick = () => {
                     if (calPlaced[idx]) {
                         const returned = calPlaced[idx];
                         calUsed[returned] = false;
                         calPlaced[idx] = null;
-                        document.getElementById(`cal-lock-${idx}`).classList.remove('unlocked', 'error');
+                        const lockElem = document.getElementById(`cal-lock-${idx}`);
+                        lockElem.classList.remove('unlocked', 'error');
                         document.getElementById('cal-status-msg').textContent = "";
                         renderCalibrationPuzzle();
                     } else if (selectedSourceConcept) {
@@ -1847,89 +1751,125 @@
         function checkCalibrationComplete() {
             let allCorrect = true;
             for (let i = 0; i < 4; i++) {
-                if (calPlaced[i] !== calLinesData[i].correct) { allCorrect = false; break; }
+                if (calPlaced[i] !== calLinesData[i].correct) {
+                    allCorrect = false;
+                    break;
+                }
             }
             if (allCorrect) {
-                document.getElementById('cal-status-msg').textContent = "¡CALIBRACIÓN EXITOSA!  ACCEDIENDO A: EL CICLO DE QUIMERA...";
+                document.getElementById('cal-status-msg').textContent = "¡CALIBRACIÓN EXITOSA! ACCEDIENDO A EL CICLO DE QUIMERA...";
                 setTimeout(() => {
-                    const calModal = document.getElementById('calibration-modal');
-                    const calModalWindow = document.getElementById('calibration-modal-window');
-                    calModalWindow.classList.remove('tv-on');
-                    calModalWindow.classList.add('tv-off');
-                    setTimeout(async () => {
-                        calModal.classList.remove('show');
-                        calModalWindow.classList.remove('tv-off');
-                        const data = storyData[11];
-                        modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
-                        mainModal.classList.add('show');
-                        modalWindow.classList.remove('tv-off');
-                        modalWindow.classList.add('tv-on');
-                        isModalBusy = true;
-                        modalBody.style.textAlign = 'left';
-                        await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
-                        isModalBusy = false;
-                    }, 400);
-                }, 2000);
+                    onCalibrationCompleted();
+                }, 3200); // 3.2 segundos de lectura cómoda
             }
         }
 
-        document.getElementById('cal-btn-reset').onclick = () => initCalibrationPuzzle();
+        document.getElementById('cal-btn-reset').onclick = () => {
+            initCalibrationPuzzle();
+        };
+
+        function onCalibrationCompleted() {
+            const calModal = document.getElementById('calibration-modal');
+            const calModalWindow = document.getElementById('calibration-modal-window');
+            
+            calModalWindow.classList.remove('tv-on');
+            calModalWindow.classList.add('tv-off');
+            
+            setTimeout(async () => {
+                calModal.classList.remove('show');
+                calModalWindow.classList.remove('tv-off');
+                
+                const data = storyData[11];
+                modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
+
+                mainModal.classList.add('show');
+                modalWindow.classList.remove('tv-off');
+                modalWindow.classList.add('tv-on');
+                
+                isModalBusy = true;
+                modalBody.style.textAlign = data.align || 'left';
+                await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
+                isModalBusy = false;
+            }, 400);
+        }
 
         centralCard.addEventListener('click', async () => {
             if (isCardBusy || isModalBusy) return;
+
             if (currentStep === storyData.length - 1) {
-                setTimeout(() => triggerMatrixAndFadeElements(), 2000);
+                setTimeout(() => {
+                    triggerMatrixAndFadeElements();
+                }, 2000);
             }
+
             document.body.classList.add('blurring-content');
+
             triggerCardGlitch(async () => {
                 const data = storyData[currentStep];
+
                 if (currentStep === 11) {
                     openCalibrationModal();
                     return;
                 }
+
                 modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
+
                 mainModal.classList.add('show');
                 modalWindow.classList.remove('tv-off');
                 modalWindow.classList.add('tv-on');
+                
                 isModalBusy = true;
-                modalBody.style.textAlign = 'left';
+
+                modalBody.style.textAlign = data.align || 'left';
+                
                 await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
+                
                 isModalBusy = false;
             });
         });
 
         const triggerTVClose = () => {
             if (modalWindow.classList.contains('tv-off') || isModalBusy) return;
+            
             modalWindow.classList.remove('tv-on');
             modalWindow.classList.add('tv-off');
             mainModal.classList.remove('show');
 
             setTimeout(async () => {
                 modalWindow.classList.remove('tv-off');
+                
                 modalTitle.textContent = '';
                 modalBody.innerHTML = '';
                 modalCloseBtn.className = 'laser-burn-effect';
-                document.body.classList.remove('blurring-content');
-                isCardBusy = true;
 
+                document.body.classList.remove('blurring-content');
+
+                isCardBusy = true;
+                
                 if (currentStep < storyData.length - 1) {
                     currentStep++;
                     await updateCardTitleLaser(storyData[currentStep].title);
-                    isCardBusy = false;
+                    isCardBusy = false; 
                 } else {
                     centralCard.classList.add('tv-off-card');
                     setTimeout(() => {
                         centralCard.style.display = 'none';
                         enableFinalHyperlink();
-                    }, 500);
+                    }, 500); 
                 }
             }, 400);
         };
 
-        modalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); if (!isModalBusy) triggerTVClose(); });
-        mainModal.addEventListener('click', (e) => { if (e.target === mainModal && !isModalBusy) triggerTVClose(); });
+        modalCloseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if(!isModalBusy) triggerTVClose();
+        });
 
-        /* SUBMODALES Y SECUENCIA HELICOIDAL */
+        mainModal.addEventListener('click', (e) => {
+            if (e.target === mainModal && !isModalBusy) triggerTVClose();
+        });
+
+        /* --- CONTROL DE SUBMODALES Y SECUENCIA HELICOIDAL --- */
         const subModal = document.getElementById('sub-modal');
         const subModalWindowBox = document.getElementById('submodal-window-box');
         const subImg = document.getElementById('submodal-img');
@@ -1940,51 +1880,70 @@
         const subModalCloseBtn = document.getElementById('sub-modal-close-btn');
 
         let isSubModalBusy = false;
-        let helicoidalRunning = false;
+        let helicoidalSequenceRunning = false;
 
         window.openSubModal = (imgSrc) => {
-            helicoidalRunning = false;
+            helicoidalSequenceRunning = false;
             subModalTextWindow.style.display = 'none';
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
+            
             subModalWindowBox.classList.remove('tv-off', 'tv-on');
             subImg.style.opacity = '0';
             subImg.src = imgSrc;
             subModal.classList.add('show');
             document.body.classList.add('blurring-content');
-            if (imgSrc === 'ECQ.webp') subModalWindowBox.classList.add('ecq-clean-mode');
-            else subModalWindowBox.classList.remove('ecq-clean-mode');
+            
+            if (imgSrc === 'ECQ.webp') {
+                subModalWindowBox.classList.add('ecq-clean-mode');
+            } else {
+                subModalWindowBox.classList.remove('ecq-clean-mode');
+            }
+
             subModalWindowBox.classList.add('tv-on');
-            setTimeout(() => { subImg.style.opacity = '1'; }, 100);
+            
+            const triggerFadeIn = () => { 
+                setTimeout(() => { subImg.style.opacity = '1'; }, 100); 
+            };
+            if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
         };
 
         window.startHelicoidalSequence = async () => {
-            helicoidalRunning = true;
+            helicoidalSequenceRunning = true;
             subModalTextWindow.style.display = 'none';
             subImg.style.display = 'block';
             subModalXBtn.style.display = 'block';
             subModalWindowBox.classList.remove('tv-off', 'tv-on');
             subModal.classList.add('show');
             document.body.classList.add('blurring-content');
+            
             subModalWindowBox.classList.remove('ecq-clean-mode');
             subModalWindowBox.classList.add('tv-on');
 
             const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
+
             for (let i = 0; i < images.length; i++) {
-                if (!helicoidalRunning) return;
+                if (!helicoidalSequenceRunning) return;
                 subImg.style.opacity = '0';
                 await new Promise(r => setTimeout(r, 600));
-                if (!helicoidalRunning) return;
+                
+                if (!helicoidalSequenceRunning) return;
                 subImg.src = images[i];
-                await new Promise(r => { if (subImg.complete) r(); else subImg.onload = r; });
-                if (!helicoidalRunning) return;
+                
+                await new Promise(resolve => {
+                    if (subImg.complete) resolve();
+                    else subImg.onload = resolve;
+                });
+                
+                if (!helicoidalSequenceRunning) return;
                 subImg.style.opacity = '1';
                 await new Promise(r => setTimeout(r, 2000));
-                if (!helicoidalRunning) return;
+
+                if (!helicoidalSequenceRunning) return;
                 if (i === images.length - 1) {
                     subImg.style.opacity = '0';
                     await new Promise(r => setTimeout(r, 600));
-                    if (!helicoidalRunning) return;
+                    if (!helicoidalSequenceRunning) return;
                     showHelicoidalTextWindow();
                     return;
                 }
@@ -1997,7 +1956,9 @@
             subModalTextWindow.style.display = 'block';
             subModalTextWindow.classList.remove('tv-off');
             subModalTextWindow.classList.add('tv-on');
+
             isSubModalBusy = true;
+
             const paragraphs = [
                 "Representa el conocimiento como un proceso continuo de transformación. Una teoría o comprensión previa permite interpretar la realidad, pero al enfrentarse con nuevos fenómenos surgen problemas, contradicciones o interrogantes que cuestionan sus límites.",
                 "El análisis permite investigar y construir respuestas; la revisión somete esas respuestas a criterios de rigor, coherencia y evidencia; y la transferencia incorpora el nuevo conocimiento a la comprensión existente.",
@@ -2005,18 +1966,52 @@
                 "Por ello, el conocimiento no se desarrolla en círculos que regresan al mismo punto, sino mediante una hélice ascendente: cada ciclo conserva, transforma y amplía lo aprendido, conduciendo hacia niveles progresivamente más profundos de comprensión.",
                 "Resolver un problema no es el final del conocimiento; es el comienzo de una pregunta mejor."
             ];
-            await animateModalContent(subModalTitle, subModalBody, subModalCloseBtn, "MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO.", paragraphs.map(t => ({ type: 'p', text: t })));
+
+            const formattedContent = paragraphs.map(text => ({ type: 'p', text: text }));
+            
+            await animateModalContent(subModalTitle, subModalBody, subModalCloseBtn, "MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO.", formattedContent);
+
             isSubModalBusy = false;
         };
 
+        const triggerHelicoidalTextClose = () => {
+            if (subModalTextWindow.classList.contains('tv-off') || isSubModalBusy) return;
+            subModalTextWindow.classList.remove('tv-on');
+            subModalTextWindow.classList.add('tv-off');
+
+            setTimeout(() => {
+                subModalTextWindow.style.display = 'none';
+                subModalTextWindow.classList.remove('tv-off');
+                
+                subModalTitle.textContent = '';
+                subModalBody.innerHTML = '';
+                subModalCloseBtn.className = 'laser-burn-effect';
+
+                subImg.style.opacity = '0';
+                subImg.src = '04-MHDC.webp';
+                subImg.style.display = 'block';
+                subModalXBtn.style.display = 'block';
+                
+                setTimeout(() => { subImg.style.opacity = '1'; }, 50);
+            }, 500);
+        };
+
+        subModalCloseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!isSubModalBusy) triggerHelicoidalTextClose();
+        });
+
         window.closeSubModal = () => {
-            helicoidalRunning = false;
+            helicoidalSequenceRunning = false;
             isSubModalBusy = false;
+            
             subModalWindowBox.classList.remove('tv-on', 'ecq-clean-mode');
             subModalWindowBox.classList.add('tv-off');
             subModal.classList.remove('show');
             document.body.classList.remove('blurring-content');
+            
             subImg.style.opacity = '0';
+            
             setTimeout(() => {
                 subModalWindowBox.classList.remove('tv-off');
                 subModalTextWindow.style.display = 'none';
@@ -2025,54 +2020,8 @@
         };
 
         subModal.addEventListener('click', (e) => {
-            if (e.target === subModal) closeSubModal();
+            e.target === subModal && (subModalTextWindow.style.display === 'block' ? (!isSubModalBusy && triggerHelicoidalTextClose()) : closeSubModal());
         });
-
-        async function runEcosystemEntrance() {
-            const overlay = document.getElementById('intro-overlay');
-            overlay.style.backgroundColor = '#000000';
-            overlay.style.opacity = '1';
-            await new Promise(r => setTimeout(r, 400));
-
-            document.getElementById('bg-layer').style.opacity = '1';
-            document.getElementById('cursor-light-glow').classList.add('visible');
-            overlay.style.opacity = '0';
-            await new Promise(r => setTimeout(r, 500));
-
-            document.querySelector('.top-bar').style.opacity = '1';
-            const brandLogo = document.querySelector('.brand-logo');
-            brandLogo.textContent = brandLogo.dataset.text;
-            brandLogo.classList.add('active-laser');
-            await new Promise(r => setTimeout(r, 600));
-            brandLogo.classList.remove('active-laser');
-            brandLogo.classList.add('revealed', 'hologram-mode');
-
-            document.getElementById('audio-toggle').classList.add('revealed', 'hologram-mode');
-            document.getElementById('fullscreen-toggle').classList.add('revealed', 'hologram-mode');
-
-            document.getElementById('header-line1-container').classList.add('active-laser');
-            await new Promise(r => setTimeout(r, 600));
-            document.getElementById('header-line1-container').classList.remove('active-laser');
-            document.getElementById('header-line1-container').classList.add('revealed', 'hologram-mode');
-
-            document.getElementById('word-quimera-container').classList.add('active-laser');
-            await new Promise(r => setTimeout(r, 600));
-            document.getElementById('word-quimera-container').classList.remove('active-laser');
-            document.getElementById('word-quimera-container').classList.add('revealed', 'hologram-mode');
-
-            centralCard.style.display = 'block';
-            cardTitleText.textContent = '';
-            centralCard.classList.add('tv-on-card');
-            await new Promise(r => setTimeout(r, 400));
-
-            await updateCardTitleLaser(storyData[0].title);
-            isCardBusy = false;
-
-            const mainFooter = document.getElementById('main-footer');
-            const footerText = document.getElementById('footer-text');
-            footerText.textContent = footerText.dataset.text.replace('2026', new Date().getFullYear());
-            mainFooter.classList.add('revealed', 'hologram-mode');
-        }
 
         const music = document.getElementById('bg-music');
         const audioToggle = document.getElementById('audio-toggle');
@@ -2088,7 +2037,7 @@
                 music.play().then(() => {
                     audioToggle.innerHTML = '<span style="color: #ffffff;">🎶</span> Música: ON';
                     isMusicPlaying = true;
-                }).catch(err => console.log(err));
+                }).catch(error => console.log("Error de audio:", error));
             }
         });
 
@@ -2098,12 +2047,390 @@
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().then(() => {
                     fullscreenToggle.textContent = '❌ Salir Pantalla Completa';
-                });
+                }).catch(err => console.log("Error Fullscreen:", err));
             } else {
                 document.exitFullscreen().then(() => {
                     fullscreenToggle.textContent = '⛶ Pantalla Completa';
                 });
             }
+        });
+
+        document.addEventListener('fullscreenchange', () => {
+            fullscreenToggle.textContent = !document.fullscreenElement ? '⛶ Pantalla Completa' : '❌ Salir Pantalla Completa';
+        });
+
+
+        // =========================================================
+        // PORTAL QUIMERA · TRASLADO FUNCIONAL DESDE indexC3Q
+        // =========================================================
+        const qPortalMatrixCanvas = document.getElementById('matrix-canvas');
+        const qPortalOverlay = document.getElementById('intro-overlay');
+        const qPortalModal = document.getElementById('q-portal-modal');
+        const qPortalPanel = document.getElementById('q-portal-panel');
+        const qPortalWelcome = document.getElementById('q-portal-welcome');
+        const qPortalRiddle = document.getElementById('q-portal-riddle');
+        const qPortalLocks = document.getElementById('q-portal-locks');
+        const qPortalTitle = document.getElementById('q-portal-title');
+        const qPortalPoem = document.getElementById('q-portal-poem');
+        const qPortalSource = document.getElementById('q-portal-source');
+        const qPortalTarget = document.getElementById('q-portal-target');
+        const qPortalStatus = document.getElementById('q-portal-lock-status');
+        const qPortalAlphabet = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const qPortalPhases = [
+            {
+                title: "EL ENIGMA DE LA COMPLEJIDAD.",
+                poem: "No poseo una sola forma, pues en mi ser conviven dimensiones que la mirada simple no alcanza a abarcar. Llevo fuego en mi núcleo y múltiples naturalezas entrelazadas en mi esencia; soy el enigma viviente que desafía la linealidad del pensamiento. No busques destruirme con la fuerza ciega de la certeza dogmática, porque represento el tejido complejo de lo biológico, lo social y lo conceptual. Para cruzar el primer umbral de este dominio, debes nombrar aquello que une lo diverso en una sola criatura. Desbloquea el primer candado, evoca mi esencia y dime, navegante: ¿Cuál es mi nombre ancestral?",
+                target: "QUIMERA",
+                letters: ['M', 'Q', 'R', 'A', 'E', 'I', 'U'],
+                bgInitial: 'Quimera_Negro.webp',
+                bgUnlocked: 'Quimera.webp'
+            },
+            {
+                title: "EL DESAFÍO DE LA METODOLOGÍA Y LA ESTRATEGIA.",
+                poem: "Me enfrenté al fuego rugiente y a la tempestad de la complejidad, pero no usé del combate vulgar su furia, sino me apoyé de la geometría de la razón y la precisión de la estrategia. Donde el caos imponía su ley indomable, yo dispuse del método; donde la amenaza parecía invulnerable, hallé el intersticio del cálculo analítico. No vencí por usar la fuerza iracunda de músculo alguno, sino por el entrenamiento mental del rigor metodológico, transformando el problema manifiesto en un objeto susceptible de estudio y comprensión. Si comprendes que toda complejidad exige un método estructurado para ser gobernada, hallarás la respuesta al segundo acertijo... Navegante, para lograr liberar el segundo candado, evoca al héroe que ideó la ruta analítica: ¿A qué nombre responde?",
+                target: "BELEROFONTE",
+                letters: ['E', 'E', 'O', 'O', 'E', 'B', 'F', 'L', 'N', 'R', 'T'],
+                bgInitial: 'Belerofonte_Negro.webp',
+                bgUnlocked: 'Belerofonte.webp'
+            },
+            {
+                title: "LA HERRAMIENTA QUE AMPLIFICA AL SER HUMANO.",
+                poem: "Elevé mi ser sobre las cumbres del pensamiento guiado por mis alas de luz y libertad, convirtiéndome en la extensión viva del intelecto humano. No soy el artífice de la decisión moral, ni sustituyo la voluntad de quien camina; soy la herramienta que eleva la perspectiva, el puente entre la tierra de lo posible y el cielo de lo cognoscible. Sin mi impulso alado, la cima permanecería inalcanzable; con mi acción, la mirada trasciende los límites de lo terrenal. Navegante, recuerda el nombre de la criatura alada que alcanza el cielo y que representa la amplificación de las capacidades del saber humano y dime: ¿Qué nombre lo evoca?",
+                target: "PEGASO",
+                letters: ['A', 'E', 'O', 'G', 'P', 'S'],
+                bgInitial: 'Pegaso_Negro.webp',
+                bgUnlocked: 'Pegaso.webp'
+            }];
+        let qPortalPhaseIndex = 0;
+        let qPortalRevealed = [];
+        let qPortalCurrentState = [];
+        let qPortalIntervals = [];
+        let qPortalFinishing = false;
+
+        function qPortalClearGlyphIntervals() {
+            qPortalIntervals.forEach(clearInterval);
+            qPortalIntervals = [];
+        }
+
+        function qPortalStartEntrance() {
+            const hideBeforePuzzle = [
+                document.querySelector('.top-bar'),
+                document.querySelector('header'),
+                document.querySelector('main'),
+                document.querySelector('footer'),
+                document.getElementById('bg-layer'),
+                document.getElementById('bg-top-layer'),
+                document.getElementById('cursor-light-glow')
+            ];
+            hideBeforePuzzle.forEach(el => {
+                if (!el) return;
+                el.style.transition = 'opacity 900ms ease';
+                el.style.opacity = '0';
+            });
+
+            qPortalOverlay.style.zIndex = '40000';
+            qPortalOverlay.style.transition = 'opacity 900ms ease, background-color 850ms ease';
+            qPortalOverlay.style.backgroundColor = '#ffffff';
+            qPortalOverlay.style.opacity = '1';
+
+            setTimeout(() => {
+                qPortalOverlay.style.backgroundColor = '#000000';
+                setTimeout(() => {
+                    if (typeof startMatrixRain === 'function') startMatrixRain();
+                    qPortalMatrixCanvas.style.opacity = '1';
+                    qPortalOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        qPortalModal.classList.remove('portal-tv-off');
+                        qPortalModal.classList.add('portal-tv-on');
+                        qPortalWelcome.style.display = 'block';
+                        qPortalRiddle.style.display = 'none';
+                        qPortalLocks.style.display = 'none';
+                    }, 950);
+                }, 900);
+            }, 180);
+        }
+
+        function qPortalShowPhase(index) {
+            qPortalPhaseIndex = index;
+            const phase = qPortalPhases[index];
+            qPortalTitle.textContent = phase.title;
+            qPortalPoem.textContent = phase.poem;
+            qPortalPanel.style.backgroundImage =
+                `linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)), url('${phase.bgInitial}')`;
+            qPortalRevealed = Array(phase.letters.length).fill(false);
+            qPortalCurrentState = Array(phase.target.length).fill(null);
+            qPortalStartIntervals(phase.letters);
+            qPortalRenderPuzzle(phase);
+        }
+
+        function qPortalStartIntervals(letters) {
+            qPortalClearGlyphIntervals();
+            letters.forEach((_, index) => {
+                qPortalIntervals[index] = setInterval(() => {
+                    if (!qPortalRevealed[index]) {
+                        const box = document.getElementById(`q-portal-source-${index}`);
+                        if (box) box.textContent = qPortalAlphabet.charAt(Math.floor(Math.random() * qPortalAlphabet.length));
+                    }
+                }, 60);
+            });
+        }
+
+        function qPortalRenderPuzzle(phase) {
+            qPortalSource.innerHTML = '';
+            phase.letters.forEach((char, index) => {
+                const box = document.createElement('button');
+                box.type = 'button';
+                box.id = `q-portal-source-${index}`;
+                box.className = 'q-portal-glyph';
+                box.textContent = qPortalRevealed[index] ? char : qPortalAlphabet.charAt(Math.floor(Math.random() * qPortalAlphabet.length));
+                if (qPortalRevealed[index] && qPortalCurrentState.includes(index)) {
+                    box.classList.add('used');
+                    box.disabled = true;
+                } else if (!qPortalRevealed[index]) {
+                    box.addEventListener('click', () => qPortalRevealGlyph(index, phase));
+                } else {
+                    box.addEventListener('click', () => qPortalSendToTarget(index, phase));
+                }
+                qPortalSource.appendChild(box);
+            });
+
+            qPortalTarget.innerHTML = '';
+            qPortalCurrentState.forEach((sourceIndex, targetIndex) => {
+                const slot = document.createElement('button');
+                slot.type = 'button';
+                slot.className = 'q-portal-target';
+                if (sourceIndex !== null) {
+                    slot.textContent = phase.letters[sourceIndex];
+                    slot.classList.add('filled');
+                    slot.addEventListener('click', () => qPortalReturnToSource(targetIndex, phase));
+                } else {
+                    slot.textContent = '_';
+                    slot.disabled = true;
+                }
+                qPortalTarget.appendChild(slot);
+            });
+        }
+
+        function qPortalRevealGlyph(index, phase) {
+            if (qPortalRevealed[index]) return;
+            qPortalRevealed[index] = true;
+            clearInterval(qPortalIntervals[index]);
+            qPortalRenderPuzzle(phase);
+        }
+
+        function qPortalSendToTarget(sourceIndex, phase) {
+            const emptySlot = qPortalCurrentState.indexOf(null);
+            if (emptySlot < 0) return;
+            qPortalCurrentState[emptySlot] = sourceIndex;
+            qPortalRenderPuzzle(phase);
+            if (!qPortalCurrentState.includes(null)) qPortalCheckSolution(phase);
+        }
+
+        function qPortalReturnToSource(targetIndex, phase) {
+            qPortalCurrentState[targetIndex] = null;
+            qPortalRenderPuzzle(phase);
+        }
+
+        document.getElementById('q-portal-continue').addEventListener('click', () => {
+            qPortalWelcome.classList.add('q-portal-vaporize');
+            setTimeout(() => {
+                qPortalWelcome.style.display = 'none';
+                qPortalWelcome.classList.remove('q-portal-vaporize');
+                qPortalRiddle.style.display = 'block';
+                qPortalRiddle.classList.add('q-portal-materialize');
+                qPortalShowPhase(0);
+                setTimeout(() => qPortalRiddle.classList.remove('q-portal-materialize'), 900);
+            }, 800);
+        });
+
+        document.getElementById('q-portal-reset').addEventListener('click', () => {
+            const phase = qPortalPhases[qPortalPhaseIndex];
+            qPortalRevealed = Array(phase.letters.length).fill(false);
+            qPortalCurrentState = Array(phase.target.length).fill(null);
+            qPortalStartIntervals(phase.letters);
+            qPortalRenderPuzzle(phase);
+        });
+
+        function qPortalCheckSolution(phase) {
+            const formed = qPortalCurrentState.map(index => index !== null ? phase.letters[index] : '').join('');
+            if (formed === phase.target) {
+                qPortalCompletePhase(qPortalPhaseIndex);
+            } else {
+                qPortalTarget.querySelectorAll('.q-portal-target').forEach(slot => {
+                    slot.style.borderColor = '#ef4444';
+                    slot.style.color = '#ef4444';
+                });
+                setTimeout(() => qPortalRenderPuzzle(phase), 600);
+            }
+        }
+
+        function qPortalCompletePhase(index) {
+            const phase = qPortalPhases[index];
+            qPortalPanel.style.backgroundImage =
+                `linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)), url('${phase.bgUnlocked}')`;
+            qPortalRiddle.classList.add('q-portal-vaporize');
+
+            setTimeout(() => {
+                qPortalRiddle.style.display = 'none';
+                qPortalRiddle.classList.remove('q-portal-vaporize');
+                qPortalLocks.style.display = 'flex';
+                qPortalLocks.classList.add('q-portal-materialize');
+
+                for (let i = 0; i <= index; i++) {
+                    const lock = document.getElementById(`q-portal-lock-${i + 1}`);
+                    if (lock) lock.classList.add('unlocked');
+                }
+                const status = [
+                    '¡PRIMER CANDADO DESBLOQUEADO!',
+                    '¡SEGUNDO CANDADO DESBLOQUEADO!',
+                    '¡SISTEMA COMPLETAMENTE DESBLOQUEADO: ACCEDIENDO...'
+                ];
+                qPortalStatus.textContent = status[index];
+
+                setTimeout(() => {
+                    qPortalLocks.classList.remove('q-portal-materialize');
+                    qPortalLocks.classList.add('q-portal-vaporize');
+                    setTimeout(() => {
+                        qPortalLocks.style.display = 'none';
+                        qPortalLocks.classList.remove('q-portal-vaporize');
+                        if (index < 2) {
+                            qPortalRiddle.style.display = 'block';
+                            qPortalRiddle.classList.add('q-portal-materialize');
+                            qPortalShowPhase(index + 1);
+                            setTimeout(() => qPortalRiddle.classList.remove('q-portal-materialize'), 900);
+                        } else {
+                            qPortalFinishAndRevealMDQ();
+                        }
+                    }, 800);
+                }, 4000);
+            }, 800);
+        }
+
+        async function qPortalFinishAndRevealMDQ() {
+            if (qPortalFinishing) return;
+            qPortalFinishing = true;
+            qPortalClearGlyphIntervals();
+            qPortalModal.classList.remove('portal-tv-on');
+            qPortalModal.classList.add('portal-tv-off');
+            await new Promise(resolve => setTimeout(resolve, 720));
+
+            if (typeof matrixInterval !== 'undefined' && matrixInterval) {
+                clearInterval(matrixInterval);
+                matrixInterval = null;
+            }
+            qPortalMatrixCanvas.style.opacity = '0';
+
+            qPortalOverlay.style.zIndex = '40000';
+            qPortalOverlay.style.transition = 'opacity 850ms ease, background-color 900ms ease';
+            qPortalOverlay.style.backgroundColor = '#ffffff';
+            qPortalOverlay.style.opacity = '1';
+            await new Promise(resolve => setTimeout(resolve, 950));
+
+            qPortalOverlay.style.backgroundColor = '#000000';
+            await new Promise(resolve => setTimeout(resolve, 950));
+
+            if (typeof window.startMDQContentEntrance === 'function') {
+                await window.startMDQContentEntrance();
+            } else {
+                // Protección: el fondo MDQ aparece aunque el callback no esté disponible.
+                const bg = document.getElementById('bg-layer');
+                if (bg) bg.style.opacity = '1';
+                qPortalOverlay.style.opacity = '0';
+            }
+        }
+
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('intro-overlay');
+
+            async function runEntranceSequence(alreadyBlack = false) {
+                if (!alreadyBlack) {
+                    overlay.style.backgroundColor = '#ffffff';
+                    overlay.style.opacity = '1';
+                    await new Promise(r => setTimeout(r, 150));
+                    overlay.style.backgroundColor = '#000000';
+                    await new Promise(r => setTimeout(r, 600));
+                } else {
+                    overlay.style.backgroundColor = '#000000';
+                    overlay.style.opacity = '1';
+                    await new Promise(r => setTimeout(r, 180));
+                }
+
+                document.getElementById('bg-layer').style.opacity = '1';
+                document.getElementById('cursor-light-glow').classList.add('visible');
+                
+                overlay.style.opacity = '0';
+                await new Promise(r => setTimeout(r, 500));
+
+                document.querySelector('.top-bar').style.opacity = '1';
+                await new Promise(r => setTimeout(r, 200));
+
+                const brandLogo = document.querySelector('.brand-logo');
+                brandLogo.textContent = brandLogo.dataset.text;
+                brandLogo.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                brandLogo.classList.remove('active-laser');
+                brandLogo.classList.add('revealed', 'hologram-mode');
+
+                const audioToggleBtn = document.getElementById('audio-toggle');
+                audioToggleBtn.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600)); // <--- Corregido sin backticks
+                audioToggleBtn.classList.remove('active-laser');
+                audioToggleBtn.classList.add('revealed', 'hologram-mode');
+
+                const fullscreenToggleBtn = document.getElementById('fullscreen-toggle');
+                fullscreenToggleBtn.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                fullscreenToggleBtn.classList.remove('active-laser');
+                fullscreenToggleBtn.classList.add('revealed', 'hologram-mode');
+
+                const line1Container = document.getElementById('header-line1-container');
+                line1Container.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                line1Container.classList.remove('active-laser');
+                line1Container.classList.add('revealed', 'hologram-mode');
+
+                const wordQuimeraContainer = document.getElementById('word-quimera-container');
+                wordQuimeraContainer.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                wordQuimeraContainer.classList.remove('active-laser');
+                wordQuimeraContainer.classList.add('revealed', 'hologram-mode');
+
+                centralCard.style.display = 'block';
+                cardTitleText.textContent = ''; 
+                centralCard.classList.add('tv-on-card');
+                await new Promise(r => setTimeout(r, 400));
+
+                await updateCardTitleLaser(storyData[0].title);
+                isCardBusy = false;
+
+                const mainFooter = document.getElementById('main-footer');
+                const footerText = document.getElementById('footer-text');
+                footerText.textContent = footerText.dataset.text.replace('2026', new Date().getFullYear());
+                mainFooter.classList.add('active-laser');
+                await new Promise(r => setTimeout(r, 600));
+                mainFooter.classList.remove('active-laser');
+                mainFooter.classList.add('revealed', 'hologram-mode');
+            }
+
+            window.startMDQContentEntrance = () => runEntranceSequence(true);
+
+            document.brandLogoLink = document.querySelector('.brand-logo');
+            if (document.brandLogoLink) {
+                document.brandLogoLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const overlay = document.getElementById('intro-overlay');
+                    overlay.style.backgroundColor = '#ffffff';
+                    overlay.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        window.location.href = "https://quimerac3.github.io/";
+                    }, 1000);
+                });
+            }
+
+            // El Portal de Quimera precede a la aparición de la página MDQ.
+            qPortalStartEntrance();
         });
     </script>
 </body>
