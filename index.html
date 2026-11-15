@@ -1679,7 +1679,9 @@
                             modalBox.classList.add('tv-turn-off');
 
                             setTimeout(() => {
-                                matrixCanvas.style.opacity = '0';
+                                const matrixCanvasElem = document.getElementById('matrix-canvas');
+                                if (matrixCanvasElem) matrixCanvasElem.style.opacity = '0';
+                                
                                 const overlay = document.getElementById('intro-overlay');
                                 overlay.style.zIndex = '40000';
                                 overlay.style.backgroundColor = '#ffffff';
@@ -1705,7 +1707,8 @@
                 overlay.style.backgroundColor = '#000000';
                 setTimeout(() => {
                     startMatrixRain();
-                    matrixCanvas.style.opacity = '1';
+                    const matrixCanvasElem = document.getElementById('matrix-canvas');
+                    if (matrixCanvasElem) matrixCanvasElem.style.opacity = '1';
                     overlay.style.opacity = '0';
 
                     setTimeout(() => {
