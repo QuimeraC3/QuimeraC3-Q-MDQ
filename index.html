@@ -855,6 +855,48 @@
             75% { transform: translateX(4px); }
         }
 
+        /* ESTILOS PARA CANDADO GRANDE HOLOGRÁFICO (PORTAL) */
+        .q-portal-lock {
+            width: 180px; height: 218px; position: relative;
+            animation: qPortalLockFloat 2s ease-in-out infinite alternate;
+        }
+        .q-portal-shackle {
+            position: absolute; top: 0; left: 33px; width: 114px; height: 102px;
+            border: 11px solid #38bdf8; border-bottom: none;
+            border-radius: 57px 57px 0 0;
+            box-shadow: 0 0 38px #38bdf8, inset 0 0 15px #38bdf8;
+            transform-origin: bottom left;
+            transition: transform .8s cubic-bezier(.23,1,.32,1);
+        }
+        .q-portal-lock-body {
+            position: absolute; bottom: 0; width: 180px; height: 135px;
+            background: rgba(56,189,248,.25); border: 6px solid #38bdf8;
+            border-radius: 24px; box-shadow: 0 0 52px rgba(56,189,248,.85),inset 0 0 22px rgba(56,189,248,.6);
+        }
+        @keyframes qPortalLockFloat {
+            0% { transform: translateY(0); filter: drop-shadow(0 0 18px rgba(56,189,248,.7)); }
+            100% { transform: translateY(-8px); filter: drop-shadow(0 0 35px rgba(56,189,248,1)); }
+        }
+        .q-portal-lock.unlocked .q-portal-shackle {
+            transform: rotate(-45deg) translateY(-21px) translateX(-12px);
+            border-color: #22c55e; box-shadow: 0 0 45px #22c55e, inset 0 0 18px #22c55e;
+        }
+        .q-portal-lock.unlocked .q-portal-lock-body {
+            border-color: #22c55e; background: rgba(34,197,94,.35);
+            box-shadow: 0 0 65px rgba(34,197,94,.95);
+        }
+        .q-portal-materialize { animation: qPortalMaterialize .9s cubic-bezier(.1,1,.3,1) forwards; }
+        .q-portal-vaporize { animation: qPortalVaporize .8s cubic-bezier(.4,0,.2,1) forwards; }
+        @keyframes qPortalMaterialize {
+            0% { opacity: 0; filter: blur(6px) brightness(2.5); transform: scale(.98) translateY(10px); }
+            100% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1) translateY(0); }
+        }
+        @keyframes qPortalVaporize {
+            0% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1) translateY(0); }
+            50% { opacity: .6; filter: blur(3px) brightness(2) drop-shadow(0 0 15px #38bdf8); transform: scale(1.02) translateY(-5px); }
+            100% { opacity: 0; filter: blur(8px) brightness(3); transform: scale(.98) translateY(-15px); letter-spacing: .2em; }
+        }
+
         /* FOOTER */
         footer.laser-burn-effect {
             position: absolute !important;
@@ -942,7 +984,7 @@
     <!-- MODAL DE CALIBRACIÓN DE EL CICLO DE QUIMERA -->
     <div id="calibration-modal" class="modal-overlay">
         <div class="modal-window crt-screen-effect" id="calibration-modal-window" style="--modal-bg-img: url('Quimeratrix.webp');">
-            <div class="modal-scroll-wrapper">
+            <div class="modal-scroll-wrapper" id="cal-scroll-wrapper">
                 <h2 class="modal-title laser-burn-effect revealed">LA CALIBRACIÓN DE "EL CICLO DE QUIMERA"</h2>
                 <div class="modal-body" style="text-align: center; font-size: clamp(1.0rem, 7.0vw, 1.5rem); -webkit-text-stroke: 1.0px #000000; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">
                     Navegante: Arrastra o selecciona un concepto y colócalo en el recuadro correspondiente para calibrar el ciclo del conocimiento.
@@ -1396,18 +1438,42 @@
         let calUsed = { "SERVICIO": false, "INVESTIGACIÓN": false, "DIVULGACIÓN": false, "DOCENCIA": false };
         let selectedSourceConcept = null;
 
+        const calibrationInitialHTML = `
+            <h2 class="modal-title laser-burn-effect revealed">LA CALIBRACIÓN DE "EL CICLO DE QUIMERA"</h2>
+            <div class="modal-body" style="text-align: center; font-size: clamp(1.0rem, 7.0vw, 1.5rem); -webkit-text-stroke: 1.0px #000000; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">
+                Navegante: Arrastra o selecciona un concepto y colócalo en el recuadro correspondiente para calibrar el ciclo del conocimiento.
+            </div>
+            <div style="margin-bottom: 2rem; text-align: center;">
+                <div style="font-size: 1.5rem; color: #38bdf8; -webkit-text-stroke: 1.0px #000000; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700;">CONCEPTOS DISPONIBLES:</div>
+                <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;" id="cal-source-single-row"></div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 1.2rem; max-width: 800px; margin: 0 auto; text-align: left;" id="cal-target-lines"></div>
+            <div style="margin-top: 2.5rem; text-align: center;" id="cal-reset-container">
+                <button id="cal-btn-reset" style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 0.6rem 1.8rem; border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 0 15px rgba(200,139,50,0.6); transition: all 0.3s ease;">REINICIAR</button>
+            </div>
+            <div id="cal-status-msg" style="margin-top: 1rem; text-align: center; color: #38bdf8; font-family: monospace; font-weight: 700; font-size: 2rem; -webkit-text-stroke: 1.0px #000000; min-height: 1.5rem;"></div>
+        `;
+
         function openCalibrationModal() {
             const calModal = document.getElementById('calibration-modal');
             const calModalWindow = document.getElementById('calibration-modal-window');
             
             calModal.classList.add('show');
-            calModalWindow.classList.remove('tv-off');
+            calModalWindow.classList.remove('tv-off', 'q-portal-vaporize');
             calModalWindow.classList.add('tv-on');
             
             initCalibrationPuzzle();
         }
 
         function initCalibrationPuzzle() {
+            const scrollWrapper = document.getElementById('cal-scroll-wrapper');
+            scrollWrapper.classList.remove('q-portal-vaporize');
+            scrollWrapper.innerHTML = calibrationInitialHTML;
+
+            document.getElementById('cal-btn-reset').onclick = () => {
+                initCalibrationPuzzle();
+            };
+
             calPlaced = [null, null, null, null];
             calUsed = { "SERVICIO": false, "INVESTIGACIÓN": false, "DIVULGACIÓN": false, "DOCENCIA": false };
             selectedSourceConcept = null;
@@ -1451,6 +1517,7 @@
 
         function renderCalibrationPuzzle() {
             const container = document.getElementById('cal-source-single-row');
+            if (!container) return;
             container.innerHTML = '';
             availableConcepts.forEach(c => {
                 const box = document.createElement('div');
@@ -1472,6 +1539,7 @@
             });
 
             const linesContainer = document.getElementById('cal-target-lines');
+            if (!linesContainer) return;
             linesContainer.innerHTML = '';
 
             calLinesData.forEach((line, idx) => {
@@ -1541,38 +1609,52 @@
             if (allCorrect) {
                 document.getElementById('cal-status-msg').textContent = "¡CALIBRACIÓN EXITOSA! ACCEDIENDO A EL CICLO DE QUIMERA...";
                 setTimeout(() => {
-                    onCalibrationCompleted();
-                }, 3200); // 3.2 segundos de lectura cómoda
+                    const scrollWrapper = document.getElementById('cal-scroll-wrapper');
+                    scrollWrapper.classList.add('q-portal-vaporize');
+
+                    setTimeout(() => {
+                        scrollWrapper.innerHTML = `
+                            <div id="cal-giant-lock-container" class="q-portal-materialize" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center;">
+                                <div class="q-portal-lock unlocked" id="cal-giant-lock" style="margin: 0 auto;">
+                                    <div class="q-portal-shackle"></div>
+                                    <div class="q-portal-lock-body"></div>
+                                </div>
+                                <p style="color: #22c55e; font-family: monospace; font-size: clamp(1.3rem, 2.8vw, 1.8rem); font-weight: bold; margin-top: 2.5rem; text-shadow: 0 0 20px #22c55e; -webkit-text-stroke: 0.5px #000;">¡CANDADO CALIBRADO Y ABIERTO!</p>
+                            </div>
+                        `;
+                        scrollWrapper.classList.remove('q-portal-vaporize');
+
+                        setTimeout(() => {
+                            const calModalWindow = document.getElementById('calibration-modal-window');
+                            calModalWindow.classList.add('q-portal-vaporize');
+
+                            setTimeout(() => {
+                                const calModal = document.getElementById('calibration-modal');
+                                calModal.classList.remove('show');
+                                calModalWindow.classList.remove('q-portal-vaporize', 'tv-on');
+                                
+                                initCalibrationPuzzle();
+                                onCalibrationCompleted();
+                            }, 800);
+                        }, 5000);
+                    }, 800);
+                }, 1000);
             }
         }
 
-        document.getElementById('cal-btn-reset').onclick = () => {
-            initCalibrationPuzzle();
-        };
-
         function onCalibrationCompleted() {
-            const calModal = document.getElementById('calibration-modal');
-            const calModalWindow = document.getElementById('calibration-modal-window');
-            
-            calModalWindow.classList.remove('tv-on');
-            calModalWindow.classList.add('tv-off');
-            
-            setTimeout(async () => {
-                calModal.classList.remove('show');
-                calModalWindow.classList.remove('tv-off');
-                
-                const data = storyData[11];
-                modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
+            const data = storyData[11];
+            modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
 
-                mainModal.classList.add('show');
-                modalWindow.classList.remove('tv-off');
-                modalWindow.classList.add('tv-on');
-                
-                isModalBusy = true;
-                modalBody.style.textAlign = data.align || 'left';
-                await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
+            mainModal.classList.add('show');
+            modalWindow.classList.remove('tv-off');
+            modalWindow.classList.add('tv-on');
+            
+            isModalBusy = true;
+            modalBody.style.textAlign = data.align || 'left';
+            animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content).then(() => {
                 isModalBusy = false;
-            }, 400);
+            });
         }
 
         centralCard.addEventListener('click', async () => {
@@ -1870,7 +1952,7 @@
 
                 const audioToggleBtn = document.getElementById('audio-toggle');
                 audioToggleBtn.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600)); // <--- Corregido sin backticks
+                await new Promise(r => setTimeout(r, 600));
                 audioToggleBtn.classList.remove('active-laser');
                 audioToggleBtn.classList.add('revealed', 'hologram-mode');
 
