@@ -667,7 +667,7 @@
         }
 
         .modal-close-wrapper {
-            text-align: center; /* Ubicación en la parte inferior central */
+            text-align: center;
             font-size: clamp(1.0rem, 2.5vw, 1.5rem);
             font-weight: 700;
             min-height: 2rem;
@@ -676,7 +676,6 @@
             margin-top: 1.5rem;
         }
 
-        /* RECUADRO CONTINUAR CON ESTILO MATRIX (OCR-A), BORDE Y RESPALDO COBRE DORADO 70% TRANSPARENCIA */
         .continuar-btn {
             display: inline-block;
             background-color: rgba(200, 139, 50, 0.7);
@@ -696,7 +695,7 @@
         }
 
         .continuar-btn:hover {
-            transform: translateY(-3px); /* Se eleva levemente al pasar el cursor */
+            transform: translateY(-3px);
             background-color: rgba(200, 139, 50, 0.9);
             box-shadow: 0 6px 20px rgba(200, 139, 50, 0.5);
             color: #ffffff;
@@ -1258,8 +1257,34 @@
             resizeCanvas();
             window.addEventListener('resize', resizeCanvas);
 
-            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZカタカナアアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            // Medir la posición superior de la palabra QUIMERA antes del desvanecimiento
+            const quimeraElem = document.getElementById('word-quimera-container');
+            const quimeraRect = quimeraElem ? quimeraElem.getBoundingClientRect() : { top: window.innerHeight * 0.4 };
+            const maskY = quimeraRect.top / 2; // Exactamente a la mitad del espacio entre la parte superior de la pantalla y QUIMERA
+
+            // Crear un canvas oculto para la máscara de texto
+            const maskCanvas = document.createElement('canvas');
+            maskCanvas.width = canvas.width;
+            maskCanvas.height = canvas.height;
+            const maskCtx = maskCanvas.getContext('2d');
+
             const fontSize = 16;
+            
+            // ==========================================
+            // AQUÍ ESTÁ DEFINIDA LA FRASE DEL CÓDIGO FINAL
+            // ==========================================
+            const phrase = "CÓDIGO FINAL: 17-09-05-19-04-01.";
+            
+            const phraseFontSize = Math.min(Math.max(16, window.innerWidth * 0.02), 28);
+            maskCtx.font = `bold ${phraseFontSize}px monospace`;
+            maskCtx.textAlign = 'center';
+            maskCtx.textBaseline = 'middle';
+            maskCtx.fillStyle = '#ffffff';
+            maskCtx.fillText(phrase, canvas.width / 2, maskY);
+
+            const maskData = maskCtx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZカタカナアアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
             let columns = Math.floor(canvas.width / fontSize);
             let drops = Array(columns).fill(1);
 
@@ -1270,15 +1295,33 @@
                 ctx.font = fontSize + 'px monospace';
 
                 for (let i = 0; i < drops.length; i++) {
-                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                    const x = i * fontSize;
+                    const y = drops[i] * fontSize;
 
-                    if (Math.random() > 0.88) {
-                        ctx.fillStyle = '#fffbeb';
-                    } else {
-                        ctx.fillStyle = '#c88b32';
+                    let isTextPixel = false;
+                    if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
+                        const pixelIndex = (Math.floor(y) * canvas.width + Math.floor(x)) * 4;
+                        if (maskData[pixelIndex + 3] > 128) {
+                            isTextPixel = true;
+                        }
                     }
 
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (isTextPixel) {
+                        ctx.fillStyle = '#ffffff';
+                        ctx.shadowColor = '#38bdf8';
+                        ctx.shadowBlur = 15;
+                    } else {
+                        if (Math.random() > 0.88) {
+                            ctx.fillStyle = '#fffbeb';
+                        } else {
+                            ctx.fillStyle = '#c88b32';
+                        }
+                        ctx.shadowBlur = 0;
+                    }
+
+                    const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                    ctx.fillText(text, x, y);
+                    ctx.shadowBlur = 0;
 
                     if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
                         drops[i] = 0;
