@@ -667,7 +667,7 @@
         }
 
         .modal-close-wrapper {
-            text-align: right;
+            text-align: center;
             font-size: clamp(1.0rem, 2.5vw, 1.5rem);
             font-weight: 700;
             min-height: 2rem;
@@ -675,16 +675,29 @@
             z-index: 10;
         }
 
-        .modal-close-btn {
-            color: #f2d132;
-            cursor: pointer;
-            text-decoration: underline;
-            transition: color 0.3s ease;
+        /* ESTILOS DEL NUEVO RECUADRO CONTINUAR */
+        .modal-continue-btn {
             display: inline-block;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(1.0rem, 2.5vw, 1.5rem);
+            font-weight: 700;
+            color: #ffffff;
+            background-color: rgba(200, 139, 50, 0.7);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 0.4rem 2rem;
+            cursor: pointer;
             -webkit-text-stroke: 0.25px #000000;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .modal-close-btn:hover { color: #ffffff; }
+        .modal-continue-btn:hover {
+            transform: translateY(-3px);
+            background-color: rgba(200, 139, 50, 0.9);
+            box-shadow: 0 6px 20px rgba(200, 139, 50, 0.6);
+        }
 
         #submodal-img {
             max-width: 88vw;
@@ -981,7 +994,7 @@
         </div>
     </main>
 
-    <!-- MODAL DE CALIBRACIÓN DE EL CICLO DE QUIMERA -->
+    <!-- MODAL DE CALIBRACIÓN DE EL CICLO DE QUIMERA (INTACTO) -->
     <div id="calibration-modal" class="modal-overlay">
         <div class="modal-window crt-screen-effect" id="calibration-modal-window" style="--modal-bg-img: url('Quimeratrix.webp');">
             <div class="modal-scroll-wrapper" id="cal-scroll-wrapper">
@@ -1016,7 +1029,7 @@
                 <h2 class="modal-title laser-burn-effect" id="modal-title"></h2>
                 <div class="modal-body" id="modal-body"></div>
                 <div class="modal-close-wrapper">
-                    <span class="laser-burn-effect" id="modal-close-btn" style="display:inline-block;">Cerrar.</span>
+                    <div class="laser-burn-effect modal-continue-btn" id="modal-close-btn">CONTINUAR</div>
                 </div>
             </div>
         </div>
@@ -1033,7 +1046,7 @@
                     <h2 class="modal-title laser-burn-effect" id="sub-modal-title"></h2>
                     <div class="modal-body" id="sub-modal-body"></div>
                     <div class="modal-close-wrapper">
-                        <span class="laser-burn-effect" id="sub-modal-close-btn" style="display:inline-block;">Cerrar.</span>
+                        <div class="laser-burn-effect modal-continue-btn" id="sub-modal-close-btn">CONTINUAR</div>
                     </div>
                 </div>
             </div>
@@ -1368,8 +1381,8 @@
         async function animateModalContent(titleElem, bodyElem, closeElem, titleText, contentData) {
             titleElem.textContent = titleText;
             bodyElem.innerHTML = '';
-            closeElem.className = 'laser-burn-effect';
-            closeElem.textContent = 'Cerrar.';
+            closeElem.className = 'laser-burn-effect modal-continue-btn';
+            closeElem.textContent = 'CONTINUAR';
 
             const elementsToAnimate = [titleElem];
 
@@ -1401,7 +1414,7 @@
                 el.classList.remove('active-laser');
                 el.classList.add('revealed');
             }
-            closeElem.className = 'modal-close-btn revealed';
+            closeElem.className = 'laser-burn-effect modal-continue-btn revealed';
         }
 
         function triggerCardGlitch(callback) {
@@ -1705,7 +1718,8 @@
                 
                 modalTitle.textContent = '';
                 modalBody.innerHTML = '';
-                modalCloseBtn.className = 'laser-burn-effect';
+                modalCloseBtn.className = 'laser-burn-effect modal-continue-btn';
+                modalCloseBtn.textContent = 'CONTINUAR';
 
                 document.body.classList.remove('blurring-content');
 
@@ -1850,7 +1864,8 @@
                 
                 subModalTitle.textContent = '';
                 subModalBody.innerHTML = '';
-                subModalCloseBtn.className = 'laser-burn-effect';
+                subModalCloseBtn.className = 'laser-burn-effect modal-continue-btn';
+                subModalCloseBtn.textContent = 'CONTINUAR';
 
                 subImg.style.opacity = '0';
                 subImg.src = '04-MHDC.webp';
