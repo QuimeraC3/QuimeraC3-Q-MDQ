@@ -3,12 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="color-scheme" content="dark">
+    <meta name="description" content="MITOLOGÍA DETRÁS DE QUIMERA — Recorrido interactivo por el mito fundacional del Instituto Quimera: 14 módulos narrativos, un minijuego de calibración y el modelo helicoidal del desarrollo del conocimiento.">
+    <meta property="og:title" content="MITOLOGÍA DETRÁS DE QUIMERA · Ecosistema Científico y Académico">
+    <meta property="og:description" content="Recorrido interactivo por el mito fundacional del Instituto Quimera.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="Quimera_MDQ.webp">
     <title>MITOLOGÍA DETRÁS DE QUIMERA &bull; Ecosistema Científico y Académico</title>
-    <link rel="preload" href="Quimera_MDQ.webp" as="image">
-    <link rel="preload" href="Mod_00.webp" as="image">
-    <link rel="preload" href="glitch_01.webp" as="image"><link rel="preload" href="glitch_02.webp" as="image"><link rel="preload" href="glitch_03.webp" as="image"><link rel="preload" href="glitch_04.webp" as="image"><link rel="preload" href="glitch_05.webp" as="image"><link rel="preload" href="glitch_06.webp" as="image"><link rel="preload" href="glitch_07.webp" as="image"><link rel="preload" href="glitch_08.webp" as="image"><link rel="preload" href="glitch_09.webp" as="image"><link rel="preload" href="glitch_10.webp" as="image"><link rel="preload" href="glitch_11.webp" as="image"><link rel="preload" href="glitch_12.webp" as="image"><link rel="preload" href="glitch_13.webp" as="image"><link rel="preload" href="glitch_14.webp" as="image">
-    <link rel="preload" href="01-borrador_T-P.webp" as="image"><link rel="preload" href="02-Teoria-Preg.webp" as="image"><link rel="preload" href="03-HECE.webp" as="image"><link rel="preload" href="04-MHDC.webp" as="image"><link rel="preload" href="ECQ.webp" as="image"><link rel="preload" href="Quimeratrix.webp" as="image">
-    <link rel="preload" href="Mod_01.webp" as="image"><link rel="preload" href="Mod_02.webp" as="image"><link rel="preload" href="Mod_03.webp" as="image"><link rel="preload" href="Mod_04.webp" as="image"><link rel="preload" href="Mod_05.webp" as="image"><link rel="preload" href="Mod_06.webp" as="image"><link rel="preload" href="Mod_07.webp" as="image"><link rel="preload" href="Mod_08.webp" as="image"><link rel="preload" href="Mod_09.webp" as="image"><link rel="preload" href="Mod_10.webp" as="image"><link rel="preload" href="Mod_11.webp" as="image"><link rel="preload" href="Mod_12.webp" as="image"><link rel="preload" href="Mod_13.webp" as="image"><link rel="preload" href="Mod_14.webp" as="image">
+
+    <!-- Precarga crítica (solo imágenes visibles en los primeros 1-2 segundos y en el minijuego obligatorio) -->
+    <link rel="preload" href="Quimera_MDQ.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="Mod_00.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="Mod_01.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="Quimeratrix.webp" as="image" fetchpriority="low">
+    <link rel="preload" href="ECQ.webp" as="image" fetchpriority="low">
+    <!-- El resto se carga bajo demanda a través de background-image CSS y el precargador implícito del navegador -->
 
     <style>
         :root {
@@ -18,7 +28,8 @@
             --card-bg: rgba(15, 23, 42, 0.90); --card-border: rgba(255, 255, 255, 0.15);
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: var(--text-main); line-height: 1.6; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; background-color: #000000; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; color: var(--text-main); line-height: 1.6; min-height: 100vh; min-height: 100dvh; overflow-x: hidden; display: flex; flex-direction: column; background-color: #000000; }
+        .visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
         .crt-scanlines { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 2000; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03)); background-size: 100% 3px, 6px 100%; opacity: 0.65; }
         .crt-screen-effect { position: relative; overflow: hidden; border-radius: 16px; box-shadow: 0 25px 35px -10px rgba(0, 0, 0, 0.6); }
         .crt-screen-effect::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05)); background-size: 100% 3px, 6px 100%; opacity: 0.85; border-radius: inherit; }
@@ -26,7 +37,7 @@
         .modal-scroll-wrapper::-webkit-scrollbar { width: 8px; }
         .modal-scroll-wrapper::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
         .modal-scroll-wrapper::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
-        #bg-layer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: linear-gradient(rgba(15, 23, 42, 0.0), rgba(15, 23, 42, 0.0)), url('Quimera_MDQ.webp'); background-size: cover; background-position: center center; background-attachment: fixed; opacity: 0; transition: opacity 1000ms ease, filter 0.5s ease; }
+        #bg-layer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: url('Quimera_MDQ.webp'); background-size: cover; background-position: center center; background-attachment: fixed; opacity: 0; transition: opacity 1000ms ease, filter 0.5s ease; }
         .blurring-content header, .blurring-content .top-bar, .blurring-content main, .blurring-content footer, .blurring-content #bg-layer { filter: blur(12px); transition: filter 0.5s ease; }
         .cursor-light-glow { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; background: radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.22), rgba(200, 139, 50, 0.12) 45%, transparent 80%); opacity: 0; transition: opacity 1.5s ease; }
         .cursor-light-glow.visible { opacity: 1; }
@@ -46,6 +57,7 @@
         .nav-links a:hover { color: #38bdf8; }
         #audio-toggle, #fullscreen-toggle { display: inline-block; background: rgba(56, 189, 248, 0.22); border: 1px solid rgba(56, 189, 248, 0.45); color: #ffffff; padding: 0.35rem 0.9rem; border-radius: 20px; cursor: pointer; backdrop-filter: blur(6px); box-shadow: 0 0 12px rgba(56, 189, 248, 0.15); transition: opacity 500ms ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
         #audio-toggle:hover, #fullscreen-toggle:hover { background: rgba(56, 189, 248, 0.5); border-color: #38bdf8; box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); color: #ffffff; }
+        #audio-toggle:focus-visible, #fullscreen-toggle:focus-visible { outline: 2px solid #fffbeb; outline-offset: 3px; }
         .laser-burn-effect { opacity: 0; clip-path: inset(0 100% 0 0); position: relative; }
         .laser-burn-effect.active-laser { opacity: 1; animation: hyperLaserReveal 0.6s cubic-bezier(0.15, 1, 0.2, 1) forwards; }
         .laser-burn-effect.revealed { opacity: 1; clip-path: inset(0 0 0 0); }
@@ -67,6 +79,7 @@
         .seq-card { background-color: rgba(0, 0, 0, 0.65); backdrop-filter: blur(1px); border: 1.5px solid #ffffff; border-radius: 12px; padding: clamp(1.5rem, 4vw, 2rem) clamp(1.5rem, 5vw, 3rem); box-shadow: var(--shadow-lg); cursor: pointer; text-align: center; transition: transform 0.3s ease, opacity 0.5s ease; display: none; max-width: 600px; width: 100%; transform: translateY(20px); }
         .seq-card h2 { font-family: Georgia, serif; font-size: clamp(1.2rem, 3.5vw, 1.6rem); color: #ffffff; text-transform: uppercase; min-height: 2.2rem; -webkit-text-stroke: 0.25px #c88b32; }
         .seq-card:hover { transform: translateY(20px) scale(1.05); }
+        .seq-card:focus-visible { outline: 3px solid #38bdf8; outline-offset: 6px; }
         .tv-on-card { animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate; animation-delay: 0s, 0.6s; }
         .tv-off-card { animation: tvTurnOffCard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         @keyframes tvTurnOnCard { 0% { transform: translateY(20px) scale(0, 0); opacity: 0; filter: brightness(10); } 40% { transform: translateY(20px) scale(0.001, 0.005); opacity: 1; filter: brightness(5); } 70% { transform: translateY(20px) scale(1, 0.005); opacity: 1; filter: brightness(2); } 100% { transform: translateY(20px) scale(1, 1); opacity: 1; filter: brightness(1); } }
@@ -90,18 +103,24 @@
         .modal-body { font-size: clamp(1.0rem, 2.5vw, 1.5rem); font-weight: 700; color: #ffffff; line-height: 1.8; margin-bottom: 1rem; white-space: pre-line; min-height: 100px; -webkit-text-stroke: 0.25px rgba(0, 0, 0, 0.4); text-shadow: 0 0 12px rgba(56, 189, 248, 0.6), 0 0 20px rgba(255, 255, 255, 0.4), 1px 1px 3px rgba(0, 0, 0, 0.8); position: relative; z-index: 10; }
         .modal-body a { font-size: clamp(1.0rem, 2.5vw, 1.5rem); color: #f2d132; font-weight: 700; text-decoration: underline; cursor: pointer; transition: color 0.3s; }
         .modal-body a:hover { color: #ffffff; }
+        .inline-action { background: none; border: none; padding: 0; margin: 0; font: inherit; color: #f2d132; font-weight: 700; text-decoration: underline; cursor: pointer; transition: color 0.3s; }
+        .inline-action:hover { color: #ffffff; }
+        .inline-action:focus-visible { outline: 2px solid #38bdf8; outline-offset: 3px; border-radius: 2px; }
         .process-flow { background-color: rgba(15, 118, 110, 0.25); color: #5eead4; border-left: 4px solid var(--primary); padding: 1rem 1.5rem; margin: 1.5rem 0; font-weight: 700; font-size: clamp(1.0rem, 2.5vw, 1.5rem); text-align: center; border-radius: 0 8px 8px 0; }
         .modal-close-wrapper { text-align: center; font-size: clamp(1.0rem, 2.5vw, 1.5rem); font-weight: 700; min-height: 2rem; position: relative; z-index: 10; margin-top: 1.5rem; }
-        .continuar-btn { display: inline-block; background-color: rgba(200, 139, 50, 0.7); border: 1.5px solid var(--accent); border-radius: 6px; padding: 0.5rem 1.8rem; font-family: "OCR A Extended", "Courier New", monospace; font-size: clamp(1.0rem, 2.5vw, 1.5rem); color: #ffffff; font-weight: 700; -webkit-text-stroke: 0.25px #000000; text-shadow: 0 0 10px rgba(0, 0, 0, 0.8); cursor: pointer; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; }
+        .continuar-btn { display: inline-block; background-color: rgba(200, 139, 50, 0.7); border: 1.5px solid var(--accent); border-radius: 6px; padding: 0.5rem 1.8rem; font-family: "OCR A Extended", "Courier New", monospace; font-size: clamp(1.0rem, 2.5vw, 1.5rem); color: #ffffff; font-weight: 700; -webkit-text-stroke: 0.25px #000000; text-shadow: 0 0 10px rgba(0, 0, 0, 0.8); cursor: pointer; text-decoration: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease; -webkit-appearance: none; appearance: none; }
         .continuar-btn:hover { transform: translateY(-3px); background-color: rgba(200, 139, 50, 0.9); box-shadow: 0 6px 20px rgba(200, 139, 50, 0.5); color: #ffffff; }
+        .continuar-btn:focus-visible { outline: 3px solid #38bdf8; outline-offset: 4px; }
         #submodal-img { max-width: 88vw; max-height: 82vh; object-fit: contain; border: 1.5px solid rgba(255, 255, 255, 0.3); border-radius: 8px; box-shadow: 0 0 25px rgba(200, 139, 50, 0.4); opacity: 0; transition: opacity 800ms ease-in-out; display: block; position: relative; z-index: 10; }
-        .submodal-close { position: absolute; top: -45px; right: 0px; color: var(--accent); font-size: clamp(2.2rem, 6vw, 3.2rem); cursor: pointer; font-weight: bold; transition: transform 0.3s, color 0.3s; z-index: 3001; }
+        .submodal-close { position: absolute; top: -45px; right: 0px; background: transparent; border: none; padding: 0; color: var(--accent); font-size: clamp(2.2rem, 6vw, 3.2rem); cursor: pointer; font-weight: bold; transition: transform 0.3s, color 0.3s; z-index: 3001; line-height: 1; font-family: inherit; -webkit-appearance: none; appearance: none; }
         .submodal-close:hover { transform: scale(1.2); color: #e0a96d; }
+        .submodal-close:focus-visible { outline: 3px solid #38bdf8; outline-offset: 4px; border-radius: 4px; }
         .cal-concept-box { background: rgba(0, 0, 0, 0.85); border: 2px solid rgba(200, 139, 50, 0.6); border-radius: 8px; padding: 0.5rem 1.2rem; font-family: monospace; font-size: clamp(0.9rem, 2vw, 1.1rem); font-weight: bold; color: var(--accent); cursor: grab; user-select: none; transition: all 0.2s ease; box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9); }
         .cal-concept-box:active { cursor: grabbing; }
         .cal-concept-box:hover:not(.used) { border-color: #38bdf8; transform: translateY(-2px); box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
         .cal-concept-box.selected { border-color: #38bdf8; background: rgba(56, 189, 248, 0.3); color: #ffffff; box-shadow: 0 0 15px #38bdf8; }
         .cal-concept-box.used { opacity: 0.3; cursor: not-allowed; border-color: rgba(255, 255, 255, 0.1); }
+        .cal-concept-box:focus-visible, .cal-target-slot:focus-visible { outline: 3px solid #38bdf8; outline-offset: 4px; }
         .cal-target-slot { min-width: 150px; padding: 0.5rem 1rem; background: rgba(11, 19, 41, 0.9); border: 2px dashed rgba(56, 189, 248, 0.6); border-radius: 8px; display: inline-flex; justify-content: center; align-items: center; font-family: monospace; font-size: clamp(0.9rem, 2vw, 1.1rem); font-weight: bold; color: #ffffff; cursor: pointer; user-select: none; transition: all 0.2s ease; box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9); }
         .cal-target-slot.drag-over { border-color: #22c55e; background: rgba(34, 197, 94, 0.2); }
         .cal-target-slot.filled { border-style: solid; border-color: var(--accent); background: rgba(200, 139, 50, 0.3); color: #fef384; text-shadow: 0 0 10px var(--accent); }
@@ -124,6 +143,21 @@
         .q-portal-vaporize { animation: qPortalVaporize .8s cubic-bezier(.4,0,.2,1) forwards; }
         @keyframes qPortalMaterialize { 0% { opacity: 0; filter: blur(6px) brightness(2.5); transform: scale(.98) translateY(10px); } 100% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1) translateY(0); } }
         @keyframes qPortalVaporize { 0% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1) translateY(0); } 50% { opacity: .6; filter: blur(3px) brightness(2) drop-shadow(0 0 15px #38bdf8); transform: scale(1.02) translateY(-5px); } 100% { opacity: 0; filter: blur(8px) brightness(3); transform: scale(.98) translateY(-15px); letter-spacing: .2em; } }
+        /* Calibration extracted utilities */
+        .cal-intro { text-align: center; font-size: clamp(1.0rem, 7.0vw, 1.5rem); -webkit-text-stroke: 1.0px #000000; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem; }
+        .cal-concepts-section { margin-bottom: 2rem; text-align: center; }
+        .cal-concepts-title { font-size: 1.5rem; color: #38bdf8; -webkit-text-stroke: 1.0px #000000; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700; }
+        .cal-concepts-row { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+        .cal-target-lines { display: flex; flex-direction: column; gap: 1.2rem; max-width: 800px; margin: 0 auto; text-align: left; }
+        .cal-reset-wrapper { margin-top: 2.5rem; text-align: center; }
+        .cal-reset-btn { background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 0.6rem 1.8rem; border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 0 15px rgba(200,139,50,0.6); transition: all 0.3s ease; -webkit-appearance: none; appearance: none; }
+        .cal-reset-btn:hover { background: rgba(0, 0, 0, 0.8); }
+        .cal-reset-btn:focus-visible { outline: 3px solid #38bdf8; outline-offset: 4px; }
+        .cal-status-msg { margin-top: 1rem; text-align: center; color: #38bdf8; font-family: monospace; font-weight: 700; font-size: 2rem; -webkit-text-stroke: 1.0px #000000; min-height: 1.5rem; }
+        .cal-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; background: rgba(11, 19, 41, 0.7); padding: 0.8rem 1.2rem; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.3); }
+        .cal-line-text { color: #ffffff; font-weight: 600; font-size: clamp(0.9rem, 2vw, 1.1rem); flex: 1; min-width: 250px; }
+        .cal-giant-lock-container { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center; }
+        .cal-giant-lock-msg { color: #22c55e; font-family: monospace; font-size: clamp(1.3rem, 2.8vw, 1.8rem); font-weight: bold; margin-top: 2.5rem; text-shadow: 0 0 20px #22c55e; -webkit-text-stroke: 0.5px #000; }
         footer.laser-burn-effect { position: absolute !important; bottom: 0 !important; left: 0 !important; width: 100% !important; padding: 0.5rem 1rem; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); border-top: 1px solid rgba(255, 255, 255, 0.2); text-align: center; color: #ffffff; font-size: clamp(0.7rem, 1.2vw, 0.85rem); z-index: 100; transition: filter 0.5s ease; }
         footer p { color: #e2e8f0; }
         @media (max-width: 900px) {
@@ -137,41 +171,47 @@
             footer.laser-burn-effect { position: relative !important; margin-top: 1.5rem; padding: 1rem; bottom: auto !important; left: auto !important; }
         }
 
-        /* ═══════════════════════════════════════════════════════════
-           BONUS: prefers-reduced-motion — desactiva animaciones infinitas
-           ═══════════════════════════════════════════════════════════ */
+        /* prefers-reduced-motion: desactiva animaciones infinitas */
         @media (prefers-reduced-motion: reduce) {
-            .hologram-mode {
-                animation: none !important;
-                text-shadow: 0 0 12px rgba(56, 189, 248, 0.7), 0 0 20px rgba(15, 118, 110, 0.5), 3px 3px 8px rgba(0, 0, 0, 0.8);
-            }
-            .holo-lock, .q-portal-lock { animation: none !important; }
-            #glitch-img {
-                animation: none !important;
-                filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.8));
-            }
+            .hologram-mode { animation: none !important; text-shadow: 0 0 12px rgba(56, 189, 248, 0.7), 0 0 20px rgba(15, 118, 110, 0.5), 3px 3px 8px rgba(0, 0, 0, 0.8); }
+            .holo-lock { animation: none !important; }
+            .q-portal-lock { animation: none !important; }
+            #glitch-img { animation: none !important; filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.8)); }
             .tv-on { animation: tvTurnOn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
             .tv-on-card { animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards !important; }
         }
+
+        /* Override manual con ?fullmotion — ignora prefers-reduced-motion vía clase en <html> */
+        html.force-full-motion .hologram-mode { animation: hologramNeonGlow 3s ease-in-out infinite alternate !important; }
+        html.force-full-motion .holo-lock { animation: holoFloat 2s ease-in-out infinite alternate !important; }
+        html.force-full-motion .q-portal-lock { animation: qPortalLockFloat 2s ease-in-out infinite alternate !important; }
+        html.force-full-motion #glitch-img { animation: glitchJitter 0.08s infinite steps(2) !important; }
+        html.force-full-motion .tv-on { animation: tvTurnOn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate !important; }
+        html.force-full-motion .tv-on-card { animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate !important; }
     </style>
 </head>
 <body>
+    <noscript>
+        <div style="position: fixed; inset: 0; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; padding: 2rem; text-align: center; z-index: 99999; font-family: sans-serif;">
+            <p>Esta experiencia interactiva requiere JavaScript habilitado para funcionar.</p>
+        </div>
+    </noscript>
 
-    <div class="crt-scanlines"></div>
-    <audio id="bg-music" src="Tango_Futuro_(Lado_B).mp3" loop preload="auto"></audio>
-    <div id="bg-layer"></div>
-    <div class="cursor-light-glow" id="cursor-light-glow"></div>
-    <canvas id="matrix-canvas"></canvas>
-    <canvas id="phrase-canvas"></canvas>
+    <div class="crt-scanlines" aria-hidden="true"></div>
+    <audio id="bg-music" src="Tango_Futuro_(Lado_B).mp3" loop preload="metadata" aria-hidden="true"></audio>
+    <div id="bg-layer" aria-hidden="true"></div>
+    <div class="cursor-light-glow" id="cursor-light-glow" aria-hidden="true"></div>
+    <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+    <canvas id="phrase-canvas" aria-hidden="true"></canvas>
 
-    <div id="glitch-overlay"><img id="glitch-img" src="" alt="Glitch Visual"></div>
-    <div id="intro-overlay"></div>
+    <div id="glitch-overlay" aria-hidden="true"><img id="glitch-img" src="" alt=""></div>
+    <div id="intro-overlay" aria-hidden="true"></div>
 
-    <nav class="top-bar">
+    <nav class="top-bar" aria-label="Navegación principal">
         <div class="top-bar-container">
             <a href="https://quimerac3.github.io/" class="brand-logo laser-burn-effect" id="brand-logo" data-text="QUIMERA - Inicio General"></a>
             <ul class="nav-links">
-                <li><a href="#" id="audio-toggle" class="laser-burn-effect"><span style="color: #ffffff;">🎵</span> Música: OFF</a></li>
+                <li><a href="#" id="audio-toggle" class="laser-burn-effect" aria-pressed="false"><span style="color: #ffffff;" aria-hidden="true">🎵</span> Música: OFF</a></li>
                 <li><a href="#" id="fullscreen-toggle" class="laser-burn-effect">⛶ Pantalla Completa</a></li>
             </ul>
         </div>
@@ -179,47 +219,54 @@
 
     <header>
         <h1 class="laser-burn-effect" id="header-line1-container" data-text="MITOLOGÍA DETRÁS DE"><span id="header-line1">MITOLOGÍA DETRÁS DE</span></h1>
-        <h1 class="arrow-02-text laser-burn-effect" id="word-quimera-container" data-text="QUIMERA">
+        <h2 class="arrow-02-text laser-burn-effect" id="word-quimera-container" data-text="QUIMERA">
             <span id="word-quimera">
                 <span class="quimera-letter" data-index="0">Q</span><span class="quimera-letter" data-index="1">U</span><span class="quimera-letter" data-index="2">I</span><span class="quimera-letter" data-index="3">M</span><span class="quimera-letter" data-index="4">E</span><span class="quimera-letter" data-index="5">R</span><span class="quimera-letter" data-index="6">A</span>
             </span>
-        </h1>
+        </h2>
     </header>
 
-    <main><div id="central-card" class="seq-card"><h2 id="card-title-container" class="laser-burn-effect"><span id="card-title-text"></span></h2></div></main>
+    <main aria-label="Historia interactiva">
+        <div id="central-card" class="seq-card" role="button" tabindex="0" aria-label="Avanzar en la historia">
+            <h2 id="card-title-container" class="laser-burn-effect"><span id="card-title-text"></span></h2>
+        </div>
+    </main>
 
-    <div id="calibration-modal" class="modal-overlay">
+    <div id="calibration-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="calibration-modal-title" aria-hidden="true">
         <div class="modal-window crt-screen-effect" id="calibration-modal-window" style="--modal-bg-img: url('Quimeratrix.webp');">
             <div class="modal-scroll-wrapper" id="cal-scroll-wrapper">
-                <h2 class="modal-title laser-burn-effect revealed">LA CALIBRACIÓN DE "EL CICLO DE QUIMERA"</h2>
-                <div class="modal-body" style="text-align: center; font-size: clamp(1.0rem, 7.0vw, 1.5rem); -webkit-text-stroke: 1.0px #000000; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">Navegante: Arrastra o selecciona un concepto y colócalo en el recuadro correspondiente para calibrar el ciclo del conocimiento.</div>
-                <div style="margin-bottom: 2rem; text-align: center;"><div style="font-size: 1.5rem; color: #38bdf8; -webkit-text-stroke: 1.0px #000000; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700;">CONCEPTOS DISPONIBLES:</div><div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;" id="cal-source-single-row"></div></div>
-                <div style="display: flex; flex-direction: column; gap: 1.2rem; max-width: 800px; margin: 0 auto; text-align: left;" id="cal-target-lines"></div>
-                <div style="margin-top: 2.5rem; text-align: center;" id="cal-reset-container"><button id="cal-btn-reset" style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 0.6rem 1.8rem; border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 0 15px rgba(200,139,50,0.6); transition: all 0.3s ease;">REINICIAR</button></div>
-                <div id="cal-status-msg" style="margin-top: 1rem; text-align: center; color: #38bdf8; font-family: monospace; font-weight: 700; font-size: 2rem; -webkit-text-stroke: 1.0px #000000; min-height: 1.5rem;"></div>
+                <h2 class="modal-title laser-burn-effect revealed" id="calibration-modal-title">LA CALIBRACIÓN DE "EL CICLO DE QUIMERA"</h2>
+                <div class="modal-body cal-intro">Navegante: Arrastra o selecciona un concepto y colócalo en el recuadro correspondiente para calibrar el ciclo del conocimiento.</div>
+                <div class="cal-concepts-section">
+                    <div class="cal-concepts-title">CONCEPTOS DISPONIBLES:</div>
+                    <div class="cal-concepts-row" id="cal-source-single-row"></div>
+                </div>
+                <div class="cal-target-lines" id="cal-target-lines"></div>
+                <div class="cal-reset-wrapper"><button type="button" class="cal-reset-btn" id="cal-btn-reset">REINICIAR</button></div>
+                <div class="cal-status-msg" id="cal-status-msg" role="status" aria-live="polite" aria-atomic="true"></div>
             </div>
         </div>
     </div>
 
-    <div id="main-modal" class="modal-overlay">
+    <div id="main-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
         <div class="modal-window crt-screen-effect" id="modal-window">
             <div class="modal-scroll-wrapper">
                 <h2 class="modal-title laser-burn-effect" id="modal-title"></h2>
                 <div class="modal-body" id="modal-body"></div>
-                <div class="modal-close-wrapper"><div class="laser-burn-effect continuar-btn" id="modal-close-btn">CONTINUAR</div></div>
+                <div class="modal-close-wrapper"><button type="button" class="laser-burn-effect continuar-btn" id="modal-close-btn">CONTINUAR</button></div>
             </div>
         </div>
     </div>
 
-    <div id="sub-modal" class="submodal-overlay">
+    <div id="sub-modal" class="submodal-overlay" role="dialog" aria-modal="true" aria-labelledby="sub-modal-title" aria-hidden="true">
         <div class="submodal-window crt-screen-effect" id="submodal-window-box">
-            <span class="submodal-close" id="submodal-x-btn" onclick="closeSubModal()">&times;</span>
+            <button type="button" class="submodal-close" id="submodal-x-btn" aria-label="Cerrar submodal">&times;</button>
             <img id="submodal-img" src="" alt="Esquema Quimera" style="opacity: 0;">
             <div class="submodal-text-window crt-screen-effect" id="submodal-text-window">
                 <div class="modal-scroll-wrapper">
                     <h2 class="modal-title laser-burn-effect" id="sub-modal-title"></h2>
                     <div class="modal-body" id="sub-modal-body"></div>
-                    <div class="modal-close-wrapper"><div class="laser-burn-effect continuar-btn" id="sub-modal-close-btn">CONTINUAR</div></div>
+                    <div class="modal-close-wrapper"><button type="button" class="laser-burn-effect continuar-btn" id="sub-modal-close-btn">CONTINUAR</button></div>
                 </div>
             </div>
         </div>
@@ -230,20 +277,58 @@
     </footer>
 
     <script>
+        'use strict';
+
         window.addEventListener('pageshow', (event) => { if (event.persisted) window.location.reload(); });
 
         /* ═══════════════════════════════════════════════════════════
-           BONUS: detección de prefers-reduced-motion + override manual
-           Añade ?fullmotion a la URL para forzar la animación completa.
+           Detección reduced-motion + override manual ?fullmotion
            ═══════════════════════════════════════════════════════════ */
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const forceFullMotion = new URLSearchParams(location.search).has('fullmotion');
+        if (forceFullMotion) document.documentElement.classList.add('force-full-motion');
         const useReducedMotion = () => !forceFullMotion && prefersReducedMotion.matches;
-        console.log('[Quimera] useReducedMotion =', useReducedMotion(), '(forceFullMotion =', forceFullMotion, ')');
 
+        /* ═══════════════════════════════════════════════════════════
+           Utilidades de timeouts rastreados (para calibración y cierres)
+           ═══════════════════════════════════════════════════════════ */
+        const calTimeouts = new Set();
+        function calTimeout(fn, ms) {
+            const id = setTimeout(() => {
+                calTimeouts.delete(id);
+                try { fn(); } catch (err) { console.error('[Quimera] calTimeout error:', err); }
+            }, ms);
+            calTimeouts.add(id);
+            return id;
+        }
+        function clearCalTimeouts() {
+            calTimeouts.forEach((id) => clearTimeout(id));
+            calTimeouts.clear();
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           Focus management
+           ═══════════════════════════════════════════════════════════ */
+        let lastFocusedBeforeModal = null;
+        function saveFocus() { lastFocusedBeforeModal = document.activeElement; }
+        function restoreFocus() {
+            if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+                lastFocusedBeforeModal.focus();
+            }
+            lastFocusedBeforeModal = null;
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           Datos
+           ═══════════════════════════════════════════════════════════ */
         const glitchImages = ['glitch_01.webp','glitch_02.webp','glitch_03.webp','glitch_04.webp','glitch_05.webp','glitch_06.webp','glitch_07.webp','glitch_08.webp','glitch_09.webp','glitch_10.webp','glitch_11.webp','glitch_12.webp','glitch_13.webp','glitch_14.webp'];
+
         let mouseX = window.innerWidth / 2; let mouseY = window.innerHeight / 2;
-        document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; document.documentElement.style.setProperty('--mouse-x', `${mouseX}px`); document.documentElement.style.setProperty('--mouse-y', `${mouseY}px`); });
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX; mouseY = e.clientY;
+            document.documentElement.style.setProperty('--mouse-x', `${mouseX}px`);
+            document.documentElement.style.setProperty('--mouse-y', `${mouseY}px`);
+        }, { passive: true });
 
         const storyData = [
             { title: "EL MITO QUE DIO NOMBRE AL INSTITUTO.", bgImage: "Mod_01.webp", content: [
@@ -323,8 +408,8 @@
             ]},
             { title: "EL CICLO DE QUIMERA.", bgImage: "Mod_12.webp", content: [
                 { type: 'p', text: "INVESTIGACIÓN, DOCENCIA, SERVICIO Y DIVULGACIÓN:\nNo constituyen actividades aisladas, ni procesos independientes." },
-                { type: 'p', text: "Derivado del <a onclick=\"startHelicoidalSequence()\">MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO</a> desarrollado por el Dr. Cerezo, los cuatro procesos forman un sistema interdependiente de transformación y retroalimentación que se articula como un ciclo de desarrollo del conocimiento:" },
-                { type: 'flow', text: " <a onclick=\"openSubModal('ECQ.webp')\">EL CICLO DE QUIMERA</a> \nLa INVESTIGACIÓN genera conocimiento.\nLa DOCENCIA transforma conocimiento en capacidad.\nEl SERVICIO transforma la capacidad en experiencia mediante su aplicación en contextos reales.\nLa DIVULGACIÓN transforma el conocimiento especializado enriquecido por la experiencia, en comprensión compartida.\nDe la interacción entre conocimiento, capacidad, experiencia y realidad, emergen nuevas preguntas que impulsan nuevamente a la investigación." },
+                { type: 'p', text: "Derivado del <button type='button' class='inline-action' data-action='helicoidal'>MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO</button> desarrollado por el Dr. Cerezo, los cuatro procesos forman un sistema interdependiente de transformación y retroalimentación que se articula como un ciclo de desarrollo del conocimiento:" },
+                { type: 'flow', text: " <button type='button' class='inline-action' data-action='ecq'>EL CICLO DE QUIMERA</button> \nLa INVESTIGACIÓN genera conocimiento.\nLa DOCENCIA transforma conocimiento en capacidad.\nEl SERVICIO transforma la capacidad en experiencia mediante su aplicación en contextos reales.\nLa DIVULGACIÓN transforma el conocimiento especializado enriquecido por la experiencia, en comprensión compartida.\nDe la interacción entre conocimiento, capacidad, experiencia y realidad, emergen nuevas preguntas que impulsan nuevamente a la investigación." },
                 { type: 'p', text: "Por ello, el ciclo se eleva, conservando lo aprendido:\nTransforma y amplía el conocimiento, sin cerrar el ciclo." }
             ]},
             { title: "LA IDENTIDAD SIMBÓLICA DE QUIMERA.", bgImage: "Mod_13.webp", content: [
@@ -338,6 +423,9 @@
             ]}
         ];
 
+        /* ═══════════════════════════════════════════════════════════
+           Estado global
+           ═══════════════════════════════════════════════════════════ */
         let currentStep = 0;
         const centralCard = document.getElementById('central-card');
         const cardTitleContainer = document.getElementById('card-title-container');
@@ -347,23 +435,52 @@
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
         const modalCloseBtn = document.getElementById('modal-close-btn');
+        const calibrationModal = document.getElementById('calibration-modal');
+        const calibrationModalWindow = document.getElementById('calibration-modal-window');
+        const subModal = document.getElementById('sub-modal');
+        const subModalWindowBox = document.getElementById('submodal-window-box');
+        const subImg = document.getElementById('submodal-img');
+        const subModalTextWindow = document.getElementById('submodal-text-window');
+        const subModalXBtn = document.getElementById('submodal-x-btn');
+        const subModalTitle = document.getElementById('sub-modal-title');
+        const subModalBody = document.getElementById('sub-modal-body');
+        const subModalCloseBtn = document.getElementById('sub-modal-close-btn');
+
         let isModalBusy = false;
         let isCardBusy = true;
+        let isSubModalBusy = false;
+        let helicoidalSequenceRunning = false;
         let matrixInterval = null;
+        let matrixShouldRun = false;
+        let matrixResizeHandler = null;
         let phraseAnimationRunning = false;
+        let phraseResizeHandler = null;
+        let globalColorInterval = null;
 
+        /* ═══════════════════════════════════════════════════════════
+           Matrix rain
+           ═══════════════════════════════════════════════════════════ */
         function startMatrixRain() {
             const canvas = document.getElementById('matrix-canvas');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
-            function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
+            matrixShouldRun = true;
 
             const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZカタカナアアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
             const fontSize = 16;
-            let columns = Math.floor(canvas.width / fontSize);
-            let drops = Array(columns).fill(1);
+            let columns = 0;
+            let drops = [];
+            function syncSize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                columns = Math.floor(canvas.width / fontSize);
+                drops = Array(columns).fill(1);
+            }
+            syncSize();
+
+            if (matrixResizeHandler) window.removeEventListener('resize', matrixResizeHandler);
+            matrixResizeHandler = () => { syncSize(); };
+            window.addEventListener('resize', matrixResizeHandler);
 
             function draw() {
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -379,13 +496,12 @@
             }
 
             if (matrixInterval) clearInterval(matrixInterval);
-            // BONUS: en modo reducido, la lluvia corre 3x más lenta (33→100 ms)
             const intervalMs = useReducedMotion() ? 100 : 33;
             matrixInterval = setInterval(draw, intervalMs);
         }
 
         /* ═══════════════════════════════════════════════════════════
-           ANIMACIÓN DE LA FRASE — con bifurcación reduced-motion
+           Animación de la frase final
            ═══════════════════════════════════════════════════════════ */
         function startPhraseAnimation() {
             if (phraseAnimationRunning) return;
@@ -400,12 +516,10 @@
 
             const quimeraElem = document.getElementById('word-quimera-container');
             const quimeraRect = quimeraElem ? quimeraElem.getBoundingClientRect() : { top: window.innerHeight * 0.4 };
-            // Y exacta: mitad entre el top del viewport (0) y el top de QUIMERA
             const phraseY = quimeraRect.top / 2;
             const phrase = "CÓDIGO FINAL: 17-09-05-19-04-01.";
             const fontSize = Math.min(Math.max(20, window.innerWidth * 0.026), 40);
 
-            /* ───── BONUS: rama reduced-motion (fade-in estático) ───── */
             if (useReducedMotion()) {
                 const drawStaticPhrase = () => {
                     const qr = document.getElementById('word-quimera-container');
@@ -413,10 +527,8 @@
                     const fs = Math.min(Math.max(20, window.innerWidth * 0.026), 40);
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.font = `900 ${fs}px 'Courier New', monospace`;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.shadowBlur = 14;
-                    ctx.shadowColor = '#38bdf8';
+                    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                    ctx.shadowBlur = 14; ctx.shadowColor = '#38bdf8';
                     ctx.fillStyle = '#ffffff';
                     ctx.fillText(phrase, canvas.width / 2, y);
                     ctx.shadowBlur = 0;
@@ -425,21 +537,17 @@
                     ctx.fillText(phrase, canvas.width / 2, y);
                     ctx.globalCompositeOperation = 'source-over';
                 };
-
                 canvas.style.transition = 'none';
                 canvas.style.opacity = '0';
                 drawStaticPhrase();
                 canvas.style.transition = 'opacity 0.8s ease';
                 requestAnimationFrame(() => { canvas.style.opacity = '1'; });
-
-                window.addEventListener('resize', drawStaticPhrase);
+                if (phraseResizeHandler) window.removeEventListener('resize', phraseResizeHandler);
+                phraseResizeHandler = drawStaticPhrase;
+                window.addEventListener('resize', phraseResizeHandler);
                 return;
             }
-            /* ───── Fin rama reduced-motion ───── */
 
-            // ─────────────────────────────────────────────
-            // MODO COMPLETO: partículas convergentes + glitch + onda + holograma
-            // ─────────────────────────────────────────────
             const offCanvas = document.createElement('canvas');
             offCanvas.width = canvas.width; offCanvas.height = canvas.height;
             const offCtx = offCanvas.getContext('2d');
@@ -463,7 +571,6 @@
             const maxParticles = window.innerWidth < 600 ? 2400 : 4500;
             const particleCount = Math.min(targets.length, maxParticles);
             const particles = [];
-
             for (let i = 0; i < particleCount; i++) {
                 const target = targets[i];
                 const mode = Math.random();
@@ -488,7 +595,6 @@
                 const elapsed = now - startTime;
                 ctx.globalCompositeOperation = 'lighter';
                 let arrivedCount = 0;
-
                 for (const p of particles) {
                     const localT = Math.max(0, elapsed - p.delay);
                     const t = Math.min(1, localT / p.duration);
@@ -509,9 +615,7 @@
                     ctx.fillRect(x - sz / 2, y - sz / 2, sz, sz);
                 }
                 ctx.globalCompositeOperation = 'source-over';
-
                 if (!allArrived && arrivedCount / particleCount > 0.92) { allArrived = true; glitchStartTime = now; }
-
                 if (allArrived && !glitchDone) {
                     const gElapsed = now - glitchStartTime;
                     if (gElapsed < GLITCH_DURATION) {
@@ -524,7 +628,6 @@
                         ctx.restore();
                     } else { glitchDone = true; waveStartTime = now; }
                 }
-
                 if (waveStartTime > 0) {
                     const wElapsed = now - waveStartTime;
                     if (wElapsed < WAVE_DURATION) {
@@ -537,7 +640,6 @@
                         ctx.restore();
                     }
                 }
-
                 if (allArrived) {
                     const pulse = 0.55 + 0.45 * Math.sin(now * 0.0028);
                     ctx.save(); ctx.globalCompositeOperation = 'lighter';
@@ -560,10 +662,12 @@
             startMatrixRain();
             const canvas = document.getElementById('matrix-canvas');
             if (canvas) canvas.style.opacity = '1';
-            setTimeout(() => { startPhraseAnimation(); }, 800);
+            setTimeout(() => { try { startPhraseAnimation(); } catch (err) { console.error('[Quimera] phrase animation error:', err); } }, 800);
         }
 
-        let globalColorInterval = null;
+        /* ═══════════════════════════════════════════════════════════
+           Animación final de QUIMERA (colores alternos)
+           ═══════════════════════════════════════════════════════════ */
         function enableFinalHyperlink() {
             const wordContainer = document.getElementById('word-quimera-container');
             const letters = document.querySelectorAll('.quimera-letter');
@@ -571,7 +675,9 @@
             wordContainer.style.opacity = '1';
             wordContainer.style.pointerEvents = 'auto';
             wordContainer.style.cursor = 'pointer';
-            // BONUS: en modo reducido, ciclo de color 3x más lento
+            wordContainer.setAttribute('role', 'link');
+            wordContainer.setAttribute('tabindex', '0');
+            wordContainer.setAttribute('aria-label', 'Ir al portal principal del Ecosistema Quimera');
             const stepTime = useReducedMotion() ? 400 : 120;
 
             function runSequence() {
@@ -589,7 +695,7 @@
             }
             runSequence();
 
-            wordContainer.onclick = () => {
+            const goToPortal = () => {
                 clearTimeout(globalColorInterval);
                 document.body.classList.add('blurring-content');
                 const overlay = document.getElementById('intro-overlay');
@@ -597,8 +703,15 @@
                 overlay.style.opacity = '1';
                 setTimeout(() => { window.location.href = "https://quimerac3.github.io/QuimeraC3-Q/"; }, 1000);
             };
+            wordContainer.onclick = goToPortal;
+            wordContainer.onkeydown = (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToPortal(); }
+            };
         }
 
+        /* ═══════════════════════════════════════════════════════════
+           Card title + modal content
+           ═══════════════════════════════════════════════════════════ */
         async function updateCardTitleLaser(text) {
             cardTitleContainer.classList.remove('revealed');
             cardTitleContainer.classList.add('active-laser');
@@ -609,25 +722,30 @@
         }
 
         async function animateModalContent(titleElem, bodyElem, closeElem, titleText, contentData) {
-            titleElem.textContent = titleText;
-            bodyElem.innerHTML = '';
-            closeElem.className = 'laser-burn-effect continuar-btn';
-            closeElem.textContent = 'CONTINUAR';
-            const elementsToAnimate = [titleElem];
-            for (let block of contentData) {
-                const blockElem = document.createElement(block.type === 'flow' ? 'div' : 'p');
-                if (block.type === 'flow') { blockElem.className = 'process-flow laser-burn-effect'; }
-                else { blockElem.className = 'laser-burn-effect'; blockElem.style.marginBottom = '1rem'; }
-                blockElem.innerHTML = block.text;
-                bodyElem.appendChild(blockElem);
-                elementsToAnimate.push(blockElem);
+            try {
+                titleElem.textContent = titleText;
+                bodyElem.innerHTML = '';
+                closeElem.className = 'laser-burn-effect continuar-btn';
+                closeElem.textContent = 'CONTINUAR';
+                const elementsToAnimate = [titleElem];
+                for (let block of contentData) {
+                    const blockElem = document.createElement(block.type === 'flow' ? 'div' : 'p');
+                    if (block.type === 'flow') { blockElem.className = 'process-flow laser-burn-effect'; }
+                    else { blockElem.className = 'laser-burn-effect'; blockElem.style.marginBottom = '1rem'; }
+                    blockElem.innerHTML = block.text;
+                    bodyElem.appendChild(blockElem);
+                    elementsToAnimate.push(blockElem);
+                }
+                elementsToAnimate.push(closeElem);
+                await new Promise(r => setTimeout(r, 100));
+                for (let el of elementsToAnimate) { el.classList.add('active-laser'); await new Promise(r => setTimeout(r, 250)); }
+                await new Promise(r => setTimeout(r, 600));
+                for (let el of elementsToAnimate) { el.classList.remove('active-laser'); el.classList.add('revealed'); }
+                closeElem.className = 'continuar-btn revealed';
+            } catch (err) {
+                console.error('[Quimera] animateModalContent error:', err);
+                elementsToAnimate?.forEach?.(el => { el.classList.remove('active-laser'); el.classList.add('revealed'); });
             }
-            elementsToAnimate.push(closeElem);
-            await new Promise(r => setTimeout(r, 100));
-            for (let el of elementsToAnimate) { el.classList.add('active-laser'); await new Promise(r => setTimeout(r, 250)); }
-            await new Promise(r => setTimeout(r, 600));
-            for (let el of elementsToAnimate) { el.classList.remove('active-laser'); el.classList.add('revealed'); }
-            closeElem.className = 'continuar-btn revealed';
         }
 
         function triggerCardGlitch(callback) {
@@ -639,11 +757,13 @@
             setTimeout(() => { glitchImg.src = randomGlitch; }, 30);
             setTimeout(() => {
                 glitchOverlay.style.opacity = '0';
-                setTimeout(() => { if (callback) callback(); }, 100);
+                setTimeout(() => { try { if (callback) callback(); } catch (err) { console.error('[Quimera] glitch callback error:', err); } }, 100);
             }, 750);
         }
 
-        /* --- Acertijo calibración --- */
+        /* ═══════════════════════════════════════════════════════════
+           Calibración
+           ═══════════════════════════════════════════════════════════ */
         const availableConcepts = ["SERVICIO", "INVESTIGACIÓN", "DIVULGACIÓN", "DOCENCIA"];
         const calLinesData = [
             { text: "Las ideas aplicadas, generan conocimiento.", correct: "INVESTIGACIÓN" },
@@ -654,33 +774,57 @@
         let calPlaced = [null, null, null, null];
         let calUsed = { "SERVICIO": false, "INVESTIGACIÓN": false, "DIVULGACIÓN": false, "DOCENCIA": false };
         let selectedSourceConcept = null;
-        const calibrationInitialHTML = `
-            <h2 class="modal-title laser-burn-effect revealed">LA CALIBRACIÓN DE "EL CICLO DE QUIMERA"</h2>
-            <div class="modal-body" style="text-align: center; font-size: clamp(1.0rem, 7.0vw, 1.5rem); -webkit-text-stroke: 1.0px #000000; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem;">Navegante: Arrastra o selecciona un concepto y colócalo en el recuadro correspondiente para calibrar el ciclo del conocimiento.</div>
-            <div style="margin-bottom: 2rem; text-align: center;"><div style="font-size: 1.5rem; color: #38bdf8; -webkit-text-stroke: 1.0px #000000; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700;">CONCEPTOS DISPONIBLES:</div><div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;" id="cal-source-single-row"></div></div>
-            <div style="display: flex; flex-direction: column; gap: 1.2rem; max-width: 800px; margin: 0 auto; text-align: left;" id="cal-target-lines"></div>
-            <div style="margin-top: 2.5rem; text-align: center;" id="cal-reset-container"><button id="cal-btn-reset" style="background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(255, 255, 255, 0.3); color: #ffffff; padding: 0.6rem 1.8rem; border-radius: 20px; cursor: pointer; font-size: 1.1rem; font-weight: 600; box-shadow: 0 0 15px rgba(200,139,50,0.6); transition: all 0.3s ease;">REINICIAR</button></div>
-            <div id="cal-status-msg" style="margin-top: 1rem; text-align: center; color: #38bdf8; font-family: monospace; font-weight: 700; font-size: 2rem; -webkit-text-stroke: 1.0px #000000; min-height: 1.5rem;"></div>
-        `;
+
         function openCalibrationModal() {
-            const calModal = document.getElementById('calibration-modal');
-            const calModalWindow = document.getElementById('calibration-modal-window');
-            calModal.classList.add('show');
-            calModalWindow.classList.remove('tv-off', 'q-portal-vaporize');
-            calModalWindow.classList.add('tv-on');
+            saveFocus();
+            calibrationModal.classList.add('show');
+            calibrationModal.setAttribute('aria-hidden', 'false');
+            calibrationModalWindow.classList.remove('tv-off', 'q-portal-vaporize');
+            calibrationModalWindow.classList.add('tv-on');
             initCalibrationPuzzle();
+            setTimeout(() => {
+                const first = document.querySelector('#cal-source-single-row [tabindex="0"]');
+                if (first) first.focus();
+            }, 450);
         }
+
+        function closeCalibrationModal() {
+            clearCalTimeouts();
+            calibrationModalWindow.classList.remove('tv-on');
+            calibrationModalWindow.classList.add('tv-off');
+            calibrationModal.classList.remove('show');
+            calibrationModal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('blurring-content');
+            restoreFocus();
+            setTimeout(() => {
+                calibrationModalWindow.classList.remove('tv-off');
+                initCalibrationPuzzle();
+            }, 400);
+        }
+
         function initCalibrationPuzzle() {
+            clearCalTimeouts();
             const scrollWrapper = document.getElementById('cal-scroll-wrapper');
             scrollWrapper.classList.remove('q-portal-vaporize');
-            scrollWrapper.innerHTML = calibrationInitialHTML;
-            document.getElementById('cal-btn-reset').onclick = () => { initCalibrationPuzzle(); };
+            scrollWrapper.innerHTML = `
+                <h2 class="modal-title laser-burn-effect revealed" id="calibration-modal-title">LA CALIBRACIÓN DE "EL CICLO DE QUIMERA"</h2>
+                <div class="modal-body cal-intro">Navegante: Arrastra o selecciona un concepto y colócalo en el recuadro correspondiente para calibrar el ciclo del conocimiento.</div>
+                <div class="cal-concepts-section">
+                    <div class="cal-concepts-title">CONCEPTOS DISPONIBLES:</div>
+                    <div class="cal-concepts-row" id="cal-source-single-row"></div>
+                </div>
+                <div class="cal-target-lines" id="cal-target-lines"></div>
+                <div class="cal-reset-wrapper"><button type="button" class="cal-reset-btn" id="cal-btn-reset">REINICIAR</button></div>
+                <div class="cal-status-msg" id="cal-status-msg" role="status" aria-live="polite" aria-atomic="true"></div>
+            `;
+            document.getElementById('cal-btn-reset').addEventListener('click', () => { initCalibrationPuzzle(); });
             calPlaced = [null, null, null, null];
             calUsed = { "SERVICIO": false, "INVESTIGACIÓN": false, "DIVULGACIÓN": false, "DOCENCIA": false };
             selectedSourceConcept = null;
             document.getElementById('cal-status-msg').textContent = "";
             renderCalibrationPuzzle();
         }
+
         function placeConceptInSlot(concept, slotIdx) {
             if (!concept || calPlaced[slotIdx] !== null) return;
             for (let i = 0; i < 4; i++) { if (calPlaced[i] === concept) calPlaced[i] = null; }
@@ -689,11 +833,14 @@
             selectedSourceConcept = null;
             const line = calLinesData[slotIdx];
             const lockElem = document.getElementById(`cal-lock-${slotIdx}`);
-            if (concept === line.correct) { lockElem.classList.add('unlocked'); lockElem.classList.remove('error'); checkCalibrationComplete(); }
-            else {
+            if (concept === line.correct) {
+                lockElem.classList.add('unlocked');
+                lockElem.classList.remove('error');
+                checkCalibrationComplete();
+            } else {
                 lockElem.classList.add('error');
                 document.getElementById('cal-status-msg').textContent = "¡Concepto incorrecto! Intenta de nuevo.";
-                setTimeout(() => {
+                calTimeout(() => {
                     lockElem.classList.remove('error');
                     calPlaced[slotIdx] = null; calUsed[concept] = false;
                     document.getElementById('cal-status-msg').textContent = "";
@@ -702,6 +849,7 @@
             }
             renderCalibrationPuzzle();
         }
+
         function renderCalibrationPuzzle() {
             const container = document.getElementById('cal-source-single-row'); if (!container) return;
             container.innerHTML = '';
@@ -709,23 +857,32 @@
                 const box = document.createElement('div');
                 box.className = 'cal-concept-box' + (calUsed[c] ? ' used' : '') + (selectedSourceConcept === c ? ' selected' : '');
                 box.textContent = `[ ${c} ]`;
-                box.draggable = !calUsed[c];
-                box.ondragstart = (e) => { e.dataTransfer.setData('text/plain', c); };
-                box.onclick = () => { if (!calUsed[c]) { selectedSourceConcept = (selectedSourceConcept === c) ? null : c; renderCalibrationPuzzle(); } };
+                box.setAttribute('role', 'button');
+                box.setAttribute('tabindex', calUsed[c] ? '-1' : '0');
+                box.setAttribute('aria-label', `Seleccionar concepto ${c}`);
+                box.setAttribute('aria-disabled', calUsed[c] ? 'true' : 'false');
+                if (!calUsed[c]) box.draggable = true;
+                box.addEventListener('dragstart', (e) => { if (!calUsed[c]) e.dataTransfer.setData('text/plain', c); });
+                const activate = () => { if (!calUsed[c]) { selectedSourceConcept = (selectedSourceConcept === c) ? null : c; renderCalibrationPuzzle(); } };
+                box.addEventListener('click', activate);
+                box.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && !calUsed[c]) { e.preventDefault(); activate(); } });
                 container.appendChild(box);
             });
             const linesContainer = document.getElementById('cal-target-lines'); if (!linesContainer) return;
             linesContainer.innerHTML = '';
             calLinesData.forEach((line, idx) => {
                 const row = document.createElement('div');
-                row.style.cssText = "display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; background: rgba(11, 19, 41, 0.7); padding: 0.8rem 1.2rem; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.3);";
+                row.className = 'cal-row';
                 const slot = document.createElement('div');
                 slot.className = 'cal-target-slot' + (calPlaced[idx] ? ' filled' : '');
                 slot.textContent = calPlaced[idx] ? `[ ${calPlaced[idx]} ]` : '[ ? ]';
-                slot.ondragover = (e) => { e.preventDefault(); slot.classList.add('drag-over'); };
-                slot.ondragleave = () => { slot.classList.remove('drag-over'); };
-                slot.ondrop = (e) => { e.preventDefault(); slot.classList.remove('drag-over'); const dc = e.dataTransfer.getData('text/plain'); if (dc) placeConceptInSlot(dc, idx); };
-                slot.onclick = () => {
+                slot.setAttribute('role', 'button');
+                slot.setAttribute('tabindex', '0');
+                slot.setAttribute('aria-label', calPlaced[idx] ? `Ranura con ${calPlaced[idx]}. Pulsa para liberar.` : 'Ranura vacía. Pulsa para colocar el concepto seleccionado.');
+                slot.addEventListener('dragover', (e) => { e.preventDefault(); slot.classList.add('drag-over'); });
+                slot.addEventListener('dragleave', () => { slot.classList.remove('drag-over'); });
+                slot.addEventListener('drop', (e) => { e.preventDefault(); slot.classList.remove('drag-over'); const dc = e.dataTransfer.getData('text/plain'); if (dc) placeConceptInSlot(dc, idx); });
+                const activateSlot = () => {
                     if (calPlaced[idx]) {
                         const returned = calPlaced[idx]; calUsed[returned] = false; calPlaced[idx] = null;
                         const lockElem = document.getElementById(`cal-lock-${idx}`);
@@ -734,83 +891,127 @@
                         renderCalibrationPuzzle();
                     } else if (selectedSourceConcept) placeConceptInSlot(selectedSourceConcept, idx);
                 };
+                slot.addEventListener('click', activateSlot);
+                slot.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activateSlot(); } });
                 row.appendChild(slot);
                 const lockContainer = document.createElement('div');
                 lockContainer.id = `cal-lock-${idx}`;
                 lockContainer.className = 'holo-lock' + (calPlaced[idx] === line.correct ? ' unlocked' : '');
+                lockContainer.setAttribute('aria-hidden', 'true');
                 lockContainer.innerHTML = '<div class="holo-shackle"></div><div class="holo-body"></div>';
                 row.appendChild(lockContainer);
                 const textSpan = document.createElement('div');
-                textSpan.style.cssText = "color: #ffffff; font-weight: 600; font-size: clamp(0.9rem, 2vw, 1.1rem); flex: 1; min-width: 250px;";
+                textSpan.className = 'cal-line-text';
                 textSpan.textContent = line.text;
                 row.appendChild(textSpan);
                 linesContainer.appendChild(row);
             });
         }
+
         function checkCalibrationComplete() {
             let allCorrect = true;
             for (let i = 0; i < 4; i++) { if (calPlaced[i] !== calLinesData[i].correct) { allCorrect = false; break; } }
-            if (allCorrect) {
-                document.getElementById('cal-status-msg').textContent = "¡CALIBRACIÓN EXITOSA! ACCEDIENDO A EL CICLO DE QUIMERA...";
-                setTimeout(() => {
-                    const scrollWrapper = document.getElementById('cal-scroll-wrapper');
-                    scrollWrapper.classList.add('q-portal-vaporize');
-                    setTimeout(() => {
-                        scrollWrapper.innerHTML = `
-                            <div id="cal-giant-lock-container" class="q-portal-materialize" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center;">
-                                <div class="q-portal-lock unlocked" id="cal-giant-lock" style="margin: 0 auto;"><div class="q-portal-shackle"></div><div class="q-portal-lock-body"></div></div>
-                                <p style="color: #22c55e; font-family: monospace; font-size: clamp(1.3rem, 2.8vw, 1.8rem); font-weight: bold; margin-top: 2.5rem; text-shadow: 0 0 20px #22c55e; -webkit-text-stroke: 0.5px #000;">¡CICLO CALIBRADO Y CANDADO ABIERTO!</p>
-                                <p style="color: #22c55e; font-family: monospace; font-size: clamp(1.3rem, 2.8vw, 1.8rem); font-weight: bold; margin-top: 2.5rem; text-shadow: 0 0 20px #22c55e; -webkit-text-stroke: 0.5px #000;">¡BIENVENIDOS AL CICLO DE QUIMERA!</p>
-                            </div>`;
-                        scrollWrapper.classList.remove('q-portal-vaporize');
-                        setTimeout(() => {
-                            const calModalWindow = document.getElementById('calibration-modal-window');
-                            calModalWindow.classList.add('q-portal-vaporize');
-                            setTimeout(() => {
-                                const calModal = document.getElementById('calibration-modal');
-                                calModal.classList.remove('show');
-                                calModalWindow.classList.remove('q-portal-vaporize', 'tv-on');
-                                initCalibrationPuzzle();
-                                onCalibrationCompleted();
-                            }, 800);
-                        }, 5000);
-                    }, 800);
-                }, 1000);
-            }
-        }
-        function onCalibrationCompleted() {
-            const data = storyData[11];
-            modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
-            mainModal.classList.add('show');
-            modalWindow.classList.remove('tv-off');
-            modalWindow.classList.add('tv-on');
-            isModalBusy = true;
-            modalBody.style.textAlign = data.align || 'left';
-            animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content).then(() => { isModalBusy = false; });
+            if (!allCorrect) return;
+            document.getElementById('cal-status-msg').textContent = "¡CALIBRACIÓN EXITOSA! ACCEDIENDO A EL CICLO DE QUIMERA...";
+            calTimeout(() => {
+                const scrollWrapper = document.getElementById('cal-scroll-wrapper');
+                scrollWrapper.classList.add('q-portal-vaporize');
+                calTimeout(() => {
+                    scrollWrapper.innerHTML = `
+                        <div class="cal-giant-lock-container q-portal-materialize">
+                            <div class="q-portal-lock unlocked" style="margin: 0 auto;">
+                                <div class="q-portal-shackle"></div>
+                                <div class="q-portal-lock-body"></div>
+                            </div>
+                            <p class="cal-giant-lock-msg">¡CICLO CALIBRADO Y CANDADO ABIERTO!</p>
+                            <p class="cal-giant-lock-msg">¡BIENVENIDOS AL CICLO DE QUIMERA!</p>
+                        </div>`;
+                    scrollWrapper.classList.remove('q-portal-vaporize');
+                    calTimeout(() => {
+                        calibrationModalWindow.classList.add('q-portal-vaporize');
+                        calTimeout(() => {
+                            calibrationModal.classList.remove('show');
+                            calibrationModal.setAttribute('aria-hidden', 'true');
+                            calibrationModalWindow.classList.remove('q-portal-vaporize', 'tv-on');
+                            initCalibrationPuzzle();
+                            onCalibrationCompleted();
+                        }, 800);
+                    }, 5000);
+                }, 800);
+            }, 1000);
         }
 
-        centralCard.addEventListener('click', async () => {
-            if (isCardBusy || isModalBusy) return;
-            document.body.classList.add('blurring-content');
-            triggerCardGlitch(async () => {
-                const data = storyData[currentStep];
-                if (currentStep === 11) { openCalibrationModal(); return; }
+        function onCalibrationCompleted() {
+            try {
+                const data = storyData[11];
                 modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
+                saveFocus();
                 mainModal.classList.add('show');
+                mainModal.setAttribute('aria-hidden', 'false');
                 modalWindow.classList.remove('tv-off');
                 modalWindow.classList.add('tv-on');
                 isModalBusy = true;
                 modalBody.style.textAlign = data.align || 'left';
-                await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
+                animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content).then(() => {
+                    isModalBusy = false;
+                    setTimeout(() => modalCloseBtn.focus(), 50);
+                });
+            } catch (err) {
+                console.error('[Quimera] onCalibrationCompleted error:', err);
                 isModalBusy = false;
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════
+           Card click
+           ═══════════════════════════════════════════════════════════ */
+        function handleCardActivate() {
+            if (isCardBusy || isModalBusy) return;
+            document.body.classList.add('blurring-content');
+            triggerCardGlitch(async () => {
+                try {
+                    const data = storyData[currentStep];
+                    if (currentStep === 11) { openCalibrationModal(); return; }
+                    modalWindow.style.setProperty('--modal-bg-img', `url('${data.bgImage}')`);
+                    saveFocus();
+                    mainModal.classList.add('show');
+                    mainModal.setAttribute('aria-hidden', 'false');
+                    modalWindow.classList.remove('tv-off');
+                    modalWindow.classList.add('tv-on');
+                    isModalBusy = true;
+                    modalBody.style.textAlign = data.align || 'left';
+                    await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
+                    isModalBusy = false;
+                    setTimeout(() => modalCloseBtn.focus(), 50);
+                } catch (err) {
+                    console.error('[Quimera] card activate error:', err);
+                    isModalBusy = false;
+                }
             });
+        }
+
+        centralCard.addEventListener('click', handleCardActivate);
+        centralCard.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleCardActivate(); }
         });
 
+        /* Event delegation for inline action buttons inside modalBody */
+        modalBody.addEventListener('click', (e) => {
+            const btn = e.target.closest('[data-action]');
+            if (!btn) return;
+            if (btn.dataset.action === 'helicoidal') { e.preventDefault(); startHelicoidalSequence(); }
+            if (btn.dataset.action === 'ecq') { e.preventDefault(); openSubModal('ECQ.webp'); }
+        });
+
+        /* ═══════════════════════════════════════════════════════════
+           Modal close
+           ═══════════════════════════════════════════════════════════ */
         const triggerTVClose = () => {
             if (modalWindow.classList.contains('tv-off') || isModalBusy) return;
             modalWindow.classList.remove('tv-on');
             modalWindow.classList.add('tv-off');
             mainModal.classList.remove('show');
+            mainModal.setAttribute('aria-hidden', 'true');
             setTimeout(async () => {
                 modalWindow.classList.remove('tv-off');
                 modalTitle.textContent = '';
@@ -821,81 +1022,97 @@
                 isCardBusy = true;
                 if (currentStep < storyData.length - 1) {
                     currentStep++;
-                    await updateCardTitleLaser(storyData[currentStep].title);
+                    try { await updateCardTitleLaser(storyData[currentStep].title); } catch (err) { console.error(err); }
                     isCardBusy = false;
+                    restoreFocus();
+                    setTimeout(() => centralCard.focus(), 50);
                 } else {
                     centralCard.classList.add('tv-off-card');
                     setTimeout(() => {
                         centralCard.style.display = 'none';
                         enableFinalHyperlink();
                         triggerMatrixAndFadeElements();
+                        setTimeout(() => {
+                            const wq = document.getElementById('word-quimera-container');
+                            if (wq) wq.focus();
+                        }, 500);
                     }, 500);
                 }
             }, 400);
         };
-        modalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); if(!isModalBusy) triggerTVClose(); });
+        modalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); if (!isModalBusy) triggerTVClose(); });
         mainModal.addEventListener('click', (e) => { if (e.target === mainModal && !isModalBusy) triggerTVClose(); });
 
-        /* --- Submodales --- */
-        const subModal = document.getElementById('sub-modal');
-        const subModalWindowBox = document.getElementById('submodal-window-box');
-        const subImg = document.getElementById('submodal-img');
-        const subModalTextWindow = document.getElementById('submodal-text-window');
-        const subModalXBtn = document.getElementById('submodal-x-btn');
-        const subModalTitle = document.getElementById('sub-modal-title');
-        const subModalBody = document.getElementById('sub-modal-body');
-        const subModalCloseBtn = document.getElementById('sub-modal-close-btn');
-        let isSubModalBusy = false;
-        let helicoidalSequenceRunning = false;
-
+        /* ═══════════════════════════════════════════════════════════
+           Submodales
+           ═══════════════════════════════════════════════════════════ */
         window.openSubModal = (imgSrc) => {
             helicoidalSequenceRunning = false;
+            saveFocus();
             subModalTextWindow.style.display = 'none';
-            subImg.style.display = 'block'; subModalXBtn.style.display = 'block';
+            subImg.style.display = 'block';
+            subModalXBtn.style.display = 'block';
             subModalWindowBox.classList.remove('tv-off', 'tv-on');
-            subImg.style.opacity = '0'; subImg.src = imgSrc;
+            subImg.style.opacity = '0';
+            subImg.src = imgSrc;
             subModal.classList.add('show');
+            subModal.setAttribute('aria-hidden', 'false');
             document.body.classList.add('blurring-content');
             if (imgSrc === 'ECQ.webp') subModalWindowBox.classList.add('ecq-clean-mode');
             else subModalWindowBox.classList.remove('ecq-clean-mode');
             subModalWindowBox.classList.add('tv-on');
             const triggerFadeIn = () => { setTimeout(() => { subImg.style.opacity = '1'; }, 100); };
             if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
+            setTimeout(() => subModalXBtn.focus(), 450);
         };
 
         window.startHelicoidalSequence = async () => {
-            helicoidalSequenceRunning = true;
-            subModalTextWindow.style.display = 'none';
-            subImg.style.display = 'block'; subModalXBtn.style.display = 'block';
-            subModalWindowBox.classList.remove('tv-off', 'tv-on');
-            subModal.classList.add('show');
-            document.body.classList.add('blurring-content');
-            subModalWindowBox.classList.remove('ecq-clean-mode');
-            subModalWindowBox.classList.add('tv-on');
-            const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
-            for (let i = 0; i < images.length; i++) {
-                if (!helicoidalSequenceRunning) return;
-                subImg.style.opacity = '0';
-                await new Promise(r => setTimeout(r, 600));
-                if (!helicoidalSequenceRunning) return;
-                subImg.src = images[i];
-                await new Promise(resolve => { if (subImg.complete) resolve(); else subImg.onload = resolve; });
-                if (!helicoidalSequenceRunning) return;
-                subImg.style.opacity = '1';
-                await new Promise(r => setTimeout(r, 2000));
-                if (!helicoidalSequenceRunning) return;
-                if (i === images.length - 1) {
+            try {
+                helicoidalSequenceRunning = true;
+                saveFocus();
+                subModalTextWindow.style.display = 'none';
+                subImg.style.display = 'block';
+                subModalXBtn.style.display = 'block';
+                subModalWindowBox.classList.remove('tv-off', 'tv-on');
+                subModal.classList.add('show');
+                subModal.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('blurring-content');
+                subModalWindowBox.classList.remove('ecq-clean-mode');
+                subModalWindowBox.classList.add('tv-on');
+                setTimeout(() => subModalXBtn.focus(), 450);
+                const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
+                for (let i = 0; i < images.length; i++) {
+                    if (!helicoidalSequenceRunning) return;
                     subImg.style.opacity = '0';
                     await new Promise(r => setTimeout(r, 600));
                     if (!helicoidalSequenceRunning) return;
-                    showHelicoidalTextWindow();
-                    return;
+                    subImg.src = images[i];
+                    await new Promise(resolve => {
+                        const done = () => { subImg.onload = null; subImg.onerror = null; resolve(); };
+                        if (subImg.complete && subImg.naturalWidth > 0) { done(); }
+                        else { subImg.onload = done; subImg.onerror = done; }
+                    });
+                    if (!helicoidalSequenceRunning) return;
+                    subImg.style.opacity = '1';
+                    await new Promise(r => setTimeout(r, 2000));
+                    if (!helicoidalSequenceRunning) return;
+                    if (i === images.length - 1) {
+                        subImg.style.opacity = '0';
+                        await new Promise(r => setTimeout(r, 600));
+                        if (!helicoidalSequenceRunning) return;
+                        showHelicoidalTextWindow();
+                        return;
+                    }
                 }
+            } catch (err) {
+                console.error('[Quimera] helicoidal sequence error:', err);
+                helicoidalSequenceRunning = false;
             }
         };
 
         const showHelicoidalTextWindow = async () => {
-            subImg.style.display = 'none'; subModalXBtn.style.display = 'none';
+            subImg.style.display = 'none';
+            subModalXBtn.style.display = 'none';
             subModalTextWindow.style.display = 'block';
             subModalTextWindow.classList.remove('tv-off');
             subModalTextWindow.classList.add('tv-on');
@@ -910,6 +1127,7 @@
             const formattedContent = paragraphs.map(text => ({ type: 'p', text: text }));
             await animateModalContent(subModalTitle, subModalBody, subModalCloseBtn, "MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO.", formattedContent);
             isSubModalBusy = false;
+            setTimeout(() => subModalCloseBtn.focus(), 50);
         };
 
         const triggerHelicoidalTextClose = () => {
@@ -923,18 +1141,24 @@
                 subModalBody.innerHTML = '';
                 subModalCloseBtn.className = 'laser-burn-effect continuar-btn';
                 subModalCloseBtn.textContent = 'CONTINUAR';
-                subImg.style.opacity = '0'; subImg.src = '04-MHDC.webp';
-                subImg.style.display = 'block'; subModalXBtn.style.display = 'block';
+                subImg.style.opacity = '0';
+                subImg.src = '04-MHDC.webp';
+                subImg.style.display = 'block';
+                subModalXBtn.style.display = 'block';
                 setTimeout(() => { subImg.style.opacity = '1'; }, 50);
+                setTimeout(() => subModalXBtn.focus(), 100);
             }, 500);
         };
         subModalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); if (!isSubModalBusy) triggerHelicoidalTextClose(); });
+        subModalXBtn.addEventListener('click', () => { closeSubModal(); });
 
         window.closeSubModal = () => {
-            helicoidalSequenceRunning = false; isSubModalBusy = false;
+            helicoidalSequenceRunning = false;
+            isSubModalBusy = false;
             subModalWindowBox.classList.remove('tv-on', 'ecq-clean-mode');
             subModalWindowBox.classList.add('tv-off');
             subModal.classList.remove('show');
+            subModal.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('blurring-content');
             subImg.style.opacity = '0';
             setTimeout(() => {
@@ -942,92 +1166,178 @@
                 subModalTextWindow.style.display = 'none';
                 subModalTextWindow.classList.remove('tv-off', 'tv-on');
             }, 500);
+            restoreFocus();
         };
         subModal.addEventListener('click', (e) => {
-            e.target === subModal && (subModalTextWindow.style.display === 'block' ? (!isSubModalBusy && triggerHelicoidalTextClose()) : closeSubModal());
+            if (e.target !== subModal) return;
+            if (subModalTextWindow.style.display === 'block') {
+                if (!isSubModalBusy) triggerHelicoidalTextClose();
+            } else {
+                closeSubModal();
+            }
         });
 
-        /* --- Controles top-bar --- */
+        /* ═══════════════════════════════════════════════════════════
+           Escape global
+           ═══════════════════════════════════════════════════════════ */
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            if (subModal.classList.contains('show')) {
+                if (subModalTextWindow.style.display === 'block') { if (!isSubModalBusy) triggerHelicoidalTextClose(); }
+                else closeSubModal();
+                return;
+            }
+            if (calibrationModal.classList.contains('show') && !isModalBusy) {
+                closeCalibrationModal();
+                return;
+            }
+            if (mainModal.classList.contains('show') && !isModalBusy) {
+                triggerTVClose();
+            }
+        });
+
+        /* ═══════════════════════════════════════════════════════════
+           Audio / Fullscreen
+           ═══════════════════════════════════════════════════════════ */
         const music = document.getElementById('bg-music');
         const audioToggle = document.getElementById('audio-toggle');
         let isMusicPlaying = false;
-        audioToggle.addEventListener('click', (e) => {
+
+        audioToggle.addEventListener('click', async (e) => {
             e.preventDefault();
-            if (isMusicPlaying) { music.pause(); audioToggle.innerHTML = '<span style="color: #ffffff;">🎵</span> Música: OFF'; isMusicPlaying = false; }
-            else { music.play().then(() => { audioToggle.innerHTML = '<span style="color: #ffffff;">🎶</span> Música: ON'; isMusicPlaying = true; }).catch(error => console.log("Error de audio:", error)); }
+            if (isMusicPlaying) {
+                music.pause();
+                audioToggle.innerHTML = '<span style="color: #ffffff;" aria-hidden="true">🎵</span> Música: OFF';
+                audioToggle.setAttribute('aria-pressed', 'false');
+                isMusicPlaying = false;
+            } else {
+                try {
+                    await music.play();
+                    audioToggle.innerHTML = '<span style="color: #ffffff;" aria-hidden="true">🎶</span> Música: ON';
+                    audioToggle.setAttribute('aria-pressed', 'true');
+                    isMusicPlaying = true;
+                } catch (error) {
+                    console.warn('[Quimera] No se pudo reproducir audio:', error);
+                    audioToggle.innerHTML = '<span style="color: #ffffff;" aria-hidden="true">🎵</span> Música: OFF';
+                    audioToggle.setAttribute('aria-pressed', 'false');
+                    isMusicPlaying = false;
+                }
+            }
         });
+        music.addEventListener('error', () => {
+            console.warn('[Quimera] Error al cargar el archivo de audio.');
+            isMusicPlaying = false;
+            audioToggle.innerHTML = '<span style="color: #ffffff;" aria-hidden="true">🎵</span> Música: OFF';
+            audioToggle.setAttribute('aria-pressed', 'false');
+        });
+
         const fullscreenToggle = document.getElementById('fullscreen-toggle');
         fullscreenToggle.addEventListener('click', (e) => {
             e.preventDefault();
-            if (!document.fullscreenElement) { document.documentElement.requestFullscreen().then(() => { fullscreenToggle.textContent = '❌ Salir Pantalla Completa'; }).catch(err => console.log("Error Fullscreen:", err)); }
-            else { document.exitFullscreen().then(() => { fullscreenToggle.textContent = '⛶ Pantalla Completa'; }); }
+            if (!document.fullscreenElement) {
+                const req = document.documentElement.requestFullscreen
+                    || document.documentElement.webkitRequestFullscreen
+                    || document.documentElement.msRequestFullscreen;
+                if (req) {
+                    Promise.resolve(req.call(document.documentElement))
+                        .then(() => { fullscreenToggle.textContent = '❌ Salir Pantalla Completa'; })
+                        .catch(err => console.warn('[Quimera] Fullscreen error:', err));
+                }
+            } else {
+                const exit = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+                if (exit) {
+                    Promise.resolve(exit.call(document))
+                        .then(() => { fullscreenToggle.textContent = '⛶ Pantalla Completa'; })
+                        .catch(err => console.warn('[Quimera] Exit fullscreen error:', err));
+                }
+            }
         });
         document.addEventListener('fullscreenchange', () => {
             fullscreenToggle.textContent = !document.fullscreenElement ? '⛶ Pantalla Completa' : '❌ Salir Pantalla Completa';
         });
 
+        /* ═══════════════════════════════════════════════════════════
+           Pausa la animación de Matrix cuando la pestaña está oculta
+           ═══════════════════════════════════════════════════════════ */
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                if (matrixInterval) { clearInterval(matrixInterval); matrixInterval = null; }
+            } else if (matrixShouldRun && !matrixInterval) {
+                startMatrixRain();
+            }
+        });
+
+        /* ═══════════════════════════════════════════════════════════
+           Secuencia de entrada
+           ═══════════════════════════════════════════════════════════ */
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('intro-overlay');
             async function runEntranceSequence() {
-                overlay.style.backgroundColor = '#ffffff';
-                overlay.style.opacity = '1';
-                await new Promise(r => setTimeout(r, 150));
-                overlay.style.backgroundColor = '#000000';
-                await new Promise(r => setTimeout(r, 600));
-                document.getElementById('bg-layer').style.opacity = '1';
-                document.getElementById('cursor-light-glow').classList.add('visible');
-                overlay.style.opacity = '0';
-                await new Promise(r => setTimeout(r, 500));
-                document.querySelector('.top-bar').style.opacity = '1';
-                await new Promise(r => setTimeout(r, 200));
-                const brandLogo = document.querySelector('.brand-logo');
-                brandLogo.textContent = brandLogo.dataset.text;
-                brandLogo.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
-                brandLogo.classList.remove('active-laser');
-                brandLogo.classList.add('revealed', 'hologram-mode');
-                const audioToggleBtn = document.getElementById('audio-toggle');
-                audioToggleBtn.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
-                audioToggleBtn.classList.remove('active-laser');
-                audioToggleBtn.classList.add('revealed', 'hologram-mode');
-                const fullscreenToggleBtn = document.getElementById('fullscreen-toggle');
-                fullscreenToggleBtn.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
-                fullscreenToggleBtn.classList.remove('active-laser');
-                fullscreenToggleBtn.classList.add('revealed', 'hologram-mode');
-                const line1Container = document.getElementById('header-line1-container');
-                line1Container.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
-                line1Container.classList.remove('active-laser');
-                line1Container.classList.add('revealed', 'hologram-mode');
-                const wordQuimeraContainer = document.getElementById('word-quimera-container');
-                wordQuimeraContainer.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
-                wordQuimeraContainer.classList.remove('active-laser');
-                wordQuimeraContainer.classList.add('revealed', 'hologram-mode');
-                centralCard.style.display = 'block';
-                cardTitleText.textContent = '';
-                centralCard.classList.add('tv-on-card');
-                await new Promise(r => setTimeout(r, 400));
-                await updateCardTitleLaser(storyData[0].title);
-                isCardBusy = false;
-                const mainFooter = document.getElementById('main-footer');
-                const footerText = document.getElementById('footer-text');
-                footerText.textContent = footerText.dataset.text.replace('2026', new Date().getFullYear());
-                mainFooter.classList.add('active-laser');
-                await new Promise(r => setTimeout(r, 600));
-                mainFooter.classList.remove('active-laser');
-                mainFooter.classList.add('revealed', 'hologram-mode');
-            }
-            runEntranceSequence();
-            document.brandLogoLink = document.querySelector('.brand-logo');
-            if (document.brandLogoLink) {
-                document.brandLogoLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const overlay = document.getElementById('intro-overlay');
+                try {
                     overlay.style.backgroundColor = '#ffffff';
                     overlay.style.opacity = '1';
+                    await new Promise(r => setTimeout(r, 150));
+                    overlay.style.backgroundColor = '#000000';
+                    await new Promise(r => setTimeout(r, 600));
+                    document.getElementById('bg-layer').style.opacity = '1';
+                    document.getElementById('cursor-light-glow').classList.add('visible');
+                    overlay.style.opacity = '0';
+                    await new Promise(r => setTimeout(r, 500));
+                    document.querySelector('.top-bar').style.opacity = '1';
+                    await new Promise(r => setTimeout(r, 200));
+                    const brandLogo = document.querySelector('.brand-logo');
+                    brandLogo.textContent = brandLogo.dataset.text;
+                    brandLogo.classList.add('active-laser');
+                    await new Promise(r => setTimeout(r, 600));
+                    brandLogo.classList.remove('active-laser');
+                    brandLogo.classList.add('revealed', 'hologram-mode');
+                    const audioToggleBtn = document.getElementById('audio-toggle');
+                    audioToggleBtn.classList.add('active-laser');
+                    await new Promise(r => setTimeout(r, 600));
+                    audioToggleBtn.classList.remove('active-laser');
+                    audioToggleBtn.classList.add('revealed', 'hologram-mode');
+                    const fullscreenToggleBtn = document.getElementById('fullscreen-toggle');
+                    fullscreenToggleBtn.classList.add('active-laser');
+                    await new Promise(r => setTimeout(r, 600));
+                    fullscreenToggleBtn.classList.remove('active-laser');
+                    fullscreenToggleBtn.classList.add('revealed', 'hologram-mode');
+                    const line1Container = document.getElementById('header-line1-container');
+                    line1Container.classList.add('active-laser');
+                    await new Promise(r => setTimeout(r, 600));
+                    line1Container.classList.remove('active-laser');
+                    line1Container.classList.add('revealed', 'hologram-mode');
+                    const wordQuimeraContainer = document.getElementById('word-quimera-container');
+                    wordQuimeraContainer.classList.add('active-laser');
+                    await new Promise(r => setTimeout(r, 600));
+                    wordQuimeraContainer.classList.remove('active-laser');
+                    wordQuimeraContainer.classList.add('revealed', 'hologram-mode');
+                    centralCard.style.display = 'block';
+                    cardTitleText.textContent = '';
+                    centralCard.classList.add('tv-on-card');
+                    await new Promise(r => setTimeout(r, 400));
+                    await updateCardTitleLaser(storyData[0].title);
+                    isCardBusy = false;
+                    setTimeout(() => centralCard.focus(), 50);
+                    const mainFooter = document.getElementById('main-footer');
+                    const footerText = document.getElementById('footer-text');
+                    footerText.textContent = footerText.dataset.text.replace('2026', new Date().getFullYear());
+                    mainFooter.classList.add('active-laser');
+                    await new Promise(r => setTimeout(r, 600));
+                    mainFooter.classList.remove('active-laser');
+                    mainFooter.classList.add('revealed', 'hologram-mode');
+                } catch (err) {
+                    console.error('[Quimera] entrance sequence error:', err);
+                    isCardBusy = false;
+                }
+            }
+            runEntranceSequence();
+            const brandLogoLink = document.querySelector('.brand-logo');
+            if (brandLogoLink) {
+                brandLogoLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const introOverlay = document.getElementById('intro-overlay');
+                    introOverlay.style.backgroundColor = '#ffffff';
+                    introOverlay.style.opacity = '1';
                     setTimeout(() => { window.location.href = "https://quimerac3.github.io/"; }, 1000);
                 });
             }
