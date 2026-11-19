@@ -6,48 +6,21 @@
     <meta name="theme-color" content="#0f172a">
     <meta name="color-scheme" content="dark">
     <meta name="description" content="MITOLOGÍA DETRÁS DE QUIMERA — Recorrido interactivo por el mito fundacional del Instituto Quimera: 14 módulos narrativos, un minijuego de calibración y el modelo helicoidal del desarrollo del conocimiento.">
+    <meta name="robots" content="index,follow">
     <meta property="og:title" content="MITOLOGÍA DETRÁS DE QUIMERA · Ecosistema Científico y Académico">
     <meta property="og:description" content="Recorrido interactivo por el mito fundacional del Instituto Quimera.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="Quimera_MDQ.webp">
     <title>MITOLOGÍA DETRÁS DE QUIMERA &bull; Ecosistema Científico y Académico</title>
 
+    <!-- Favicon: Q dorada sobre fondo oscuro (SVG inline, sin request HTTP) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230f172a'/%3E%3Ctext x='50' y='76' font-family='Georgia,serif' font-size='76' font-weight='bold' fill='%23c88b32' text-anchor='middle'%3EQ%3C/text%3E%3C/svg%3E">
+
+    <!-- Precarga crítica: solo 4 imágenes visibles en los primeros segundos -->
     <link rel="preload" href="Quimera_MDQ.webp" as="image" fetchpriority="high">
     <link rel="preload" href="Mod_00.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_01.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_02.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_03.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_04.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_05.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_06.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_07.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_08.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_09.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_10.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_11.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_12.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_13.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="glitch_14.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="01-borrador_T-P.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="02-Teoria-Preg.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="03-HECE.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="04-MHDC.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="ECQ.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Quimeratrix.webp" as="image" fetchpriority="high">
     <link rel="preload" href="Mod_01.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_02.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_03.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_04.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_05.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_06.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_07.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_08.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_09.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_10.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_11.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_12.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_13.webp" as="image" fetchpriority="high">
-    <link rel="preload" href="Mod_14.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="glitch_01.webp" as="image" fetchpriority="high">
 
     <style>
         :root {
@@ -105,10 +78,13 @@
         #word-quimera { display: inline-block; font-size: clamp(2.5rem, 10vw, 6rem); letter-spacing: 0.1em; line-height: 1.3; -webkit-text-stroke: 1.5px #000000; color: #ffffff; padding-right: 0.15em; }
         .quimera-letter { display: inline-block; color: #ffffff; transition: color 0.4s ease; }
         main { flex: 1; display: flex; align-items: flex-end; justify-content: center; padding: 2rem 2rem 08vh 2rem; z-index: 10; position: relative; transition: filter 0.5s ease; }
-        .seq-card { background-color: rgba(0, 0, 0, 0.65); backdrop-filter: blur(1px); border: 1.5px solid #ffffff; border-radius: 12px; padding: clamp(1.5rem, 4vw, 2rem) clamp(1.5rem, 5vw, 3rem); box-shadow: var(--shadow-lg); cursor: pointer; text-align: center; transition: transform 0.3s ease, opacity 0.5s ease; display: none; max-width: 600px; width: 100%; transform: translateY(20px); }
+        .seq-card { background-color: rgba(0, 0, 0, 0.65); backdrop-filter: blur(1px); border: 1.5px solid #ffffff; border-radius: 12px; padding: clamp(1.5rem, 4vw, 2rem) clamp(1.5rem, 5vw, 3rem); box-shadow: var(--shadow-lg); cursor: pointer; text-align: center; transition: transform 0.3s ease, opacity 0.5s ease; display: none; max-width: 600px; width: 100%; transform: translateY(20px); position: relative; }
         .seq-card h2 { font-family: Georgia, serif; font-size: clamp(1.2rem, 3.5vw, 1.6rem); color: #ffffff; text-transform: uppercase; min-height: 2.2rem; -webkit-text-stroke: 0.25px #c88b32; }
         .seq-card:hover { transform: translateY(20px) scale(1.05); }
         .seq-card:focus-visible { outline: 3px solid #38bdf8; outline-offset: 6px; }
+        /* Indicador de progreso (visual, oculto a lectores de pantalla) */
+        .card-progress { position: absolute; top: 0.5rem; right: 0.9rem; font-family: "Courier New", monospace; font-size: 0.55rem; font-weight: 700; color: rgba(200, 139, 50, 0.85); letter-spacing: 0.2em; text-transform: uppercase; text-shadow: 0 0 6px rgba(0, 0, 0, 0.9); pointer-events: none; opacity: 0; transition: opacity 0.5s ease; }
+        .card-progress.visible { opacity: 1; }
         .tv-on-card { animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate; animation-delay: 0s, 0.6s; }
         .tv-off-card { animation: tvTurnOffCard 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         @keyframes tvTurnOnCard { 0% { transform: translateY(20px) scale(0, 0); opacity: 0; filter: brightness(10); } 40% { transform: translateY(20px) scale(0.001, 0.005); opacity: 1; filter: brightness(5); } 70% { transform: translateY(20px) scale(1, 0.005); opacity: 1; filter: brightness(2); } 100% { transform: translateY(20px) scale(1, 1); opacity: 1; filter: brightness(1); } }
@@ -141,7 +117,6 @@
         .continuar-btn:hover { transform: translateY(-3px); background-color: rgba(200, 139, 50, 0.9); box-shadow: 0 6px 20px rgba(200, 139, 50, 0.5); color: #ffffff; }
         .continuar-btn:focus-visible { outline: 3px solid #38bdf8; outline-offset: 4px; }
         #submodal-img { max-width: 88vw; max-height: 82vh; object-fit: contain; border: 1.5px solid rgba(255, 255, 255, 0.3); border-radius: 8px; box-shadow: 0 0 25px rgba(200, 139, 50, 0.4); opacity: 0; transition: opacity 800ms ease-in-out; display: block; position: relative; z-index: 10; }
-        /* X redesign: inside the box so it escapes overflow:hidden */
         .submodal-close { position: absolute; top: 10px; right: 10px; width: 42px; height: 42px; background: rgba(0, 0, 0, 0.72); border: 1.5px solid rgba(200, 139, 50, 0.75); border-radius: 50%; padding: 0; color: #fffbeb; font-size: 1.6rem; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: transform 0.25s, color 0.25s, background 0.25s, border-color 0.25s; z-index: 3001; line-height: 1; font-family: inherit; -webkit-appearance: none; appearance: none; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); }
         .submodal-close:hover { transform: scale(1.12); color: var(--accent); background: rgba(0, 0, 0, 0.92); border-color: var(--accent); box-shadow: 0 0 22px rgba(200, 139, 50, 0.7); }
         .submodal-close:focus-visible { outline: 3px solid #38bdf8; outline-offset: 4px; }
@@ -234,6 +209,9 @@
     <div id="glitch-overlay" aria-hidden="true"><img id="glitch-img" src="" alt=""></div>
     <div id="intro-overlay" aria-hidden="true"></div>
 
+    <!-- Región accesible para anuncios dinámicos -->
+    <div id="a11y-announcer" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
+
     <nav class="top-bar" aria-label="Navegación principal">
         <div class="top-bar-container">
             <a href="https://quimerac3.github.io/" class="brand-logo laser-burn-effect" id="brand-logo" data-text="QUIMERA - Inicio General"></a>
@@ -255,6 +233,7 @@
 
     <main aria-label="Historia interactiva">
         <div id="central-card" class="seq-card" role="button" tabindex="0" aria-label="Avanzar en la historia">
+            <div id="card-progress" class="card-progress" aria-hidden="true"></div>
             <h2 id="card-title-container" class="laser-burn-effect"><span id="card-title-text"></span></h2>
         </div>
     </main>
@@ -285,7 +264,7 @@
         </div>
     </div>
 
-    <div id="sub-modal" class="submodal-overlay" role="dialog" aria-modal="true" aria-labelledby="sub-modal-title" aria-hidden="true">
+    <div id="sub-modal" class="submodal-overlay" role="dialog" aria-modal="true" aria-labelledby="sub-modal-title" aria-describedby="sub-modal-body" aria-hidden="true">
         <div class="submodal-window crt-screen-effect" id="submodal-window-box">
             <button type="button" class="submodal-close" id="submodal-x-btn" aria-label="Cerrar submodal">&times;</button>
             <img id="submodal-img" src="" alt="Esquema Quimera" style="opacity: 0;">
@@ -313,6 +292,19 @@
         if (forceFullMotion) document.documentElement.classList.add('force-full-motion');
         const useReducedMotion = () => !forceFullMotion && prefersReducedMotion.matches;
 
+        /* ───────────────────────────────────────────────
+           Anunciador accesible (aria-live polite)
+           ─────────────────────────────────────────────── */
+        function announce(message) {
+            const announcer = document.getElementById('a11y-announcer');
+            if (!announcer) return;
+            announcer.textContent = '';
+            setTimeout(() => { announcer.textContent = message; }, 50);
+        }
+
+        /* ───────────────────────────────────────────────
+           Timeouts rastreados (calibración)
+           ─────────────────────────────────────────────── */
         const calTimeouts = new Set();
         function calTimeout(fn, ms) {
             const id = setTimeout(() => {
@@ -327,6 +319,9 @@
             calTimeouts.clear();
         }
 
+        /* ───────────────────────────────────────────────
+           Focus management
+           ─────────────────────────────────────────────── */
         let lastFocusedBeforeModal = null;
         function saveFocus() { lastFocusedBeforeModal = document.activeElement; }
         function restoreFocus() {
@@ -335,6 +330,30 @@
             }
             lastFocusedBeforeModal = null;
         }
+
+        /* ───────────────────────────────────────────────
+           Focus trap global — Tab/Shift+Tab confinados al modal abierto
+           ─────────────────────────────────────────────── */
+        const FOCUSABLE_SELECTOR = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Tab') return;
+            let activeContainer = null;
+            if (subModal.classList.contains('show')) activeContainer = subModal;
+            else if (calibrationModal.classList.contains('show')) activeContainer = calibrationModal;
+            else if (mainModal.classList.contains('show')) activeContainer = mainModal;
+            if (!activeContainer) return;
+            const focusables = Array.from(activeContainer.querySelectorAll(FOCUSABLE_SELECTOR)).filter(el => !el.disabled && el.offsetParent !== null);
+            if (focusables.length === 0) return;
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            if (!activeContainer.contains(document.activeElement)) {
+                e.preventDefault();
+                first.focus();
+                return;
+            }
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        });
 
         const glitchImages = ['glitch_01.webp','glitch_02.webp','glitch_03.webp','glitch_04.webp','glitch_05.webp','glitch_06.webp','glitch_07.webp','glitch_08.webp','glitch_09.webp','glitch_10.webp','glitch_11.webp','glitch_12.webp','glitch_13.webp','glitch_14.webp'];
 
@@ -442,6 +461,7 @@
         const centralCard = document.getElementById('central-card');
         const cardTitleContainer = document.getElementById('card-title-container');
         const cardTitleText = document.getElementById('card-title-text');
+        const cardProgress = document.getElementById('card-progress');
         const mainModal = document.getElementById('main-modal');
         const modalWindow = document.getElementById('modal-window');
         const modalTitle = document.getElementById('modal-title');
@@ -465,56 +485,66 @@
         let matrixInterval = null;
         let matrixShouldRun = false;
         let matrixResizeHandler = null;
+        let matrixDrawFn = null;
+        let matrixColumns = 0;
+        let matrixDrops = [];
         let phraseAnimationRunning = false;
         let phraseResizeHandler = null;
         let globalColorInterval = null;
-        // Nuevo estado: garantiza que prepareMatrixBackground se ejecute una sola vez
         let matrixPrepared = false;
         let finalHyperlinkEnabled = false;
+
+        const MATRIX_FONT_SIZE = 16;
+        const MATRIX_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZカタカナアアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+
+        /* ───────────────────────────────────────────────
+           Matrix rain con drops preservados entre pausas
+           ─────────────────────────────────────────────── */
+        function matrixSyncSize(canvas) {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const newColumns = Math.floor(canvas.width / MATRIX_FONT_SIZE);
+            if (newColumns !== matrixColumns) {
+                matrixColumns = newColumns;
+                matrixDrops = Array(matrixColumns).fill(1);
+            }
+        }
 
         function startMatrixRain() {
             const canvas = document.getElementById('matrix-canvas');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             matrixShouldRun = true;
-
-            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZカタカナアアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-            const fontSize = 16;
-            let columns = 0;
-            let drops = [];
-            function syncSize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                columns = Math.floor(canvas.width / fontSize);
-                drops = Array(columns).fill(1);
-            }
-            syncSize();
+            matrixSyncSize(canvas);
 
             if (matrixResizeHandler) window.removeEventListener('resize', matrixResizeHandler);
-            matrixResizeHandler = () => { syncSize(); };
+            matrixResizeHandler = () => matrixSyncSize(canvas);
             window.addEventListener('resize', matrixResizeHandler);
 
-            function draw() {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.font = fontSize + 'px monospace';
-                for (let i = 0; i < drops.length; i++) {
-                    const x = i * fontSize; const y = drops[i] * fontSize;
-                    ctx.fillStyle = Math.random() > 0.88 ? '#fffbeb' : '#c88b32';
-                    ctx.fillText(chars.charAt(Math.floor(Math.random() * chars.length)), x, y);
-                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                    drops[i]++;
-                }
+            if (!matrixDrawFn) {
+                matrixDrawFn = () => {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.font = MATRIX_FONT_SIZE + 'px monospace';
+                    for (let i = 0; i < matrixDrops.length; i++) {
+                        const x = i * MATRIX_FONT_SIZE;
+                        const y = matrixDrops[i] * MATRIX_FONT_SIZE;
+                        ctx.fillStyle = Math.random() > 0.88 ? '#fffbeb' : '#c88b32';
+                        ctx.fillText(MATRIX_CHARS.charAt(Math.floor(Math.random() * MATRIX_CHARS.length)), x, y);
+                        if (matrixDrops[i] * MATRIX_FONT_SIZE > canvas.height && Math.random() > 0.975) matrixDrops[i] = 0;
+                        matrixDrops[i]++;
+                    }
+                };
             }
 
             if (matrixInterval) clearInterval(matrixInterval);
             const intervalMs = useReducedMotion() ? 100 : 33;
-            matrixInterval = setInterval(draw, intervalMs);
+            matrixInterval = setInterval(matrixDrawFn, intervalMs);
         }
 
-        /* ═══════════════════════════════════════════════════════════
-           Animación de la frase final — 50% más grande + auto-shrink
-           ═══════════════════════════════════════════════════════════ */
+        /* ───────────────────────────────────────────────
+           Frase final — 50% más grande con auto-shrink
+           ─────────────────────────────────────────────── */
         function startPhraseAnimation() {
             if (phraseAnimationRunning) return;
             phraseAnimationRunning = true;
@@ -531,7 +561,6 @@
             const phraseY = quimeraRect.top / 2;
             const phrase = "CÓDIGO FINAL: 17-09-05-19-04-01.";
 
-            /* BONUS: font 50% más grande (30→60px) con auto-shrink para no desbordar */
             function computeFittingFontSize(measureCtx) {
                 let size = Math.min(Math.max(30, window.innerWidth * 0.039), 60);
                 measureCtx.font = `900 ${size}px 'Courier New', monospace`;
@@ -679,11 +708,9 @@
             requestAnimationFrame(draw);
         }
 
-        /* ═══════════════════════════════════════════════════════════
-           NEW: prepareMatrixBackground() — solo Matrix + fades + QUIMERA clickable
-           Se dispara 1s después de abrir el modal 13, o como fallback al cerrarlo.
-           Idempotente via matrixPrepared flag.
-           ═══════════════════════════════════════════════════════════ */
+        /* ───────────────────────────────────────────────
+           prepareMatrixBackground idempotente
+           ─────────────────────────────────────────────── */
         function prepareMatrixBackground() {
             if (matrixPrepared) return;
             matrixPrepared = true;
@@ -693,12 +720,10 @@
             const cursorGlow = document.getElementById('cursor-light-glow');
             if (cursorGlow) cursorGlow.classList.remove('visible');
 
-            // Fadeamos header, topbar y footer. NO centralCard (lo maneja tv-off-card al cerrar).
             [document.getElementById('header-line1-container'), document.querySelector('.top-bar'), document.querySelector('footer')].forEach(el => {
                 if (el) el.classList.add('fade-out-element');
             });
 
-            // Hacemos clicable a QUIMERA YA (queda detrás del modal hasta que éste cierre)
             if (!finalHyperlinkEnabled) {
                 finalHyperlinkEnabled = true;
                 enableFinalHyperlink();
@@ -719,6 +744,7 @@
             wordContainer.setAttribute('role', 'link');
             wordContainer.setAttribute('tabindex', '0');
             wordContainer.setAttribute('aria-label', 'Ir al portal principal del Ecosistema Quimera');
+
             const stepTime = useReducedMotion() ? 400 : 120;
 
             function runSequence() {
@@ -744,28 +770,39 @@
                 overlay.style.opacity = '1';
                 setTimeout(() => { window.location.href = "https://quimerac3.github.io/QuimeraC3-Q/"; }, 1000);
             };
-            wordContainer.onclick = goToPortal;
-            wordContainer.onkeydown = (e) => {
+            wordContainer.addEventListener('click', goToPortal, { once: true });
+            wordContainer.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToPortal(); }
-            };
+            }, { once: true });
+
+            announce('El módulo final ha concluido. Ahora puedes activar el enlace QUIMERA para acceder al portal principal del Ecosistema.');
+        }
+
+        function updateCardProgress() {
+            if (!cardProgress) return;
+            cardProgress.textContent = `Paso ${currentStep + 1} / ${storyData.length}`;
+            cardProgress.classList.add('visible');
         }
 
         async function updateCardTitleLaser(text) {
             cardTitleContainer.classList.remove('revealed');
             cardTitleContainer.classList.add('active-laser');
             cardTitleText.textContent = text;
+            updateCardProgress();
+            centralCard.setAttribute('aria-label', `Avanzar al paso ${currentStep + 1} de ${storyData.length}: ${text}`);
             await new Promise(r => setTimeout(r, 600));
             cardTitleContainer.classList.remove('active-laser');
             cardTitleContainer.classList.add('revealed');
         }
 
         async function animateModalContent(titleElem, bodyElem, closeElem, titleText, contentData) {
+            let elementsToAnimate = null;
             try {
                 titleElem.textContent = titleText;
                 bodyElem.innerHTML = '';
                 closeElem.className = 'laser-burn-effect continuar-btn';
                 closeElem.textContent = 'CONTINUAR';
-                const elementsToAnimate = [titleElem];
+                elementsToAnimate = [titleElem];
                 for (let block of contentData) {
                     const blockElem = document.createElement(block.type === 'flow' ? 'div' : 'p');
                     if (block.type === 'flow') { blockElem.className = 'process-flow laser-burn-effect'; }
@@ -782,7 +819,12 @@
                 closeElem.className = 'continuar-btn revealed';
             } catch (err) {
                 console.error('[Quimera] animateModalContent error:', err);
-                elementsToAnimate?.forEach?.(el => { el.classList.remove('active-laser'); el.classList.add('revealed'); });
+                if (elementsToAnimate) {
+                    elementsToAnimate.forEach(el => { el.classList.remove('active-laser'); el.classList.add('revealed'); });
+                }
+                closeElem.classList.remove('active-laser');
+                closeElem.classList.add('revealed');
+                closeElem.className = 'continuar-btn revealed';
             }
         }
 
@@ -799,6 +841,9 @@
             }, 750);
         }
 
+        /* ───────────────────────────────────────────────
+           Calibración
+           ─────────────────────────────────────────────── */
         const availableConcepts = ["SERVICIO", "INVESTIGACIÓN", "DIVULGACIÓN", "DOCENCIA"];
         const calLinesData = [
             { text: "Las ideas aplicadas, generan conocimiento.", correct: "INVESTIGACIÓN" },
@@ -817,6 +862,7 @@
             calibrationModalWindow.classList.remove('tv-off', 'q-portal-vaporize');
             calibrationModalWindow.classList.add('tv-on');
             initCalibrationPuzzle();
+            announce('Se ha abierto el minijuego de calibración del Ciclo de Quimera.');
             setTimeout(() => {
                 const first = document.querySelector('#cal-source-single-row [tabindex="0"]');
                 if (first) first.focus();
@@ -825,6 +871,7 @@
 
         function closeCalibrationModal() {
             clearCalTimeouts();
+            isModalBusy = false;
             calibrationModalWindow.classList.remove('tv-on');
             calibrationModalWindow.classList.add('tv-off');
             calibrationModal.classList.remove('show');
@@ -875,9 +922,15 @@
             } else {
                 lockElem.classList.add('error');
                 document.getElementById('cal-status-msg').textContent = "¡Concepto incorrecto! Intenta de nuevo.";
+                const capturedConcept = concept;
+                const capturedSlot = slotIdx;
                 calTimeout(() => {
                     lockElem.classList.remove('error');
-                    calPlaced[slotIdx] = null; calUsed[concept] = false;
+                    // Solo limpia si ESTE concepto sigue en ESTE slot (fix de desincronización)
+                    if (calPlaced[capturedSlot] === capturedConcept) {
+                        calPlaced[capturedSlot] = null;
+                        calUsed[capturedConcept] = false;
+                    }
                     document.getElementById('cal-status-msg').textContent = "";
                     renderCalibrationPuzzle();
                 }, 600);
@@ -947,7 +1000,9 @@
             let allCorrect = true;
             for (let i = 0; i < 4; i++) { if (calPlaced[i] !== calLinesData[i].correct) { allCorrect = false; break; } }
             if (!allCorrect) return;
+            isModalBusy = true; // Bloquea ESC durante la animación de éxito
             document.getElementById('cal-status-msg').textContent = "¡CALIBRACIÓN EXITOSA! ACCEDIENDO A EL CICLO DE QUIMERA...";
+            announce('Calibración exitosa. Accediendo al módulo del Ciclo de Quimera.');
             calTimeout(() => {
                 const scrollWrapper = document.getElementById('cal-scroll-wrapper');
                 scrollWrapper.classList.add('q-portal-vaporize');
@@ -987,16 +1042,25 @@
                 modalWindow.classList.add('tv-on');
                 isModalBusy = true;
                 modalBody.style.textAlign = data.align || 'left';
-                animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content).then(() => {
-                    isModalBusy = false;
-                    setTimeout(() => modalCloseBtn.focus(), 50);
-                });
+                announce(`Módulo 12 de 14: ${data.title}`);
+                animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content)
+                    .then(() => {
+                        isModalBusy = false;
+                        setTimeout(() => modalCloseBtn.focus(), 50);
+                    })
+                    .catch((err) => {
+                        console.error('[Quimera] onCalibrationCompleted animation error:', err);
+                        isModalBusy = false;
+                    });
             } catch (err) {
                 console.error('[Quimera] onCalibrationCompleted error:', err);
                 isModalBusy = false;
             }
         }
 
+        /* ───────────────────────────────────────────────
+           Card click
+           ─────────────────────────────────────────────── */
         function handleCardActivate() {
             if (isCardBusy || isModalBusy) return;
             document.body.classList.add('blurring-content');
@@ -1012,8 +1076,8 @@
                     modalWindow.classList.add('tv-on');
                     isModalBusy = true;
                     modalBody.style.textAlign = data.align || 'left';
+                    announce(`Módulo ${currentStep + 1} de ${storyData.length}: ${data.title}`);
 
-                    // BONUS #3a: Si es el último modal, prepara Matrix + QUIMERA clickable 1s después de abrirlo
                     if (currentStep === storyData.length - 1) {
                         setTimeout(prepareMatrixBackground, 1000);
                     }
@@ -1061,14 +1125,12 @@
                     restoreFocus();
                     setTimeout(() => centralCard.focus(), 50);
                 } else {
-                    // ÚLTIMO modal (13) — fallback por si el usuario cerró antes de 1s
                     centralCard.classList.add('tv-off-card');
                     prepareMatrixBackground();
 
                     setTimeout(() => {
                         centralCard.style.display = 'none';
 
-                        // BONUS #3b: frase 1s después de que el modal se cierre
                         setTimeout(() => {
                             try { startPhraseAnimation(); } catch (err) { console.error('[Quimera] phrase animation error:', err); }
                         }, 1000);
@@ -1084,7 +1146,10 @@
         modalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); if (!isModalBusy) triggerTVClose(); });
         mainModal.addEventListener('click', (e) => { if (e.target === mainModal && !isModalBusy) triggerTVClose(); });
 
-        window.openSubModal = (imgSrc) => {
+        /* ───────────────────────────────────────────────
+           Submodales (funciones locales, sin window.X)
+           ─────────────────────────────────────────────── */
+        function openSubModal(imgSrc) {
             helicoidalSequenceRunning = false;
             saveFocus();
             subModalTextWindow.style.display = 'none';
@@ -1096,78 +1161,90 @@
             subModal.classList.add('show');
             subModal.setAttribute('aria-hidden', 'false');
             document.body.classList.add('blurring-content');
-            if (imgSrc === 'ECQ.webp') subModalWindowBox.classList.add('ecq-clean-mode');
-            else subModalWindowBox.classList.remove('ecq-clean-mode');
+            if (imgSrc === 'ECQ.webp') {
+                subModalWindowBox.classList.add('ecq-clean-mode');
+                announce('Se ha abierto el esquema del Ciclo de Quimera.');
+            } else {
+                subModalWindowBox.classList.remove('ecq-clean-mode');
+                announce('Se ha abierto un esquema del Ecosistema Quimera.');
+            }
             subModalWindowBox.classList.add('tv-on');
             const triggerFadeIn = () => { setTimeout(() => { subImg.style.opacity = '1'; }, 100); };
             if (subImg.complete) triggerFadeIn(); else subImg.onload = triggerFadeIn;
             setTimeout(() => subModalXBtn.focus(), 450);
-        };
+        }
 
-        window.startHelicoidalSequence = async () => {
-            try {
-                helicoidalSequenceRunning = true;
-                saveFocus();
-                subModalTextWindow.style.display = 'none';
-                subImg.style.display = 'block';
-                subModalXBtn.style.display = 'block';
-                subModalWindowBox.classList.remove('tv-off', 'tv-on');
-                subModal.classList.add('show');
-                subModal.setAttribute('aria-hidden', 'false');
-                document.body.classList.add('blurring-content');
-                subModalWindowBox.classList.remove('ecq-clean-mode');
-                subModalWindowBox.classList.add('tv-on');
-                setTimeout(() => subModalXBtn.focus(), 450);
-                const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
-                for (let i = 0; i < images.length; i++) {
-                    if (!helicoidalSequenceRunning) return;
-                    subImg.style.opacity = '0';
-                    await new Promise(r => setTimeout(r, 600));
-                    if (!helicoidalSequenceRunning) return;
-                    subImg.src = images[i];
-                    await new Promise(resolve => {
-                        const done = () => { subImg.onload = null; subImg.onerror = null; resolve(); };
-                        if (subImg.complete && subImg.naturalWidth > 0) { done(); }
-                        else { subImg.onload = done; subImg.onerror = done; }
-                    });
-                    if (!helicoidalSequenceRunning) return;
-                    subImg.style.opacity = '1';
-                    await new Promise(r => setTimeout(r, 2000));
-                    if (!helicoidalSequenceRunning) return;
-                    if (i === images.length - 1) {
+        function startHelicoidalSequence() {
+            return (async () => {
+                try {
+                    helicoidalSequenceRunning = true;
+                    saveFocus();
+                    subModalTextWindow.style.display = 'none';
+                    subImg.style.display = 'block';
+                    subModalXBtn.style.display = 'block';
+                    subModalWindowBox.classList.remove('tv-off', 'tv-on');
+                    subModal.classList.add('show');
+                    subModal.setAttribute('aria-hidden', 'false');
+                    document.body.classList.add('blurring-content');
+                    subModalWindowBox.classList.remove('ecq-clean-mode');
+                    subModalWindowBox.classList.add('tv-on');
+                    announce('Reproduciendo la secuencia del Modelo Helicoidal del Desarrollo del Conocimiento.');
+                    setTimeout(() => subModalXBtn.focus(), 450);
+                    const images = ['01-borrador_T-P.webp', '02-Teoria-Preg.webp', '03-HECE.webp', '04-MHDC.webp'];
+                    for (let i = 0; i < images.length; i++) {
+                        if (!helicoidalSequenceRunning) return;
                         subImg.style.opacity = '0';
                         await new Promise(r => setTimeout(r, 600));
                         if (!helicoidalSequenceRunning) return;
-                        showHelicoidalTextWindow();
-                        return;
+                        subImg.src = images[i];
+                        await new Promise(resolve => {
+                            const done = () => { subImg.onload = null; subImg.onerror = null; resolve(); };
+                            if (subImg.complete && subImg.naturalWidth > 0) { done(); }
+                            else { subImg.onload = done; subImg.onerror = done; }
+                        });
+                        if (!helicoidalSequenceRunning) return;
+                        subImg.style.opacity = '1';
+                        await new Promise(r => setTimeout(r, 2000));
+                        if (!helicoidalSequenceRunning) return;
+                        if (i === images.length - 1) {
+                            subImg.style.opacity = '0';
+                            await new Promise(r => setTimeout(r, 600));
+                            if (!helicoidalSequenceRunning) return;
+                            showHelicoidalTextWindow();
+                            return;
+                        }
                     }
+                } catch (err) {
+                    console.error('[Quimera] helicoidal sequence error:', err);
+                    helicoidalSequenceRunning = false;
                 }
-            } catch (err) {
-                console.error('[Quimera] helicoidal sequence error:', err);
-                helicoidalSequenceRunning = false;
-            }
-        };
+            })();
+        }
 
-        const showHelicoidalTextWindow = async () => {
-            subImg.style.display = 'none';
-            // BONUS #1: la X permanece VISIBLE sobre la ventana de texto helicoidal
-            subModalXBtn.style.display = 'block';
-            subModalTextWindow.style.display = 'block';
-            subModalTextWindow.classList.remove('tv-off');
-            subModalTextWindow.classList.add('tv-on');
-            isSubModalBusy = true;
-            const paragraphs = [
-                "Representa el conocimiento como un proceso continuo de transformación. Una teoría o comprensión previa permite interpretar la realidad, pero al enfrentarse con nuevos fenómenos surgen problemas, contradicciones o interrogantes que cuestionan sus límites.",
-                "El análisis permite investigar y construir respuestas; la revisión somete esas respuestas a criterios de rigor, coherencia y evidencia; y la transferencia incorpora el nuevo conocimiento a la comprensión existente.",
-                "Sin embargo, el proceso no termina con la solución. Cada problema resuelto genera nuevas preguntas, y las nuevas preguntas permiten acceder a problemas de mayor complejidad.",
-                "Por ello, el conocimiento no se desarrolla en círculos que regresan al mismo punto, sino mediante una hélice ascendente: cada ciclo conserva, transforma y amplía lo aprendido, conduciendo hacia niveles progresivamente más profundos de comprensión.",
-                "Resolver un problema no es el final del conocimiento; es el comienzo de una pregunta mejor."
-            ];
-            const formattedContent = paragraphs.map(text => ({ type: 'p', text: text }));
-            await animateModalContent(subModalTitle, subModalBody, subModalCloseBtn, "MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO.", formattedContent);
-            isSubModalBusy = false;
-            setTimeout(() => subModalCloseBtn.focus(), 50);
-        };
+        async function showHelicoidalTextWindow() {
+            try {
+                subImg.style.display = 'none';
+                subModalXBtn.style.display = 'block';
+                subModalTextWindow.style.display = 'block';
+                subModalTextWindow.classList.remove('tv-off');
+                subModalTextWindow.classList.add('tv-on');
+                isSubModalBusy = true;
+                const paragraphs = [
+                    "Representa el conocimiento como un proceso continuo de transformación. Una teoría o comprensión previa permite interpretar la realidad, pero al enfrentarse con nuevos fenómenos surgen problemas, contradicciones o interrogantes que cuestionan sus límites.",
+                    "El análisis permite investigar y construir respuestas; la revisión somete esas respuestas a criterios de rigor, coherencia y evidencia; y la transferencia incorpora el nuevo conocimiento a la comprensión existente.",
+                    "Sin embargo, el proceso no termina con la solución. Cada problema resuelto genera nuevas preguntas, y las nuevas preguntas permiten acceder a problemas de mayor complejidad.",
+                    "Por ello, el conocimiento no se desarrolla en círculos que regresan al mismo punto, sino mediante una hélice ascendente: cada ciclo conserva, transforma y amplía lo aprendido, conduciendo hacia niveles progresivamente más profundos de comprensión.",
+                    "Resolver un problema no es el final del conocimiento; es el comienzo de una pregunta mejor."
+                ];
+                const formattedContent = paragraphs.map(text => ({ type: 'p', text }));
+                await animateModalContent(subModalTitle, subModalBody, subModalCloseBtn, "MODELO HELICOIDAL DEL DESARROLLO DEL CONOCIMIENTO.", formattedContent);
+                isSubModalBusy = false;
+                setTimeout(() => subModalCloseBtn.focus(), 50);
+            } catch (err) {
+                console.error('[Quimera] showHelicoidalTextWindow error:', err);
+                isSubModalBusy = false;
+            }
+        }
 
         const triggerHelicoidalTextClose = () => {
             if (subModalTextWindow.classList.contains('tv-off') || isSubModalBusy) return;
@@ -1191,7 +1268,7 @@
         subModalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); if (!isSubModalBusy) triggerHelicoidalTextClose(); });
         subModalXBtn.addEventListener('click', () => { closeSubModal(); });
 
-        window.closeSubModal = () => {
+        function closeSubModal() {
             helicoidalSequenceRunning = false;
             isSubModalBusy = false;
             subModalWindowBox.classList.remove('tv-on', 'ecq-clean-mode');
@@ -1206,7 +1283,7 @@
                 subModalTextWindow.classList.remove('tv-off', 'tv-on');
             }, 500);
             restoreFocus();
-        };
+        }
         subModal.addEventListener('click', (e) => {
             if (e.target !== subModal) return;
             if (subModalTextWindow.style.display === 'block') {
@@ -1232,6 +1309,9 @@
             }
         });
 
+        /* ───────────────────────────────────────────────
+           Audio / Fullscreen
+           ─────────────────────────────────────────────── */
         const music = document.getElementById('bg-music');
         const audioToggle = document.getElementById('audio-toggle');
         let isMusicPlaying = false;
@@ -1297,6 +1377,9 @@
             }
         });
 
+        /* ───────────────────────────────────────────────
+           Secuencia de entrada
+           ─────────────────────────────────────────────── */
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('intro-overlay');
             async function runEntranceSequence() {
