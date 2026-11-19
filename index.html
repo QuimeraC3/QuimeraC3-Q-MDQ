@@ -12,7 +12,6 @@
     <meta property="og:image" content="Quimera_MDQ.webp">
     <title>MITOLOGÍA DETRÁS DE QUIMERA &bull; Ecosistema Científico y Académico</title>
 
-    <!-- Precarga crítica (solo imágenes visibles en los primeros 1-2 segundos y en el minijuego obligatorio) -->
     <link rel="preload" href="Quimera_MDQ.webp" as="image" fetchpriority="high">
     <link rel="preload" href="Mod_00.webp" as="image" fetchpriority="high">
     <link rel="preload" href="glitch_01.webp" as="image" fetchpriority="high">
@@ -49,7 +48,6 @@
     <link rel="preload" href="Mod_12.webp" as="image" fetchpriority="high">
     <link rel="preload" href="Mod_13.webp" as="image" fetchpriority="high">
     <link rel="preload" href="Mod_14.webp" as="image" fetchpriority="high">
-    <!-- El resto se carga bajo demanda a través de background-image CSS y el precargador implícito del navegador -->
 
     <style>
         :root {
@@ -143,9 +141,10 @@
         .continuar-btn:hover { transform: translateY(-3px); background-color: rgba(200, 139, 50, 0.9); box-shadow: 0 6px 20px rgba(200, 139, 50, 0.5); color: #ffffff; }
         .continuar-btn:focus-visible { outline: 3px solid #38bdf8; outline-offset: 4px; }
         #submodal-img { max-width: 88vw; max-height: 82vh; object-fit: contain; border: 1.5px solid rgba(255, 255, 255, 0.3); border-radius: 8px; box-shadow: 0 0 25px rgba(200, 139, 50, 0.4); opacity: 0; transition: opacity 800ms ease-in-out; display: block; position: relative; z-index: 10; }
-        .submodal-close { position: absolute; top: -45px; right: 0px; background: transparent; border: none; padding: 0; color: var(--accent); font-size: clamp(2.2rem, 6vw, 3.2rem); cursor: pointer; font-weight: bold; transition: transform 0.3s, color 0.3s; z-index: 3001; line-height: 1; font-family: inherit; -webkit-appearance: none; appearance: none; }
-        .submodal-close:hover { transform: scale(1.2); color: #e0a96d; }
-        .submodal-close:focus-visible { outline: 3px solid #38bdf8; outline-offset: 4px; border-radius: 4px; }
+        /* X redesign: inside the box so it escapes overflow:hidden */
+        .submodal-close { position: absolute; top: 10px; right: 10px; width: 42px; height: 42px; background: rgba(0, 0, 0, 0.72); border: 1.5px solid rgba(200, 139, 50, 0.75); border-radius: 50%; padding: 0; color: #fffbeb; font-size: 1.6rem; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; transition: transform 0.25s, color 0.25s, background 0.25s, border-color 0.25s; z-index: 3001; line-height: 1; font-family: inherit; -webkit-appearance: none; appearance: none; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7); }
+        .submodal-close:hover { transform: scale(1.12); color: var(--accent); background: rgba(0, 0, 0, 0.92); border-color: var(--accent); box-shadow: 0 0 22px rgba(200, 139, 50, 0.7); }
+        .submodal-close:focus-visible { outline: 3px solid #38bdf8; outline-offset: 4px; }
         .cal-concept-box { background: rgba(0, 0, 0, 0.85); border: 2px solid rgba(200, 139, 50, 0.6); border-radius: 8px; padding: 0.5rem 1.2rem; font-family: monospace; font-size: clamp(0.9rem, 2vw, 1.1rem); font-weight: bold; color: var(--accent); cursor: grab; user-select: none; transition: all 0.2s ease; box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9); }
         .cal-concept-box:active { cursor: grabbing; }
         .cal-concept-box:hover:not(.used) { border-color: #38bdf8; transform: translateY(-2px); box-shadow: 0 0 15px rgba(56, 189, 248, 0.4); }
@@ -174,7 +173,6 @@
         .q-portal-vaporize { animation: qPortalVaporize .8s cubic-bezier(.4,0,.2,1) forwards; }
         @keyframes qPortalMaterialize { 0% { opacity: 0; filter: blur(6px) brightness(2.5); transform: scale(.98) translateY(10px); } 100% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1) translateY(0); } }
         @keyframes qPortalVaporize { 0% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1) translateY(0); } 50% { opacity: .6; filter: blur(3px) brightness(2) drop-shadow(0 0 15px #38bdf8); transform: scale(1.02) translateY(-5px); } 100% { opacity: 0; filter: blur(8px) brightness(3); transform: scale(.98) translateY(-15px); letter-spacing: .2em; } }
-        /* Calibration extracted utilities */
         .cal-intro { text-align: center; font-size: clamp(1.0rem, 7.0vw, 1.5rem); -webkit-text-stroke: 1.0px #000000; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem; }
         .cal-concepts-section { margin-bottom: 2rem; text-align: center; }
         .cal-concepts-title { font-size: 1.5rem; color: #38bdf8; -webkit-text-stroke: 1.0px #000000; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700; }
@@ -198,11 +196,10 @@
             .top-bar-container { flex-direction: column; gap: 0.8rem; }
             .nav-links { justify-content: center; gap: 0.8rem; }
             header { padding: 2rem 1rem 1rem 1rem; }
-            .submodal-close { top: -20px; right: 0px; text-shadow: 0 0 10px #000; }
+            .submodal-close { top: 8px; right: 8px; width: 36px; height: 36px; font-size: 1.35rem; }
             footer.laser-burn-effect { position: relative !important; margin-top: 1.5rem; padding: 1rem; bottom: auto !important; left: auto !important; }
         }
 
-        /* prefers-reduced-motion: desactiva animaciones infinitas */
         @media (prefers-reduced-motion: reduce) {
             .hologram-mode { animation: none !important; text-shadow: 0 0 12px rgba(56, 189, 248, 0.7), 0 0 20px rgba(15, 118, 110, 0.5), 3px 3px 8px rgba(0, 0, 0, 0.8); }
             .holo-lock { animation: none !important; }
@@ -212,7 +209,6 @@
             .tv-on-card { animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards !important; }
         }
 
-        /* Override manual con ?fullmotion — ignora prefers-reduced-motion vía clase en <html> */
         html.force-full-motion .hologram-mode { animation: hologramNeonGlow 3s ease-in-out infinite alternate !important; }
         html.force-full-motion .holo-lock { animation: holoFloat 2s ease-in-out infinite alternate !important; }
         html.force-full-motion .q-portal-lock { animation: qPortalLockFloat 2s ease-in-out infinite alternate !important; }
@@ -312,17 +308,11 @@
 
         window.addEventListener('pageshow', (event) => { if (event.persisted) window.location.reload(); });
 
-        /* ═══════════════════════════════════════════════════════════
-           Detección reduced-motion + override manual ?fullmotion
-           ═══════════════════════════════════════════════════════════ */
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const forceFullMotion = new URLSearchParams(location.search).has('fullmotion');
         if (forceFullMotion) document.documentElement.classList.add('force-full-motion');
         const useReducedMotion = () => !forceFullMotion && prefersReducedMotion.matches;
 
-        /* ═══════════════════════════════════════════════════════════
-           Utilidades de timeouts rastreados (para calibración y cierres)
-           ═══════════════════════════════════════════════════════════ */
         const calTimeouts = new Set();
         function calTimeout(fn, ms) {
             const id = setTimeout(() => {
@@ -337,9 +327,6 @@
             calTimeouts.clear();
         }
 
-        /* ═══════════════════════════════════════════════════════════
-           Focus management
-           ═══════════════════════════════════════════════════════════ */
         let lastFocusedBeforeModal = null;
         function saveFocus() { lastFocusedBeforeModal = document.activeElement; }
         function restoreFocus() {
@@ -349,9 +336,6 @@
             lastFocusedBeforeModal = null;
         }
 
-        /* ═══════════════════════════════════════════════════════════
-           Datos
-           ═══════════════════════════════════════════════════════════ */
         const glitchImages = ['glitch_01.webp','glitch_02.webp','glitch_03.webp','glitch_04.webp','glitch_05.webp','glitch_06.webp','glitch_07.webp','glitch_08.webp','glitch_09.webp','glitch_10.webp','glitch_11.webp','glitch_12.webp','glitch_13.webp','glitch_14.webp'];
 
         let mouseX = window.innerWidth / 2; let mouseY = window.innerHeight / 2;
@@ -454,9 +438,6 @@
             ]}
         ];
 
-        /* ═══════════════════════════════════════════════════════════
-           Estado global
-           ═══════════════════════════════════════════════════════════ */
         let currentStep = 0;
         const centralCard = document.getElementById('central-card');
         const cardTitleContainer = document.getElementById('card-title-container');
@@ -487,10 +468,10 @@
         let phraseAnimationRunning = false;
         let phraseResizeHandler = null;
         let globalColorInterval = null;
+        // Nuevo estado: garantiza que prepareMatrixBackground se ejecute una sola vez
+        let matrixPrepared = false;
+        let finalHyperlinkEnabled = false;
 
-        /* ═══════════════════════════════════════════════════════════
-           Matrix rain
-           ═══════════════════════════════════════════════════════════ */
         function startMatrixRain() {
             const canvas = document.getElementById('matrix-canvas');
             if (!canvas) return;
@@ -532,7 +513,7 @@
         }
 
         /* ═══════════════════════════════════════════════════════════
-           Animación de la frase final
+           Animación de la frase final — 50% más grande + auto-shrink
            ═══════════════════════════════════════════════════════════ */
         function startPhraseAnimation() {
             if (phraseAnimationRunning) return;
@@ -549,17 +530,28 @@
             const quimeraRect = quimeraElem ? quimeraElem.getBoundingClientRect() : { top: window.innerHeight * 0.4 };
             const phraseY = quimeraRect.top / 2;
             const phrase = "CÓDIGO FINAL: 17-09-05-19-04-01.";
-            const fontSize = Math.min(Math.max(20, window.innerWidth * 0.026), 40);
+
+            /* BONUS: font 50% más grande (30→60px) con auto-shrink para no desbordar */
+            function computeFittingFontSize(measureCtx) {
+                let size = Math.min(Math.max(30, window.innerWidth * 0.039), 60);
+                measureCtx.font = `900 ${size}px 'Courier New', monospace`;
+                const measured = measureCtx.measureText(phrase).width;
+                const maxWidth = canvas.width * 0.92;
+                if (measured > maxWidth && measured > 0) {
+                    size = Math.floor(size * (maxWidth / measured));
+                }
+                return size;
+            }
 
             if (useReducedMotion()) {
                 const drawStaticPhrase = () => {
                     const qr = document.getElementById('word-quimera-container');
                     const y = qr ? qr.getBoundingClientRect().top / 2 : window.innerHeight * 0.2;
-                    const fs = Math.min(Math.max(20, window.innerWidth * 0.026), 40);
+                    const fs = computeFittingFontSize(ctx);
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.font = `900 ${fs}px 'Courier New', monospace`;
                     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                    ctx.shadowBlur = 14; ctx.shadowColor = '#38bdf8';
+                    ctx.shadowBlur = 18; ctx.shadowColor = '#38bdf8';
                     ctx.fillStyle = '#ffffff';
                     ctx.fillText(phrase, canvas.width / 2, y);
                     ctx.shadowBlur = 0;
@@ -582,6 +574,7 @@
             const offCanvas = document.createElement('canvas');
             offCanvas.width = canvas.width; offCanvas.height = canvas.height;
             const offCtx = offCanvas.getContext('2d');
+            const fontSize = computeFittingFontSize(offCtx);
             offCtx.font = `900 ${fontSize}px 'Courier New', monospace`;
             offCtx.textAlign = 'center'; offCtx.textBaseline = 'middle';
             offCtx.fillStyle = '#ffffff';
@@ -599,7 +592,7 @@
             if (targets.length === 0) { phraseAnimationRunning = false; return; }
             for (let i = targets.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [targets[i], targets[j]] = [targets[j], targets[i]]; }
 
-            const maxParticles = window.innerWidth < 600 ? 2400 : 4500;
+            const maxParticles = window.innerWidth < 600 ? 2800 : 5200;
             const particleCount = Math.min(targets.length, maxParticles);
             const particles = [];
             for (let i = 0; i < particleCount; i++) {
@@ -611,7 +604,7 @@
                 else { sx = Math.random() * canvas.width; sy = Math.random() * canvas.height; }
                 const roll = Math.random();
                 const colorRGB = roll > 0.72 ? '56, 189, 248' : roll > 0.42 ? '255, 255, 255' : '200, 139, 50';
-                particles.push({ sx, sy, tx: target.x, ty: target.y, delay: Math.random() * 600, duration: 1400 + Math.random() * 800, colorRGB, size: 1.3 + Math.random() * 1.4, trail: Math.random() > 0.5 });
+                particles.push({ sx, sy, tx: target.x, ty: target.y, delay: Math.random() * 600, duration: 1400 + Math.random() * 800, colorRGB, size: 1.4 + Math.random() * 1.6, trail: Math.random() > 0.5 });
             }
 
             canvas.style.transition = 'opacity 0.6s ease';
@@ -650,7 +643,7 @@
                 if (allArrived && !glitchDone) {
                     const gElapsed = now - glitchStartTime;
                     if (gElapsed < GLITCH_DURATION) {
-                        const offset = 4 * (1 - gElapsed / GLITCH_DURATION);
+                        const offset = 5 * (1 - gElapsed / GLITCH_DURATION);
                         ctx.save(); ctx.globalCompositeOperation = 'lighter';
                         ctx.font = `900 ${fontSize}px 'Courier New', monospace`;
                         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -686,19 +679,36 @@
             requestAnimationFrame(draw);
         }
 
-        function triggerMatrixAndFadeElements() {
-            const bgLayer = document.getElementById('bg-layer'); if (bgLayer) bgLayer.style.opacity = '0';
-            const cursorGlow = document.getElementById('cursor-light-glow'); if (cursorGlow) cursorGlow.classList.remove('visible');
-            [document.getElementById('header-line1-container'), document.querySelector('.top-bar'), document.getElementById('central-card'), document.querySelector('footer')].forEach(el => { if (el) el.classList.add('fade-out-element'); });
+        /* ═══════════════════════════════════════════════════════════
+           NEW: prepareMatrixBackground() — solo Matrix + fades + QUIMERA clickable
+           Se dispara 1s después de abrir el modal 13, o como fallback al cerrarlo.
+           Idempotente via matrixPrepared flag.
+           ═══════════════════════════════════════════════════════════ */
+        function prepareMatrixBackground() {
+            if (matrixPrepared) return;
+            matrixPrepared = true;
+
+            const bgLayer = document.getElementById('bg-layer');
+            if (bgLayer) bgLayer.style.opacity = '0';
+            const cursorGlow = document.getElementById('cursor-light-glow');
+            if (cursorGlow) cursorGlow.classList.remove('visible');
+
+            // Fadeamos header, topbar y footer. NO centralCard (lo maneja tv-off-card al cerrar).
+            [document.getElementById('header-line1-container'), document.querySelector('.top-bar'), document.querySelector('footer')].forEach(el => {
+                if (el) el.classList.add('fade-out-element');
+            });
+
+            // Hacemos clicable a QUIMERA YA (queda detrás del modal hasta que éste cierre)
+            if (!finalHyperlinkEnabled) {
+                finalHyperlinkEnabled = true;
+                enableFinalHyperlink();
+            }
+
             startMatrixRain();
             const canvas = document.getElementById('matrix-canvas');
             if (canvas) canvas.style.opacity = '1';
-            setTimeout(() => { try { startPhraseAnimation(); } catch (err) { console.error('[Quimera] phrase animation error:', err); } }, 800);
         }
 
-        /* ═══════════════════════════════════════════════════════════
-           Animación final de QUIMERA (colores alternos)
-           ═══════════════════════════════════════════════════════════ */
         function enableFinalHyperlink() {
             const wordContainer = document.getElementById('word-quimera-container');
             const letters = document.querySelectorAll('.quimera-letter');
@@ -740,9 +750,6 @@
             };
         }
 
-        /* ═══════════════════════════════════════════════════════════
-           Card title + modal content
-           ═══════════════════════════════════════════════════════════ */
         async function updateCardTitleLaser(text) {
             cardTitleContainer.classList.remove('revealed');
             cardTitleContainer.classList.add('active-laser');
@@ -792,9 +799,6 @@
             }, 750);
         }
 
-        /* ═══════════════════════════════════════════════════════════
-           Calibración
-           ═══════════════════════════════════════════════════════════ */
         const availableConcepts = ["SERVICIO", "INVESTIGACIÓN", "DIVULGACIÓN", "DOCENCIA"];
         const calLinesData = [
             { text: "Las ideas aplicadas, generan conocimiento.", correct: "INVESTIGACIÓN" },
@@ -993,9 +997,6 @@
             }
         }
 
-        /* ═══════════════════════════════════════════════════════════
-           Card click
-           ═══════════════════════════════════════════════════════════ */
         function handleCardActivate() {
             if (isCardBusy || isModalBusy) return;
             document.body.classList.add('blurring-content');
@@ -1011,6 +1012,12 @@
                     modalWindow.classList.add('tv-on');
                     isModalBusy = true;
                     modalBody.style.textAlign = data.align || 'left';
+
+                    // BONUS #3a: Si es el último modal, prepara Matrix + QUIMERA clickable 1s después de abrirlo
+                    if (currentStep === storyData.length - 1) {
+                        setTimeout(prepareMatrixBackground, 1000);
+                    }
+
                     await animateModalContent(modalTitle, modalBody, modalCloseBtn, data.title, data.content);
                     isModalBusy = false;
                     setTimeout(() => modalCloseBtn.focus(), 50);
@@ -1026,7 +1033,6 @@
             if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleCardActivate(); }
         });
 
-        /* Event delegation for inline action buttons inside modalBody */
         modalBody.addEventListener('click', (e) => {
             const btn = e.target.closest('[data-action]');
             if (!btn) return;
@@ -1034,9 +1040,6 @@
             if (btn.dataset.action === 'ecq') { e.preventDefault(); openSubModal('ECQ.webp'); }
         });
 
-        /* ═══════════════════════════════════════════════════════════
-           Modal close
-           ═══════════════════════════════════════════════════════════ */
         const triggerTVClose = () => {
             if (modalWindow.classList.contains('tv-off') || isModalBusy) return;
             modalWindow.classList.remove('tv-on');
@@ -1058,11 +1061,18 @@
                     restoreFocus();
                     setTimeout(() => centralCard.focus(), 50);
                 } else {
+                    // ÚLTIMO modal (13) — fallback por si el usuario cerró antes de 1s
                     centralCard.classList.add('tv-off-card');
+                    prepareMatrixBackground();
+
                     setTimeout(() => {
                         centralCard.style.display = 'none';
-                        enableFinalHyperlink();
-                        triggerMatrixAndFadeElements();
+
+                        // BONUS #3b: frase 1s después de que el modal se cierre
+                        setTimeout(() => {
+                            try { startPhraseAnimation(); } catch (err) { console.error('[Quimera] phrase animation error:', err); }
+                        }, 1000);
+
                         setTimeout(() => {
                             const wq = document.getElementById('word-quimera-container');
                             if (wq) wq.focus();
@@ -1074,9 +1084,6 @@
         modalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); if (!isModalBusy) triggerTVClose(); });
         mainModal.addEventListener('click', (e) => { if (e.target === mainModal && !isModalBusy) triggerTVClose(); });
 
-        /* ═══════════════════════════════════════════════════════════
-           Submodales
-           ═══════════════════════════════════════════════════════════ */
         window.openSubModal = (imgSrc) => {
             helicoidalSequenceRunning = false;
             saveFocus();
@@ -1143,7 +1150,8 @@
 
         const showHelicoidalTextWindow = async () => {
             subImg.style.display = 'none';
-            subModalXBtn.style.display = 'none';
+            // BONUS #1: la X permanece VISIBLE sobre la ventana de texto helicoidal
+            subModalXBtn.style.display = 'block';
             subModalTextWindow.style.display = 'block';
             subModalTextWindow.classList.remove('tv-off');
             subModalTextWindow.classList.add('tv-on');
@@ -1208,9 +1216,6 @@
             }
         });
 
-        /* ═══════════════════════════════════════════════════════════
-           Escape global
-           ═══════════════════════════════════════════════════════════ */
         document.addEventListener('keydown', (e) => {
             if (e.key !== 'Escape') return;
             if (subModal.classList.contains('show')) {
@@ -1227,9 +1232,6 @@
             }
         });
 
-        /* ═══════════════════════════════════════════════════════════
-           Audio / Fullscreen
-           ═══════════════════════════════════════════════════════════ */
         const music = document.getElementById('bg-music');
         const audioToggle = document.getElementById('audio-toggle');
         let isMusicPlaying = false;
@@ -1287,9 +1289,6 @@
             fullscreenToggle.textContent = !document.fullscreenElement ? '⛶ Pantalla Completa' : '❌ Salir Pantalla Completa';
         });
 
-        /* ═══════════════════════════════════════════════════════════
-           Pausa la animación de Matrix cuando la pestaña está oculta
-           ═══════════════════════════════════════════════════════════ */
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 if (matrixInterval) { clearInterval(matrixInterval); matrixInterval = null; }
@@ -1298,9 +1297,6 @@
             }
         });
 
-        /* ═══════════════════════════════════════════════════════════
-           Secuencia de entrada
-           ═══════════════════════════════════════════════════════════ */
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('intro-overlay');
             async function runEntranceSequence() {
