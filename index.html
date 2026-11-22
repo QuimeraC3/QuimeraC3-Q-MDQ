@@ -13,10 +13,8 @@
     <meta property="og:image" content="Quimera_MDQ.webp">
     <title>MITOLOGÍA DETRÁS DE QUIMERA &bull; Ecosistema Científico y Académico</title>
 
-    <!-- Favicon institucional basado en el emblema heráldico tradicional -->
     <link rel="icon" type="image/webp" href="Quimera_icon.webp">
 
-    <!-- Precarga crítica: solo 4 imágenes visibles en los primeros segundos -->
     <link rel="preload" href="Quimera_MDQ.webp" as="image" fetchpriority="high">
     <link rel="preload" href="Quimeratrix.webp" as="image" fetchpriority="high">
     <link rel="preload" href="01-borrador_T-P.webp" as="image" fetchpriority="high">
@@ -114,7 +112,6 @@
         .seq-card h2 { font-family: Georgia, serif; font-size: clamp(1.2rem, 3.5vw, 1.6rem); color: #ffffff; text-transform: uppercase; min-height: 2.2rem; -webkit-text-stroke: 0.25px #c88b32; }
         .seq-card:hover { transform: translateY(20px) scale(1.05); }
         .seq-card:focus-visible { outline: 3px solid #38bdf8; outline-offset: 6px; }
-        /* Indicador de progreso (visual, oculto a lectores de pantalla) */
         .card-progress { position: absolute; top: 0.5rem; right: 0.9rem; font-family: "Courier New", monospace; font-size: 0.55rem; font-weight: 700; color: rgba(200, 139, 50, 0.85); letter-spacing: 0.2em; text-transform: uppercase; text-shadow: 0 0 6px rgba(0, 0, 0, 0.9); pointer-events: none; opacity: 0; transition: opacity 0.5s ease; }
         .card-progress.visible { opacity: 1; }
         .tv-on-card { animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate; animation-delay: 0s, 0.6s; }
@@ -161,25 +158,69 @@
         .cal-target-slot { min-width: 150px; padding: 0.5rem 1rem; background: rgba(11, 19, 41, 0.9); border: 2px dashed rgba(56, 189, 248, 0.6); border-radius: 8px; display: inline-flex; justify-content: center; align-items: center; font-family: monospace; font-size: clamp(0.9rem, 2vw, 1.1rem); font-weight: bold; color: #ffffff; cursor: pointer; user-select: none; transition: all 0.2s ease; box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9); }
         .cal-target-slot.drag-over { border-color: #22c55e; background: rgba(34, 197, 94, 0.2); }
         .cal-target-slot.filled { border-style: solid; border-color: var(--accent); background: rgba(200, 139, 50, 0.3); color: #fef384; text-shadow: 0 0 10px var(--accent); }
+
+        /* ─────────────── CANDADOS PEQUEÑOS ─────────────── */
         .holo-lock { width: 45px; height: 55px; position: relative; display: inline-block; vertical-align: middle; animation: holoFloat 2s ease-in-out infinite alternate; }
-        .holo-shackle { position: absolute; top: 0; left: 8px; width: 28px; height: 25px; border: 4px solid #38bdf8; border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom: none; box-shadow: 0 0 15px #38bdf8, inset 0 0 5px #38bdf8; transform-origin: bottom left; transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
+        .holo-shackle {
+            position: absolute; top: 0; left: 8px; width: 28px; height: 25px;
+            border: 4px solid #38bdf8; border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom: none;
+            box-shadow: 0 0 15px #38bdf8, inset 0 0 5px #38bdf8;
+            transform-origin: bottom left;
+            /* transition eliminada — ahora usamos @keyframes shackleOpenProgressive */
+        }
         .holo-body { position: absolute; bottom: 0; width: 45px; height: 35px; background: rgba(56, 189, 248, 0.25); border: 2px solid #38bdf8; border-radius: 8px; box-shadow: 0 0 20px rgba(56, 189, 248, 0.85), inset 0 0 8px rgba(56, 189, 248, 0.6); }
         @keyframes holoFloat { 0% { transform: translateY(0px); filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.7)); } 100% { transform: translateY(-4px); filter: drop-shadow(0 0 15px rgba(56, 189, 248, 1)); } }
-        .holo-lock.unlocked .holo-shackle { transform: rotate(-45deg) translateY(-6px) translateX(-4px); border-color: #22c55e; box-shadow: 0 0 20px #22c55e, inset 0 0 8px #22c55e; }
+
+        /* ─────────────── APERTURA PROGRESIVA — CANDADOS PEQUEÑOS ─────────────── */
+        @keyframes shackleOpenProgressive {
+            0%   { transform: rotate(0deg)    translateY(0)     translateX(0);    border-color: #38bdf8; box-shadow: 0 0 15px #38bdf8, inset 0 0 5px #38bdf8; }
+            15%  { transform: rotate(-3deg)   translateY(-4px)  translateX(-1px); border-color: #38bdf8; box-shadow: 0 0 18px #38bdf8, inset 0 0 6px #38bdf8; }
+            35%  { transform: rotate(-10deg)  translateY(-7px)  translateX(-2px); border-color: #5eebd0; box-shadow: 0 0 20px #5eebd0, inset 0 0 6px #5eebd0; }
+            60%  { transform: rotate(-25deg)  translateY(-9px)  translateX(-3px); border-color: #4ade80; box-shadow: 0 0 22px #4ade80, inset 0 0 7px #4ade80; }
+            85%  { transform: rotate(-42deg)  translateY(-7px)  translateX(-4px); border-color: #22c55e; box-shadow: 0 0 20px #22c55e, inset 0 0 8px #22c55e; }
+            100% { transform: rotate(-45deg)  translateY(-6px)  translateX(-4px); border-color: #22c55e; box-shadow: 0 0 20px #22c55e, inset 0 0 8px #22c55e; }
+        }
+        .holo-lock.unlocked .holo-shackle {
+            animation: shackleOpenProgressive 0.9s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+            transform-origin: bottom left;
+        }
         .holo-lock.unlocked .holo-body { border-color: #22c55e; background: rgba(34, 197, 94, 0.35); box-shadow: 0 0 30px rgba(34, 197, 94, 0.95); }
         .holo-lock.error .holo-shackle { border-color: #ef4444; box-shadow: 0 0 20px #ef4444; animation: lockShake 0.4s ease; }
         .holo-lock.error .holo-body { border-color: #ef4444; background: rgba(239, 68, 68, 0.35); box-shadow: 0 0 30px rgba(239, 68, 68, 0.95); animation: lockShake 0.4s ease; }
         @keyframes lockShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+        /* ─────────────── CANDADO GIGANTE (PORTAL) ─────────────── */
         .q-portal-lock { width: 180px; height: 218px; position: relative; animation: qPortalLockFloat 2s ease-in-out infinite alternate; }
-        .q-portal-shackle { position: absolute; top: 0; left: 33px; width: 114px; height: 102px; border: 11px solid #38bdf8; border-bottom: none; border-radius: 57px 57px 0 0; box-shadow: 0 0 38px #38bdf8, inset 0 0 15px #38bdf8; transform-origin: bottom left; transition: transform .8s cubic-bezier(.23,1,.32,1); }
+        .q-portal-shackle {
+            position: absolute; top: 0; left: 33px; width: 114px; height: 102px;
+            border: 11px solid #38bdf8; border-bottom: none;
+            border-radius: 57px 57px 0 0;
+            box-shadow: 0 0 38px #38bdf8, inset 0 0 15px #38bdf8;
+            transform-origin: bottom left;
+            /* transition eliminada — ahora usamos @keyframes shackleOpenProgressiveGiant */
+        }
         .q-portal-lock-body { position: absolute; bottom: 0; width: 180px; height: 135px; background: rgba(56,189,248,.25); border: 6px solid #38bdf8; border-radius: 24px; box-shadow: 0 0 52px rgba(56,189,248,.85),inset 0 0 22px rgba(56,189,248,.6); }
         @keyframes qPortalLockFloat { 0% { transform: translateY(0); filter: drop-shadow(0 0 18px rgba(56,189,248,.7)); } 100% { transform: translateY(-8px); filter: drop-shadow(0 0 35px rgba(56,189,248,1)); } }
-        .q-portal-lock.unlocked .q-portal-shackle { transform: rotate(-45deg) translateY(-21px) translateX(-12px); border-color: #22c55e; box-shadow: 0 0 45px #22c55e, inset 0 0 18px #22c55e; }
+
+        /* ─────────────── APERTURA PROGRESIVA — CANDADO GIGANTE ─────────────── */
+        @keyframes shackleOpenProgressiveGiant {
+            0%   { transform: rotate(0deg)    translateY(0)      translateX(0);     border-color: #38bdf8; box-shadow: 0 0 38px #38bdf8, inset 0 0 15px #38bdf8; }
+            15%  { transform: rotate(-3deg)   translateY(-8px)   translateX(-2px);  border-color: #38bdf8; box-shadow: 0 0 42px #38bdf8, inset 0 0 15px #38bdf8; }
+            35%  { transform: rotate(-10deg)  translateY(-16px)  translateX(-5px);  border-color: #5eebd0; box-shadow: 0 0 48px #5eebd0, inset 0 0 18px #5eebd0; }
+            60%  { transform: rotate(-25deg)  translateY(-22px)  translateX(-9px);  border-color: #4ade80; box-shadow: 0 0 52px #4ade80, inset 0 0 20px #4ade80; }
+            85%  { transform: rotate(-42deg)  translateY(-21px)  translateX(-12px); border-color: #22c55e; box-shadow: 0 0 45px #22c55e, inset 0 0 18px #22c55e; }
+            100% { transform: rotate(-45deg)  translateY(-21px)  translateX(-12px); border-color: #22c55e; box-shadow: 0 0 45px #22c55e, inset 0 0 18px #22c55e; }
+        }
+        .q-portal-lock.unlocked .q-portal-shackle {
+            animation: shackleOpenProgressiveGiant 1.1s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+            transform-origin: bottom left;
+        }
         .q-portal-lock.unlocked .q-portal-lock-body { border-color: #22c55e; background: rgba(34,197,94,.35); box-shadow: 0 0 65px rgba(34,197,94,.95); }
         .q-portal-materialize { animation: qPortalMaterialize .9s cubic-bezier(.1,1,.3,1) forwards; }
         .q-portal-vaporize { animation: qPortalVaporize .8s cubic-bezier(.4,0,.2,1) forwards; }
         @keyframes qPortalMaterialize { 0% { opacity: 0; filter: blur(6px) brightness(2.5); transform: scale(.98) translateY(10px); } 100% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1) translateY(0); } }
         @keyframes qPortalVaporize { 0% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1) translateY(0); } 50% { opacity: .6; filter: blur(3px) brightness(2) drop-shadow(0 0 15px #38bdf8); transform: scale(1.02) translateY(-5px); } 100% { opacity: 0; filter: blur(8px) brightness(3); transform: scale(.98) translateY(-15px); letter-spacing: .2em; } }
+
         .cal-intro { text-align: center; font-size: clamp(1.0rem, 7.0vw, 1.5rem); -webkit-text-stroke: 1.0px #000000; font-weight: 700; text-transform: uppercase; margin-bottom: 1.5rem; }
         .cal-concepts-section { margin-bottom: 2rem; text-align: center; }
         .cal-concepts-title { font-size: 1.5rem; color: #38bdf8; -webkit-text-stroke: 1.0px #000000; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 700; }
@@ -207,6 +248,7 @@
             footer.laser-burn-effect { position: relative !important; margin-top: 1.5rem; padding: 1rem; bottom: auto !important; left: auto !important; }
         }
 
+        /* prefers-reduced-motion — respeta accesibilidad */
         @media (prefers-reduced-motion: reduce) {
             .hologram-mode { animation: none !important; text-shadow: 0 0 12px rgba(56, 189, 248, 0.7), 0 0 20px rgba(15, 118, 110, 0.5), 3px 3px 8px rgba(0, 0, 0, 0.8); }
             .holo-lock { animation: none !important; }
@@ -214,14 +256,26 @@
             #glitch-img { animation: none !important; filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.8)); }
             .tv-on { animation: tvTurnOn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
             .tv-on-card { animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards !important; }
+            /* Apertura instantánea de los candados (sin animación progresiva) */
+            .holo-lock.unlocked .holo-shackle {
+                animation-duration: 0.01ms !important;
+                transform: rotate(-45deg) translateY(-6px) translateX(-4px);
+            }
+            .q-portal-lock.unlocked .q-portal-shackle {
+                animation-duration: 0.01ms !important;
+                transform: rotate(-45deg) translateY(-21px) translateX(-12px);
+            }
         }
 
+        /* Force full motion override (?fullmotion) */
         html.force-full-motion .hologram-mode { animation: hologramNeonGlow 3s ease-in-out infinite alternate !important; }
         html.force-full-motion .holo-lock { animation: holoFloat 2s ease-in-out infinite alternate !important; }
         html.force-full-motion .q-portal-lock { animation: qPortalLockFloat 2s ease-in-out infinite alternate !important; }
         html.force-full-motion #glitch-img { animation: glitchJitter 0.08s infinite steps(2) !important; }
         html.force-full-motion .tv-on { animation: tvTurnOn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate !important; }
         html.force-full-motion .tv-on-card { animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards, hologramBoxGlow 3s ease-in-out infinite alternate !important; }
+        html.force-full-motion .holo-lock.unlocked .holo-shackle { animation: shackleOpenProgressive 0.9s cubic-bezier(0.34, 1.2, 0.64, 1) forwards !important; }
+        html.force-full-motion .q-portal-lock.unlocked .q-portal-shackle { animation: shackleOpenProgressiveGiant 1.1s cubic-bezier(0.34, 1.2, 0.64, 1) forwards !important; }
     </style>
 </head>
 <body>
@@ -240,8 +294,6 @@
 
     <div id="glitch-overlay" aria-hidden="true"><img id="glitch-img" src="" alt=""></div>
     <div id="intro-overlay" aria-hidden="true"></div>
-
-    <!-- Región accesible para anuncios dinámicos -->
     <div id="a11y-announcer" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
 
     <nav class="top-bar" aria-label="Navegación principal">
@@ -324,9 +376,6 @@
         if (forceFullMotion) document.documentElement.classList.add('force-full-motion');
         const useReducedMotion = () => !forceFullMotion && prefersReducedMotion.matches;
 
-        /* ───────────────────────────────────────────────
-           Anunciador accesible (aria-live polite)
-           ─────────────────────────────────────────────── */
         function announce(message) {
             const announcer = document.getElementById('a11y-announcer');
             if (!announcer) return;
@@ -334,9 +383,6 @@
             setTimeout(() => { announcer.textContent = message; }, 50);
         }
 
-        /* ───────────────────────────────────────────────
-           Timeouts rastreados (calibración)
-           ─────────────────────────────────────────────── */
         const calTimeouts = new Set();
         function calTimeout(fn, ms) {
             const id = setTimeout(() => {
@@ -351,9 +397,6 @@
             calTimeouts.clear();
         }
 
-        /* ───────────────────────────────────────────────
-           Focus management
-           ─────────────────────────────────────────────── */
         let lastFocusedBeforeModal = null;
         function saveFocus() { lastFocusedBeforeModal = document.activeElement; }
         function restoreFocus() {
@@ -363,9 +406,6 @@
             lastFocusedBeforeModal = null;
         }
 
-        /* ───────────────────────────────────────────────
-           Focus trap global — Tab/Shift+Tab confinados al modal abierto
-           ─────────────────────────────────────────────── */
         const FOCUSABLE_SELECTOR = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
         document.addEventListener('keydown', (e) => {
             if (e.key !== 'Tab') return;
@@ -529,9 +569,6 @@
         const MATRIX_FONT_SIZE = 16;
         const MATRIX_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZカタカナアアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
 
-        /* ───────────────────────────────────────────────
-           Matrix rain con drops preservados entre pausas
-           ─────────────────────────────────────────────── */
         function matrixSyncSize(canvas) {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -574,9 +611,6 @@
             matrixInterval = setInterval(matrixDrawFn, intervalMs);
         }
 
-        /* ───────────────────────────────────────────────
-           Frase final — 50% más grande con auto-shrink
-           ─────────────────────────────────────────────── */
         function startPhraseAnimation() {
             if (phraseAnimationRunning) return;
             phraseAnimationRunning = true;
@@ -740,9 +774,6 @@
             requestAnimationFrame(draw);
         }
 
-        /* ───────────────────────────────────────────────
-           prepareMatrixBackground idempotente
-           ─────────────────────────────────────────────── */
         function prepareMatrixBackground() {
             if (matrixPrepared) return;
             matrixPrepared = true;
@@ -886,6 +917,7 @@
         let calPlaced = [null, null, null, null];
         let calUsed = { "SERVICIO": false, "INVESTIGACIÓN": false, "DIVULGACIÓN": false, "DOCENCIA": false };
         let selectedSourceConcept = null;
+        let pendingPuzzleRebuild = null;
 
         function openCalibrationModal() {
             saveFocus();
@@ -903,6 +935,7 @@
 
         function closeCalibrationModal() {
             clearCalTimeouts();
+            if (pendingPuzzleRebuild) { clearTimeout(pendingPuzzleRebuild); pendingPuzzleRebuild = null; }
             isModalBusy = false;
             calibrationModalWindow.classList.remove('tv-on');
             calibrationModalWindow.classList.add('tv-off');
@@ -918,6 +951,7 @@
 
         function initCalibrationPuzzle() {
             clearCalTimeouts();
+            if (pendingPuzzleRebuild) { clearTimeout(pendingPuzzleRebuild); pendingPuzzleRebuild = null; }
             const scrollWrapper = document.getElementById('cal-scroll-wrapper');
             scrollWrapper.classList.remove('q-portal-vaporize');
             scrollWrapper.innerHTML = `
@@ -947,27 +981,55 @@
             selectedSourceConcept = null;
             const line = calLinesData[slotIdx];
             const lockElem = document.getElementById(`cal-lock-${slotIdx}`);
+
             if (concept === line.correct) {
+                // ✨ Apertura progresiva del candado (5 etapas, ~0.9s)
                 lockElem.classList.add('unlocked');
                 lockElem.classList.remove('error');
-                checkCalibrationComplete();
-            } else {
-                lockElem.classList.add('error');
-                document.getElementById('cal-status-msg').textContent = "¡Concepto incorrecto! Intenta de nuevo.";
-                const capturedConcept = concept;
-                const capturedSlot = slotIdx;
-                calTimeout(() => {
-                    lockElem.classList.remove('error');
-                    // Solo limpia si ESTE concepto sigue en ESTE slot (fix de desincronización)
-                    if (calPlaced[capturedSlot] === capturedConcept) {
-                        calPlaced[capturedSlot] = null;
-                        calUsed[capturedConcept] = false;
+
+                // Actualización visual inmediata de la ranura y de las cajas de concepto
+                const slot = lockElem.parentElement.querySelector('.cal-target-slot');
+                if (slot) {
+                    slot.textContent = `[ ${concept} ]`;
+                    slot.classList.add('filled');
+                    slot.setAttribute('aria-label', `Ranura con ${concept}. Pulsa para liberar.`);
+                }
+                document.querySelectorAll('#cal-source-single-row .cal-concept-box').forEach((box) => {
+                    const boxConcept = box.textContent.replace(/[\[\]\s]/g, '');
+                    if (boxConcept === concept) {
+                        box.classList.add('used');
+                        box.setAttribute('tabindex', '-1');
+                        box.setAttribute('aria-disabled', 'true');
+                        box.draggable = false;
                     }
-                    document.getElementById('cal-status-msg').textContent = "";
-                    renderCalibrationPuzzle();
-                }, 600);
+                });
+
+                // Reconstrucción diferida: da tiempo a la animación de apertura
+                if (pendingPuzzleRebuild) { clearTimeout(pendingPuzzleRebuild); pendingPuzzleRebuild = null; }
+                const delay = useReducedMotion() ? 60 : 950;
+                pendingPuzzleRebuild = setTimeout(() => {
+                    pendingPuzzleRebuild = null;
+                    try { renderCalibrationPuzzle(); } catch (err) { console.error(err); }
+                }, delay);
+
+                checkCalibrationComplete();
+                return;
             }
-            renderCalibrationPuzzle();
+
+            // Concepto incorrecto — shake + limpieza tras 600ms
+            lockElem.classList.add('error');
+            document.getElementById('cal-status-msg').textContent = "¡Concepto incorrecto! Intenta de nuevo.";
+            const capturedConcept = concept;
+            const capturedSlot = slotIdx;
+            calTimeout(() => {
+                lockElem.classList.remove('error');
+                if (calPlaced[capturedSlot] === capturedConcept) {
+                    calPlaced[capturedSlot] = null;
+                    calUsed[capturedConcept] = false;
+                }
+                document.getElementById('cal-status-msg').textContent = "";
+                renderCalibrationPuzzle();
+            }, 600);
         }
 
         function renderCalibrationPuzzle() {
@@ -1032,16 +1094,17 @@
             let allCorrect = true;
             for (let i = 0; i < 4; i++) { if (calPlaced[i] !== calLinesData[i].correct) { allCorrect = false; break; } }
             if (!allCorrect) return;
-            isModalBusy = true; // Bloquea ESC durante la animación de éxito
+            isModalBusy = true;
             document.getElementById('cal-status-msg').textContent = "¡CALIBRACIÓN EXITOSA! ACCEDIENDO A EL CICLO DE QUIMERA...";
             announce('Calibración exitosa. Accediendo al módulo del Ciclo de Quimera.');
             calTimeout(() => {
                 const scrollWrapper = document.getElementById('cal-scroll-wrapper');
                 scrollWrapper.classList.add('q-portal-vaporize');
                 calTimeout(() => {
+                    // ✨ Candado gigante: se crea CERRADO, y se abre vía rAF para que la animación progresiva se vea
                     scrollWrapper.innerHTML = `
                         <div class="cal-giant-lock-container q-portal-materialize">
-                            <div class="q-portal-lock unlocked" style="margin: 0 auto;">
+                            <div class="q-portal-lock" id="cal-giant-lock-el" style="margin: 0 auto;">
                                 <div class="q-portal-shackle"></div>
                                 <div class="q-portal-lock-body"></div>
                             </div>
@@ -1049,6 +1112,13 @@
                             <p class="cal-giant-lock-msg">¡BIENVENIDOS AL CICLO DE QUIMERA!</p>
                         </div>`;
                     scrollWrapper.classList.remove('q-portal-vaporize');
+
+                    // Dos rAF garantizan que el navegador pinte el estado cerrado antes de abrir
+                    requestAnimationFrame(() => requestAnimationFrame(() => {
+                        const giantLock = document.getElementById('cal-giant-lock-el');
+                        if (giantLock) giantLock.classList.add('unlocked');
+                    }));
+
                     calTimeout(() => {
                         calibrationModalWindow.classList.add('q-portal-vaporize');
                         calTimeout(() => {
@@ -1090,9 +1160,6 @@
             }
         }
 
-        /* ───────────────────────────────────────────────
-           Card click
-           ─────────────────────────────────────────────── */
         function handleCardActivate() {
             if (isCardBusy || isModalBusy) return;
             document.body.classList.add('blurring-content');
@@ -1178,9 +1245,6 @@
         modalCloseBtn.addEventListener('click', (e) => { e.stopPropagation(); if (!isModalBusy) triggerTVClose(); });
         mainModal.addEventListener('click', (e) => { if (e.target === mainModal && !isModalBusy) triggerTVClose(); });
 
-        /* ───────────────────────────────────────────────
-           Submodales (funciones locales, sin window.X)
-           ─────────────────────────────────────────────── */
         function openSubModal(imgSrc) {
             helicoidalSequenceRunning = false;
             saveFocus();
@@ -1341,9 +1405,6 @@
             }
         });
 
-        /* ───────────────────────────────────────────────
-           Audio / Fullscreen
-           ─────────────────────────────────────────────── */
         const music = document.getElementById('bg-music');
         const audioToggle = document.getElementById('audio-toggle');
         let isMusicPlaying = false;
@@ -1409,9 +1470,6 @@
             }
         });
 
-        /* ───────────────────────────────────────────────
-           Secuencia de entrada
-           ─────────────────────────────────────────────── */
         window.addEventListener('DOMContentLoaded', () => {
             const overlay = document.getElementById('intro-overlay');
             async function runEntranceSequence() {
