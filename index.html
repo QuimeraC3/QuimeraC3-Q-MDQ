@@ -74,7 +74,6 @@
         .cursor-light-glow { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; background: radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56, 189, 248, 0.22), rgba(200, 139, 50, 0.12) 45%, transparent 80%); opacity: 0; transition: opacity 1.5s ease; }
         .cursor-light-glow.visible { opacity: 1; }
         #matrix-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; opacity: 0; transition: opacity 1.5s ease; }
-        #phrase-canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2; pointer-events: none; opacity: 0; }
         #glitch-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; z-index: 2500; pointer-events: none; opacity: 0; background: rgba(0, 0, 0, 0.5); transition: opacity 0.1s ease; }
         #glitch-img { max-width: 55vw; max-height: 55vh; object-fit: contain; filter: drop-shadow(0 0 40px rgba(56, 189, 248, 1)) contrast(160%) brightness(1.3); animation: glitchJitter 0.08s infinite steps(2); }
         @keyframes glitchJitter { 0% { transform: translate(0, 0) skew(0deg); filter: hue-rotate(0deg); } 20% { transform: translate(-6px, 4px) skew(-3deg); filter: hue-rotate(90deg); } 40% { transform: translate(6px, -4px) skew(3deg); filter: hue-rotate(-90deg); } 60% { transform: translate(-3px, -4px) skew(1deg); } 80% { transform: translate(5px, 3px) skew(-2deg); } 100% { transform: translate(0, 0) skew(0deg); } }
@@ -104,9 +103,74 @@
         header { font-family: Georgia, serif; position: relative; z-index: 10; max-width: 1100px; width: 100%; margin: 0 auto; padding: .02rem 2rem 1rem 2rem; display: flex; flex-direction: column; align-items: center; text-align: center; transition: filter 0.5s ease; }
         #header-line1-container { position: relative; z-index: 20; width: 100%; }
         #header-line1 { color: #c88b32; display: inline-block; font-size: clamp(1.5rem, 3.5vw, 4rem); line-height: 1.3; -webkit-text-stroke: 1.5px #ffffff; transform: translateY(-1rem); position: relative; z-index: 20; padding-top: 0.2em; }
-        .arrow-02-text { margin-top: 30.0rem; margin-bottom: -04rem; }
+        .arrow-02-text { margin-top: 30.0rem; margin-bottom: -04rem; transition: opacity 750ms ease; }
         #word-quimera { display: inline-block; font-size: clamp(2.5rem, 10vw, 6rem); letter-spacing: 0.1em; line-height: 1.3; -webkit-text-stroke: 1.5px #000000; color: #ffffff; padding-right: 0.15em; }
-        .quimera-letter { display: inline-block; color: #ffffff; transition: color 0.4s ease; }
+
+        .quimera-portal-link {
+            color: inherit;
+            text-decoration: none;
+            display: inline-block;
+            pointer-events: none;
+        }
+
+        #word-quimera-container.final-portal-active {
+            position: fixed !important;
+            top: 72% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            margin: 0 !important;
+            padding: 0.25rem 0.75rem !important;
+            width: auto !important;
+            max-width: 96vw !important;
+            font-family: Georgia, "Times New Roman", serif !important;
+            text-align: center !important;
+            clip-path: none !important;
+            -webkit-clip-path: none !important;
+            filter: none !important;
+            z-index: 30000 !important;
+            pointer-events: auto !important;
+        }
+
+        #word-quimera-container.final-portal-active .quimera-portal-link {
+            display: inline-block !important;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
+            outline: none;
+            white-space: nowrap !important;
+        }
+
+        #word-quimera-container.final-portal-active .quimera-portal-link:focus-visible #word-quimera {
+            outline: 2px solid #38bdf8;
+            outline-offset: 8px;
+            border-radius: 8px;
+        }
+
+        #word-quimera-container.final-portal-active #word-quimera {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(2.3rem, 8.5vw, 6rem);
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            line-height: 1.15;
+            padding-right: 0 !important;
+            white-space: nowrap !important;
+            -webkit-text-stroke: 1.5px #000000;
+            text-shadow: 0 0 18px rgba(56, 189, 248, 0.55), 0 5px 24px rgba(0, 0, 0, 0.9);
+            filter: drop-shadow(0 0 20px rgba(200, 139, 50, 0.22));
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+
+        #word-quimera-container.final-portal-active .quimera-portal-link:hover #word-quimera {
+            transform: none;
+            filter: drop-shadow(0 0 28px rgba(56, 189, 248, 0.75));
+        }
+
+        .quimera-letter { display: inline-block; color: #ffffff; transition: color 0.35s ease, text-shadow 0.35s ease; }
+        .quimera-letter.gold { color: #c88b32; text-shadow: 0 0 18px rgba(200, 139, 50, 0.95), 0 0 34px rgba(200, 139, 50, 0.55); }
+
         main { flex: 1; display: flex; align-items: flex-end; justify-content: center; padding: 2rem 2rem 08vh 2rem; z-index: 10; position: relative; transition: filter 0.5s ease; }
         .seq-card { background-color: rgba(0, 0, 0, 0.65); backdrop-filter: blur(1px); border: 1.5px solid #ffffff; border-radius: 12px; padding: clamp(1.5rem, 4vw, 2rem) clamp(1.5rem, 5vw, 3rem); box-shadow: var(--shadow-lg); cursor: pointer; text-align: center; transition: transform 0.3s ease, opacity 0.5s ease; display: none; max-width: 600px; width: 100%; transform: translateY(20px); position: relative; }
         .seq-card h2 { font-family: Georgia, serif; font-size: clamp(1.2rem, 3.5vw, 1.6rem); color: #ffffff; text-transform: uppercase; min-height: 2.2rem; -webkit-text-stroke: 0.25px #c88b32; }
@@ -166,12 +230,10 @@
             border: 4px solid #38bdf8; border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom: none;
             box-shadow: 0 0 15px #38bdf8, inset 0 0 5px #38bdf8;
             transform-origin: bottom left;
-            /* transition eliminada — ahora usamos @keyframes shackleOpenProgressive */
         }
         .holo-body { position: absolute; bottom: 0; width: 45px; height: 35px; background: rgba(56, 189, 248, 0.25); border: 2px solid #38bdf8; border-radius: 8px; box-shadow: 0 0 20px rgba(56, 189, 248, 0.85), inset 0 0 8px rgba(56, 189, 248, 0.6); }
         @keyframes holoFloat { 0% { transform: translateY(0px); filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.7)); } 100% { transform: translateY(-4px); filter: drop-shadow(0 0 15px rgba(56, 189, 248, 1)); } }
 
-        /* ─────────────── APERTURA PROGRESIVA — CANDADOS PEQUEÑOS ─────────────── */
         @keyframes shackleOpenProgressive {
             0%   { transform: rotate(0deg)    translateY(0)     translateX(0);    border-color: #38bdf8; box-shadow: 0 0 15px #38bdf8, inset 0 0 5px #38bdf8; }
             15%  { transform: rotate(-3deg)   translateY(-4px)  translateX(-1px); border-color: #38bdf8; box-shadow: 0 0 18px #38bdf8, inset 0 0 6px #38bdf8; }
@@ -197,12 +259,10 @@
             border-radius: 57px 57px 0 0;
             box-shadow: 0 0 38px #38bdf8, inset 0 0 15px #38bdf8;
             transform-origin: bottom left;
-            /* transition eliminada — ahora usamos @keyframes shackleOpenProgressiveGiant */
         }
         .q-portal-lock-body { position: absolute; bottom: 0; width: 180px; height: 135px; background: rgba(56,189,248,.25); border: 6px solid #38bdf8; border-radius: 24px; box-shadow: 0 0 52px rgba(56,189,248,.85),inset 0 0 22px rgba(56,189,248,.6); }
         @keyframes qPortalLockFloat { 0% { transform: translateY(0); filter: drop-shadow(0 0 18px rgba(56,189,248,.7)); } 100% { transform: translateY(-8px); filter: drop-shadow(0 0 35px rgba(56,189,248,1)); } }
 
-        /* ─────────────── APERTURA PROGRESIVA — CANDADO GIGANTE ─────────────── */
         @keyframes shackleOpenProgressiveGiant {
             0%   { transform: rotate(0deg)    translateY(0)      translateX(0);     border-color: #38bdf8; box-shadow: 0 0 38px #38bdf8, inset 0 0 15px #38bdf8; }
             15%  { transform: rotate(-3deg)   translateY(-8px)   translateX(-2px);  border-color: #38bdf8; box-shadow: 0 0 42px #38bdf8, inset 0 0 15px #38bdf8; }
@@ -237,6 +297,63 @@
         .cal-giant-lock-msg { color: #22c55e; font-family: monospace; font-size: clamp(1.3rem, 2.8vw, 1.8rem); font-weight: bold; margin-top: 2.5rem; text-shadow: 0 0 20px #22c55e; -webkit-text-stroke: 0.5px #000; }
         footer.laser-burn-effect { position: absolute !important; bottom: 0 !important; left: 0 !important; width: 100% !important; padding: 0.5rem 1rem; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); border-top: 1px solid rgba(255, 255, 255, 0.2); text-align: center; color: #ffffff; font-size: clamp(0.7rem, 1.2vw, 0.85rem); z-index: 100; transition: filter 0.5s ease; }
         footer p { color: #e2e8f0; }
+
+        /* ═══════════════════════════════════════════════════════════
+           ESCENA FINAL — Clonada de index03V
+           ═══════════════════════════════════════════════════════════ */
+
+        #completion-message {
+            position: fixed;
+            top: 13%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(1140px, 94vw);
+            margin: 0;
+            text-align: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(0.92rem, 1.9vw, 1.45rem);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.85;
+            letter-spacing: 0.05em;
+            white-space: pre-line;
+            -webkit-text-stroke: 0.55px #000000;
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.6), 0 3px 14px #000000;
+            z-index: 24905;
+            pointer-events: none;
+            opacity: 0;
+            clip-path: inset(0 100% 0 0);
+        }
+
+        #completion-message.active-laser {
+            opacity: 1;
+        }
+
+        #completion-message.revealed {
+            opacity: 1;
+            clip-path: inset(0 0 0 0);
+        }
+
+        #phrase-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 24910;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.65s ease;
+        }
+
+        body.completion-exit #word-quimera-container.final-portal-active,
+        body.completion-exit #matrix-canvas,
+        body.completion-exit #phrase-canvas,
+        body.completion-exit #completion-message {
+            filter: blur(12px);
+            opacity: 0.35;
+            transition: filter 0.8s ease, opacity 0.8s ease;
+        }
+
         @media (max-width: 900px) {
             body { height: auto; overflow-y: auto; overflow-x: hidden; }
             #bg-layer { height: 100%; background-attachment: scroll; }
@@ -244,8 +361,25 @@
             .top-bar-container { flex-direction: column; gap: 0.8rem; }
             .nav-links { justify-content: center; gap: 0.8rem; }
             header { padding: 2rem 1rem 1rem 1rem; }
+            #word-quimera-container.final-portal-active #word-quimera {
+                font-size: clamp(2.1rem, 10vw, 4.2rem) !important;
+                letter-spacing: 0.03em !important;
+                white-space: nowrap !important;
+            }
+            #word-quimera-container.final-portal-active .quimera-portal-link:hover #word-quimera {
+                transform: none;
+            }
             .submodal-close { top: 8px; right: 8px; width: 36px; height: 36px; font-size: 1.35rem; }
             footer.laser-burn-effect { position: relative !important; margin-top: 1.5rem; padding: 1rem; bottom: auto !important; left: auto !important; }
+        }
+
+        @media (max-width: 650px) {
+            #completion-message {
+                top: 11%;
+                width: 92vw;
+                font-size: clamp(0.78rem, 2.85vw, 1.02rem);
+                line-height: 1.75;
+            }
         }
 
         /* prefers-reduced-motion — respeta accesibilidad */
@@ -256,7 +390,7 @@
             #glitch-img { animation: none !important; filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.8)); }
             .tv-on { animation: tvTurnOn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
             .tv-on-card { animation: tvTurnOnCard 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards !important; }
-            /* Apertura instantánea de los candados (sin animación progresiva) */
+            #phrase-canvas { transition: opacity 0.4s ease; }
             .holo-lock.unlocked .holo-shackle {
                 animation-duration: 0.01ms !important;
                 transform: rotate(-45deg) translateY(-6px) translateX(-4px);
@@ -290,7 +424,6 @@
     <div id="bg-layer" aria-hidden="true"></div>
     <div class="cursor-light-glow" id="cursor-light-glow" aria-hidden="true"></div>
     <canvas id="matrix-canvas" aria-hidden="true"></canvas>
-    <canvas id="phrase-canvas" aria-hidden="true"></canvas>
 
     <div id="glitch-overlay" aria-hidden="true"><img id="glitch-img" src="" alt=""></div>
     <div id="intro-overlay" aria-hidden="true"></div>
@@ -309,9 +442,11 @@
     <header>
         <h1 class="laser-burn-effect" id="header-line1-container" data-text="MITOLOGÍA DETRÁS DE"><span id="header-line1">MITOLOGÍA DETRÁS DE</span></h1>
         <h2 class="arrow-02-text laser-burn-effect" id="word-quimera-container" data-text="QUIMERA">
-            <span id="word-quimera">
-                <span class="quimera-letter" data-index="0">Q</span><span class="quimera-letter" data-index="1">U</span><span class="quimera-letter" data-index="2">I</span><span class="quimera-letter" data-index="3">M</span><span class="quimera-letter" data-index="4">E</span><span class="quimera-letter" data-index="5">R</span><span class="quimera-letter" data-index="6">A</span>
-            </span>
+            <a id="word-quimera-link" href="https://quimerac3.github.io/QuimeraC3-Q/" class="quimera-portal-link" tabindex="-1" aria-disabled="true">
+                <span id="word-quimera">
+                    <span class="quimera-letter" data-index="0">Q</span><span class="quimera-letter" data-index="1">U</span><span class="quimera-letter" data-index="2">I</span><span class="quimera-letter" data-index="3">M</span><span class="quimera-letter" data-index="4">E</span><span class="quimera-letter" data-index="5">R</span><span class="quimera-letter" data-index="6">A</span>
+                </span>
+            </a>
         </h2>
     </header>
 
@@ -366,8 +501,18 @@
         <p id="footer-text" data-text="&bull; &copy; 2026 Instituto Quimera. &bull; Centro de Investigación, Docencia, Servicio y Difusión. &bull; Dr.C. Cesar Cerezo Camacho. &bull; Todos los derechos reservados. &bull;"></p>
     </footer>
 
+    <!-- ═══════════════════════════════════════════════════════════
+         ESCENA FINAL — Clonada de index03V
+         ═══════════════════════════════════════════════════════════ -->
+    <p id="completion-message" class="laser-burn-effect">¡FELICIDADES NAVEGANTE, LO HAS CONSEGUIDO!
+HAS GANADO EL ACCESO AL ÚLTIMO DE LOS SIETE CÓDIGOS.
+GUÁRDALO, TE SERÁ ÚTIL EN UN FUTURO CERCANO.</p>
+    <canvas id="phrase-canvas" aria-hidden="true"></canvas>
+
     <script>
         'use strict';
+
+        const QUIMERA_PORTAL_URL = "https://quimerac3.github.io/QuimeraC3-Q/";
 
         window.addEventListener('pageshow', (event) => { if (event.persisted) window.location.reload(); });
 
@@ -549,6 +694,7 @@
         const subModalTitle = document.getElementById('sub-modal-title');
         const subModalBody = document.getElementById('sub-modal-body');
         const subModalCloseBtn = document.getElementById('sub-modal-close-btn');
+        const wordLinkElement = document.getElementById('word-quimera-link');
 
         let isModalBusy = false;
         let isCardBusy = true;
@@ -561,10 +707,21 @@
         let matrixColumns = 0;
         let matrixDrops = [];
         let phraseAnimationRunning = false;
-        let phraseResizeHandler = null;
+        let finalMessageTimer = null;
+        let codeAnimationFrame = 0;
         let globalColorInterval = null;
         let matrixPrepared = false;
         let finalHyperlinkEnabled = false;
+        let completionExitStarted = false;
+
+        if (wordLinkElement) {
+            wordLinkElement.addEventListener('click', (e) => {
+                if (!finalHyperlinkEnabled) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            });
+        }
 
         const MATRIX_FONT_SIZE = 16;
         const MATRIX_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZカタカナアアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
@@ -611,167 +768,37 @@
             matrixInterval = setInterval(matrixDrawFn, intervalMs);
         }
 
-        function startPhraseAnimation() {
-            if (phraseAnimationRunning) return;
-            phraseAnimationRunning = true;
-
-            const canvas = document.getElementById('phrase-canvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const quimeraElem = document.getElementById('word-quimera-container');
-            const quimeraRect = quimeraElem ? quimeraElem.getBoundingClientRect() : { top: window.innerHeight * 0.4 };
-            const phraseY = quimeraRect.top / 2;
-            const phrase = "CÓDIGO FINAL: 17-09-05-19-04-01.";
-
-            function computeFittingFontSize(measureCtx) {
-                let size = Math.min(Math.max(30, window.innerWidth * 0.039), 60);
-                measureCtx.font = `900 ${size}px 'Courier New', monospace`;
-                const measured = measureCtx.measureText(phrase).width;
-                const maxWidth = canvas.width * 0.92;
-                if (measured > maxWidth && measured > 0) {
-                    size = Math.floor(size * (maxWidth / measured));
+        function navigateToQuimeraPortal(event) {
+            if (!finalHyperlinkEnabled) {
+                if (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
                 }
-                return size;
-            }
-
-            if (useReducedMotion()) {
-                const drawStaticPhrase = () => {
-                    const qr = document.getElementById('word-quimera-container');
-                    const y = qr ? qr.getBoundingClientRect().top / 2 : window.innerHeight * 0.2;
-                    const fs = computeFittingFontSize(ctx);
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.font = `900 ${fs}px 'Courier New', monospace`;
-                    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                    ctx.shadowBlur = 18; ctx.shadowColor = '#38bdf8';
-                    ctx.fillStyle = '#ffffff';
-                    ctx.fillText(phrase, canvas.width / 2, y);
-                    ctx.shadowBlur = 0;
-                    ctx.globalCompositeOperation = 'lighter';
-                    ctx.fillStyle = 'rgba(56, 189, 248, 0.18)';
-                    ctx.fillText(phrase, canvas.width / 2, y);
-                    ctx.globalCompositeOperation = 'source-over';
-                };
-                canvas.style.transition = 'none';
-                canvas.style.opacity = '0';
-                drawStaticPhrase();
-                canvas.style.transition = 'opacity 0.8s ease';
-                requestAnimationFrame(() => { canvas.style.opacity = '1'; });
-                if (phraseResizeHandler) window.removeEventListener('resize', phraseResizeHandler);
-                phraseResizeHandler = drawStaticPhrase;
-                window.addEventListener('resize', phraseResizeHandler);
                 return;
             }
+            if (event) event.preventDefault();
+            if (completionExitStarted) return;
+            completionExitStarted = true;
 
-            const offCanvas = document.createElement('canvas');
-            offCanvas.width = canvas.width; offCanvas.height = canvas.height;
-            const offCtx = offCanvas.getContext('2d');
-            const fontSize = computeFittingFontSize(offCtx);
-            offCtx.font = `900 ${fontSize}px 'Courier New', monospace`;
-            offCtx.textAlign = 'center'; offCtx.textBaseline = 'middle';
-            offCtx.fillStyle = '#ffffff';
-            offCtx.fillText(phrase, canvas.width / 2, phraseY);
-
-            const imageData = offCtx.getImageData(0, 0, offCanvas.width, offCanvas.height).data;
-            const targets = [];
-            const step = window.innerWidth < 600 ? 3 : 2;
-            for (let y = 0; y < offCanvas.height; y += step) {
-                for (let x = 0; x < offCanvas.width; x += step) {
-                    const i = (y * offCanvas.width + x) * 4;
-                    if (imageData[i + 3] > 128) targets.push({ x, y });
-                }
+            if (globalColorInterval) {
+                clearTimeout(globalColorInterval);
+                globalColorInterval = null;
             }
-            if (targets.length === 0) { phraseAnimationRunning = false; return; }
-            for (let i = targets.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [targets[i], targets[j]] = [targets[j], targets[i]]; }
-
-            const maxParticles = window.innerWidth < 600 ? 2800 : 5200;
-            const particleCount = Math.min(targets.length, maxParticles);
-            const particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                const target = targets[i];
-                const mode = Math.random();
-                let sx, sy;
-                if (mode < 0.4) { sx = target.x + (Math.random() - 0.5) * 120; sy = -Math.random() * canvas.height * 0.35; }
-                else if (mode < 0.7) { const side = Math.random() > 0.5 ? 1 : -1; sx = canvas.width / 2 + side * (canvas.width * 0.5 + Math.random() * 300); sy = target.y + (Math.random() - 0.5) * canvas.height * 0.5; }
-                else { sx = Math.random() * canvas.width; sy = Math.random() * canvas.height; }
-                const roll = Math.random();
-                const colorRGB = roll > 0.72 ? '56, 189, 248' : roll > 0.42 ? '255, 255, 255' : '200, 139, 50';
-                particles.push({ sx, sy, tx: target.x, ty: target.y, delay: Math.random() * 600, duration: 1400 + Math.random() * 800, colorRGB, size: 1.4 + Math.random() * 1.6, trail: Math.random() > 0.5 });
+            if (finalMessageTimer) {
+                clearTimeout(finalMessageTimer);
+                finalMessageTimer = null;
             }
 
-            canvas.style.transition = 'opacity 0.6s ease';
-            canvas.style.opacity = '1';
+            document.body.classList.add('completion-exit');
+            const overlay = document.getElementById('intro-overlay');
+            overlay.style.zIndex = '50000';
+            overlay.style.transition = 'opacity 1000ms ease, background-color 1000ms ease';
+            overlay.style.backgroundColor = '#ffffff';
+            overlay.style.opacity = '1';
 
-            let startTime = performance.now();
-            let glitchStartTime = 0, waveStartTime = 0, allArrived = false, glitchDone = false;
-            const WAVE_DURATION = 1400, GLITCH_DURATION = 320;
-
-            function draw(now) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                const elapsed = now - startTime;
-                ctx.globalCompositeOperation = 'lighter';
-                let arrivedCount = 0;
-                for (const p of particles) {
-                    const localT = Math.max(0, elapsed - p.delay);
-                    const t = Math.min(1, localT / p.duration);
-                    const eased = 1 - Math.pow(1 - t, 3);
-                    const x = p.sx + (p.tx - p.sx) * eased;
-                    const y = p.sy + (p.ty - p.sy) * eased;
-                    if (t >= 1) arrivedCount++;
-                    if (p.trail && t < 0.95) {
-                        const trailT = Math.max(0, eased - 0.18);
-                        const tx = p.sx + (p.tx - p.sx) * trailT;
-                        const ty = p.sy + (p.ty - p.sy) * trailT;
-                        ctx.strokeStyle = `rgba(${p.colorRGB}, 0.28)`;
-                        ctx.lineWidth = p.size * 0.55;
-                        ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(x, y); ctx.stroke();
-                    }
-                    ctx.fillStyle = `rgba(${p.colorRGB}, 0.85)`;
-                    const sz = t > 0.95 ? p.size * 1.25 : p.size;
-                    ctx.fillRect(x - sz / 2, y - sz / 2, sz, sz);
-                }
-                ctx.globalCompositeOperation = 'source-over';
-                if (!allArrived && arrivedCount / particleCount > 0.92) { allArrived = true; glitchStartTime = now; }
-                if (allArrived && !glitchDone) {
-                    const gElapsed = now - glitchStartTime;
-                    if (gElapsed < GLITCH_DURATION) {
-                        const offset = 5 * (1 - gElapsed / GLITCH_DURATION);
-                        ctx.save(); ctx.globalCompositeOperation = 'lighter';
-                        ctx.font = `900 ${fontSize}px 'Courier New', monospace`;
-                        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                        ctx.fillStyle = 'rgba(255, 40, 100, 0.55)'; ctx.fillText(phrase, canvas.width / 2 - offset, phraseY);
-                        ctx.fillStyle = 'rgba(0, 240, 255, 0.55)'; ctx.fillText(phrase, canvas.width / 2 + offset, phraseY);
-                        ctx.restore();
-                    } else { glitchDone = true; waveStartTime = now; }
-                }
-                if (waveStartTime > 0) {
-                    const wElapsed = now - waveStartTime;
-                    if (wElapsed < WAVE_DURATION) {
-                        const wT = wElapsed / WAVE_DURATION;
-                        const waveX = -180 + (canvas.width + 360) * wT;
-                        const grad = ctx.createLinearGradient(waveX - 140, 0, waveX + 140, 0);
-                        grad.addColorStop(0.0, 'rgba(56, 189, 248, 0)'); grad.addColorStop(0.35, 'rgba(56, 189, 248, 0.65)'); grad.addColorStop(0.5, 'rgba(255, 255, 255, 1)'); grad.addColorStop(0.65, 'rgba(56, 189, 248, 0.65)'); grad.addColorStop(1.0, 'rgba(56, 189, 248, 0)');
-                        ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = grad;
-                        ctx.fillRect(waveX - 140, phraseY - fontSize * 1.3, 280, fontSize * 2.6);
-                        ctx.restore();
-                    }
-                }
-                if (allArrived) {
-                    const pulse = 0.55 + 0.45 * Math.sin(now * 0.0028);
-                    ctx.save(); ctx.globalCompositeOperation = 'lighter';
-                    ctx.font = `900 ${fontSize}px 'Courier New', monospace`;
-                    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-                    ctx.fillStyle = `rgba(56, 189, 248, ${0.055 * pulse})`;
-                    ctx.shadowBlur = 32 * pulse; ctx.shadowColor = '#38bdf8';
-                    ctx.fillText(phrase, canvas.width / 2, phraseY);
-                    ctx.restore(); ctx.shadowBlur = 0;
-                }
-                requestAnimationFrame(draw);
-            }
-            requestAnimationFrame(draw);
+            setTimeout(() => {
+                window.location.href = QUIMERA_PORTAL_URL;
+            }, 1000);
         }
 
         function prepareMatrixBackground() {
@@ -787,9 +814,13 @@
                 if (el) el.classList.add('fade-out-element');
             });
 
-            if (!finalHyperlinkEnabled) {
-                finalHyperlinkEnabled = true;
-                enableFinalHyperlink();
+            // Mantener QUIMERA oculta mientras el último modal esté visible hasta que desaparezca
+            const wordContainer = document.getElementById('word-quimera-container');
+            if (wordContainer && !finalHyperlinkEnabled) {
+                wordContainer.classList.remove('hologram-mode');
+                wordContainer.style.transition = 'none';
+                wordContainer.style.opacity = '0';
+                wordContainer.style.pointerEvents = 'none';
             }
 
             startMatrixRain();
@@ -798,47 +829,283 @@
         }
 
         function enableFinalHyperlink() {
+            finalHyperlinkEnabled = true;
             const wordContainer = document.getElementById('word-quimera-container');
+            const wordLink = document.getElementById('word-quimera-link');
             const letters = document.querySelectorAll('.quimera-letter');
-            wordContainer.classList.remove('hologram-mode');
-            wordContainer.style.opacity = '1';
+
+            if (wordContainer.parentElement !== document.body) {
+                document.body.appendChild(wordContainer);
+            }
+
+            wordContainer.classList.remove('fade-out-element', 'hologram-mode', 'active-laser', 'laser-burn-effect');
+            wordContainer.classList.add('final-portal-active', 'revealed');
+            wordContainer.style.clipPath = 'none';
+            wordContainer.style.opacity = '0';
             wordContainer.style.pointerEvents = 'auto';
-            wordContainer.style.cursor = 'pointer';
-            wordContainer.setAttribute('role', 'link');
-            wordContainer.setAttribute('tabindex', '0');
-            wordContainer.setAttribute('aria-label', 'Ir al portal principal del Ecosistema Quimera');
+
+            if (wordLink) {
+                wordLink.href = QUIMERA_PORTAL_URL;
+                wordLink.setAttribute('tabindex', '0');
+                wordLink.setAttribute('aria-disabled', 'false');
+                wordLink.setAttribute('aria-label', 'Ir al portal principal del Ecosistema Quimera');
+                wordLink.style.pointerEvents = 'auto';
+                wordLink.onclick = (e) => navigateToQuimeraPortal(e);
+            }
+
+            requestAnimationFrame(() => {
+                wordContainer.style.transition = 'opacity 750ms ease';
+                wordContainer.style.opacity = '1';
+            });
 
             const stepTime = useReducedMotion() ? 400 : 120;
 
             function runSequence() {
+                if (completionExitStarted) return;
                 let i = 0;
                 function turnCopperGold(callback) {
-                    if (i < letters.length) { letters[i].style.color = '#c88b32'; i++; globalColorInterval = setTimeout(() => turnCopperGold(callback), stepTime); }
-                    else if (callback) callback();
+                    if (i < letters.length) {
+                        letters[i].classList.add('gold');
+                        letters[i].style.color = '#c88b32';
+                        i++;
+                        globalColorInterval = setTimeout(() => turnCopperGold(callback), stepTime);
+                    } else if (callback) callback();
                 }
                 let j = 0;
                 function turnWhite(callback) {
-                    if (j < letters.length) { letters[j].style.color = '#ffffff'; j++; globalColorInterval = setTimeout(() => turnWhite(callback), stepTime); }
-                    else if (callback) callback();
+                    if (j < letters.length) {
+                        letters[j].classList.remove('gold');
+                        letters[j].style.color = '#ffffff';
+                        j++;
+                        globalColorInterval = setTimeout(() => turnWhite(callback), stepTime);
+                    } else if (callback) callback();
                 }
-                turnCopperGold(() => { i = 0; turnWhite(() => { j = 0; globalColorInterval = setTimeout(runSequence, 0); }); });
+                turnCopperGold(() => {
+                    i = 0;
+                    turnWhite(() => {
+                        j = 0;
+                        if (!completionExitStarted) {
+                            globalColorInterval = setTimeout(runSequence, 0);
+                        }
+                    });
+                });
             }
             runSequence();
 
-            const goToPortal = () => {
-                clearTimeout(globalColorInterval);
-                document.body.classList.add('blurring-content');
-                const overlay = document.getElementById('intro-overlay');
-                overlay.style.backgroundColor = '#ffffff';
-                overlay.style.opacity = '1';
-                setTimeout(() => { window.location.href = "https://quimerac3.github.io/QuimeraC3-Q/"; }, 1000);
-            };
-            wordContainer.addEventListener('click', goToPortal, { once: true });
-            wordContainer.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goToPortal(); }
-            }, { once: true });
+            if (finalMessageTimer) clearTimeout(finalMessageTimer);
+            finalMessageTimer = setTimeout(() => {
+                showFinalMessage();
+            }, 1000);
 
             announce('El módulo final ha concluido. Ahora puedes activar el enlace QUIMERA para acceder al portal principal del Ecosistema.');
+        }
+
+        function showFinalMessage() {
+            const msgEl = document.getElementById('completion-message');
+            if (!msgEl || completionExitStarted) return;
+
+            msgEl.textContent = "¡FELICIDADES NAVEGANTE, LO HAS CONSEGUIDO!\nHAS GANADO EL ACCESO AL ÚLTIMO DE LOS SIETE CÓDIGOS.\nGUÁRDALO, TE SERÁ ÚTIL EN UN FUTURO CERCANO.";
+            msgEl.classList.remove('revealed', 'active-laser');
+            void msgEl.offsetWidth;
+            msgEl.classList.add('active-laser');
+
+            setTimeout(() => {
+                msgEl.classList.remove('active-laser');
+                msgEl.classList.add('revealed');
+                if (!completionExitStarted) {
+                    startPhraseAnimation();
+                }
+            }, 650);
+        }
+
+        function startPhraseAnimation() {
+            if (phraseAnimationRunning) return;
+            phraseAnimationRunning = true;
+
+            const canvas = document.getElementById('phrase-canvas');
+            if (!canvas) return;
+            if (codeAnimationFrame) cancelAnimationFrame(codeAnimationFrame);
+
+            const ctx = canvas.getContext('2d', { alpha: true });
+            const phrase = "CÓDIGO FINAL: 17-09-05-19-04-01.";
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+
+            const measure = document.createElement('canvas').getContext('2d');
+            let fontSize = Math.min(Math.max(26, width * 0.039), 58);
+            measure.font = `900 ${fontSize}px 'Courier New', monospace`;
+            const measured = measure.measureText(phrase).width;
+            const maxWidth = width * 0.92;
+            if (measured > maxWidth && measured > 0) {
+                fontSize = Math.floor(fontSize * (maxWidth / measured));
+            }
+            const phraseY = Math.min(height * 0.45, height - 45);
+
+            if (useReducedMotion()) {
+                ctx.clearRect(0, 0, width, height);
+                ctx.font = `900 ${fontSize}px 'Courier New', monospace`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowBlur = 22;
+                ctx.shadowColor = '#38bdf8';
+                ctx.fillStyle = '#ffffff';
+                ctx.fillText(phrase, width / 2, phraseY);
+                canvas.style.opacity = '1';
+                return;
+            }
+
+            const offCanvas = document.createElement('canvas');
+            offCanvas.width = width;
+            offCanvas.height = height;
+            const offCtx = offCanvas.getContext('2d');
+            offCtx.font = `900 ${fontSize}px 'Courier New', monospace`;
+            offCtx.textAlign = 'center';
+            offCtx.textBaseline = 'middle';
+            offCtx.fillStyle = '#ffffff';
+            offCtx.fillText(phrase, width / 2, phraseY);
+
+            const pixels = offCtx.getImageData(0, 0, width, height).data;
+            const targets = [];
+            const samplingStep = width < 600 ? 3 : 2;
+            for (let y = Math.max(0, Math.floor(phraseY - fontSize * 1.5)); y < Math.min(height, phraseY + fontSize * 1.5); y += samplingStep) {
+                for (let x = 0; x < width; x += samplingStep) {
+                    const pixelIndex = (y * width + x) * 4;
+                    if (pixels[pixelIndex + 3] > 128) targets.push({ x, y });
+                }
+            }
+            if (targets.length === 0) {
+                phraseAnimationRunning = false;
+                return;
+            }
+            for (let i = targets.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [targets[i], targets[j]] = [targets[j], targets[i]];
+            }
+
+            const particleCount = Math.min(targets.length, width < 600 ? 2800 : 5200);
+            const particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                const target = targets[i];
+                const mode = Math.random();
+                let sx, sy;
+                if (mode < 0.4) {
+                    sx = target.x + (Math.random() - 0.5) * 120;
+                    sy = -Math.random() * height * 0.35;
+                } else if (mode < 0.7) {
+                    const side = Math.random() > 0.5 ? 1 : -1;
+                    sx = width / 2 + side * (width * 0.5 + Math.random() * 300);
+                    sy = target.y + (Math.random() - 0.5) * height * 0.5;
+                } else {
+                    sx = Math.random() * width;
+                    sy = Math.random() * height;
+                }
+                const roll = Math.random();
+                const colorRGB = roll > 0.72 ? '56, 189, 248' : roll > 0.42 ? '255, 255, 255' : '200, 139, 50';
+                particles.push({
+                    sx, sy,
+                    tx: target.x, ty: target.y,
+                    delay: Math.random() * 600,
+                    duration: 1400 + Math.random() * 800,
+                    colorRGB,
+                    size: 1.4 + Math.random() * 1.6,
+                    trail: Math.random() > 0.5
+                });
+            }
+
+            canvas.style.opacity = '1';
+            const startTime = performance.now();
+            let glitchStartTime = 0, waveStartTime = 0, allArrived = false, glitchDone = false;
+            const WAVE_DURATION = 1400, GLITCH_DURATION = 320;
+
+            function draw(now) {
+                ctx.clearRect(0, 0, width, height);
+                const elapsed = now - startTime;
+                ctx.globalCompositeOperation = 'lighter';
+                let arrivedCount = 0;
+
+                for (const p of particles) {
+                    const localT = Math.max(0, elapsed - p.delay);
+                    const t = Math.min(1, localT / p.duration);
+                    const eased = 1 - Math.pow(1 - t, 3);
+                    const x = p.sx + (p.tx - p.sx) * eased;
+                    const y = p.sy + (p.ty - p.sy) * eased;
+                    if (t >= 1) arrivedCount++;
+                    if (p.trail && t < 0.95) {
+                        const trailT = Math.max(0, eased - 0.18);
+                        const tx = p.sx + (p.tx - p.sx) * trailT;
+                        const ty = p.sy + (p.ty - p.sy) * trailT;
+                        ctx.strokeStyle = `rgba(${p.colorRGB}, 0.28)`;
+                        ctx.lineWidth = p.size * 0.55;
+                        ctx.beginPath();
+                        ctx.moveTo(tx, ty);
+                        ctx.lineTo(x, y);
+                        ctx.stroke();
+                    }
+                    ctx.fillStyle = `rgba(${p.colorRGB}, 0.88)`;
+                    const particleSize = t > 0.95 ? p.size * 1.25 : p.size;
+                    ctx.fillRect(x - particleSize / 2, y - particleSize / 2, particleSize, particleSize);
+                }
+                ctx.globalCompositeOperation = 'source-over';
+
+                if (!allArrived && particleCount && arrivedCount / particleCount > 0.92) {
+                    allArrived = true;
+                    glitchStartTime = now;
+                }
+                if (allArrived && !glitchDone) {
+                    const gElapsed = now - glitchStartTime;
+                    if (gElapsed < GLITCH_DURATION) {
+                        const offset = 5 * (1 - gElapsed / GLITCH_DURATION);
+                        ctx.save();
+                        ctx.globalCompositeOperation = 'lighter';
+                        ctx.font = `900 ${fontSize}px 'Courier New', monospace`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = 'rgba(255, 40, 100, 0.55)';
+                        ctx.fillText(phrase, width / 2 - offset, phraseY);
+                        ctx.fillStyle = 'rgba(0, 240, 255, 0.55)';
+                        ctx.fillText(phrase, width / 2 + offset, phraseY);
+                        ctx.restore();
+                    } else {
+                        glitchDone = true;
+                        waveStartTime = now;
+                    }
+                }
+                if (waveStartTime > 0) {
+                    const wElapsed = now - waveStartTime;
+                    if (wElapsed < WAVE_DURATION) {
+                        const waveT = wElapsed / WAVE_DURATION;
+                        const waveX = -180 + (width + 360) * waveT;
+                        const gradient = ctx.createLinearGradient(waveX - 140, 0, waveX + 140, 0);
+                        gradient.addColorStop(0, 'rgba(56, 189, 248, 0)');
+                        gradient.addColorStop(0.35, 'rgba(56, 189, 248, 0.65)');
+                        gradient.addColorStop(0.5, 'rgba(255, 255, 255, 1)');
+                        gradient.addColorStop(0.65, 'rgba(56, 189, 248, 0.65)');
+                        gradient.addColorStop(1, 'rgba(56, 189, 248, 0)');
+                        ctx.save();
+                        ctx.globalCompositeOperation = 'lighter';
+                        ctx.fillStyle = gradient;
+                        ctx.fillRect(waveX - 140, phraseY - fontSize * 1.3, 280, fontSize * 2.6);
+                        ctx.restore();
+                    }
+                }
+                if (allArrived) {
+                    const pulse = 0.55 + 0.45 * Math.sin(now * 0.0028);
+                    ctx.save();
+                    ctx.globalCompositeOperation = 'lighter';
+                    ctx.font = `900 ${fontSize}px 'Courier New', monospace`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = `rgba(56, 189, 248, ${0.055 * pulse})`;
+                    ctx.shadowBlur = 32 * pulse;
+                    ctx.shadowColor = '#38bdf8';
+                    ctx.fillText(phrase, width / 2, phraseY);
+                    ctx.restore();
+                }
+                codeAnimationFrame = requestAnimationFrame(draw);
+            }
+            codeAnimationFrame = requestAnimationFrame(draw);
         }
 
         function updateCardProgress() {
@@ -983,11 +1250,9 @@
             const lockElem = document.getElementById(`cal-lock-${slotIdx}`);
 
             if (concept === line.correct) {
-                // ✨ Apertura progresiva del candado (5 etapas, ~0.9s)
                 lockElem.classList.add('unlocked');
                 lockElem.classList.remove('error');
 
-                // Actualización visual inmediata de la ranura y de las cajas de concepto
                 const slot = lockElem.parentElement.querySelector('.cal-target-slot');
                 if (slot) {
                     slot.textContent = `[ ${concept} ]`;
@@ -1004,7 +1269,6 @@
                     }
                 });
 
-                // Reconstrucción diferida: da tiempo a la animación de apertura
                 if (pendingPuzzleRebuild) { clearTimeout(pendingPuzzleRebuild); pendingPuzzleRebuild = null; }
                 const delay = useReducedMotion() ? 60 : 950;
                 pendingPuzzleRebuild = setTimeout(() => {
@@ -1016,7 +1280,6 @@
                 return;
             }
 
-            // Concepto incorrecto — shake + limpieza tras 600ms
             lockElem.classList.add('error');
             document.getElementById('cal-status-msg').textContent = "¡Concepto incorrecto! Intenta de nuevo.";
             const capturedConcept = concept;
@@ -1101,7 +1364,6 @@
                 const scrollWrapper = document.getElementById('cal-scroll-wrapper');
                 scrollWrapper.classList.add('q-portal-vaporize');
                 calTimeout(() => {
-                    // ✨ Candado gigante: se crea CERRADO, y se abre vía rAF para que la animación progresiva se vea
                     scrollWrapper.innerHTML = `
                         <div class="cal-giant-lock-container q-portal-materialize">
                             <div class="q-portal-lock" id="cal-giant-lock-el" style="margin: 0 auto;">
@@ -1113,7 +1375,6 @@
                         </div>`;
                     scrollWrapper.classList.remove('q-portal-vaporize');
 
-                    // Dos rAF garantizan que el navegador pinte el estado cerrado antes de abrir
                     requestAnimationFrame(() => requestAnimationFrame(() => {
                         const giantLock = document.getElementById('cal-giant-lock-el');
                         if (giantLock) giantLock.classList.add('unlocked');
@@ -1229,15 +1490,7 @@
 
                     setTimeout(() => {
                         centralCard.style.display = 'none';
-
-                        setTimeout(() => {
-                            try { startPhraseAnimation(); } catch (err) { console.error('[Quimera] phrase animation error:', err); }
-                        }, 1000);
-
-                        setTimeout(() => {
-                            const wq = document.getElementById('word-quimera-container');
-                            if (wq) wq.focus();
-                        }, 500);
+                        enableFinalHyperlink();
                     }, 500);
                 }
             }, 400);
